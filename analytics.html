@@ -1325,10 +1325,23 @@ function renderWeeklyReview(data) {
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
-  await loadAll();
-  renderAll();
-  hideEnidLoader();
-
+  try {
+    await loadAll();
+    renderAll();
+  } catch(e) {
+    console.error('analytics init failed', e);
+    const content = document.getElementById('mainContent');
+    if (content) content.innerHTML = `
+      <div class="insight-card">
+        <div class="insight-av">🐺</div>
+        <div class="insight-body">
+          <div class="insight-from">Your roomie says ✨</div>
+          <div class="insight-text">Couldn't load your data — check your connection and try refreshing. 💜</div>
+        </div>
+      </div>`;
+  } finally {
+    hideEnidLoader();
+  }
 }
 init();
 
