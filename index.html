@@ -399,9 +399,23 @@
     }
 
     /* Movies widget */
-    .wm-next { font-size: .83rem; color: var(--text); line-height: 1.3; }
-    .wm-next strong { font-weight: 700; }
-    .wm-more { font-size: .72rem; color: var(--sub); }
+    .wm-row { display: flex; align-items: center; gap: 10px; padding: 3px 0; }
+    .wm-poster {
+      width: 36px; height: 54px; object-fit: cover;
+      border-radius: 4px; flex-shrink: 0;
+    }
+    .wm-poster-ph {
+      width: 36px; height: 54px; border-radius: 4px; flex-shrink: 0;
+      background: rgba(168,85,247,.12);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .wm-info { flex: 1; min-width: 0; }
+    .wm-title {
+      font-size: .83rem; font-weight: 700; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;
+    }
+    .wm-date  { font-size: .7rem; color: var(--pink); font-weight: 600; margin-top: 2px; }
+    .wm-nodate { font-size: .7rem; color: var(--sub); margin-top: 2px; }
 
     /* ── Note Overlay (Step 5D) ─────────────────────────────────────── */
     .note-overlay {
@@ -1191,13 +1205,38 @@ function buildBooksWidgetCard() {
   return card;
 }
 
+// Format a YYYY-MM-DD date string as "Mar 15" for the movies widget
+function formatWidgetDate(dateStr) {
+  if (!dateStr) return '';
+  const [, m, d] = dateStr.split('-').map(Number);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[m - 1]} ${d}`;
+}
+
 function buildMoviesWidgetCard() {
   const card = document.createElement('div');
   card.className = 'section-card';
   const count = moviesWidget.length;
+  const TMDB_IMG = 'https://image.tmdb.org/t/p/';
 
   if (count > 0) {
-    const next = moviesWidget[0];
+    const moviesHtml = moviesWidget.map(m => {
+      const posterHtml = m.posterPath
+        ? `<img class="wm-poster" src="${TMDB_IMG}w92${m.posterPath}" alt="" loading="lazy">`
+        : `<div class="wm-poster-ph">🎬</div>`;
+      const dateHtml = m.nextShowing
+        ? `<div class="wm-date">📅 ${formatWidgetDate(m.nextShowing.date)}</div>`
+        : `<div class="wm-nodate">Not scheduled yet</div>`;
+      return `
+        <div class="wm-row">
+          ${posterHtml}
+          <div class="wm-info">
+            <div class="wm-title">${m.title || 'Unknown'}</div>
+            ${dateHtml}
+          </div>
+        </div>`;
+    }).join('');
+
     card.innerHTML = `
       <div class="section-header">
         <div class="sec-left">
@@ -1208,10 +1247,7 @@ function buildMoviesWidgetCard() {
           </div>
         </div>
       </div>
-      <div class="widget-body">
-        <div class="wm-next">Up next: <strong>${next.title || 'Unknown'}</strong></div>
-        ${count > 1 ? `<div class="wm-more">+${count - 1} more waiting in your queue</div>` : ''}
-      </div>
+      <div class="widget-body">${moviesHtml}</div>
     `;
   } else {
     card.innerHTML = `

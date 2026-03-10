@@ -456,11 +456,21 @@ async function deleteMovieFromDB(id, movieShowings) {
 }
 
 // Write simplified widget cache to localStorage for tracker dashboard
+// Includes nextShowing date so homepage can display scheduled viewings
 function writeWidget(list) {
-  const widget = list.filter(m => !m.watched).map(m => ({
-    id: m.id, title: m.title, posterPath: m.posterPath,
-    releaseYear: m.releaseYear, hype: m.hype,
-  }));
+  const today = new Date().toISOString().split('T')[0];
+  const widget = list.filter(m => !m.watched).map(m => {
+    const movieShowings = allShowings.filter(s => s.movie_id === m.id);
+    const nextDI = movieShowings
+      .map(s => showingDateItems[s.date_item_id])
+      .filter(di => di && di.item_date >= today)
+      .sort((a, b) => a.item_date.localeCompare(b.item_date))[0] || null;
+    return {
+      id: m.id, title: m.title, posterPath: m.posterPath,
+      releaseYear: m.releaseYear, hype: m.hype,
+      nextShowing: nextDI ? { date: nextDI.item_date, time: nextDI.start_time || null } : null,
+    };
+  });
   localStorage.setItem('enid_movies_widget', JSON.stringify(widget));
 }
 
@@ -796,6 +806,7 @@ function renderMyList() {
         <span class="empty-icon">🎬</span>
         <div class="empty-text">Your list is empty — search for a movie above or pick one from the strip!! 🐺💜</div>
       </div>`;
+    writeWidget(myList);
     return;
   }
 
@@ -855,6 +866,7 @@ function renderMyList() {
         </div>
       </div>`;
   }).join('');
+  writeWidget(myList);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
