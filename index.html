@@ -313,6 +313,67 @@
       border: 1px solid; white-space: nowrap;
     }
 
+    /* ── Widgets (Step 5E) ──────────────────────────────────────────── */
+    .widgets-divider {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 2px 2px;
+    }
+    .widgets-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .widgets-divider-label {
+      font-size: .6rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--sub);
+      opacity: .6;
+    }
+
+    .widget-body {
+      padding: 4px 18px 14px;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+    .widget-empty {
+      padding: 8px 18px 15px;
+      font-size: .78rem; color: var(--sub); font-style: italic;
+    }
+
+    /* Finance widget */
+    .wf-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .8rem;
+    }
+    .wf-label { color: var(--sub); }
+    .wf-value { font-weight: 700; color: var(--text); }
+    .wf-owed  { color: #DC2626; }
+    .wf-avail-pos { color: #059669; }
+    .wf-avail-neg { color: #DC2626; }
+    .wf-bar {
+      height: 5px; background: rgba(168,85,247,.1);
+      border-radius: 3px; overflow: hidden; margin: 1px 0;
+    }
+    .wf-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--mint), var(--amber));
+      border-radius: 3px; transition: width .4s ease;
+    }
+
+    /* Books widget */
+    .wb-title {
+      font-size: .88rem; font-weight: 700; color: var(--text); line-height: 1.3;
+    }
+    .wb-meta { font-size: .72rem; color: var(--sub); }
+    .wb-progress-bar {
+      height: 4px; background: rgba(168,85,247,.1);
+      border-radius: 2px; overflow: hidden;
+    }
+    .wb-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      border-radius: 2px; transition: width .4s ease;
+    }
+
+    /* Movies widget */
+    .wm-next { font-size: .83rem; color: var(--text); line-height: 1.3; }
+    .wm-next strong { font-weight: 700; }
+    .wm-more { font-size: .72rem; color: var(--sub); }
+
     /* ── Note Overlay (Step 5D) ─────────────────────────────────────── */
     .note-overlay {
       position: fixed; inset: 0; z-index: 200;
@@ -501,6 +562,11 @@ let viewDate       = new Date();   // currently viewed date
 let pendingNote   = null;          // { habitId, dateStr } while overlay is open
 let pendingInsert = null;          // Promise for the in-flight habit INSERT
 
+// Widget state (Step 5E)
+let financeWidget = null;          // { period, income, totalOwed, available } or null
+let booksWidget   = null;          // current reading book row or null
+let moviesWidget  = [];            // unwatched movies from localStorage
+
 /* ─────────────────────────────────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────────────────────────────────── */
@@ -603,6 +669,71 @@ async function loadDateItems(dateStr) {
     `date_items?user_id=eq.${USER_ID}&item_date=eq.${dateStr}&order=start_time.asc.nullslast,title.asc`
   );
   dateItems = rows;
+}
+
+/* ── Widget loaders (Step 5E) ──────────────────────────────────── */
+
+/**
+ * Finance widget: find the active pay period (is_current = true),
+ * sum all non-paid obligations, compute net available.
+ */
+async function loadFinanceWidget() {
+  try {
+    const periods = await sbGet(
+      `pay_periods?user_id=eq.${USER_ID}&is_current=eq.true&limit=1`
+    );
+    if (!periods.length) { financeWidget = null; return; }
+    const period = periods[0];
+
+    const obligs = await sbGet(
+      `finance_obligations?user_id=eq.${USER_ID}&period_id=eq.${period.id}&select=amount,is_variable,is_paid_off`
+    );
+
+    const income    = (period.income_bbs || 0) + (period.income_kt || 0);
+    const totalOwed = obligs
+      .filter(o => !o.is_paid_off)
+      .reduce((s, o) => s + (o.amount || 0), 0);
+
+    financeWidget = {
+      period,
+      income,
+      totalOwed,
+      available: income - totalOwed,
+    };
+  } catch(e) {
+    console.warn('Finance widget load failed:', e.message);
+    financeWidget = null;
+  }
+}
+
+/**
+ * Books widget: fetch the first book with shelf = 'reading'.
+ * Gracefully handles empty shelf or missing table.
+ */
+async function loadBooksWidget() {
+  try {
+    const rows = await sbGet(
+      `books?user_id=eq.${USER_ID}&shelf=eq.reading&order=updated_at.desc.nullslast&limit=1`
+    );
+    booksWidget = rows.length ? rows[0] : null;
+  } catch(e) {
+    console.warn('Books widget load failed:', e.message);
+    booksWidget = null;
+  }
+}
+
+/**
+ * Movies widget: read localStorage key 'enid_movies_widget'.
+ * Filters to unwatched entries. Synchronous — no network call.
+ */
+function loadMoviesWidget() {
+  try {
+    const raw = localStorage.getItem('enid_movies_widget');
+    const all = raw ? JSON.parse(raw) : [];
+    moviesWidget = Array.isArray(all) ? all.filter(m => !m.watched) : [];
+  } catch(e) {
+    moviesWidget = [];
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -776,6 +907,138 @@ function calcProgress(habitList, doneSet) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
+   WIDGET BUILDERS (Step 5E)
+───────────────────────────────────────────────────────────────────── */
+
+function buildFinanceWidgetCard() {
+  if (!financeWidget) return null;
+  const { period, income, totalOwed, available } = financeWidget;
+
+  const fmtMoney = (n) => `$${Math.abs(n).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+  const availClass = available >= 0 ? 'wf-avail-pos' : 'wf-avail-neg';
+  const availSign  = available < 0 ? '−' : '';
+  // Progress bar = obligations as % of income (capped at 100)
+  const pct = income > 0 ? Math.min(100, (totalOwed / income) * 100) : 0;
+
+  const card = document.createElement('div');
+  card.className = 'section-card';
+  card.innerHTML = `
+    <div class="section-header">
+      <div class="sec-left">
+        <div class="sec-icon" style="background:linear-gradient(135deg,#D4FBF0,#A8F0E0)">💰</div>
+        <div>
+          <div class="sec-title">Available Funds</div>
+          <div class="sec-sub">${period.dates}</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.95rem;font-weight:800" class="${availClass}">${availSign}${fmtMoney(available)}</div>
+        <div style="font-size:.62rem;color:var(--sub);margin-top:2px">est. left over</div>
+      </div>
+    </div>
+    <div class="widget-body">
+      <div class="wf-row">
+        <span class="wf-label">💵 Period income</span>
+        <span class="wf-value">${fmtMoney(income)}</span>
+      </div>
+      <div class="wf-bar"><div class="wf-bar-fill" style="width:${pct}%"></div></div>
+      <div class="wf-row">
+        <span class="wf-label">📋 Total obligations</span>
+        <span class="wf-value wf-owed">−${fmtMoney(totalOwed)}</span>
+      </div>
+    </div>
+  `;
+  return card;
+}
+
+function buildBooksWidgetCard() {
+  const card = document.createElement('div');
+  card.className = 'section-card';
+
+  if (booksWidget) {
+    const title      = booksWidget.title      || 'Untitled';
+    const author     = booksWidget.author     || '';
+    const pagesRead  = booksWidget.pages_read  || 0;
+    const totalPages = booksWidget.total_pages || booksWidget.page_count || null;
+    const pct = totalPages ? Math.min(100, (pagesRead / totalPages) * 100) : null;
+
+    const progressHtml = pct !== null
+      ? `<div class="wb-progress-bar"><div class="wb-progress-fill" style="width:${pct}%"></div></div>
+         <div class="wb-meta">p. ${pagesRead}${totalPages ? ` / ${totalPages}` : ''} · ${Math.round(pct)}% done</div>`
+      : '';
+
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#FFF3D0,#FFE0A0)">📚</div>
+          <div>
+            <div class="sec-title">Currently Reading</div>
+            <div class="sec-sub">${author || 'Reading now'}</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="wb-title">${title}</div>
+        ${progressHtml}
+      </div>
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#FFF3D0,#FFE0A0)">📚</div>
+          <div>
+            <div class="sec-title">Currently Reading</div>
+            <div class="sec-sub">Nothing in progress right now</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-empty">No book started — add one on the Books page 📖</div>
+    `;
+  }
+  return card;
+}
+
+function buildMoviesWidgetCard() {
+  const card = document.createElement('div');
+  card.className = 'section-card';
+  const count = moviesWidget.length;
+
+  if (count > 0) {
+    const next = moviesWidget[0];
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#EDE0FF,#D5C0FF)">🎬</div>
+          <div>
+            <div class="sec-title">Movie Queue</div>
+            <div class="sec-sub">${count} movie${count !== 1 ? 's' : ''} queued up</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="wm-next">Up next: <strong>${next.title || 'Unknown'}</strong></div>
+        ${count > 1 ? `<div class="wm-more">+${count - 1} more waiting in your queue</div>` : ''}
+      </div>
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#EDE0FF,#D5C0FF)">🎬</div>
+          <div>
+            <div class="sec-title">Movie Queue</div>
+            <div class="sec-sub">Nothing queued up right now</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-empty">Add movies to your watchlist on the Movies page 🎬</div>
+    `;
+  }
+  return card;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
    DATE ITEMS CARD
 ───────────────────────────────────────────────────────────────────── */
 function buildDateItemsCard() {
@@ -923,6 +1186,26 @@ function render() {
       card.appendChild(banner);
     }
   });
+
+  // ── Secondary signals (widgets) — rendered after all habit sections ──
+  const finCard  = buildFinanceWidgetCard();
+  const bookCard = buildBooksWidgetCard();
+  const movCard  = buildMoviesWidgetCard();
+
+  if (finCard || bookCard || movCard) {
+    // Divider label
+    const divider = document.createElement('div');
+    divider.className = 'widgets-divider';
+    divider.innerHTML = `
+      <div class="widgets-divider-line"></div>
+      <div class="widgets-divider-label">Secondary Signals</div>
+      <div class="widgets-divider-line"></div>
+    `;
+    container.appendChild(divider);
+    if (finCard)  container.appendChild(finCard);
+    if (bookCard) container.appendChild(bookCard);
+    if (movCard)  container.appendChild(movCard);
+  }
 }
 
 function mkOrDivider(label) {
@@ -1000,6 +1283,7 @@ async function buildDayNav() {
       if (isView) return;
       viewDate = new Date(dk + 'T12:00:00');
       const weekStartStr = getWeekStart(viewDate);
+      // Finance/books/movies don't change per day — no need to reload on nav
       await Promise.all([
         loadCompletions(dk),
         loadWeeklyCompletions(weekStartStr),
@@ -1024,12 +1308,16 @@ async function init() {
   try {
     const dateStr      = fmtDate(viewDate);
     const weekStartStr = getWeekStart(viewDate);
+    // Load habits first (sections depend on it), then all per-day + widget data in parallel
     await loadHabits();
+    loadMoviesWidget(); // synchronous localStorage read
     await Promise.all([
       loadCompletions(dateStr),
       loadWeeklyCompletions(weekStartStr),
       loadKTShift(dateStr),
       loadDateItems(dateStr),
+      loadFinanceWidget(),
+      loadBooksWidget(),
     ]);
     render();
     await buildDayNav();
