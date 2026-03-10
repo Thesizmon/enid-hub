@@ -527,6 +527,7 @@
     </div>
     <div class="header-nav">
       <a href="date-items.html" class="header-nav-link">📅 Schedule</a>
+      <a href="finance.html"    class="header-nav-link">💰 Finance</a>
     </div>
   </header>
 
@@ -768,13 +769,19 @@ async function loadFinanceWidget() {
     const period = periods[0];
 
     const obligs = await sbGet(
-      `finance_obligations?user_id=eq.${USER_ID}&period_id=eq.${period.id}&select=amount,is_variable,is_paid_off`
+      `finance_obligations?user_id=eq.${USER_ID}&period_id=eq.${period.id}&select=amount,is_variable,is_paid_off,spent_amount`
     );
 
     const income    = (period.income_bbs || 0) + (period.income_kt || 0);
+    // For variable items, use spent_amount if tracked; otherwise use budget amount
     const totalOwed = obligs
       .filter(o => !o.is_paid_off)
-      .reduce((s, o) => s + (o.amount || 0), 0);
+      .reduce((s, o) => {
+        const eff = (o.is_variable && o.spent_amount !== null && o.spent_amount !== undefined)
+          ? Number(o.spent_amount)
+          : Number(o.amount) || 0;
+        return s + eff;
+      }, 0);
 
     financeWidget = {
       period,
@@ -1013,9 +1020,10 @@ function buildFinanceWidgetCard() {
           <div class="sec-sub">${period.dates}</div>
         </div>
       </div>
-      <div style="text-align:right">
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
         <div style="font-size:.95rem;font-weight:800" class="${availClass}">${availSign}${fmtMoney(available)}</div>
-        <div style="font-size:.62rem;color:var(--sub);margin-top:2px">est. left over</div>
+        <div style="font-size:.62rem;color:var(--sub)">est. left over</div>
+        <a href="finance.html" class="sec-manage-link" style="margin-top:1px">Finance →</a>
       </div>
     </div>
     <div class="widget-body">
@@ -1025,7 +1033,7 @@ function buildFinanceWidgetCard() {
       </div>
       <div class="wf-bar"><div class="wf-bar-fill" style="width:${pct}%"></div></div>
       <div class="wf-row">
-        <span class="wf-label">📋 Total obligations</span>
+        <span class="wf-label">📋 Obligations (actual)</span>
         <span class="wf-value wf-owed">−${fmtMoney(totalOwed)}</span>
       </div>
     </div>
