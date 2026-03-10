@@ -47,7 +47,7 @@
     .loader-text { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); }
 
     /* ── App shell ─────────────────────────────────────────────────── */
-    #app { max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
+    #app { max-width: 600px; margin: 0 auto; padding-bottom: 120px; }
 
     /* ── Header ────────────────────────────────────────────────────── */
     .app-header {
@@ -179,6 +179,31 @@
       color: #065f46;
     }
 
+    /* ── Card action buttons (journal only) ─────────────────────────── */
+    .card-actions {
+      display: flex; justify-content: flex-end; gap: 6px;
+      margin-top: 12px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .icon-btn {
+      font-size: .72rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      transition: background .14s, color .14s;
+      letter-spacing: .02em;
+    }
+    .icon-btn.edit {
+      color: var(--purple);
+    }
+    .icon-btn.edit:hover { background: rgba(168,85,247,.12); }
+    .icon-btn.delete {
+      color: #dc2626;
+    }
+    .icon-btn.delete:hover { background: rgba(220,38,38,.09); border-color: rgba(220,38,38,.2); }
+    .icon-btn:disabled { opacity: .45; cursor: not-allowed; }
+
     /* ── Empty state ───────────────────────────────────────────────── */
     .empty-state {
       text-align: center;
@@ -189,15 +214,117 @@
     .empty-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 6px; color: var(--text); }
     .empty-sub { font-size: .82rem; line-height: 1.5; }
 
-    /* ── Count badge ───────────────────────────────────────────────── */
-    .count-badge {
-      display: inline-flex; align-items: center;
-      font-size: .68rem; font-weight: 700;
-      background: rgba(168,85,247,.1);
-      color: var(--purple);
-      padding: 2px 8px; border-radius: 20px;
-      margin-left: 6px; vertical-align: middle;
+    /* ── FAB — New Entry ────────────────────────────────────────────── */
+    .fab {
+      position: fixed;
+      bottom: 28px; right: 20px;
+      z-index: 60;
+      display: flex; align-items: center; gap: 7px;
+      padding: 13px 22px;
+      border-radius: 30px;
+      border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem; font-weight: 700;
+      letter-spacing: .03em;
+      color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      box-shadow: 0 4px 18px rgba(232,78,160,.35), 0 2px 8px rgba(0,0,0,.12);
+      transition: transform .14s, box-shadow .14s;
     }
+    .fab:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(232,78,160,.45), 0 2px 10px rgba(0,0,0,.14); }
+    .fab:active { transform: scale(.97); }
+
+    /* ── Entry overlay ──────────────────────────────────────────────── */
+    #entryOverlay {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: flex-end; justify-content: center;
+      background: rgba(45,27,78,.45);
+      backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .22s ease;
+    }
+    #entryOverlay.open { opacity: 1; pointer-events: all; }
+
+    .overlay-panel {
+      width: 100%; max-width: 600px;
+      background: #FFFBF7;
+      border-radius: 22px 22px 0 0;
+      padding: 28px 24px 40px;
+      transform: translateY(30px);
+      transition: transform .25s cubic-bezier(.34,1.35,.7,1);
+      max-height: 90vh; overflow-y: auto;
+    }
+    #entryOverlay.open .overlay-panel { transform: translateY(0); }
+
+    .overlay-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    /* ── Form fields ────────────────────────────────────────────────── */
+    .form-field { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-size: .75rem; font-weight: 700;
+      color: var(--sub); letter-spacing: .04em; margin-bottom: 6px;
+    }
+    .form-label span { font-weight: 400; opacity: .7; } /* "(optional)" */
+
+    .form-input, .form-textarea {
+      width: 100%; border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,.8);
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; color: var(--text);
+      transition: border-color .15s, box-shadow .15s;
+      outline: none;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 3px rgba(232,78,160,.12);
+    }
+    .form-textarea {
+      resize: vertical; min-height: 140px; line-height: 1.6;
+    }
+
+    /* ── Form actions ───────────────────────────────────────────────── */
+    .form-actions {
+      display: flex; gap: 10px; margin-top: 22px;
+    }
+    .btn-cancel {
+      flex: 0 0 auto;
+      padding: 11px 20px; border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem; font-weight: 600; color: var(--sub);
+      cursor: pointer; transition: background .14s;
+    }
+    .btn-cancel:hover { background: rgba(168,85,247,.08); }
+
+    .btn-save {
+      flex: 1;
+      padding: 11px 20px; border-radius: 20px;
+      border: none;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem; font-weight: 700; color: #fff;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(232,78,160,.3);
+      transition: opacity .14s, transform .12s;
+    }
+    .btn-save:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-save:active { transform: scale(.98); }
+    .btn-save:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    .form-error {
+      font-size: .78rem; color: #dc2626;
+      margin-top: 8px; display: none;
+    }
+    .form-error.show { display: block; }
   </style>
 </head>
 <body>
@@ -221,14 +348,53 @@
 
     <!-- Filter tabs -->
     <div class="filter-bar" style="margin-top:14px">
-      <button class="filter-btn active" data-filter="all"         onclick="setFilter('all')">All</button>
-      <button class="filter-btn"        data-filter="journal"     onclick="setFilter('journal')">📓 Journal</button>
-      <button class="filter-btn"        data-filter="reflection"  onclick="setFilter('reflection')">💬 Reflections</button>
+      <button class="filter-btn active" data-filter="all"        onclick="setFilter('all')">All</button>
+      <button class="filter-btn"        data-filter="journal"    onclick="setFilter('journal')">📓 Journal</button>
+      <button class="filter-btn"        data-filter="reflection" onclick="setFilter('reflection')">💬 Reflections</button>
     </div>
   </div>
 
   <!-- Feed -->
   <div class="feed" id="feed"></div>
+</div>
+
+<!-- New Entry FAB -->
+<button class="fab" onclick="openNew()" id="fabBtn">✏️ New Entry</button>
+
+<!-- Entry Overlay (create + edit) -->
+<div id="entryOverlay" onclick="handleOverlayClick(event)">
+  <div class="overlay-panel" id="overlayPanel">
+    <div class="overlay-title" id="overlayTitle">New Entry</div>
+
+    <div class="form-field">
+      <label class="form-label" for="oDate">DATE</label>
+      <input class="form-input" type="date" id="oDate">
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="oBody">ENTRY</label>
+      <textarea class="form-textarea" id="oBody" rows="6"
+                placeholder="What's on your mind today?"></textarea>
+      <div class="form-error" id="bodyError">Entry text is required.</div>
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="oMood">MOOD <span>(optional)</span></label>
+      <input class="form-input" type="text" id="oMood"
+             placeholder="e.g. 😊 happy, 😴 tired, 💪 motivated">
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="oTags">TAGS <span>(optional, comma-separated)</span></label>
+      <input class="form-input" type="text" id="oTags"
+             placeholder="e.g. morning, gratitude, work">
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeOverlay()">Cancel</button>
+      <button class="btn-save"   id="btnSave" onclick="saveEntry()">Save Entry</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -240,27 +406,68 @@
   /* ── Helpers ─────────────────────────────────────────────────── */
   async function sbGet(path) {
     const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': `Bearer ${SUPA_KEY}`,
-      }
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` }
     });
     if (!r.ok) throw new Error(await r.text());
     return r.json();
   }
 
-  /* ── State ───────────────────────────────────────────────────── */
-  let allItems    = [];   // merged + sorted feed
-  let activeFilter = 'all';
-  let habitMap    = {};   // habit_id → {name, emoji}
+  async function sbPost(table, body) {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`,
+        'Content-Type': 'application/json', 'Prefer': 'return=representation',
+      },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    const arr = await r.json();
+    return arr[0];
+  }
 
-  /* ── Date formatting ─────────────────────────────────────────── */
+  async function sbPatch(path, body) {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`,
+        'Content-Type': 'application/json', 'Prefer': 'return=representation',
+      },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    const arr = await r.json();
+    return arr[0];
+  }
+
+  async function sbDelete(path) {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`,
+        'Prefer': 'return=minimal',
+      },
+    });
+    if (!r.ok) throw new Error(await r.text());
+  }
+
+  /* ── State ───────────────────────────────────────────────────── */
+  let allItems     = [];    // merged + sorted feed
+  let activeFilter = 'all';
+  let habitMap     = {};    // habit_id → {name, emoji}
+  let editingId    = null;  // null = creating new; string = editing existing
+
+  /* ── Date helpers ────────────────────────────────────────────── */
+  function todayStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
   function fmtDate(dateStr) {
     if (!dateStr) return '';
-    // dateStr is "YYYY-MM-DD" or ISO timestamp
     const d = new Date(dateStr.length === 10 ? dateStr + 'T12:00:00' : dateStr);
     const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const today   = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const itemDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     const diffDays = Math.round((today - itemDay) / 86400000);
 
@@ -268,34 +475,41 @@
     if (diffDays === 1) return 'Yesterday';
     if (diffDays < 7)  return `${diffDays}d ago`;
 
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric',
-      year: d.getFullYear() !== now.getFullYear() ? 'numeric' : undefined });
+    return d.toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric',
+      year: d.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+    });
   }
 
   function sortKey(item) {
-    // Use entry_date or completed_on as primary sort, created_at as tiebreak
-    const primary = item.entry_date || item.completed_on || '';
+    const primary   = item.entry_date || item.completed_on || '';
     const secondary = item.created_at || '';
     return primary + '_' + secondary;
   }
 
   /* ── Render helpers ──────────────────────────────────────────── */
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
   function renderTags(tags) {
     if (!tags || !tags.length) return '';
-    const arr = Array.isArray(tags) ? tags : String(tags).split(',').map(t => t.trim()).filter(Boolean);
+    const arr = Array.isArray(tags)
+      ? tags
+      : String(tags).split(',').map(t => t.trim()).filter(Boolean);
     if (!arr.length) return '';
-    return `<div class="card-tags">${arr.map(t => `<span class="tag-chip">${t}</span>`).join('')}</div>`;
+    return `<div class="card-tags">${arr.map(t => `<span class="tag-chip">${escHtml(t)}</span>`).join('')}</div>`;
   }
 
   function buildJournalCard(item) {
     const dateLabel = fmtDate(item.entry_date);
-    const moodHtml  = item.mood
-      ? `<span class="mood-chip">${item.mood}</span>`
-      : '';
+    const moodHtml  = item.mood ? `<span class="mood-chip">${escHtml(item.mood)}</span>` : '';
     const tagsHtml  = renderTags(item.tags);
 
     return `
-      <div class="entry-card type-journal">
+      <div class="entry-card type-journal" data-id="${escHtml(item.id)}">
         <div class="card-meta">
           <span class="type-badge journal">📓 Journal</span>
           ${moodHtml}
@@ -303,15 +517,17 @@
         </div>
         <div class="card-body">${escHtml(item.body || '')}</div>
         ${tagsHtml}
+        <div class="card-actions">
+          <button class="icon-btn edit"   onclick="openEdit('${escHtml(item.id)}')">✏️ Edit</button>
+          <button class="icon-btn delete" onclick="deleteEntry('${escHtml(item.id)}')">🗑️ Delete</button>
+        </div>
       </div>`;
   }
 
   function buildReflectionCard(item) {
-    const dateLabel = fmtDate(item.completed_on);
-    const habit     = habitMap[item.habit_id];
-    const habitLabel = habit
-      ? `${habit.emoji} ${habit.name}`
-      : item.habit_id || 'Habit';
+    const dateLabel  = fmtDate(item.completed_on);
+    const habit      = habitMap[item.habit_id];
+    const habitLabel = habit ? `${habit.emoji} ${habit.name}` : item.habit_id || 'Habit';
 
     return `
       <div class="entry-card type-reflection">
@@ -322,14 +538,6 @@
         </div>
         <div class="card-body">${escHtml(item.note || '')}</div>
       </div>`;
-  }
-
-  function escHtml(s) {
-    return String(s)
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;');
   }
 
   /* ── Filter & render feed ────────────────────────────────────── */
@@ -350,56 +558,176 @@
       return true;
     });
 
+    // Update header counts (always from full allItems)
+    const jCount = allItems.filter(i => i._type === 'journal').length;
+    const rCount = allItems.filter(i => i._type === 'reflection').length;
+    document.getElementById('headerSub').textContent =
+      `${jCount} ${jCount === 1 ? 'entry' : 'entries'} · ${rCount} ${rCount === 1 ? 'reflection' : 'reflections'}`;
+
     if (!visible.length) {
-      const labels = { all: 'entries yet', journal: 'journal entries yet', reflection: 'reflections yet' };
+      const labels = {
+        all: 'entries yet',
+        journal: 'journal entries yet',
+        reflection: 'reflections yet',
+      };
       feed.innerHTML = `
         <div class="empty-state">
           <div class="empty-icon">🌙</div>
           <div class="empty-title">Nothing here yet</div>
-          <div class="empty-sub">You don't have any ${labels[activeFilter] || 'entries'}.<br>Start writing in your routine tracker!</div>
+          <div class="empty-sub">You don't have any ${labels[activeFilter] || 'entries'}.<br>
+            ${activeFilter !== 'reflection' ? 'Tap <strong>✏️ New Entry</strong> to write your first one!' : 'Add notes to your habits in the routine tracker.'}
+          </div>
         </div>`;
       return;
     }
 
     feed.innerHTML = visible.map(item =>
-      item._type === 'journal'
-        ? buildJournalCard(item)
-        : buildReflectionCard(item)
+      item._type === 'journal' ? buildJournalCard(item) : buildReflectionCard(item)
     ).join('');
+  }
 
-    // Update header sub with count
-    const jCount  = allItems.filter(i => i._type === 'journal').length;
-    const rCount  = allItems.filter(i => i._type === 'reflection').length;
-    document.getElementById('headerSub').textContent =
-      `${jCount} ${jCount === 1 ? 'entry' : 'entries'} · ${rCount} ${rCount === 1 ? 'reflection' : 'reflections'}`;
+  /* ── Overlay helpers ─────────────────────────────────────────── */
+  function openNew() {
+    editingId = null;
+    document.getElementById('overlayTitle').textContent = '✏️ New Entry';
+    document.getElementById('btnSave').textContent      = 'Save Entry';
+    document.getElementById('oDate').value  = todayStr();
+    document.getElementById('oBody').value  = '';
+    document.getElementById('oMood').value  = '';
+    document.getElementById('oTags').value  = '';
+    document.getElementById('bodyError').classList.remove('show');
+    showOverlay();
+  }
+
+  function openEdit(id) {
+    const item = allItems.find(i => i.id === id && i._type === 'journal');
+    if (!item) return;
+    editingId = id;
+    document.getElementById('overlayTitle').textContent = '✏️ Edit Entry';
+    document.getElementById('btnSave').textContent      = 'Save Changes';
+    document.getElementById('oDate').value = item.entry_date || todayStr();
+    document.getElementById('oBody').value = item.body || '';
+    document.getElementById('oMood').value = item.mood || '';
+    // Normalise tags: array → comma-string for the input
+    const tags = item.tags;
+    document.getElementById('oTags').value = tags
+      ? (Array.isArray(tags) ? tags.join(', ') : String(tags))
+      : '';
+    document.getElementById('bodyError').classList.remove('show');
+    showOverlay();
+  }
+
+  function showOverlay() {
+    document.getElementById('entryOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('oBody').focus(), 280);
+  }
+
+  function closeOverlay() {
+    document.getElementById('entryOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    editingId = null;
+  }
+
+  function handleOverlayClick(e) {
+    // Close when clicking the backdrop (not the panel itself)
+    if (e.target === document.getElementById('entryOverlay')) closeOverlay();
+  }
+
+  /* ── Tags parsing ────────────────────────────────────────────── */
+  function parseTags(raw) {
+    if (!raw || !raw.trim()) return null;
+    return raw.split(',').map(t => t.trim()).filter(Boolean);
+  }
+
+  /* ── Save (create or update) ─────────────────────────────────── */
+  async function saveEntry() {
+    const body = document.getElementById('oBody').value.trim();
+    if (!body) {
+      document.getElementById('bodyError').classList.add('show');
+      document.getElementById('oBody').focus();
+      return;
+    }
+    document.getElementById('bodyError').classList.remove('show');
+
+    const date  = document.getElementById('oDate').value  || todayStr();
+    const mood  = document.getElementById('oMood').value.trim() || null;
+    const tags  = parseTags(document.getElementById('oTags').value);
+    const btnSave = document.getElementById('btnSave');
+
+    btnSave.disabled = true;
+    btnSave.textContent = 'Saving…';
+
+    try {
+      if (editingId === null) {
+        // ── CREATE ──────────────────────────────────────────────
+        const payload = { user_id: USER_ID, body, entry_date: date, mood, tags };
+        const created = await sbPost('journal_entries', payload);
+        const newItem = { ...created, _type: 'journal' };
+        allItems.push(newItem);
+      } else {
+        // ── UPDATE ──────────────────────────────────────────────
+        const payload = { body, entry_date: date, mood, tags };
+        const updated = await sbPatch(
+          `journal_entries?id=eq.${editingId}&user_id=eq.${USER_ID}`, payload
+        );
+        const idx = allItems.findIndex(i => i.id === editingId);
+        if (idx >= 0 && updated) {
+          allItems[idx] = { ...allItems[idx], ...updated, _type: 'journal' };
+        } else if (idx >= 0) {
+          // fallback: apply locally if server returned nothing
+          allItems[idx] = { ...allItems[idx], body, entry_date: date, mood, tags };
+        }
+      }
+
+      // Re-sort after create/update
+      allItems.sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
+      closeOverlay();
+      renderFeed();
+
+    } catch (err) {
+      console.error('saveEntry error:', err);
+      alert('Could not save entry: ' + (err.message || err));
+      btnSave.disabled = false;
+      btnSave.textContent = editingId ? 'Save Changes' : 'Save Entry';
+    }
+  }
+
+  /* ── Delete ──────────────────────────────────────────────────── */
+  async function deleteEntry(id) {
+    if (!window.confirm('Delete this journal entry? This cannot be undone.')) return;
+
+    // Optimistic remove
+    const prev = [...allItems];
+    allItems = allItems.filter(i => i.id !== id);
+    renderFeed();
+
+    try {
+      await sbDelete(`journal_entries?id=eq.${id}&user_id=eq.${USER_ID}`);
+    } catch (err) {
+      console.error('deleteEntry error:', err);
+      allItems = prev;
+      renderFeed();
+      alert('Could not delete entry: ' + (err.message || err));
+    }
   }
 
   /* ── Init ────────────────────────────────────────────────────── */
   async function init() {
     try {
-      // Load all three in parallel
       const [habits, journalEntries, completions] = await Promise.all([
         sbGet(`habits?user_id=eq.${USER_ID}&select=id,name,emoji`),
         sbGet(`journal_entries?user_id=eq.${USER_ID}&order=entry_date.desc,created_at.desc`),
         sbGet(`habit_completions?user_id=eq.${USER_ID}&note=not.is.null&order=completed_on.desc,created_at.desc`),
       ]);
 
-      // Build habit lookup map
       habits.forEach(h => { habitMap[h.id] = { name: h.name, emoji: h.emoji }; });
 
-      // Tag items with type
       const tagged = [
         ...journalEntries.map(e => ({ ...e, _type: 'journal' })),
         ...completions.map(c => ({ ...c, _type: 'reflection' })),
       ];
-
-      // Sort descending by date then created_at
-      tagged.sort((a, b) => {
-        const aKey = sortKey(a);
-        const bKey = sortKey(b);
-        return bKey.localeCompare(aKey);
-      });
-
+      tagged.sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
       allItems = tagged;
       renderFeed();
 
@@ -416,6 +744,13 @@
       document.getElementById('app').style.display = '';
     }
   }
+
+  // Close overlay on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('entryOverlay').classList.contains('open')) {
+      closeOverlay();
+    }
+  });
 
   init();
 </script>
