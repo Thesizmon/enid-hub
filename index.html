@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Enid's Daily Tracker 🐺</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────────── */
+    :root {
+      --pink:   #E84EA0;
+      --purple: #A855F7;
+      --mint:   #6EE7B7;
+      --amber:  #F59E0B;
+      --cream:  #FFFBF7;
+      --glass:  rgba(255,255,255,0.76);
+      --border: rgba(168,85,247,0.13);
+      --text:   #2D1B4E;
+      --sub:    #7C6F9B;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 0%,   rgba(232,78,160,.18)  0%, transparent 55%),
+        radial-gradient(ellipse at 85% 40%,  rgba(168,85,247,.12)  0%, transparent 55%),
+        radial-gradient(ellipse at 40% 100%, rgba(110,231,183,.10) 0%, transparent 55%),
+        #FFFBF7;
+      min-height: 100vh;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Loader ────────────────────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--cream);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; z-index: 999;
+      transition: opacity .35s ease;
+    }
+    #loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-wolf { font-size: 2.8rem; animation: bounce 1.1s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .loader-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--purple);
+    }
+
+    /* ── App shell ─────────────────────────────────────────────────── */
+    #app { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+
+    /* ── Header ────────────────────────────────────────────────────── */
+    .app-header {
+      position: sticky; top: 0; z-index: 50;
+      padding: 22px 20px 14px;
+      background: linear-gradient(180deg, rgba(255,251,247,.92) 70%, transparent);
+      backdrop-filter: blur(10px);
+    }
+    .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; line-height: 1.2;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .header-sub { font-size: .78rem; color: var(--sub); margin-top: 3px; }
+    .date-chip {
+      flex-shrink: 0;
+      font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--sub);
+      background: rgba(168,85,247,.08);
+      border: 1px solid var(--border);
+      padding: 5px 11px; border-radius: 20px;
+      white-space: nowrap; margin-top: 2px;
+    }
+
+    /* ── Page nav links (header strip) ─────────────────────────────── */
+    .header-nav { padding: 7px 0 0; display: flex; gap: 7px; flex-wrap: wrap; }
+    .header-nav-link {
+      font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+      color: var(--purple);
+      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      padding: 4px 12px; border-radius: 20px;
+      text-decoration: none; white-space: nowrap;
+      transition: background .15s;
+    }
+    .header-nav-link:hover { background: rgba(168,85,247,.18); }
+
+    /* ── Manage link inside date items section header ────────────────── */
+    .sec-manage-link {
+      font-size: .72rem; font-weight: 700; color: var(--purple);
+      text-decoration: none; opacity: .7;
+      transition: opacity .15s;
+      white-space: nowrap;
+    }
+    .sec-manage-link:hover { opacity: 1; }
+
+    /* ── Day nav strip ─────────────────────────────────────────────── */
+    .day-nav {
+      display: flex; gap: 5px;
+      overflow-x: auto; padding: 2px 20px 14px;
+      scrollbar-width: none;
+    }
+    .day-nav::-webkit-scrollbar { display: none; }
+
+    .day-btn {
+      flex: 0 0 auto;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 8px 11px;
+      border-radius: 14px; cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all .18s;
+      min-width: 50px;
+      user-select: none;
+    }
+    .day-btn:hover { background: rgba(168,85,247,.07); }
+    .day-btn.weekend-day { background: rgba(245,158,11,.06); border-color: rgba(245,158,11,.2); }
+    .day-btn.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(168,85,247,.32);
+    }
+
+    .day-name {
+      font-size: .6rem; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--sub);
+    }
+    .day-btn.active .day-name { color: rgba(255,255,255,.75); }
+    .day-num  { font-size: .92rem; font-weight: 700; color: var(--text); }
+    .day-btn.active .day-num  { color: #fff; }
+
+    .day-dots { display: flex; gap: 3px; }
+    .day-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(168,85,247,.18); transition: background .3s;
+    }
+    .day-dot.done    { background: var(--mint); }
+    .day-dot.partial { background: var(--amber); }
+    .day-btn.active .day-dot         { background: rgba(255,255,255,.35); }
+    .day-btn.active .day-dot.done    { background: rgba(255,255,255,.95); }
+    .day-btn.active .day-dot.partial { background: rgba(255,255,255,.65); }
+
+    /* ── Sections container ────────────────────────────────────────── */
+    #sections { padding: 0 14px; display: flex; flex-direction: column; gap: 14px; }
+
+    /* ── Section card ──────────────────────────────────────────────── */
+    .section-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+    .section-card.all-done {
+      border-color: rgba(110,231,183,.45);
+      box-shadow: 0 2px 18px rgba(110,231,183,.14);
+    }
+
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec-left { display: flex; align-items: center; gap: 10px; }
+    .sec-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .sec-icon.morning  { background: linear-gradient(135deg, #FFF3D0, #FFE0A0); }
+    .sec-icon.postwork { background: linear-gradient(135deg, #E0EEFF, #C7D9FF); }
+    .sec-icon.evening  { background: linear-gradient(135deg, #EDE0FF, #D5C0FF); }
+    .sec-icon.weekend  { background: linear-gradient(135deg, #FFE8F5, #FFCCEB); }
+    .sec-icon.weekly   { background: linear-gradient(135deg, #D4FBF0, #A8F0E0); }
+    .sec-icon.schedule { background: linear-gradient(135deg, #E8E0FF, #CFC4FF); }
+
+    .sec-title { font-weight: 700; font-size: .92rem; }
+    .sec-sub   { font-size: .7rem;  color: var(--sub); margin-top: 1px; }
+
+    .sec-progress { text-align: right; }
+    .sec-frac  { font-size: .78rem; font-weight: 700; color: var(--purple); }
+    .sec-bar   { width: 54px; height: 4px; background: rgba(168,85,247,.12); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+    .sec-fill  { height: 100%; background: linear-gradient(90deg, var(--pink), var(--purple)); border-radius: 2px; transition: width .35s ease; }
+
+    /* ── Habit list ────────────────────────────────────────────────── */
+    .habit-list { padding: 4px 0; }
+
+    .habit-row {
+      display: flex; align-items: center; gap: 11px;
+      padding: 11px 18px;
+      cursor: pointer;
+      transition: background .14s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .habit-row:hover  { background: rgba(168,85,247,.04); }
+    .habit-row:active { background: rgba(168,85,247,.09); }
+
+    .hc {
+      width: 22px; height: 22px; flex-shrink: 0;
+      border-radius: 7px;
+      border: 2px solid rgba(168,85,247,.28);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s;
+      background: transparent;
+    }
+    .habit-row.done .hc {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(232,78,160,.38);
+    }
+    .hc-mark { color: #fff; font-size: .72rem; font-weight: 800; display: none; }
+    .habit-row.done .hc-mark { display: block; }
+
+    .h-emoji { font-size: 1.1rem; flex-shrink: 0; }
+
+    .h-body  { flex: 1; min-width: 0; }
+    .h-name  { font-size: .87rem; font-weight: 500; line-height: 1.3; }
+    .habit-row.done .h-name { text-decoration: line-through; color: var(--sub); }
+
+    /* Note indicator chip — shown on habits that have a saved note */
+    .h-note-chip {
+      display: inline-block;
+      font-size: .58rem; font-weight: 700; letter-spacing: .03em;
+      color: var(--purple);
+      background: rgba(168,85,247,.1);
+      border: 1px solid rgba(168,85,247,.22);
+      padding: 1px 6px; border-radius: 6px;
+      margin-left: 6px; vertical-align: middle;
+      text-decoration: none !important; /* override strikethrough from .done */
+    }
+
+    .or-badge {
+      display: inline-block;
+      font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+      color: var(--amber);
+      background: rgba(245,158,11,.12);
+      border: 1px solid rgba(245,158,11,.28);
+      padding: 1px 5px; border-radius: 4px;
+      margin-left: 5px; vertical-align: middle;
+    }
+
+    .or-divider {
+      display: flex; align-items: center; gap: 8px;
+      padding: 4px 18px;
+    }
+    .or-line  { flex: 1; height: 1px; background: rgba(245,158,11,.22); }
+    .or-label {
+      font-size: .62rem; font-weight: 800; letter-spacing: .1em;
+      color: var(--amber);
+      background: rgba(245,158,11,.1);
+      border: 1px solid rgba(245,158,11,.22);
+      padding: 2px 9px; border-radius: 20px;
+    }
+
+    .done-banner {
+      text-align: center;
+      padding: 12px 18px;
+      font-size: .8rem; font-weight: 600;
+      color: #059669;
+      background: rgba(110,231,183,.1);
+      border-top: 1px solid rgba(110,231,183,.3);
+    }
+
+    /* ── KT Shift ───────────────────────────────────────────────────── */
+    .kt-set-chip {
+      font-size: .62rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--amber);
+      background: rgba(245,158,11,.1);
+      border: 1px solid rgba(245,158,11,.22);
+      padding: 3px 9px; border-radius: 10px;
+      cursor: pointer; display: inline-block;
+      margin-top: 6px; user-select: none;
+    }
+    .kt-set-chip:hover { background: rgba(245,158,11,.2); }
+
+    .kt-banner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; padding: 10px 18px;
+      background: rgba(245,158,11,.1);
+      border-top: 1px solid rgba(245,158,11,.22);
+      font-size: .8rem; font-weight: 600; color: #92400E;
+    }
+    .kt-banner-text { flex: 1; }
+    .kt-remove-btn {
+      font-size: .7rem; color: var(--amber); cursor: pointer;
+      background: rgba(245,158,11,.15);
+      border: 1px solid rgba(245,158,11,.3);
+      padding: 3px 9px; border-radius: 8px;
+      white-space: nowrap; user-select: none;
+    }
+    .kt-remove-btn:hover { background: rgba(245,158,11,.28); }
+
+    .section-card.kt-active .habit-list {
+      opacity: .3; pointer-events: none; user-select: none;
+    }
+
+    /* ── Date Items ─────────────────────────────────────────────────── */
+    .date-items-list { padding: 4px 0; }
+
+    .date-item-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 18px 11px 15px;
+      border-left: 3px solid var(--purple);
+      transition: background .14s;
+    }
+    .date-item-row:not(:last-child) { border-bottom: 1px solid rgba(168,85,247,.07); }
+    .date-item-row:hover { background: rgba(168,85,247,.03); }
+
+    .di-type-icon { font-size: 1.15rem; flex-shrink: 0; width: 28px; text-align: center; }
+    .di-body  { flex: 1; min-width: 0; }
+    .di-title { font-size: .87rem; font-weight: 600; line-height: 1.3; color: var(--text); }
+    .di-meta  {
+      display: flex; align-items: center; flex-wrap: wrap;
+      font-size: .71rem; color: var(--sub); margin-top: 3px; gap: 5px;
+    }
+    .di-time {
+      background: rgba(168,85,247,.08);
+      border: 1px solid rgba(168,85,247,.14);
+      padding: 1px 7px; border-radius: 8px;
+      font-weight: 600; font-size: .68rem; letter-spacing: .02em;
+    }
+    .di-sep { opacity: .4; }
+    .di-loc { font-size: .71rem; color: var(--sub); }
+    .di-repeat {
+      font-size: .62rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--purple); background: rgba(168,85,247,.1);
+      border: 1px solid rgba(168,85,247,.2);
+      padding: 1px 6px; border-radius: 7px; white-space: nowrap;
+    }
+    .di-type-badge {
+      flex-shrink: 0;
+      font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 6px;
+      border: 1px solid; white-space: nowrap;
+    }
+
+    /* ── Widgets (Step 5E) ──────────────────────────────────────────── */
+    .widgets-divider {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 2px 2px;
+    }
+    .widgets-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .widgets-divider-label {
+      font-size: .6rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--sub);
+      opacity: .6;
+    }
+
+    .widget-body {
+      padding: 4px 18px 14px;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+    .widget-empty {
+      padding: 8px 18px 15px;
+      font-size: .78rem; color: var(--sub); font-style: italic;
+    }
+
+    /* Finance widget */
+    .wf-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .8rem;
+    }
+    .wf-label { color: var(--sub); }
+    .wf-value { font-weight: 700; color: var(--text); }
+    .wf-owed  { color: #DC2626; }
+    .wf-avail-pos { color: #059669; }
+    .wf-avail-neg { color: #DC2626; }
+    .wf-bar {
+      height: 5px; background: rgba(168,85,247,.1);
+      border-radius: 3px; overflow: hidden; margin: 1px 0;
+    }
+    .wf-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--mint), var(--amber));
+      border-radius: 3px; transition: width .4s ease;
+    }
+
+    /* Books widget */
+    .wb-title {
+      font-size: .88rem; font-weight: 700; color: var(--text); line-height: 1.3;
+    }
+    .wb-meta { font-size: .72rem; color: var(--sub); }
+    .wb-progress-bar {
+      height: 4px; background: rgba(168,85,247,.1);
+      border-radius: 2px; overflow: hidden;
+    }
+    .wb-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      border-radius: 2px; transition: width .4s ease;
+    }
+
+    /* Movies widget */
+    .wm-next { font-size: .83rem; color: var(--text); line-height: 1.3; }
+    .wm-next strong { font-weight: 700; }
+    .wm-more { font-size: .72rem; color: var(--sub); }
+
+    /* ── Note Overlay (Step 5D) ─────────────────────────────────────── */
+    .note-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 1;
+      transition: opacity .22s ease;
+    }
+    .note-overlay.hidden {
+      opacity: 0; pointer-events: none;
+    }
+    .note-overlay.hidden .note-sheet {
+      transform: translateY(100%);
+    }
+
+    .note-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(45,27,78,.38);
+      backdrop-filter: blur(3px);
+    }
+
+    .note-sheet {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 600px;
+      background: var(--cream);
+      border-radius: 24px 24px 0 0;
+      padding: 18px 22px 38px;
+      box-shadow: 0 -8px 40px rgba(168,85,247,.2);
+      transform: translateY(0);
+      transition: transform .28s cubic-bezier(.34,1.4,.64,1);
+      display: flex; flex-direction: column; gap: 11px;
+    }
+
+    .note-handle {
+      width: 36px; height: 4px; border-radius: 2px;
+      background: rgba(168,85,247,.22);
+      margin: 0 auto 2px;
+    }
+
+    .note-habit-row {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 13px;
+      background: rgba(168,85,247,.06);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .note-emoji { font-size: 1.2rem; }
+    .note-habit-name {
+      font-size: .87rem; font-weight: 700; color: var(--text);
+      flex: 1; min-width: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .note-prompt-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--text);
+    }
+    .note-prompt-sub {
+      font-size: .72rem; color: var(--sub); margin-top: -5px;
+    }
+
+    .note-textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .87rem; color: var(--text);
+      background: rgba(255,255,255,.85);
+      border: 1.5px solid rgba(168,85,247,.22);
+      border-radius: 12px;
+      padding: 12px 14px;
+      resize: none; width: 100%; outline: none;
+      transition: border-color .18s, box-shadow .18s;
+      line-height: 1.55;
+    }
+    .note-textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(168,85,247,.1);
+    }
+    .note-textarea::placeholder { color: rgba(124,111,155,.45); }
+
+    .note-footer {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .note-chars { font-size: .68rem; color: var(--sub); flex-shrink: 0; }
+
+    .note-btns { display: flex; align-items: center; gap: 8px; }
+
+    .note-btn-skip {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 600; color: var(--sub);
+      background: transparent; border: none; cursor: pointer;
+      padding: 8px 12px; border-radius: 10px;
+      transition: background .15s;
+    }
+    .note-btn-skip:hover { background: rgba(168,85,247,.07); }
+
+    .note-btn-save {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 700; color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border: none; cursor: pointer;
+      padding: 9px 20px; border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(232,78,160,.3);
+      transition: opacity .15s, transform .1s;
+    }
+    .note-btn-save:hover  { opacity: .9; }
+    .note-btn-save:active { transform: scale(.97); }
+
+    /* ── Notification system ──────────────────────────────────────────── */
+    @keyframes overlayIn   { from{opacity:0}             to{opacity:1} }
+    @keyframes modalPop    { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    @keyframes noteSlideIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes toastFadeUp { from{opacity:0;transform:translate(-50%,12px)} to{opacity:1;transform:translate(-50%,0)} }
+    @keyframes slideUp     { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+    .ns-overlay{position:fixed;inset:0;background:rgba(45,27,61,.5);z-index:250;display:flex;align-items:flex-start;justify-content:center;padding:20px 16px;backdrop-filter:blur(8px);animation:overlayIn .2s ease;overflow-y:auto}
+    .ns-modal{background:rgba(255,255,255,.95);border:1.5px solid rgba(232,78,160,.22);border-radius:24px;padding:28px 24px;width:100%;max-width:520px;box-shadow:0 24px 64px rgba(45,27,61,.28);backdrop-filter:blur(20px);animation:modalPop .3s cubic-bezier(.34,1.56,.64,1)}
+    .ns-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px}
+    .ns-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+    .ns-subtitle{font-size:.74rem;color:rgba(124,111,155,.6);margin-top:3px}
+    .ns-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:rgba(124,111,155,.6);transition:color .2s;line-height:1;padding:4px;flex-shrink:0}
+    .ns-close:hover{color:var(--pink)}
+    .ns-body{max-height:70vh;overflow-y:auto;padding-right:4px}
+    .ns-body::-webkit-scrollbar{width:4px}
+    .ns-body::-webkit-scrollbar-thumb{background:rgba(232,78,160,.3);border-radius:4px}
+    .ns-group{margin-bottom:16px}
+    .ns-group-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);padding:4px 0 8px;border-bottom:1px solid rgba(168,85,247,.1);margin-bottom:8px}
+    .ns-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:13px;cursor:pointer;transition:background .18s;border:1px solid transparent}
+    .ns-row:hover{background:rgba(232,78,160,.05);border-color:rgba(232,78,160,.12)}
+    .ns-row-info{flex:1;min-width:0}
+    .ns-row-label{font-size:.83rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ns-row-meta{font-size:.72rem;color:var(--sub);margin-top:2px}
+    .ns-chevron{font-size:1.2rem;color:rgba(124,111,155,.6);transition:transform .2s;flex-shrink:0;user-select:none}
+    .ns-type-tag{display:inline-block;font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:999px;margin-left:5px;vertical-align:middle}
+    .ns-type-conditional{background:rgba(245,158,11,.15);color:#B45309;border:1px solid rgba(245,158,11,.3)}
+    .ns-type-monthly{background:rgba(59,130,246,.12);color:#1D4ED8;border:1px solid rgba(59,130,246,.2)}
+    .ns-toggle{position:relative;display:flex;align-items:center;flex-shrink:0;cursor:pointer}
+    .ns-toggle input{position:absolute;opacity:0;width:0;height:0}
+    .ns-toggle-track{width:36px;height:20px;border-radius:10px;background:rgba(168,85,247,.2);transition:background .2s;cursor:pointer;display:block;position:relative}
+    .ns-toggle input:checked+.ns-toggle-track{background:linear-gradient(135deg,var(--pink),var(--purple))}
+    .ns-toggle-track::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+    .ns-toggle input:checked+.ns-toggle-track::after{transform:translateX(16px)}
+    .ns-editor-row{padding:12px 12px 14px;margin:0 0 6px;background:rgba(168,85,247,.04);border:1.5px solid rgba(232,78,160,.14);border-radius:0 0 13px 13px;animation:noteSlideIn .2s ease}
+    .ns-edit-input,.ns-edit-textarea{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(168,85,247,.2);background:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--text);outline:none;transition:border-color .2s;margin-bottom:8px;box-sizing:border-box}
+    .ns-edit-input:focus,.ns-edit-textarea:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(232,78,160,.15)}
+    .ns-edit-textarea{min-height:64px;resize:vertical;line-height:1.5}
+    .ns-edit-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .ns-edit-time{padding:7px 10px;border-radius:9px;border:1.5px solid rgba(168,85,247,.2);background:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--text);outline:none;transition:border-color .2s}
+    .ns-edit-time:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(232,78,160,.15)}
+    .ns-edit-days-label{font-size:.72rem;color:var(--sub);font-weight:600}
+    .ns-day-cb{display:inline-flex;align-items:center;cursor:pointer;font-size:.7rem;color:var(--sub)}
+    .ns-day-cb input{display:none}
+    .ns-day-cb span{padding:3px 6px;border-radius:5px;border:1.5px solid rgba(168,85,247,.18);background:transparent;transition:all .15s;font-weight:600}
+    .ns-day-cb input:checked+span{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border-color:transparent}
+    .ns-save-btn{width:100%;padding:9px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .2s}
+    .ns-save-btn:hover{opacity:.88;transform:translateY(-1px)}
+  </style>
+  <!-- PWA -->
+  <meta name="theme-color" content="#E84EA0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Enid 🐺">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-wolf">🐺</div>
+  <div class="loader-text">Loading your day...</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <div class="header-title" id="mainTitle">Your Daily Routines 🐺</div>
+        <div class="header-sub"  id="mainSub"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button onclick="openNotifSettings()"
+          style="display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;border:1.5px solid rgba(168,85,247,.2);background:rgba(168,85,247,.07);color:var(--sub);font-size:.85rem;cursor:pointer;transition:all .18s;line-height:1"
+          title="Notification settings"
+          onmouseover="this.style.borderColor='var(--purple)';this.style.color='var(--purple)'"
+          onmouseout="this.style.borderColor='rgba(168,85,247,.2)';this.style.color='var(--sub)'">🔔</button>
+        <div class="date-chip" id="dateChip"></div>
+      </div>
+    </div>
+    <div class="header-nav">
+      <a href="date-items.html" class="header-nav-link">📅 Schedule</a>
+      <a href="finance.html"    class="header-nav-link">💰 Finance</a>
+      <a href="journal.html"    class="header-nav-link">📓 Journal</a>
+      <a href="books.html"      class="header-nav-link">📚 Books</a>
+      <a href="movies.html"     class="header-nav-link">📽️ Movies</a>
+      <a href="analytics.html"  class="header-nav-link">📊 Analytics</a>
+      <a href="badges.html"     class="header-nav-link">🏆 Badges</a>
+    </div>
+  </header>
+
+  <div class="day-nav" id="dayNav"></div>
+  <main id="sections"></main>
+</div>
+
+<!-- NOTE OVERLAY (Step 5D) -->
+<div id="noteOverlay" class="note-overlay hidden" aria-hidden="true">
+  <div class="note-backdrop" id="noteBackdrop"></div>
+  <div class="note-sheet">
+    <div class="note-handle"></div>
+    <div class="note-habit-row">
+      <span class="note-emoji"       id="noteEmoji"></span>
+      <span class="note-habit-name"  id="noteHabitName"></span>
+    </div>
+    <div class="note-prompt-text">How'd it go? Add a reflection 💜</div>
+    <div class="note-prompt-sub">Optional · saves to your journal history 🐺</div>
+    <textarea id="noteTextarea" class="note-textarea"
+      placeholder="Type something... or tap Skip 🐾"
+      maxlength="500" rows="4"></textarea>
+    <div class="note-footer">
+      <span class="note-chars" id="noteChars">0 / 500</span>
+      <div class="note-btns">
+        <button class="note-btn-skip" id="noteSkip">Skip</button>
+        <button class="note-btn-save" id="noteSave">Save note 💜</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Notification permission banner -->
+<div id="notifBanner" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:300;width:calc(100% - 40px);max-width:500px">
+  <div style="background:linear-gradient(135deg,rgba(232,78,160,.96),rgba(168,85,247,.96));border-radius:18px;padding:18px 20px;box-shadow:0 8px 32px rgba(232,78,160,.35);backdrop-filter:blur(12px);display:flex;align-items:center;gap:14px;animation:slideUp .4s cubic-bezier(.34,1.56,.64,1)">
+    <div style="font-size:1.8rem;flex-shrink:0">🐺</div>
+    <div style="flex:1">
+      <div style="font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:#fff">Enable Enid notifications?</div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.8);margin-top:3px">Morning kickoff, after work check-in, evening routine &amp; weekend nudges 💜</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+      <button onclick="requestNotifPermission()" style="padding:7px 16px;border-radius:999px;border:none;background:#fff;color:var(--pink);font-size:.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">Yes please!! ✨</button>
+      <button onclick="dismissNotifBanner()" style="padding:5px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif">Not now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification Settings Modal -->
+<div class="ns-overlay" id="notifSettingsOverlay" style="display:none"
+     onclick="if(event.target.id==='notifSettingsOverlay')closeNotifSettings()">
+  <div class="ns-modal">
+    <div class="ns-header">
+      <div>
+        <div class="ns-title">🔔 Notification Schedule</div>
+        <div class="ns-subtitle">Tap a row to edit title, body, time &amp; days 💜</div>
+      </div>
+      <button class="ns-close" onclick="closeNotifSettings()">✕</button>
+    </div>
+    <div class="ns-body" id="nsBody">
+      <!-- Rendered by renderNotifModal() -->
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────
+   CONFIG
+───────────────────────────────────────────────────────────────────── */
+const SUPA_URL = 'https://oebxxurgxvzjnunjaujh.supabase.co';
+const SUPA_KEY = 'sb_publishable_x0QWqeNaNAFf7vN7Ky0Mzw_c_FMBAAP';
+const USER_ID  = 'ENID';
+
+/* ─────────────────────────────────────────────────────────────────────
+   DATE ITEM TYPE METADATA
+───────────────────────────────────────────────────────────────────── */
+const TYPE_META = {
+  event:         { icon: '🎉', label: 'Event',       color: '#E84EA0', bg: 'rgba(232,78,160,.1)',   border: 'rgba(232,78,160,.28)' },
+  task:          { icon: '✅', label: 'Task',         color: '#A855F7', bg: 'rgba(168,85,247,.1)',   border: 'rgba(168,85,247,.28)' },
+  reminder:      { icon: '🔔', label: 'Reminder',     color: '#F59E0B', bg: 'rgba(245,158,11,.1)',   border: 'rgba(245,158,11,.28)' },
+  movie_showing: { icon: '🎬', label: 'Movie',        color: '#059669', bg: 'rgba(110,231,183,.15)', border: 'rgba(110,231,183,.4)'  },
+  appointment:   { icon: '📋', label: 'Appointment',  color: '#3B82F6', bg: 'rgba(96,165,250,.1)',   border: 'rgba(96,165,250,.3)'  },
+};
+
+/* ─────────────────────────────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────────────────────────────── */
+let habits         = [];           // all habit rows from DB
+let dayCompletions = new Set();    // habit_ids completed on viewDate (daily)
+let dayNotes       = {};           // habit_id → note text for viewDate
+let weeklyDone     = new Set();    // habit_ids done this week (weekend_tasks)
+let ktShiftToday   = false;        // whether viewDate has a KT shift
+let dateItems      = [];           // date_items for viewDate
+let viewDate       = new Date();   // currently viewed date
+
+// Note overlay pending state
+let pendingNote   = null;          // { habitId, dateStr } while overlay is open
+let pendingInsert = null;          // Promise for the in-flight habit INSERT
+
+// Widget state (Step 5E)
+let financeWidget = null;          // { period, income, totalOwed, available } or null
+let booksWidget   = null;          // current reading book row or null
+let moviesWidget  = [];            // unwatched movies from localStorage
+
+/* ─────────────────────────────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────────────────────────────── */
+function fmtDate(d) {
+  const y  = d.getFullYear();
+  const m  = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dd}`;
+}
+function isWeekend(d)  { return d.getDay() === 0 || d.getDay() === 6; }
+function isViewToday() { return fmtDate(viewDate) === fmtDate(new Date()); }
+
+function getWeekStart(d) {
+  const date = new Date(d);
+  const day  = date.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  date.setDate(date.getDate() + diff);
+  return fmtDate(date);
+}
+
+function fmtTime(t) {
+  if (!t) return '';
+  const parts = t.split(':');
+  const hour  = parseInt(parts[0], 10);
+  const min   = parts[1] || '00';
+  const ampm  = hour >= 12 ? 'PM' : 'AM';
+  const h12   = hour % 12 || 12;
+  return `${h12}:${min} ${ampm}`;
+}
+
+/* ── Repeat-rule helpers (mirrors date-items.html) ────────────────── */
+const REPEAT_LABELS = {
+  daily:   '↺ Daily',
+  weekly:  '↺ Weekly',
+  monthly: '↺ Monthly',
+  yearly:  '↺ Yearly',
+};
+
+function _parseDL(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function _fmtDL(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function _nextOcc(d, rule) {
+  const n = new Date(d);
+  if      (rule === 'daily')   n.setDate(n.getDate() + 1);
+  else if (rule === 'weekly')  n.setDate(n.getDate() + 7);
+  else if (rule === 'monthly') n.setMonth(n.getMonth() + 1);
+  else if (rule === 'yearly')  n.setFullYear(n.getFullYear() + 1);
+  return n;
+}
+
+/**
+ * From source items (already pre-filtered to item_date <= dateStr),
+ * return the subset whose occurrence actually falls on dateStr.
+ */
+function getItemsForDate(sourceItems, dateStr) {
+  const target = _parseDL(dateStr);
+  const out    = [];
+  for (const item of sourceItems) {
+    const rule = item.repeat_rule;
+    if (!rule || rule === 'none') {
+      if (item.item_date === dateStr) out.push(item);
+      continue;
+    }
+    // Walk occurrences from the base date up to dateStr
+    let occ    = new Date(_parseDL(item.item_date));
+    let safety = 0;
+    while (occ <= target && safety < 800) {
+      if (_fmtDL(occ) === dateStr) { out.push(item); break; }
+      occ = _nextOcc(occ, rule);
+      safety++;
+    }
+  }
+  return out;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SUPABASE
+───────────────────────────────────────────────────────────────────── */
+const SB_HEADS = {
+  'apikey':        SUPA_KEY,
+  'Authorization': `Bearer ${SUPA_KEY}`,
+  'Content-Type':  'application/json',
+  'Prefer':        'return=minimal',
+};
+
+async function sbGet(path) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, { headers: SB_HEADS });
+  if (!r.ok) throw new Error(`sbGet ${path} → ${r.status}`);
+  return r.json();
+}
+async function sbInsert(table, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+    method: 'POST', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`sbInsert ${table} → ${r.status}`);
+}
+async function sbPatch(table, qs, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
+    method: 'PATCH', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`sbPatch ${table} → ${r.status}`);
+}
+async function sbDelete(table, qs) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
+    method: 'DELETE', headers: SB_HEADS,
+  });
+  if (!r.ok) throw new Error(`sbDelete ${table} → ${r.status}`);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DATA LOADING
+───────────────────────────────────────────────────────────────────── */
+async function loadHabits() {
+  habits = await sbGet(
+    `habits?user_id=eq.${USER_ID}&order=section.asc,display_order.asc`
+  );
+}
+
+/** Load daily completions; also populates dayNotes from the note column */
+async function loadCompletions(dateStr) {
+  const rows = await sbGet(
+    `habit_completions?user_id=eq.${USER_ID}&completed_on=eq.${dateStr}&select=habit_id,note`
+  );
+  dayCompletions = new Set(rows.map(r => r.habit_id));
+  dayNotes = {};
+  rows.forEach(r => { if (r.note) dayNotes[r.habit_id] = r.note; });
+}
+
+async function loadWeeklyCompletions(weekStartStr) {
+  const rows = await sbGet(
+    `weekend_tasks?user_id=eq.${USER_ID}&week_start=eq.${weekStartStr}&select=habit_id`
+  );
+  weeklyDone = new Set(rows.map(r => r.habit_id));
+}
+
+async function loadKTShift(dateStr) {
+  const rows = await sbGet(
+    `kt_shifts?user_id=eq.${USER_ID}&shift_date=eq.${dateStr}&select=id`
+  );
+  ktShiftToday = rows.length > 0;
+}
+
+async function loadDateItems(dateStr) {
+  // Fetch all items that started on or before dateStr (repeating items
+  // that begin before today can have occurrences on dateStr).
+  const rows = await sbGet(
+    `date_items?user_id=eq.${USER_ID}&item_date=lte.${dateStr}&order=start_time.asc.nullslast,title.asc`
+  );
+  // Filter client-side to only those whose occurrence falls on dateStr
+  dateItems = getItemsForDate(rows, dateStr);
+}
+
+/* ── Widget loaders (Step 5E) ──────────────────────────────────── */
+
+/**
+ * Finance widget: find the active pay period (is_current = true),
+ * sum all non-paid obligations, compute net available.
+ */
+async function loadFinanceWidget() {
+  try {
+    const periods = await sbGet(
+      `pay_periods?user_id=eq.${USER_ID}&is_current=eq.true&limit=1`
+    );
+    if (!periods.length) { financeWidget = null; return; }
+    const period = periods[0];
+
+    const obligs = await sbGet(
+      `finance_obligations?user_id=eq.${USER_ID}&period_id=eq.${period.id}&select=amount,is_variable,is_paid_off,spent_amount`
+    );
+
+    const income    = (period.income_bbs || 0) + (period.income_kt || 0);
+    // For variable items, use spent_amount if tracked; otherwise use budget amount
+    const totalOwed = obligs
+      .filter(o => !o.is_paid_off)
+      .reduce((s, o) => {
+        const eff = (o.is_variable && o.spent_amount !== null && o.spent_amount !== undefined)
+          ? Number(o.spent_amount)
+          : Number(o.amount) || 0;
+        return s + eff;
+      }, 0);
+
+    financeWidget = {
+      period,
+      income,
+      totalOwed,
+      available: income - totalOwed,
+    };
+  } catch(e) {
+    console.warn('Finance widget load failed:', e.message);
+    financeWidget = null;
+  }
+}
+
+/**
+ * Books widget: fetch the first book with shelf = 'reading'.
+ * Gracefully handles empty shelf or missing table.
+ */
+async function loadBooksWidget() {
+  try {
+    const rows = await sbGet(
+      `books?user_id=eq.${USER_ID}&status=eq.reading&order=updated_at.desc.nullslast&limit=1`
+    );
+    booksWidget = rows.length ? rows[0] : null;
+  } catch(e) {
+    console.warn('Books widget load failed:', e.message);
+    booksWidget = null;
+  }
+}
+
+/**
+ * Movies widget: read localStorage key 'enid_movies_widget'.
+ * Filters to unwatched entries. Synchronous — no network call.
+ */
+function loadMoviesWidget() {
+  try {
+    const raw = localStorage.getItem('enid_movies_widget');
+    const all = raw ? JSON.parse(raw) : [];
+    moviesWidget = Array.isArray(all) ? all.filter(m => !m.watched) : [];
+  } catch(e) {
+    moviesWidget = [];
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   TOGGLE — daily habits
+───────────────────────────────────────────────────────────────────── */
+async function toggleHabit(habitId) {
+  const dateStr = fmtDate(viewDate);
+
+  if (dayCompletions.has(habitId)) {
+    /* ── uncheck: delete completion + clear any local note ── */
+    dayCompletions.delete(habitId);
+    delete dayNotes[habitId];
+    render();
+    await sbDelete(
+      'habit_completions',
+      `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&completed_on=eq.${dateStr}`
+    );
+  } else {
+    /* ── check: insert, then show note prompt ── */
+    dayCompletions.add(habitId);
+    render();
+    showNotePrompt(habitId, dateStr);          // slide up immediately (optimistic)
+    pendingInsert = sbInsert('habit_completions', {
+      user_id: USER_ID, habit_id: habitId, completed_on: dateStr,
+    });
+    await pendingInsert;
+    pendingInsert = null;
+  }
+
+  buildDayNav();
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   TOGGLE — weekly habits (weekend_tasks, no note support yet)
+───────────────────────────────────────────────────────────────────── */
+async function toggleWeeklyHabit(habitId) {
+  const weekStartStr = getWeekStart(viewDate);
+
+  if (weeklyDone.has(habitId)) {
+    weeklyDone.delete(habitId);
+    render();
+    await sbDelete(
+      'weekend_tasks',
+      `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&week_start=eq.${weekStartStr}`
+    );
+  } else {
+    weeklyDone.add(habitId);
+    render();
+    await sbInsert('weekend_tasks', {
+      user_id: USER_ID, habit_id: habitId,
+      week_start: weekStartStr, completed_at: fmtDate(viewDate),
+    });
+    // Note prompts not yet supported for weekly habits (no note column in weekend_tasks)
+  }
+
+  buildDayNav();
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   TOGGLE — KT shift
+───────────────────────────────────────────────────────────────────── */
+async function toggleKTShift() {
+  const dateStr = fmtDate(viewDate);
+  if (ktShiftToday) {
+    ktShiftToday = false; render();
+    await sbDelete('kt_shifts', `user_id=eq.${USER_ID}&shift_date=eq.${dateStr}`);
+  } else {
+    ktShiftToday = true; render();
+    await sbInsert('kt_shifts', { user_id: USER_ID, shift_date: dateStr, confirmed: false });
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   NOTE OVERLAY (Step 5D)
+───────────────────────────────────────────────────────────────────── */
+function showNotePrompt(habitId, dateStr) {
+  const habit = habits.find(h => h.id === habitId);
+  if (!habit) return;
+
+  pendingNote = { habitId, dateStr };
+
+  document.getElementById('noteEmoji').textContent     = habit.emoji || '•';
+  document.getElementById('noteHabitName').textContent = habit.name;
+  document.getElementById('noteTextarea').value        = '';
+  document.getElementById('noteChars').textContent     = '0 / 500';
+
+  const overlay = document.getElementById('noteOverlay');
+  overlay.classList.remove('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+
+  // Auto-focus textarea after slide animation starts
+  setTimeout(() => document.getElementById('noteTextarea').focus(), 120);
+}
+
+function hideNotePrompt() {
+  const overlay = document.getElementById('noteOverlay');
+  overlay.classList.add('hidden');
+  overlay.setAttribute('aria-hidden', 'true');
+  pendingNote = null;
+}
+
+async function saveNote() {
+  if (!pendingNote) return;
+  const text                  = document.getElementById('noteTextarea').value.trim();
+  const { habitId, dateStr }  = pendingNote;
+  hideNotePrompt();
+
+  if (!text) return; // nothing to save — treat same as skip
+
+  // Optimistic: update local notes + re-render so chip appears immediately
+  dayNotes[habitId] = text;
+  render();
+
+  try {
+    // Ensure the INSERT has completed before we PATCH it
+    if (pendingInsert) await pendingInsert;
+    await sbPatch(
+      'habit_completions',
+      `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&completed_on=eq.${dateStr}`,
+      { note: text }
+    );
+  } catch(e) {
+    console.error('Failed to save note:', e);
+    delete dayNotes[habitId];
+    render();
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SECTIONS CONFIG
+───────────────────────────────────────────────────────────────────── */
+function getSections() {
+  const weekend   = isWeekend(viewDate);
+  const bySection = (key) => habits.filter(h => h.section === key);
+
+  if (weekend) {
+    return [
+      { key:'weekend', icon:'🌸', label:'Weekend Day',       sub:'Breathe, build & be present',           habits: bySection('weekend'), color:'weekend', doneSet: dayCompletions },
+      { key:'evening', icon:'🌙', label:'Evening Wind-Down', sub:'Close the day with intention 💜',        habits: bySection('evening'), color:'evening', doneSet: dayCompletions },
+      { key:'weekly',  icon:'📋', label:'Weekly Resets',     sub:'Once a week keeps chaos away',           habits: bySection('weekly'),  color:'weekly',  doneSet: weeklyDone    },
+    ];
+  } else {
+    return [
+      { key:'morning',  icon:'☀️',  label:'Morning Routine',   sub:'Set yourself up for the day 💛',         habits: bySection('morning'),  color:'morning',  doneSet: dayCompletions },
+      { key:'postwork', icon:'💼',  label:'After Work Routine', sub:'Decompress & reset 💙 · Weekdays only',  habits: bySection('postwork'), color:'postwork', doneSet: dayCompletions, ktSection: true },
+      { key:'evening',  icon:'🌙', label:'Evening Wind-Down',  sub:'Close the day with intention 💜',        habits: bySection('evening'),  color:'evening',  doneSet: dayCompletions },
+      { key:'weekly',   icon:'📋', label:'Weekly Resets',      sub:'Once a week keeps chaos away',           habits: bySection('weekly'),   color:'weekly',   doneSet: weeklyDone    },
+    ];
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   PROGRESS
+───────────────────────────────────────────────────────────────────── */
+function calcProgress(habitList, doneSet) {
+  const orGroupDone = {};
+  let total = 0, done = 0;
+
+  habitList.forEach(h => {
+    if (h.or_group) {
+      if (!(h.or_group in orGroupDone)) { orGroupDone[h.or_group] = false; total++; }
+      if (doneSet.has(h.id)) orGroupDone[h.or_group] = true;
+    } else {
+      total++;
+      if (doneSet.has(h.id)) done++;
+    }
+  });
+
+  Object.values(orGroupDone).forEach(v => { if (v) done++; });
+  return { done, total };
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   WIDGET BUILDERS (Step 5E)
+───────────────────────────────────────────────────────────────────── */
+
+function buildFinanceWidgetCard() {
+  if (!financeWidget) return null;
+  const { period, income, totalOwed, available } = financeWidget;
+
+  const fmtMoney = (n) => `$${Math.abs(n).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+  const availClass = available >= 0 ? 'wf-avail-pos' : 'wf-avail-neg';
+  const availSign  = available < 0 ? '−' : '';
+  // Progress bar = obligations as % of income (capped at 100)
+  const pct = income > 0 ? Math.min(100, (totalOwed / income) * 100) : 0;
+
+  const card = document.createElement('div');
+  card.className = 'section-card';
+  card.innerHTML = `
+    <div class="section-header">
+      <div class="sec-left">
+        <div class="sec-icon" style="background:linear-gradient(135deg,#D4FBF0,#A8F0E0)">💰</div>
+        <div>
+          <div class="sec-title">Available Funds</div>
+          <div class="sec-sub">${period.dates}</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <div style="font-size:.95rem;font-weight:800" class="${availClass}">${availSign}${fmtMoney(available)}</div>
+        <div style="font-size:.62rem;color:var(--sub)">est. left over</div>
+        <a href="finance.html" class="sec-manage-link" style="margin-top:1px">Finance →</a>
+      </div>
+    </div>
+    <div class="widget-body">
+      <div class="wf-row">
+        <span class="wf-label">💵 Period income</span>
+        <span class="wf-value">${fmtMoney(income)}</span>
+      </div>
+      <div class="wf-bar"><div class="wf-bar-fill" style="width:${pct}%"></div></div>
+      <div class="wf-row">
+        <span class="wf-label">📋 Obligations (actual)</span>
+        <span class="wf-value wf-owed">−${fmtMoney(totalOwed)}</span>
+      </div>
+    </div>
+  `;
+  return card;
+}
+
+function buildBooksWidgetCard() {
+  const card = document.createElement('div');
+  card.className = 'section-card';
+
+  if (booksWidget) {
+    const title      = booksWidget.title      || 'Untitled';
+    const author     = booksWidget.author     || '';
+    const pagesRead  = booksWidget.pages_read  || 0;
+    const totalPages = booksWidget.total_pages || booksWidget.page_count || null;
+    const pct = totalPages ? Math.min(100, (pagesRead / totalPages) * 100) : null;
+
+    const progressHtml = pct !== null
+      ? `<div class="wb-progress-bar"><div class="wb-progress-fill" style="width:${pct}%"></div></div>
+         <div class="wb-meta">p. ${pagesRead}${totalPages ? ` / ${totalPages}` : ''} · ${Math.round(pct)}% done</div>`
+      : '';
+
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#FFF3D0,#FFE0A0)">📚</div>
+          <div>
+            <div class="sec-title">Currently Reading</div>
+            <div class="sec-sub">${author || 'Reading now'}</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="wb-title">${title}</div>
+        ${progressHtml}
+      </div>
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#FFF3D0,#FFE0A0)">📚</div>
+          <div>
+            <div class="sec-title">Currently Reading</div>
+            <div class="sec-sub">Nothing in progress right now</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-empty">No book started — add one on the Books page 📖</div>
+    `;
+  }
+  return card;
+}
+
+function buildMoviesWidgetCard() {
+  const card = document.createElement('div');
+  card.className = 'section-card';
+  const count = moviesWidget.length;
+
+  if (count > 0) {
+    const next = moviesWidget[0];
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#EDE0FF,#D5C0FF)">🎬</div>
+          <div>
+            <div class="sec-title">Movie Queue</div>
+            <div class="sec-sub">${count} movie${count !== 1 ? 's' : ''} queued up</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="wm-next">Up next: <strong>${next.title || 'Unknown'}</strong></div>
+        ${count > 1 ? `<div class="wm-more">+${count - 1} more waiting in your queue</div>` : ''}
+      </div>
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon" style="background:linear-gradient(135deg,#EDE0FF,#D5C0FF)">🎬</div>
+          <div>
+            <div class="sec-title">Movie Queue</div>
+            <div class="sec-sub">Nothing queued up right now</div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-empty">Add movies to your watchlist on the Movies page 🎬</div>
+    `;
+  }
+  return card;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DATE ITEMS CARD
+───────────────────────────────────────────────────────────────────── */
+function buildDateItemsCard() {
+  const card  = document.createElement('div');
+  card.className = 'section-card';
+
+  const count    = dateItems.length;
+  const countStr = `${count} item${count !== 1 ? 's' : ''}`;
+
+  const itemsHtml = dateItems.map(item => {
+    const meta       = TYPE_META[item.type] || { icon: '📅', label: item.type || 'Item', color: '#A855F7', bg: 'rgba(168,85,247,.1)', border: 'rgba(168,85,247,.28)' };
+    const startFmt   = fmtTime(item.start_time);
+    const endFmt     = fmtTime(item.end_time);
+    const timeStr    = startFmt ? (endFmt ? `${startFmt} – ${endFmt}` : startFmt) : '';
+    const accent     = item.color || meta.color;
+    const repeatRule = item.repeat_rule;
+
+    const timeHtml   = timeStr ? `<span class="di-time">${timeStr}</span>` : '';
+    const locHtml    = item.location ? `<span class="di-loc">📍 ${item.location}</span>` : '';
+    const repeatHtml = (repeatRule && repeatRule !== 'none' && REPEAT_LABELS[repeatRule])
+      ? `<span class="di-repeat">${REPEAT_LABELS[repeatRule]}</span>` : '';
+    const metaHtml   = (timeHtml || locHtml || repeatHtml)
+      ? `<div class="di-meta">${timeHtml}${locHtml}${repeatHtml}</div>` : '';
+
+    return `
+      <div class="date-item-row" style="border-left-color:${accent}">
+        <div class="di-type-icon">${meta.icon}</div>
+        <div class="di-body">
+          <div class="di-title">${item.title}</div>
+          ${metaHtml}
+        </div>
+        <span class="di-type-badge" style="color:${meta.color};background:${meta.bg};border-color:${meta.border}">${meta.label}</span>
+      </div>
+    `;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="section-header">
+      <div class="sec-left">
+        <div class="sec-icon schedule">📅</div>
+        <div>
+          <div class="sec-title">Today's Schedule</div>
+          <div class="sec-sub">${countStr} · events, tasks &amp; reminders</div>
+        </div>
+      </div>
+      <a href="date-items.html" class="sec-manage-link">Manage →</a>
+    </div>
+    <div class="date-items-list">${itemsHtml}</div>
+  `;
+
+  return card;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   RENDER
+───────────────────────────────────────────────────────────────────── */
+function render() {
+  updateHeader();
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+
+  // Date items card at top (only when items exist)
+  if (dateItems.length) container.appendChild(buildDateItemsCard());
+
+  // Habit sections
+  getSections().forEach(sec => {
+    if (!sec.habits.length) return;
+
+    const { done, total } = calcProgress(sec.habits, sec.doneSet);
+    const pct     = total ? (done / total) * 100 : 0;
+    const allDone = done === total && total > 0;
+    const isKT    = !!(sec.ktSection && ktShiftToday);
+
+    const card = document.createElement('div');
+    card.className = `section-card${allDone ? ' all-done' : ''}${isKT ? ' kt-active' : ''}`;
+
+    const ktChipHtml = (sec.ktSection && !ktShiftToday)
+      ? `<div class="kt-set-chip">🏪 KT Shift</div>` : '';
+
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon ${sec.color}">${sec.icon}</div>
+          <div>
+            <div class="sec-title">${sec.label}</div>
+            <div class="sec-sub">${sec.sub}</div>
+          </div>
+        </div>
+        <div class="sec-progress">
+          <div class="sec-frac">${done}/${total}</div>
+          <div class="sec-bar"><div class="sec-fill" style="width:${pct}%"></div></div>
+          ${ktChipHtml}
+        </div>
+      </div>
+      ${isKT ? `
+      <div class="kt-banner">
+        <span class="kt-banner-text">🏪 KT Shift today — postwork routine skipped</span>
+        <span class="kt-remove-btn">Remove</span>
+      </div>` : ''}
+      <div class="habit-list" id="hl_${sec.key}"></div>
+    `;
+    container.appendChild(card);
+
+    if (sec.ktSection) {
+      const setChip   = card.querySelector('.kt-set-chip');
+      const removeBtn = card.querySelector('.kt-remove-btn');
+      if (setChip)   setChip.addEventListener('click',   e => { e.stopPropagation(); toggleKTShift(); });
+      if (removeBtn) removeBtn.addEventListener('click', e => { e.stopPropagation(); toggleKTShift(); });
+    }
+
+    const list    = document.getElementById(`hl_${sec.key}`);
+    const orShown = {};
+
+    sec.habits.forEach(h => {
+      if (h.or_group && !orShown[h.or_group]) {
+        list.appendChild(mkOrDivider('DO ONE'));
+        orShown[h.or_group] = true;
+      }
+
+      const checked  = sec.doneSet.has(h.id);
+      // Note chip: shown for daily habits with a saved reflection
+      const hasNote  = !!(h.section !== 'weekly' && dayNotes[h.id]);
+      const noteHtml = hasNote ? '<span class="h-note-chip">💜 note</span>' : '';
+
+      const row = document.createElement('div');
+      row.className = `habit-row${checked ? ' done' : ''}`;
+      row.innerHTML = `
+        <div class="hc"><span class="hc-mark">✓</span></div>
+        <div class="h-emoji">${h.emoji || '•'}</div>
+        <div class="h-body">
+          <div class="h-name">${h.name}${h.or_group ? '<span class="or-badge">OR</span>' : ''}${noteHtml}</div>
+        </div>
+      `;
+      row.addEventListener('click', () => {
+        if (h.section === 'weekly') toggleWeeklyHabit(h.id);
+        else                        toggleHabit(h.id);
+      });
+      list.appendChild(row);
+
+      const groupHabits = sec.habits.filter(s => s.or_group === h.or_group);
+      if (h.or_group && h.id === groupHabits[groupHabits.length - 1].id) {
+        list.appendChild(mkOrDivider(null));
+      }
+    });
+
+    if (allDone) {
+      const banner = document.createElement('div');
+      banner.className = 'done-banner';
+      banner.textContent = '✨ Section complete — nice work! 🐺';
+      card.appendChild(banner);
+    }
+  });
+
+  // ── Secondary signals (widgets) — rendered after all habit sections ──
+  const finCard  = buildFinanceWidgetCard();
+  const bookCard = buildBooksWidgetCard();
+  const movCard  = buildMoviesWidgetCard();
+
+  if (finCard || bookCard || movCard) {
+    // Divider label
+    const divider = document.createElement('div');
+    divider.className = 'widgets-divider';
+    divider.innerHTML = `
+      <div class="widgets-divider-line"></div>
+      <div class="widgets-divider-label">Secondary Signals</div>
+      <div class="widgets-divider-line"></div>
+    `;
+    container.appendChild(divider);
+    if (finCard)  container.appendChild(finCard);
+    if (bookCard) container.appendChild(bookCard);
+    if (movCard)  container.appendChild(movCard);
+  }
+}
+
+function mkOrDivider(label) {
+  const el = document.createElement('div');
+  el.className = 'or-divider';
+  el.innerHTML = label
+    ? `<div class="or-line"></div><div class="or-label">${label}</div><div class="or-line"></div>`
+    : `<div class="or-line"></div>`;
+  return el;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────────────────── */
+function updateHeader() {
+  const weekend = isWeekend(viewDate);
+  const isToday = isViewToday();
+  const today   = new Date();
+
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  document.getElementById('mainTitle').textContent =
+    weekend ? 'Weekend Mode 🌸🐺' : 'Your Daily Routines 🐺';
+
+  document.getElementById('mainSub').textContent = isToday
+    ? (weekend ? "It's the weekend — breathe, build & be present 🌈"
+               : 'Show up for yourself today, one habit at a time 💜')
+    : `Viewing ${DAYS[viewDate.getDay()]} the ${viewDate.getDate()} — ${weekend ? 'weekend' : 'weekday'}`;
+
+  document.getElementById('dateChip').textContent =
+    `${DAYS[today.getDay()]}, ${MONTHS[today.getMonth()]} ${today.getDate()}`;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DAY NAV
+───────────────────────────────────────────────────────────────────── */
+async function buildDayNav() {
+  const dates    = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(); d.setDate(d.getDate() - (6 - i)); return d;
+  });
+  const dateStrs = dates.map(fmtDate);
+
+  let byDate = {};
+  try {
+    const rows = await sbGet(
+      `habit_completions?user_id=eq.${USER_ID}&completed_on=in.(${dateStrs.join(',')})&select=habit_id,completed_on`
+    );
+    rows.forEach(r => { byDate[r.completed_on] = (byDate[r.completed_on] || 0) + 1; });
+  } catch(e) {}
+
+  const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const nav = document.getElementById('dayNav');
+  nav.innerHTML = '';
+
+  dates.forEach(d => {
+    const dk      = fmtDate(d);
+    const weekend = isWeekend(d);
+    const isView  = dk === fmtDate(viewDate);
+    const pct     = (byDate[dk] || 0) / (weekend ? 12 : 23);
+
+    const btn = document.createElement('div');
+    btn.className = `day-btn${isView ? ' active' : ''}${weekend && !isView ? ' weekend-day' : ''}`;
+    btn.innerHTML = `
+      <div class="day-name">${DAY_NAMES[d.getDay()]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      <div class="day-dots">
+        <div class="day-dot ${pct >= .40 ? 'done' : pct >= .15 ? 'partial' : ''}"></div>
+        <div class="day-dot ${pct >= .65 ? 'done' : pct >= .35 ? 'partial' : ''}"></div>
+        <div class="day-dot ${pct >= .90 ? 'done' : pct >= .60 ? 'partial' : ''}"></div>
+      </div>
+    `;
+
+    btn.addEventListener('click', async () => {
+      if (isView) return;
+      viewDate = new Date(dk + 'T12:00:00');
+      const weekStartStr = getWeekStart(viewDate);
+      // Finance/books/movies don't change per day — no need to reload on nav
+      await Promise.all([
+        loadCompletions(dk),
+        loadWeeklyCompletions(weekStartStr),
+        loadKTShift(dk),
+        loadDateItems(dk),
+      ]);
+      render();
+      buildDayNav();
+    });
+
+    nav.appendChild(btn);
+  });
+
+  const active = nav.querySelector('.day-btn.active');
+  if (active) nav.scrollLeft = active.offsetLeft - nav.offsetWidth / 2 + active.offsetWidth / 2;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   PWA & NOTIFICATIONS
+───────────────────────────────────────────────────────────────────── */
+
+// ── Service Worker registration ───────────────────────────────────────────────
+let swRegistration = null;
+
+async function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    swRegistration = await navigator.serviceWorker.register('sw.js', {scope:'/enid-hub/'});
+    console.log('🐺 Service Worker registered!!');
+    scheduleNotifications();
+  } catch(e) {
+    console.log('SW registration failed:', e);
+  }
+}
+
+// ── Notification permission banner ────────────────────────────────────────────
+const NOTIF_DISMISSED_KEY = 'enid_hub_notif_dismissed';
+
+function checkNotifBanner() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'granted') { scheduleNotifications(); return; }
+  if (Notification.permission === 'denied') return;
+  if (localStorage.getItem(NOTIF_DISMISSED_KEY)) return;
+  setTimeout(() => { document.getElementById('notifBanner').style.display = 'block'; }, 3000);
+}
+
+async function requestNotifPermission() {
+  dismissNotifBanner();
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    scheduleNotifications();
+    showToast("Notifications enabled!! 🐺🔥 I'll remind you every day 💜");
+  }
+}
+
+function dismissNotifBanner() {
+  document.getElementById('notifBanner').style.display = 'none';
+  localStorage.setItem(NOTIF_DISMISSED_KEY, '1');
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;padding:12px 22px;border-radius:999px;font-size:.82rem;font-weight:700;z-index:400;box-shadow:0 4px 20px rgba(232,78,160,.4);white-space:nowrap;animation:toastFadeUp .4s ease';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// ── Notification scheduler ────────────────────────────────────────────────────
+// setInterval checks every 30s; SW displays the notification when triggered.
+let schedulerInterval = null;
+let NOTIF_SCHEDULE    = [];  // rows from Supabase notifications table
+
+const firedToday = new Set();
+
+async function loadNotifications() {
+  try {
+    const rows = await sbGet(`notifications?user_id=eq.${USER_ID}&order=hour.asc,minute.asc`);
+    if (rows && rows.length) {
+      NOTIF_SCHEDULE = rows;
+    } else {
+      console.log('🐺 No notifications found — auto-seeding baseline schedule...');
+      await seedNotificationsIfEmpty();
+      const seeded = await sbGet(`notifications?user_id=eq.${USER_ID}&order=hour.asc,minute.asc`);
+      if (seeded && seeded.length) NOTIF_SCHEDULE = seeded;
+    }
+  } catch(e) {
+    console.warn('🐺 loadNotifications failed:', e);
+  }
+}
+
+// ── Auto-seed baseline notification rows on first load ─────────────────────
+// Mirrors migrations/002_notifications.sql — runs once if the table is empty.
+async function seedNotificationsIfEmpty() {
+  const SEED = [
+    // Morning (Mon–Fri)
+    { id:'wake-hydrate-bed',       hour:8,  minute:0,  days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Morning',   label:'Wake / Hydrate / Make Bed',              title:'Rise & shine sparklepup!! ☀️🐺',                      body:'8AM means GO time. No phone for 10 minutes — make your bed FIRST, chug some water, get moving. The day starts NOW!! 💜🛏️' },
+    { id:'stretch-mindfulness',    hour:8,  minute:5,  days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Morning',   label:'Stretch / Mindfulness',                  title:'5 minutes and you\'re better already!! 🧘🐺',          body:'Quick stretch or one minute of deep breathing right NOW. Do it before your brain wakes up enough to argue. You will feel SO good. 💜✨' },
+    { id:'motivation-plan',        hour:8,  minute:25, days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Morning',   label:'Motivation / Plan Check',                title:'Check your plan, spark your motivation!! 🌟🐺',         body:'What are you doing today and WHY does it matter? Spend 60 seconds reading your calendar and deciding who you\'re going to be today. Then GO!! 💜📋' },
+    { id:'conditional-habits-noon',hour:11, minute:0,  days:[1,2,3,4,5], notif_type:'conditional', group_label:'Morning',   label:'Midday Habit Nudge (if no habits done)',  title:'Hey... where are your morning habits?? 🐾👀',           body:'It\'s 11AM and the tracker is looking a little empty, roomie!! No judgment — just a nudge. Even ONE habit right now beats zero. Open the app!! 💜🌸' },
+    // Afternoon (Mon–Fri)
+    { id:'movement-momentum',      hour:17, minute:45, days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Afternoon', label:'Movement / Momentum',                    title:'Work mode OFF, movement mode ON!! 🏃🐺',                body:'It\'s 5:45 and your body needs to MOVE. Yoga or a walk — you only need one!! Change your clothes first, signal your brain it\'s YOUR time now. 💜🧘' },
+    { id:'side-projects',          hour:18, minute:15, days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Afternoon', label:'Side Projects Reminder',                  title:'Side project hour starts NOW roomie!! 💻🐺',            body:'One focused hour on the thing you\'re building. Not scrolling. Not "in a minute." Right now. Future you is literally counting on current you!! 🔥💜' },
+    // Evening (daily)
+    { id:'skincare-reset',         hour:23, minute:0,  days:[0,1,2,3,4,5,6], notif_type:'fixed',  group_label:'Evening',   label:'Skincare / Reset Space',                  title:'Skincare time + reset your space!! 🌙🐺',               body:'11PM — wash your face, do your skincare, and spend 5 minutes resetting your space. You deserve to wake up to a calm environment tomorrow. 💜🫧' },
+    { id:'prep-tomorrow',          hour:23, minute:20, days:[0,1,2,3,4,5,6], notif_type:'fixed',  group_label:'Evening',   label:'Prep Tomorrow',                           title:'Two minutes to set yourself up for tomorrow!! ✨🐺',    body:'Lay out your outfit, check your calendar, write down your top 3 for tomorrow. THAT\'S IT. Two minutes and future-you will be SO grateful!! 💜📋' },
+    { id:'bedtime',                hour:23, minute:45, days:[0,1,2,3,4,5,6], notif_type:'fixed',  group_label:'Evening',   label:'Bedtime Reminder',                        title:'Lights out sparklepup!! 🌙💜',                         body:'It\'s 11:45PM. TV OFF. Phone DOWN. You did the thing today. Close your eyes. Tomorrow is a whole new vote for the life you\'re building!! 🐺🌸' },
+    // Weekend (Sat + Sun)
+    { id:'weekend-prep',           hour:11, minute:0,  days:[0,6],           notif_type:'fixed',  group_label:'Weekend',   label:'Weekly Prep / Finance Review',            title:'Weekend essentials TIME glowbug!! 📋🐺',                body:'Finance review + calendar reset + check in with your goals. 30 minutes of effort = a whole week of not panicking. You\'ve SO got this!! 💜💰' },
+    { id:'weekend-prep-backup',    hour:20, minute:0,  days:[0,6],           notif_type:'fixed',  group_label:'Weekend',   label:'Backup Weekly Prep (8PM)',                title:'Last call for weekend essentials roomie!! ⚠️🐺',        body:'If you haven\'t done the finance review and calendar reset yet — RIGHT NOW is your last chance before the week hits. 20 minutes. Do it!! 💜📋' },
+    { id:'laundry-sunday',         hour:11, minute:30, days:[0],             notif_type:'fixed',  group_label:'Weekend',   label:'Laundry (Sunday)',                        title:'LAUNDRY DAY!! Throw that load in NOW!! 🧺🐺',           body:'Sunday is laundry day and you KNOW it!! Toss the load in right now while you\'re thinking about it. Don\'t be Monday-you with no clean clothes!! 💜🌸' },
+    { id:'room-reset-weekend',     hour:13, minute:0,  days:[0,6],           notif_type:'fixed',  group_label:'Weekend',   label:'Room Reset',                              title:'Room reset time — 20 minutes, sparklepup!! 🏠🐺',      body:'A clean space = a calm brain!! Quick room reset: surfaces clear, floor clear, bed made, take out trash if needed. Your space is your sanctuary!! 💜✨' },
+    // Monthly (last day of month)
+    { id:'monthly-audit',          hour:18, minute:0,  days:[0,1,2,3,4,5,6], notif_type:'monthly', group_label:'Monthly',  label:'Monthly Financial Audit',                 title:'Monthly audit day, bestie!! 💰🐺',                     body:'It\'s the last day of the month — time for the big financial audit. Check every balance, review every category, plan for next month. You\'ve got full visibility!! 💜📊' },
+  ];
+  const rows = SEED.map(n => ({ ...n, user_id: USER_ID, enabled: true }));
+  // Batch upsert all rows
+  await fetch(`${SUPA_URL}/rest/v1/notifications`, {
+    method: 'POST',
+    headers: {
+      'apikey':        SUPA_KEY,
+      'Authorization': `Bearer ${SUPA_KEY}`,
+      'Content-Type':  'application/json',
+      'Prefer':        'resolution=merge-duplicates,return=minimal',
+    },
+    body: JSON.stringify(rows),
+  });
+  console.log('🐺 Notification baseline seeded!!');
+}
+
+async function saveNotification(notif) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/notifications`, {
+    method: 'POST',
+    headers: {
+      'apikey':        SUPA_KEY,
+      'Authorization': `Bearer ${SUPA_KEY}`,
+      'Content-Type':  'application/json',
+      'Prefer':        'resolution=merge-duplicates,return=minimal',
+    },
+    body: JSON.stringify(notif),
+  });
+  return r.ok;
+}
+
+function scheduleNotifications() {
+  if (Notification.permission !== 'granted') return;
+  if (schedulerInterval) clearInterval(schedulerInterval);
+  checkSchedule();
+  schedulerInterval = setInterval(checkSchedule, 30000);
+}
+
+function checkSchedule() {
+  if (!NOTIF_SCHEDULE.length) return;
+
+  const now      = new Date();
+  const dow      = now.getDay();
+  const hour     = now.getHours();
+  const min      = now.getMinutes();
+  const todayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+
+  // Reset the fired set at midnight
+  if (firedToday.has('__date__') && !firedToday.has(todayKey)) firedToday.clear();
+  firedToday.add('__date__');
+  firedToday.add(todayKey);
+
+  NOTIF_SCHEDULE.forEach(n => {
+    if (!n.enabled) return;
+
+    const key = `${todayKey}_${n.id}`;
+    if (firedToday.has(key)) return;
+    if (hour !== n.hour || min !== n.minute) return;
+
+    // Monthly: only fires on the last calendar day of the month
+    if (n.notif_type === 'monthly') {
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      if (tomorrow.getMonth() === now.getMonth()) return; // not last day
+    } else {
+      if (!n.days.includes(dow)) return;
+    }
+
+    // Conditional: suppress if any habits already completed today
+    if (n.notif_type === 'conditional') {
+      if (dayCompletions.size > 0) return;
+    }
+
+    firedToday.add(key);
+    fireNotification(n);
+  });
+
+  // KT shift notification — fires at 7:00 AM on days with a confirmed KT shift.
+  // ktShiftToday is loaded at startup from kt_shifts table for today's real date.
+  // Only fires when viewDate IS today (ktShiftToday always reflects viewDate).
+  if (ktShiftToday && fmtDate(viewDate) === fmtDate(new Date())) {
+    const ktHour = 7, ktMin = 0;
+    const ktKey  = `${todayKey}_kt-shift-today`;
+    if (!firedToday.has(ktKey) && hour === ktHour && min === ktMin) {
+      firedToday.add(ktKey);
+      fireNotification({
+        id:    'kt-shift-today',
+        title: 'KT shift today sparklepup!! 🐺💛',
+        body:  "Kwik Trip day!! Smash your morning habits first, then go be amazing at work. You've got this!! 💜🏪",
+      });
+    }
+  }
+}
+
+function fireNotification(notif) {
+  if (swRegistration) {
+    navigator.serviceWorker.controller?.postMessage({
+      type:  'SHOW_NOTIFICATION',
+      title: notif.title,
+      body:  notif.body,
+      tag:   `enid-${notif.id}`,
+      url:   '/enid-hub/',
+    });
+  } else {
+    new Notification(notif.title, {
+      body: notif.body,
+      icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"%3E%3Crect width="192" height="192" rx="40" fill="%23E84EA0"/%3E%3Ctext y="140" x="96" text-anchor="middle" font-size="120"%3E🐺%3C/text%3E%3C/svg%3E',
+      tag:  `enid-${notif.id}`,
+    });
+  }
+}
+
+// ── Notification settings modal ───────────────────────────────────────────────
+function openNotifSettings() {
+  if (!('Notification' in window)) { showToast('Notifications not supported in this browser 😔'); return; }
+  if (Notification.permission === 'denied') {
+    showToast('Notifications blocked! Tap the lock icon → Notifications → Allow 💜');
+    return;
+  }
+  if (Notification.permission === 'default') { requestNotifPermission(); return; }
+  renderNotifModal();
+  document.getElementById('notifSettingsOverlay').style.display = 'flex';
+}
+
+function closeNotifSettings() {
+  document.getElementById('notifSettingsOverlay').style.display = 'none';
+  document.querySelectorAll('.ns-editor-row').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.ns-chevron').forEach(el => el.style.transform = '');
+}
+
+function renderNotifModal() {
+  if (!NOTIF_SCHEDULE.length) {
+    document.getElementById('nsBody').innerHTML =
+      `<div style="text-align:center;padding:32px 20px;font-family:'Playfair Display',serif;color:var(--sub)">No schedule loaded 🐺<br><small>Seed the notifications table in Supabase!</small></div>`;
+    return;
+  }
+
+  const GROUP_ORDER = ['Morning', 'Afternoon', 'Evening', 'Weekend', 'Monthly'];
+  const GROUP_ICONS = { Morning:'☀️', Afternoon:'💼', Evening:'🌙', Weekend:'📋', Monthly:'💰' };
+  const grouped = {};
+  GROUP_ORDER.forEach(g => { grouped[g] = []; });
+  NOTIF_SCHEDULE.forEach(n => { if (grouped[n.group_label]) grouped[n.group_label].push(n); });
+
+  let html = '';
+  GROUP_ORDER.forEach(group => {
+    const rows = grouped[group];
+    if (!rows.length) return;
+    html += `<div class="ns-group"><div class="ns-group-label">${GROUP_ICONS[group]} ${group}</div>`;
+    rows.forEach(n => {
+      const timeStr = `${String(n.hour).padStart(2,'0')}:${String(n.minute).padStart(2,'0')}`;
+      const daysStr = _fmtDaysShort(n.days, n.notif_type);
+      const typeTag = n.notif_type !== 'fixed'
+        ? `<span class="ns-type-tag ns-type-${n.notif_type}">${n.notif_type}</span>` : '';
+      html += `
+        <div class="ns-row" onclick="toggleNotifEditor('${n.id}')">
+          <label class="ns-toggle" onclick="event.stopPropagation()">
+            <input type="checkbox" ${n.enabled ? 'checked' : ''}
+              onchange="toggleNotifEnabled('${n.id}', this.checked)">
+            <span class="ns-toggle-track"></span>
+          </label>
+          <div class="ns-row-info">
+            <div class="ns-row-label">${n.label}${typeTag}</div>
+            <div class="ns-row-meta">${timeStr} · ${daysStr}</div>
+          </div>
+          <div class="ns-chevron" id="nsChevron_${n.id}">›</div>
+        </div>
+        <div class="ns-editor-row" id="nsEditor_${n.id}" style="display:none">
+          <input class="ns-edit-input" id="nsTitle_${n.id}" value="${_escHtml(n.title)}" placeholder="Notification title">
+          <textarea class="ns-edit-textarea" id="nsBodyTxt_${n.id}" placeholder="Notification body">${_escHtml(n.body)}</textarea>
+          <div class="ns-edit-row">
+            <input type="time" class="ns-edit-time" id="nsTime_${n.id}" value="${timeStr}">
+            <span class="ns-edit-days-label">Days:</span>
+            ${_buildDayCheckboxes(n.id, n.days, n.notif_type)}
+          </div>
+          <button class="ns-save-btn" onclick="saveNotifRow('${n.id}')">Save 💜</button>
+        </div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('nsBody').innerHTML = html;
+}
+
+function toggleNotifEditor(id) {
+  const editor  = document.getElementById(`nsEditor_${id}`);
+  const chevron = document.getElementById(`nsChevron_${id}`);
+  const isOpen  = editor.style.display !== 'none';
+  document.querySelectorAll('.ns-editor-row').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.ns-chevron').forEach(el => el.style.transform = '');
+  if (!isOpen) {
+    editor.style.display = 'block';
+    if (chevron) chevron.style.transform = 'rotate(90deg)';
+  }
+}
+
+async function toggleNotifEnabled(id, enabled) {
+  const notif = NOTIF_SCHEDULE.find(n => n.id === id);
+  if (!notif) return;
+  notif.enabled = enabled;
+  await saveNotification({ ...notif });
+  if (Notification.permission === 'granted') scheduleNotifications();
+}
+
+async function saveNotifRow(id) {
+  const notif = NOTIF_SCHEDULE.find(n => n.id === id);
+  if (!notif) return;
+  const titleEl = document.getElementById(`nsTitle_${id}`);
+  const bodyEl  = document.getElementById(`nsBodyTxt_${id}`);
+  const timeEl  = document.getElementById(`nsTime_${id}`);
+  const [newHour, newMin] = timeEl.value.split(':').map(Number);
+  const newDays = _getDayCheckboxValues(id, notif.notif_type, notif.days);
+  notif.title  = titleEl.value.trim()  || notif.title;
+  notif.body   = bodyEl.value.trim()   || notif.body;
+  notif.hour   = newHour;
+  notif.minute = newMin;
+  notif.days   = newDays;
+  const ok = await saveNotification({ ...notif });
+  if (ok) {
+    showToast('Notification saved!! 💜🐺');
+    renderNotifModal();
+    if (Notification.permission === 'granted') scheduleNotifications();
+  } else {
+    showToast('Save failed 😔 Check your connection');
+  }
+}
+
+function _fmtDaysShort(days, type) {
+  if (type === 'monthly') return 'Last day of month';
+  const names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  if (days.length === 7) return 'Every day';
+  const sorted = [...days].sort((a,b) => a-b);
+  if (JSON.stringify(sorted) === JSON.stringify([1,2,3,4,5])) return 'Mon–Fri';
+  if (JSON.stringify(sorted) === JSON.stringify([0,6])) return 'Sat+Sun';
+  if (JSON.stringify(sorted) === JSON.stringify([0])) return 'Sunday only';
+  return days.map(d => names[d]).join(', ');
+}
+
+function _buildDayCheckboxes(id, activeDays, type) {
+  if (type === 'monthly')
+    return `<span style="font-size:.75rem;color:rgba(124,111,155,.6);font-style:italic">auto: last day of month</span>`;
+  const dayNames = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  return dayNames.map((name, i) =>
+    `<label class="ns-day-cb"><input type="checkbox" data-nid="${id}" data-day="${i}"${activeDays.includes(i) ? ' checked' : ''}><span>${name}</span></label>`
+  ).join('');
+}
+
+function _getDayCheckboxValues(id, type, fallback) {
+  if (type === 'monthly') return fallback;
+  const checked = document.querySelectorAll(`input[data-nid="${id}"][data-day]:checked`);
+  const vals = [...checked].map(el => parseInt(el.dataset.day));
+  return vals.length ? vals : fallback;
+}
+
+function _escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────────────────────────────── */
+async function init() {
+  try {
+    const dateStr      = fmtDate(viewDate);
+    const weekStartStr = getWeekStart(viewDate);
+    // Load habits first (sections depend on it), then all per-day + widget data in parallel
+    await loadHabits();
+    loadMoviesWidget(); // synchronous localStorage read
+    await Promise.all([
+      loadCompletions(dateStr),
+      loadWeeklyCompletions(weekStartStr),
+      loadKTShift(dateStr),
+      loadDateItems(dateStr),
+      loadFinanceWidget(),
+      loadBooksWidget(),
+      loadNotifications(),
+    ]);
+    render();
+    await buildDayNav();
+  } catch (err) {
+    console.error('Init failed:', err);
+    document.getElementById('loader').innerHTML = `
+      <div class="loader-wolf">😵</div>
+      <div class="loader-text">Couldn't load — check your connection and refresh.</div>
+    `;
+    return;
+  }
+  const loader = document.getElementById('loader');
+  loader.classList.add('hidden');
+  setTimeout(() => {
+    loader.style.display = 'none';
+    document.getElementById('app').style.display = '';
+  }, 380);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   NOTE OVERLAY EVENT LISTENERS (wired once at startup)
+───────────────────────────────────────────────────────────────────── */
+document.getElementById('noteSkip').addEventListener('click', hideNotePrompt);
+document.getElementById('noteSave').addEventListener('click', saveNote);
+document.getElementById('noteBackdrop').addEventListener('click', hideNotePrompt);
+document.getElementById('noteTextarea').addEventListener('input', function () {
+  document.getElementById('noteChars').textContent = `${this.value.length} / 500`;
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') hideNotePrompt();
+});
+
+init();
+registerSW();
+checkNotifBanner();
+</script>
+</body>
+</html>
