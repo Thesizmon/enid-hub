@@ -313,6 +313,111 @@
       border-radius: 14px; padding: 12px 16px;
       font-size: .82rem; color: #ef4444;
     }
+
+    /* ── Receipts section ───────────────────────────────────────────── */
+    .receipts-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 2px 14px rgba(168,85,247,.05);
+      margin: 10px 14px 0;
+    }
+    .receipts-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 13px 16px 12px;
+      background: rgba(168,85,247,.05);
+      border-bottom: 1px solid var(--border);
+    }
+    .receipts-title { font-size: .84rem; font-weight: 700; flex: 1; color: var(--text); }
+    .receipts-total { font-size: .8rem; font-weight: 700; color: var(--purple); margin-right: 4px; }
+    .add-txn-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .7rem; font-weight: 700; letter-spacing: .02em;
+      padding: 5px 13px; border-radius: 20px;
+      border: 1.5px solid var(--purple);
+      background: transparent; color: var(--purple);
+      cursor: pointer; white-space: nowrap;
+      transition: background .13s, color .13s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .add-txn-btn:hover  { background: rgba(168,85,247,.08); }
+    .add-txn-btn.is-open { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+    /* Add form */
+    .add-txn-form {
+      padding: 14px 16px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .add-txn-form.hidden { display: none; }
+    .form-row { display: flex; gap: 8px; }
+    .form-field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+    .form-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--sub); }
+    .form-input, .form-select {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .84rem; font-weight: 500; color: var(--text);
+      padding: 7px 10px; border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,.82);
+      outline: none;
+      transition: border-color .15s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--purple); }
+    .form-input::placeholder { color: var(--sub); opacity: .65; }
+    .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237C6F9B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
+    .form-error { font-size: .74rem; color: #ef4444; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 2px; }
+    .form-cancel-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; font-weight: 600;
+      padding: 7px 16px; border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: transparent; color: var(--sub);
+      cursor: pointer; transition: background .13s;
+    }
+    .form-cancel-btn:hover { background: rgba(168,85,247,.06); }
+    .form-save-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; font-weight: 700;
+      padding: 7px 20px; border-radius: 20px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff; border: none;
+      cursor: pointer; transition: opacity .13s;
+    }
+    .form-save-btn:hover   { opacity: .88; }
+    .form-save-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* Transaction rows */
+    .txn-empty {
+      padding: 20px 16px; text-align: center;
+      font-size: .84rem; color: var(--sub);
+    }
+    .txn-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 11px 16px 10px;
+      border-bottom: 1px solid rgba(168,85,247,.07);
+      transition: background .13s;
+    }
+    .txn-row:last-child { border-bottom: none; }
+    .txn-row:hover { background: rgba(168,85,247,.03); }
+    .txn-body { flex: 1; min-width: 0; }
+    .txn-desc {
+      font-size: .87rem; font-weight: 600; color: var(--text);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .txn-meta { font-size: .72rem; color: var(--sub); margin-top: 2px; line-height: 1.4; }
+    .txn-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+    .txn-amount { font-size: .9rem; font-weight: 700; color: var(--text); }
+    .txn-del-btn {
+      font-size: .78rem; line-height: 1;
+      background: none; border: none; cursor: pointer;
+      color: var(--sub); padding: 2px 5px; border-radius: 6px;
+      transition: background .12s, color .12s;
+    }
+    .txn-del-btn:hover { background: rgba(239,68,68,.1); color: #ef4444; }
   </style>
 </head>
 <body>
@@ -351,6 +456,9 @@
   <!-- Obligations by category -->
   <div class="obligations-wrap" id="obligationsSection"></div>
 
+  <!-- Receipts / transaction log -->
+  <div id="receiptsSection"></div>
+
 </div><!-- /#app -->
 
 <script>
@@ -370,9 +478,11 @@ const CAT_CONFIG = {
 const CAT_ORDER = ['cc', 'loan', 'affirm', 'sub', 'life'];
 
 /* ── State ──────────────────────────────────────────────────────────── */
-let periods     = [];
-let activePid   = null;
-let obligations = [];
+let periods      = [];
+let activePid    = null;
+let obligations  = [];
+let transactions = [];
+let addFormOpen  = false;
 
 /* ── Supabase helper ─────────────────────────────────────────────────── */
 const SB_HEADERS = {
@@ -450,8 +560,10 @@ async function switchPeriod(pid) {
     b.classList.toggle('active', b.dataset.pid === pid);
   });
   document.getElementById('obligationsSection').innerHTML = '';
-  document.getElementById('summarySection').innerHTML = '';
+  document.getElementById('summarySection').innerHTML    = '';
+  document.getElementById('receiptsSection').innerHTML   = '';
   document.getElementById('errorBanner').style.display = 'none';
+  addFormOpen = false;
   try {
     await loadPeriod();
   } catch (e) {
@@ -467,12 +579,14 @@ async function loadPeriod() {
 
   document.getElementById('headerSub').textContent = period.dates;
 
-  obligations = await sbGet(
-    `finance_obligations?user_id=eq.${USER_ID}&period_id=eq.${activePid}&order=display_order.asc`
-  );
+  [obligations, transactions] = await Promise.all([
+    sbGet(`finance_obligations?user_id=eq.${USER_ID}&period_id=eq.${activePid}&order=display_order.asc`),
+    sbGet(`finance_transactions?user_id=eq.${USER_ID}&period_id=eq.${activePid}&order=transaction_date.desc,created_at.desc`),
+  ]);
 
   renderSummary(period);
   renderObligations();
+  renderTransactions();
 }
 
 /* ── Summary card ─────────────────────────────────────────────────────── */
@@ -765,6 +879,255 @@ async function saveSpent(id, inputEl) {
 function refreshSummary() {
   const period = periods.find(p => p.id === activePid);
   if (period) renderSummary(period);
+}
+
+/* ── Supabase POST ──────────────────────────────────────────────────── */
+async function sbPost(table, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+    method:  'POST',
+    headers: { ...SB_HEADERS, 'Prefer': 'return=representation' },
+    body:    JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`Supabase POST ${r.status}: ${await r.text()}`);
+  const arr = await r.json();
+  return arr[0]; // return the inserted row
+}
+
+/* ── Supabase DELETE ────────────────────────────────────────────────── */
+async function sbDelete(path) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+    method:  'DELETE',
+    headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
+  });
+  if (!r.ok) throw new Error(`Supabase DELETE ${r.status}: ${await r.text()}`);
+}
+
+/* ── Receipts: render the full section ──────────────────────────────── */
+function renderTransactions() {
+  const container = document.getElementById('receiptsSection');
+
+  // Total of all transactions this period
+  const total = transactions.reduce((s, t) => s + (Number(t.amount) || 0), 0);
+
+  // Variable obligations for the "For:" selector
+  const varObls = obligations.filter(o => o.is_variable && !o.is_paid_off);
+
+  // Build obligation <option> list
+  const oblOptions = varObls.map(o =>
+    `<option value="${o.id}">${escHtml(o.name)}</option>`
+  ).join('');
+
+  // Build add form
+  const todayStr = fmtDateLocal(new Date());
+  const formHtml = `
+    <div class="add-txn-form${addFormOpen ? '' : ' hidden'}" id="addTxnForm">
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label" for="fTxnDate">Date</label>
+          <input class="form-input" type="date" id="fTxnDate" value="${todayStr}">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="fTxnObl">For</label>
+          <select class="form-select" id="fTxnObl">
+            <option value="">— No obligation —</option>
+            ${oblOptions}
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field" style="flex:2">
+          <label class="form-label" for="fTxnDesc">Description</label>
+          <input class="form-input" type="text" id="fTxnDesc" placeholder="e.g. Aldi grocery run" maxlength="120">
+        </div>
+        <div class="form-field" style="flex:1">
+          <label class="form-label" for="fTxnAmt">Amount</label>
+          <input class="form-input" type="number" id="fTxnAmt" placeholder="0.00" min="0.01" step="0.01">
+        </div>
+      </div>
+      <div id="txnFormError" class="form-error" style="display:none"></div>
+      <div class="form-actions">
+        <button class="form-cancel-btn" onclick="toggleAddForm()">Cancel</button>
+        <button class="form-save-btn" id="txnSaveBtn" onclick="addTransaction()">Save Receipt</button>
+      </div>
+    </div>`;
+
+  // Build transaction list
+  let listHtml = '';
+  if (!transactions.length) {
+    listHtml = '<div class="txn-empty">No receipts logged yet.</div>';
+  } else {
+    listHtml = transactions.map(t => {
+      const obl    = obligations.find(o => o.id === t.obligation_id);
+      const oblName = obl ? escHtml(obl.name) : '';
+      const dateStr = fmtTxnDate(t.transaction_date);
+      const meta    = [dateStr, oblName].filter(Boolean).join(' · ');
+      return `
+        <div class="txn-row" data-txn-id="${t.id}">
+          <div class="txn-body">
+            <div class="txn-desc">${escHtml(t.description)}</div>
+            ${meta ? `<div class="txn-meta">${meta}</div>` : ''}
+          </div>
+          <div class="txn-right">
+            <span class="txn-amount">${fmtMoney(t.amount)}</span>
+            <button class="txn-del-btn" title="Delete"
+                    onclick="deleteTransaction('${t.id}')">✕</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  container.innerHTML = `
+    <div class="receipts-card">
+      <div class="receipts-header">
+        <span class="receipts-title">📝 Receipts</span>
+        ${transactions.length ? `<span class="receipts-total">${fmtMoney(total)}</span>` : ''}
+        <button class="add-txn-btn${addFormOpen ? ' is-open' : ''}"
+                id="addTxnToggleBtn"
+                onclick="toggleAddForm()">${addFormOpen ? '✕ Cancel' : '+ Add'}</button>
+      </div>
+      ${formHtml}
+      <div id="txnList">${listHtml}</div>
+    </div>`;
+}
+
+/* ── Receipts: toggle add form ──────────────────────────────────────── */
+function toggleAddForm() {
+  addFormOpen = !addFormOpen;
+
+  // Re-render the whole receipts section to reflect open/close state cleanly
+  renderTransactions();
+
+  // If opening, focus the description field
+  if (addFormOpen) {
+    setTimeout(() => {
+      const el = document.getElementById('fTxnDesc');
+      if (el) el.focus();
+    }, 60);
+  }
+}
+
+/* ── Receipts: add a transaction ─────────────────────────────────────── */
+async function addTransaction() {
+  const dateEl = document.getElementById('fTxnDate');
+  const oblEl  = document.getElementById('fTxnObl');
+  const descEl = document.getElementById('fTxnDesc');
+  const amtEl  = document.getElementById('fTxnAmt');
+  const errEl  = document.getElementById('txnFormError');
+  const saveBtn = document.getElementById('txnSaveBtn');
+
+  const date  = dateEl.value;
+  const oblId = oblEl.value || null;
+  const desc  = descEl.value.trim();
+  const amt   = parseFloat(amtEl.value);
+
+  // Validate
+  if (!date)               return showTxnError('Please enter a date.');
+  if (!desc)               return showTxnError('Please enter a description.');
+  if (isNaN(amt) || amt <= 0) return showTxnError('Please enter a valid amount greater than $0.');
+
+  errEl.style.display = 'none';
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Saving…';
+
+  try {
+    const newTxn = await sbPost('finance_transactions', {
+      user_id:          USER_ID,
+      period_id:        activePid,
+      obligation_id:    oblId,
+      category_id:      null,
+      description:      desc,
+      amount:           amt,
+      transaction_date: date,
+    });
+
+    // Add to local state (newest first)
+    transactions.unshift(newTxn);
+
+    // Re-aggregate spent_amount for the linked variable obligation
+    if (oblId) await aggregateSpent(oblId);
+
+    // Close form and re-render
+    addFormOpen = false;
+    renderTransactions();
+    refreshSummary();
+
+  } catch (e) {
+    console.error('addTransaction failed:', e);
+    showTxnError('Save failed — check connection.');
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save Receipt';
+  }
+}
+
+function showTxnError(msg) {
+  const el = document.getElementById('txnFormError');
+  if (el) { el.textContent = msg; el.style.display = ''; }
+}
+
+/* ── Receipts: delete a transaction ─────────────────────────────────── */
+async function deleteTransaction(id) {
+  const txn = transactions.find(t => t.id === id);
+  const oblId = txn?.obligation_id || null;
+
+  // Optimistic: remove from local state
+  transactions = transactions.filter(t => t.id !== id);
+  renderTransactions();
+
+  // Re-aggregate spent_amount for linked obligation
+  if (oblId) await aggregateSpent(oblId);
+  refreshSummary();
+
+  // Delete from Supabase
+  try {
+    await sbDelete(`finance_transactions?id=eq.${id}`);
+  } catch (e) {
+    console.error('deleteTransaction failed:', e);
+    // Restore on error
+    if (txn) {
+      transactions.push(txn);
+      transactions.sort((a, b) => b.transaction_date.localeCompare(a.transaction_date));
+    }
+    renderTransactions();
+    if (oblId) await aggregateSpent(oblId);
+    refreshSummary();
+  }
+}
+
+/* ── Aggregate spent_amount for a variable obligation ────────────────── */
+async function aggregateSpent(oblId) {
+  const total = transactions
+    .filter(t => t.obligation_id === oblId)
+    .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+
+  const spentVal = total > 0 ? total : null;
+
+  // Update local obligation state
+  const idx = obligations.findIndex(o => o.id === oblId);
+  if (idx >= 0) {
+    obligations[idx] = { ...obligations[idx], spent_amount: spentVal };
+    // Update the spent input in the obligation row if visible
+    const input = document.querySelector(`[data-oblig-id="${oblId}"] .spent-input`);
+    if (input) input.value = spentVal !== null ? Number(spentVal).toFixed(2) : '';
+  }
+
+  // Persist to Supabase
+  try {
+    await sbPatch(`finance_obligations?id=eq.${oblId}`, { spent_amount: spentVal });
+  } catch (e) {
+    console.error('aggregateSpent patch failed:', e);
+  }
+}
+
+/* ── Date helpers ────────────────────────────────────────────────────── */
+function fmtDateLocal(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function fmtTxnDate(dateStr) {
+  if (!dateStr) return '';
+  const [y, m, day] = dateStr.split('-').map(Number);
+  const d = new Date(y, m - 1, day);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 /* ── Boot ───────────────────────────────────────────────────────────── */
