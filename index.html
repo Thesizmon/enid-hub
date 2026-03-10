@@ -180,7 +180,6 @@
     .habit-row:hover  { background: rgba(168,85,247,.04); }
     .habit-row:active { background: rgba(168,85,247,.09); }
 
-    /* Checkbox pill */
     .hc {
       width: 22px; height: 22px; flex-shrink: 0;
       border-radius: 7px;
@@ -203,6 +202,18 @@
     .h-name  { font-size: .87rem; font-weight: 500; line-height: 1.3; }
     .habit-row.done .h-name { text-decoration: line-through; color: var(--sub); }
 
+    /* Note indicator chip — shown on habits that have a saved note */
+    .h-note-chip {
+      display: inline-block;
+      font-size: .58rem; font-weight: 700; letter-spacing: .03em;
+      color: var(--purple);
+      background: rgba(168,85,247,.1);
+      border: 1px solid rgba(168,85,247,.22);
+      padding: 1px 6px; border-radius: 6px;
+      margin-left: 6px; vertical-align: middle;
+      text-decoration: none !important; /* override strikethrough from .done */
+    }
+
     .or-badge {
       display: inline-block;
       font-size: .58rem; font-weight: 800; letter-spacing: .06em;
@@ -213,7 +224,6 @@
       margin-left: 5px; vertical-align: middle;
     }
 
-    /* OR group divider */
     .or-divider {
       display: flex; align-items: center; gap: 8px;
       padding: 4px 18px;
@@ -227,7 +237,6 @@
       padding: 2px 9px; border-radius: 20px;
     }
 
-    /* Section complete banner */
     .done-banner {
       text-align: center;
       padding: 12px 18px;
@@ -245,8 +254,7 @@
       border: 1px solid rgba(245,158,11,.22);
       padding: 3px 9px; border-radius: 10px;
       cursor: pointer; display: inline-block;
-      margin-top: 6px;
-      user-select: none;
+      margin-top: 6px; user-select: none;
     }
     .kt-set-chip:hover { background: rgba(245,158,11,.2); }
 
@@ -263,64 +271,152 @@
       background: rgba(245,158,11,.15);
       border: 1px solid rgba(245,158,11,.3);
       padding: 3px 9px; border-radius: 8px;
-      white-space: nowrap;
-      user-select: none;
+      white-space: nowrap; user-select: none;
     }
     .kt-remove-btn:hover { background: rgba(245,158,11,.28); }
 
     .section-card.kt-active .habit-list {
-      opacity: .3;
-      pointer-events: none;
-      user-select: none;
+      opacity: .3; pointer-events: none; user-select: none;
     }
 
-    /* ── Date Items (Step 5C) ───────────────────────────────────────── */
+    /* ── Date Items ─────────────────────────────────────────────────── */
     .date-items-list { padding: 4px 0; }
 
     .date-item-row {
       display: flex; align-items: center; gap: 12px;
       padding: 11px 18px 11px 15px;
-      border-left: 3px solid var(--purple); /* overridden inline per type */
+      border-left: 3px solid var(--purple);
       transition: background .14s;
     }
-    .date-item-row:not(:last-child) {
-      border-bottom: 1px solid rgba(168,85,247,.07);
-    }
+    .date-item-row:not(:last-child) { border-bottom: 1px solid rgba(168,85,247,.07); }
     .date-item-row:hover { background: rgba(168,85,247,.03); }
 
-    .di-type-icon {
-      font-size: 1.15rem; flex-shrink: 0;
-      width: 28px; text-align: center;
-    }
-
-    .di-body { flex: 1; min-width: 0; }
-    .di-title {
-      font-size: .87rem; font-weight: 600;
-      line-height: 1.3; color: var(--text);
-    }
-    .di-meta {
-      display: flex; align-items: center; gap: 0;
-      flex-wrap: wrap;
-      font-size: .71rem; color: var(--sub); margin-top: 3px;
+    .di-type-icon { font-size: 1.15rem; flex-shrink: 0; width: 28px; text-align: center; }
+    .di-body  { flex: 1; min-width: 0; }
+    .di-title { font-size: .87rem; font-weight: 600; line-height: 1.3; color: var(--text); }
+    .di-meta  {
+      display: flex; align-items: center; flex-wrap: wrap;
+      font-size: .71rem; color: var(--sub); margin-top: 3px; gap: 0;
     }
     .di-time {
       background: rgba(168,85,247,.08);
       border: 1px solid rgba(168,85,247,.14);
       padding: 1px 7px; border-radius: 8px;
-      font-weight: 600; font-size: .68rem;
-      letter-spacing: .02em;
+      font-weight: 600; font-size: .68rem; letter-spacing: .02em;
     }
     .di-sep { margin: 0 5px; opacity: .4; }
     .di-loc { font-size: .71rem; color: var(--sub); }
-
     .di-type-badge {
       flex-shrink: 0;
       font-size: .58rem; font-weight: 800; letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: 2px 7px; border-radius: 6px;
-      border: 1px solid;
-      white-space: nowrap;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 6px;
+      border: 1px solid; white-space: nowrap;
     }
+
+    /* ── Note Overlay (Step 5D) ─────────────────────────────────────── */
+    .note-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 1;
+      transition: opacity .22s ease;
+    }
+    .note-overlay.hidden {
+      opacity: 0; pointer-events: none;
+    }
+    .note-overlay.hidden .note-sheet {
+      transform: translateY(100%);
+    }
+
+    .note-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(45,27,78,.38);
+      backdrop-filter: blur(3px);
+    }
+
+    .note-sheet {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 600px;
+      background: var(--cream);
+      border-radius: 24px 24px 0 0;
+      padding: 18px 22px 38px;
+      box-shadow: 0 -8px 40px rgba(168,85,247,.2);
+      transform: translateY(0);
+      transition: transform .28s cubic-bezier(.34,1.4,.64,1);
+      display: flex; flex-direction: column; gap: 11px;
+    }
+
+    .note-handle {
+      width: 36px; height: 4px; border-radius: 2px;
+      background: rgba(168,85,247,.22);
+      margin: 0 auto 2px;
+    }
+
+    .note-habit-row {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 13px;
+      background: rgba(168,85,247,.06);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .note-emoji { font-size: 1.2rem; }
+    .note-habit-name {
+      font-size: .87rem; font-weight: 700; color: var(--text);
+      flex: 1; min-width: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .note-prompt-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--text);
+    }
+    .note-prompt-sub {
+      font-size: .72rem; color: var(--sub); margin-top: -5px;
+    }
+
+    .note-textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .87rem; color: var(--text);
+      background: rgba(255,255,255,.85);
+      border: 1.5px solid rgba(168,85,247,.22);
+      border-radius: 12px;
+      padding: 12px 14px;
+      resize: none; width: 100%; outline: none;
+      transition: border-color .18s, box-shadow .18s;
+      line-height: 1.55;
+    }
+    .note-textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(168,85,247,.1);
+    }
+    .note-textarea::placeholder { color: rgba(124,111,155,.45); }
+
+    .note-footer {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .note-chars { font-size: .68rem; color: var(--sub); flex-shrink: 0; }
+
+    .note-btns { display: flex; align-items: center; gap: 8px; }
+
+    .note-btn-skip {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 600; color: var(--sub);
+      background: transparent; border: none; cursor: pointer;
+      padding: 8px 12px; border-radius: 10px;
+      transition: background .15s;
+    }
+    .note-btn-skip:hover { background: rgba(168,85,247,.07); }
+
+    .note-btn-save {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 700; color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border: none; cursor: pointer;
+      padding: 9px 20px; border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(232,78,160,.3);
+      transition: opacity .15s, transform .1s;
+    }
+    .note-btn-save:hover  { opacity: .9; }
+    .note-btn-save:active { transform: scale(.97); }
   </style>
 </head>
 <body>
@@ -347,6 +443,30 @@
   <main id="sections"></main>
 </div>
 
+<!-- NOTE OVERLAY (Step 5D) -->
+<div id="noteOverlay" class="note-overlay hidden" aria-hidden="true">
+  <div class="note-backdrop" id="noteBackdrop"></div>
+  <div class="note-sheet">
+    <div class="note-handle"></div>
+    <div class="note-habit-row">
+      <span class="note-emoji"       id="noteEmoji"></span>
+      <span class="note-habit-name"  id="noteHabitName"></span>
+    </div>
+    <div class="note-prompt-text">How'd it go? Add a reflection 💜</div>
+    <div class="note-prompt-sub">Optional · saves to your journal history 🐺</div>
+    <textarea id="noteTextarea" class="note-textarea"
+      placeholder="Type something... or tap Skip 🐾"
+      maxlength="500" rows="4"></textarea>
+    <div class="note-footer">
+      <span class="note-chars" id="noteChars">0 / 500</span>
+      <div class="note-btns">
+        <button class="note-btn-skip" id="noteSkip">Skip</button>
+        <button class="note-btn-save" id="noteSave">Save note 💜</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ─────────────────────────────────────────────────────────────────────
    CONFIG
@@ -359,22 +479,27 @@ const USER_ID  = 'ENID';
    DATE ITEM TYPE METADATA
 ───────────────────────────────────────────────────────────────────── */
 const TYPE_META = {
-  event:         { icon: '🎉', label: 'Event',       color: '#E84EA0', bg: 'rgba(232,78,160,.1)',  border: 'rgba(232,78,160,.28)' },
-  task:          { icon: '✅', label: 'Task',         color: '#A855F7', bg: 'rgba(168,85,247,.1)',  border: 'rgba(168,85,247,.28)' },
-  reminder:      { icon: '🔔', label: 'Reminder',     color: '#F59E0B', bg: 'rgba(245,158,11,.1)',  border: 'rgba(245,158,11,.28)' },
+  event:         { icon: '🎉', label: 'Event',       color: '#E84EA0', bg: 'rgba(232,78,160,.1)',   border: 'rgba(232,78,160,.28)' },
+  task:          { icon: '✅', label: 'Task',         color: '#A855F7', bg: 'rgba(168,85,247,.1)',   border: 'rgba(168,85,247,.28)' },
+  reminder:      { icon: '🔔', label: 'Reminder',     color: '#F59E0B', bg: 'rgba(245,158,11,.1)',   border: 'rgba(245,158,11,.28)' },
   movie_showing: { icon: '🎬', label: 'Movie',        color: '#059669', bg: 'rgba(110,231,183,.15)', border: 'rgba(110,231,183,.4)'  },
-  appointment:   { icon: '📋', label: 'Appointment',  color: '#3B82F6', bg: 'rgba(96,165,250,.1)',  border: 'rgba(96,165,250,.3)'  },
+  appointment:   { icon: '📋', label: 'Appointment',  color: '#3B82F6', bg: 'rgba(96,165,250,.1)',   border: 'rgba(96,165,250,.3)'  },
 };
 
 /* ─────────────────────────────────────────────────────────────────────
    STATE
 ───────────────────────────────────────────────────────────────────── */
 let habits         = [];           // all habit rows from DB
-let dayCompletions = new Set();    // habit_ids completed on viewDate (daily habits)
-let weeklyDone     = new Set();    // habit_ids completed this week (weekend_tasks)
-let ktShiftToday   = false;        // whether viewDate has a KT shift in kt_shifts
-let dateItems      = [];           // date_items rows for viewDate
-let viewDate       = new Date();   // date currently being viewed
+let dayCompletions = new Set();    // habit_ids completed on viewDate (daily)
+let dayNotes       = {};           // habit_id → note text for viewDate
+let weeklyDone     = new Set();    // habit_ids done this week (weekend_tasks)
+let ktShiftToday   = false;        // whether viewDate has a KT shift
+let dateItems      = [];           // date_items for viewDate
+let viewDate       = new Date();   // currently viewed date
+
+// Note overlay pending state
+let pendingNote   = null;          // { habitId, dateStr } while overlay is open
+let pendingInsert = null;          // Promise for the in-flight habit INSERT
 
 /* ─────────────────────────────────────────────────────────────────────
    HELPERS
@@ -388,16 +513,14 @@ function fmtDate(d) {
 function isWeekend(d)  { return d.getDay() === 0 || d.getDay() === 6; }
 function isViewToday() { return fmtDate(viewDate) === fmtDate(new Date()); }
 
-/** Returns the Monday of the week containing date d, as YYYY-MM-DD */
 function getWeekStart(d) {
   const date = new Date(d);
-  const day  = date.getDay(); // 0=Sun, 1=Mon … 6=Sat
+  const day  = date.getDay();
   const diff = day === 0 ? -6 : 1 - day;
   date.setDate(date.getDate() + diff);
   return fmtDate(date);
 }
 
-/** Format a HH:MM:SS time string to "h:MM AM/PM" */
 function fmtTime(t) {
   if (!t) return '';
   const parts = t.split(':');
@@ -429,6 +552,12 @@ async function sbInsert(table, body) {
   });
   if (!r.ok) throw new Error(`sbInsert ${table} → ${r.status}`);
 }
+async function sbPatch(table, qs, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
+    method: 'PATCH', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`sbPatch ${table} → ${r.status}`);
+}
 async function sbDelete(table, qs) {
   const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
     method: 'DELETE', headers: SB_HEADS,
@@ -445,15 +574,16 @@ async function loadHabits() {
   );
 }
 
-/** Load daily habit completions for a specific date */
+/** Load daily completions; also populates dayNotes from the note column */
 async function loadCompletions(dateStr) {
   const rows = await sbGet(
-    `habit_completions?user_id=eq.${USER_ID}&completed_on=eq.${dateStr}&select=habit_id`
+    `habit_completions?user_id=eq.${USER_ID}&completed_on=eq.${dateStr}&select=habit_id,note`
   );
   dayCompletions = new Set(rows.map(r => r.habit_id));
+  dayNotes = {};
+  rows.forEach(r => { if (r.note) dayNotes[r.habit_id] = r.note; });
 }
 
-/** Load weekly habit completions for the week containing weekStartStr */
 async function loadWeeklyCompletions(weekStartStr) {
   const rows = await sbGet(
     `weekend_tasks?user_id=eq.${USER_ID}&week_start=eq.${weekStartStr}&select=habit_id`
@@ -461,7 +591,6 @@ async function loadWeeklyCompletions(weekStartStr) {
   weeklyDone = new Set(rows.map(r => r.habit_id));
 }
 
-/** Check whether viewDate has a KT shift recorded */
 async function loadKTShift(dateStr) {
   const rows = await sbGet(
     `kt_shifts?user_id=eq.${USER_ID}&shift_date=eq.${dateStr}&select=id`
@@ -469,10 +598,6 @@ async function loadKTShift(dateStr) {
   ktShiftToday = rows.length > 0;
 }
 
-/**
- * Load date_items for a specific date.
- * Only loads items whose item_date matches exactly (repeat expansion is future work).
- */
 async function loadDateItems(dateStr) {
   const rows = await sbGet(
     `date_items?user_id=eq.${USER_ID}&item_date=eq.${dateStr}&order=start_time.asc.nullslast,title.asc`
@@ -487,26 +612,31 @@ async function toggleHabit(habitId) {
   const dateStr = fmtDate(viewDate);
 
   if (dayCompletions.has(habitId)) {
+    /* ── uncheck: delete completion + clear any local note ── */
     dayCompletions.delete(habitId);
+    delete dayNotes[habitId];
     render();
     await sbDelete(
       'habit_completions',
       `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&completed_on=eq.${dateStr}`
     );
   } else {
-    /* or_group: both habits may be independently checked */
+    /* ── check: insert, then show note prompt ── */
     dayCompletions.add(habitId);
     render();
-    await sbInsert('habit_completions', {
+    showNotePrompt(habitId, dateStr);          // slide up immediately (optimistic)
+    pendingInsert = sbInsert('habit_completions', {
       user_id: USER_ID, habit_id: habitId, completed_on: dateStr,
     });
+    await pendingInsert;
+    pendingInsert = null;
   }
 
   buildDayNav();
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   TOGGLE — weekly habits (weekend_tasks table, week-scoped)
+   TOGGLE — weekly habits (weekend_tasks, no note support yet)
 ───────────────────────────────────────────────────────────────────── */
 async function toggleWeeklyHabit(habitId) {
   const weekStartStr = getWeekStart(viewDate);
@@ -522,30 +652,82 @@ async function toggleWeeklyHabit(habitId) {
     weeklyDone.add(habitId);
     render();
     await sbInsert('weekend_tasks', {
-      user_id: USER_ID,
-      habit_id: habitId,
-      week_start: weekStartStr,
-      completed_at: fmtDate(viewDate),
+      user_id: USER_ID, habit_id: habitId,
+      week_start: weekStartStr, completed_at: fmtDate(viewDate),
     });
+    // Note prompts not yet supported for weekly habits (no note column in weekend_tasks)
   }
 
   buildDayNav();
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   TOGGLE — KT shift (kt_shifts table)
+   TOGGLE — KT shift
 ───────────────────────────────────────────────────────────────────── */
 async function toggleKTShift() {
   const dateStr = fmtDate(viewDate);
-
   if (ktShiftToday) {
-    ktShiftToday = false;
-    render();
+    ktShiftToday = false; render();
     await sbDelete('kt_shifts', `user_id=eq.${USER_ID}&shift_date=eq.${dateStr}`);
   } else {
-    ktShiftToday = true;
-    render();
+    ktShiftToday = true; render();
     await sbInsert('kt_shifts', { user_id: USER_ID, shift_date: dateStr, confirmed: false });
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   NOTE OVERLAY (Step 5D)
+───────────────────────────────────────────────────────────────────── */
+function showNotePrompt(habitId, dateStr) {
+  const habit = habits.find(h => h.id === habitId);
+  if (!habit) return;
+
+  pendingNote = { habitId, dateStr };
+
+  document.getElementById('noteEmoji').textContent     = habit.emoji || '•';
+  document.getElementById('noteHabitName').textContent = habit.name;
+  document.getElementById('noteTextarea').value        = '';
+  document.getElementById('noteChars').textContent     = '0 / 500';
+
+  const overlay = document.getElementById('noteOverlay');
+  overlay.classList.remove('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+
+  // Auto-focus textarea after slide animation starts
+  setTimeout(() => document.getElementById('noteTextarea').focus(), 120);
+}
+
+function hideNotePrompt() {
+  const overlay = document.getElementById('noteOverlay');
+  overlay.classList.add('hidden');
+  overlay.setAttribute('aria-hidden', 'true');
+  pendingNote = null;
+}
+
+async function saveNote() {
+  if (!pendingNote) return;
+  const text                  = document.getElementById('noteTextarea').value.trim();
+  const { habitId, dateStr }  = pendingNote;
+  hideNotePrompt();
+
+  if (!text) return; // nothing to save — treat same as skip
+
+  // Optimistic: update local notes + re-render so chip appears immediately
+  dayNotes[habitId] = text;
+  render();
+
+  try {
+    // Ensure the INSERT has completed before we PATCH it
+    if (pendingInsert) await pendingInsert;
+    await sbPatch(
+      'habit_completions',
+      `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&completed_on=eq.${dateStr}`,
+      { note: text }
+    );
+  } catch(e) {
+    console.error('Failed to save note:', e);
+    delete dayNotes[habitId];
+    render();
   }
 }
 
@@ -564,16 +746,16 @@ function getSections() {
     ];
   } else {
     return [
-      { key:'morning',  icon:'☀️',  label:'Morning Routine',    sub:'Set yourself up for the day 💛',         habits: bySection('morning'),  color:'morning',  doneSet: dayCompletions },
-      { key:'postwork', icon:'💼',  label:'After Work Routine',  sub:'Decompress & reset 💙 · Weekdays only',  habits: bySection('postwork'), color:'postwork', doneSet: dayCompletions, ktSection: true },
-      { key:'evening',  icon:'🌙', label:'Evening Wind-Down',   sub:'Close the day with intention 💜',        habits: bySection('evening'),  color:'evening',  doneSet: dayCompletions },
-      { key:'weekly',   icon:'📋', label:'Weekly Resets',       sub:'Once a week keeps chaos away',           habits: bySection('weekly'),   color:'weekly',   doneSet: weeklyDone    },
+      { key:'morning',  icon:'☀️',  label:'Morning Routine',   sub:'Set yourself up for the day 💛',         habits: bySection('morning'),  color:'morning',  doneSet: dayCompletions },
+      { key:'postwork', icon:'💼',  label:'After Work Routine', sub:'Decompress & reset 💙 · Weekdays only',  habits: bySection('postwork'), color:'postwork', doneSet: dayCompletions, ktSection: true },
+      { key:'evening',  icon:'🌙', label:'Evening Wind-Down',  sub:'Close the day with intention 💜',        habits: bySection('evening'),  color:'evening',  doneSet: dayCompletions },
+      { key:'weekly',   icon:'📋', label:'Weekly Resets',      sub:'Once a week keeps chaos away',           habits: bySection('weekly'),   color:'weekly',   doneSet: weeklyDone    },
     ];
   }
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   PROGRESS  (or_group counts as 1 unit regardless of how many checked)
+   PROGRESS
 ───────────────────────────────────────────────────────────────────── */
 function calcProgress(habitList, doneSet) {
   const orGroupDone = {};
@@ -581,10 +763,7 @@ function calcProgress(habitList, doneSet) {
 
   habitList.forEach(h => {
     if (h.or_group) {
-      if (!(h.or_group in orGroupDone)) {
-        orGroupDone[h.or_group] = false;
-        total++;
-      }
+      if (!(h.or_group in orGroupDone)) { orGroupDone[h.or_group] = false; total++; }
       if (doneSet.has(h.id)) orGroupDone[h.or_group] = true;
     } else {
       total++;
@@ -597,54 +776,34 @@ function calcProgress(habitList, doneSet) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   DATE ITEMS CARD  (Step 5C)
+   DATE ITEMS CARD
 ───────────────────────────────────────────────────────────────────── */
 function buildDateItemsCard() {
-  const card = document.createElement('div');
+  const card  = document.createElement('div');
   card.className = 'section-card';
 
   const count    = dateItems.length;
   const countStr = `${count} item${count !== 1 ? 's' : ''}`;
 
   const itemsHtml = dateItems.map(item => {
-    const meta = TYPE_META[item.type] || { icon: '📅', label: item.type || 'Item', color: '#A855F7', bg: 'rgba(168,85,247,.1)', border: 'rgba(168,85,247,.28)' };
-
-    // Time string: "3:00 PM" or "3:00 PM – 4:30 PM"
+    const meta     = TYPE_META[item.type] || { icon: '📅', label: item.type || 'Item', color: '#A855F7', bg: 'rgba(168,85,247,.1)', border: 'rgba(168,85,247,.28)' };
     const startFmt = fmtTime(item.start_time);
     const endFmt   = fmtTime(item.end_time);
-    const timeStr  = startFmt
-      ? (endFmt ? `${startFmt} – ${endFmt}` : startFmt)
-      : '';
+    const timeStr  = startFmt ? (endFmt ? `${startFmt} – ${endFmt}` : startFmt) : '';
+    const accent   = item.color || meta.color;
 
-    // Color to use: item.color if set, else type default
-    const accentColor = item.color || meta.color;
-
-    // Meta row parts
-    const timeHtml = timeStr
-      ? `<span class="di-time">${timeStr}</span>`
-      : '';
-    const locHtml = item.location
-      ? `<span class="di-sep">·</span><span class="di-loc">📍 ${item.location}</span>`
-      : '';
-    const metaHtml = (timeHtml || locHtml)
-      ? `<div class="di-meta">${timeHtml}${locHtml}</div>`
-      : '';
-
-    // Type badge
-    const badgeHtml = `
-      <span class="di-type-badge" style="color:${meta.color}; background:${meta.bg}; border-color:${meta.border}">
-        ${meta.label}
-      </span>
-    `;
+    const timeHtml = timeStr ? `<span class="di-time">${timeStr}</span>` : '';
+    const locHtml  = item.location ? `<span class="di-sep">·</span><span class="di-loc">📍 ${item.location}</span>` : '';
+    const metaHtml = (timeHtml || locHtml) ? `<div class="di-meta">${timeHtml}${locHtml}</div>` : '';
 
     return `
-      <div class="date-item-row" style="border-left-color:${accentColor}">
+      <div class="date-item-row" style="border-left-color:${accent}">
         <div class="di-type-icon">${meta.icon}</div>
         <div class="di-body">
           <div class="di-title">${item.title}</div>
           ${metaHtml}
         </div>
-        ${badgeHtml}
+        <span class="di-type-badge" style="color:${meta.color};background:${meta.bg};border-color:${meta.border}">${meta.label}</span>
       </div>
     `;
   }).join('');
@@ -673,12 +832,10 @@ function render() {
   const container = document.getElementById('sections');
   container.innerHTML = '';
 
-  // ── Date items card (shown only when items exist for this day) ──
-  if (dateItems.length) {
-    container.appendChild(buildDateItemsCard());
-  }
+  // Date items card at top (only when items exist)
+  if (dateItems.length) container.appendChild(buildDateItemsCard());
 
-  // ── Habit sections ──────────────────────────────────────────────
+  // Habit sections
   getSections().forEach(sec => {
     if (!sec.habits.length) return;
 
@@ -691,8 +848,7 @@ function render() {
     card.className = `section-card${allDone ? ' all-done' : ''}${isKT ? ' kt-active' : ''}`;
 
     const ktChipHtml = (sec.ktSection && !ktShiftToday)
-      ? `<div class="kt-set-chip">🏪 KT Shift</div>`
-      : '';
+      ? `<div class="kt-set-chip">🏪 KT Shift</div>` : '';
 
     card.innerHTML = `
       <div class="section-header">
@@ -713,8 +869,7 @@ function render() {
       <div class="kt-banner">
         <span class="kt-banner-text">🏪 KT Shift today — postwork routine skipped</span>
         <span class="kt-remove-btn">Remove</span>
-      </div>
-      ` : ''}
+      </div>` : ''}
       <div class="habit-list" id="hl_${sec.key}"></div>
     `;
     container.appendChild(card);
@@ -735,14 +890,18 @@ function render() {
         orShown[h.or_group] = true;
       }
 
-      const checked = sec.doneSet.has(h.id);
+      const checked  = sec.doneSet.has(h.id);
+      // Note chip: shown for daily habits with a saved reflection
+      const hasNote  = !!(h.section !== 'weekly' && dayNotes[h.id]);
+      const noteHtml = hasNote ? '<span class="h-note-chip">💜 note</span>' : '';
+
       const row = document.createElement('div');
       row.className = `habit-row${checked ? ' done' : ''}`;
       row.innerHTML = `
         <div class="hc"><span class="hc-mark">✓</span></div>
         <div class="h-emoji">${h.emoji || '•'}</div>
         <div class="h-body">
-          <div class="h-name">${h.name}${h.or_group ? '<span class="or-badge">OR</span>' : ''}</div>
+          <div class="h-name">${h.name}${h.or_group ? '<span class="or-badge">OR</span>' : ''}${noteHtml}</div>
         </div>
       `;
       row.addEventListener('click', () => {
@@ -776,7 +935,7 @@ function mkOrDivider(label) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   HEADER UPDATE
+   HEADER
 ───────────────────────────────────────────────────────────────────── */
 function updateHeader() {
   const weekend = isWeekend(viewDate);
@@ -790,9 +949,8 @@ function updateHeader() {
     weekend ? 'Weekend Mode 🌸🐺' : 'Your Daily Routines 🐺';
 
   document.getElementById('mainSub').textContent = isToday
-    ? (weekend
-        ? "It's the weekend — breathe, build & be present 🌈"
-        : 'Show up for yourself today, one habit at a time 💜')
+    ? (weekend ? "It's the weekend — breathe, build & be present 🌈"
+               : 'Show up for yourself today, one habit at a time 💜')
     : `Viewing ${DAYS[viewDate.getDay()]} the ${viewDate.getDate()} — ${weekend ? 'weekend' : 'weekday'}`;
 
   document.getElementById('dateChip').textContent =
@@ -800,13 +958,11 @@ function updateHeader() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   DAY NAV  (7-day strip; dots reflect daily habit_completions only)
+   DAY NAV
 ───────────────────────────────────────────────────────────────────── */
 async function buildDayNav() {
-  const dates = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (6 - i));
-    return d;
+  const dates    = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(); d.setDate(d.getDate() - (6 - i)); return d;
   });
   const dateStrs = dates.map(fmtDate);
 
@@ -815,11 +971,8 @@ async function buildDayNav() {
     const rows = await sbGet(
       `habit_completions?user_id=eq.${USER_ID}&completed_on=in.(${dateStrs.join(',')})&select=habit_id,completed_on`
     );
-    rows.forEach(r => {
-      if (!byDate[r.completed_on]) byDate[r.completed_on] = 0;
-      byDate[r.completed_on]++;
-    });
-  } catch(e) { /* non-fatal */ }
+    rows.forEach(r => { byDate[r.completed_on] = (byDate[r.completed_on] || 0) + 1; });
+  } catch(e) {}
 
   const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const nav = document.getElementById('dayNav');
@@ -829,11 +982,7 @@ async function buildDayNav() {
     const dk      = fmtDate(d);
     const weekend = isWeekend(d);
     const isView  = dk === fmtDate(viewDate);
-    const count   = byDate[dk] || 0;
-
-    // Expected: weekday=23 (morning+postwork+evening), weekend=12 (weekend+evening)
-    const expected = weekend ? 12 : 23;
-    const pct = count / expected;
+    const pct     = (byDate[dk] || 0) / (weekend ? 12 : 23);
 
     const btn = document.createElement('div');
     btn.className = `day-btn${isView ? ' active' : ''}${weekend && !isView ? ' weekend-day' : ''}`;
@@ -865,9 +1014,7 @@ async function buildDayNav() {
   });
 
   const active = nav.querySelector('.day-btn.active');
-  if (active) {
-    nav.scrollLeft = active.offsetLeft - nav.offsetWidth / 2 + active.offsetWidth / 2;
-  }
+  if (active) nav.scrollLeft = active.offsetLeft - nav.offsetWidth / 2 + active.offsetWidth / 2;
 }
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -901,6 +1048,19 @@ async function init() {
     document.getElementById('app').style.display = '';
   }, 380);
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   NOTE OVERLAY EVENT LISTENERS (wired once at startup)
+───────────────────────────────────────────────────────────────────── */
+document.getElementById('noteSkip').addEventListener('click', hideNotePrompt);
+document.getElementById('noteSave').addEventListener('click', saveNote);
+document.getElementById('noteBackdrop').addEventListener('click', hideNotePrompt);
+document.getElementById('noteTextarea').addEventListener('input', function () {
+  document.getElementById('noteChars').textContent = `${this.value.length} / 500`;
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') hideNotePrompt();
+});
 
 init();
 </script>
