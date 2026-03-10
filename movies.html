@@ -130,6 +130,26 @@ body::after{
 .mc-btn-delete{background:var(--red-dim);border-color:var(--border2);color:var(--red2)}
 .mc-btn-delete:hover{background:var(--red-glow)}
 
+/* ── Schedule Showing button on card ── */
+.mc-btn-schedule{background:rgba(5,150,105,.1);border-color:rgba(5,150,105,.25);color:#6EE7B7}
+.mc-btn-schedule:hover{background:rgba(5,150,105,.2)}
+
+/* ── Showing chips on card ── */
+.mc-showings{margin-top:10px;display:flex;flex-direction:column;gap:5px}
+.mc-showing-item{display:flex;align-items:center;justify-content:space-between;background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);border-radius:8px;padding:5px 10px;font-size:.68rem;font-family:var(--mono);color:#6EE7B7}
+.mc-showing-del{background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:.9rem;padding:0 0 0 8px;line-height:1;transition:color .15s;flex-shrink:0}
+.mc-showing-del:hover{color:var(--red2)}
+
+/* ── Schedule showing overlay (slide-up sheet) ── */
+.showing-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px)}
+.showing-sheet{background:var(--bg3);border:1.5px solid rgba(5,150,105,.3);border-radius:20px 20px 0 0;padding:28px;width:100%;max-width:520px;max-height:82vh;overflow-y:auto;box-shadow:0 -4px 40px rgba(5,150,105,.12);animation:slideUp .32s cubic-bezier(.34,1.2,.64,1)}
+@keyframes slideUp{from{transform:translateY(100%);opacity:.4}to{transform:translateY(0);opacity:1}}
+.showing-heading{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;color:var(--cream);margin-bottom:3px}
+.showing-movie-label{font-size:.75rem;color:#6EE7B7;font-family:var(--mono);margin-bottom:18px;opacity:.85}
+.showing-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.showing-save{padding:9px 24px;border-radius:8px;border:none;background:linear-gradient(135deg,#059669,#047857);color:#fff;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s}
+.showing-save:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(5,150,105,.35)}
+
 /* hype stars */
 .hype-stars{display:inline-flex;gap:2px}
 .hype-star{font-size:.7rem;opacity:.3;cursor:pointer;transition:opacity .15s}
@@ -241,6 +261,35 @@ body::after{
   </div>
 </div>
 
+<!-- Schedule Showing overlay -->
+<div class="showing-overlay" id="showingOverlay" style="display:none" onclick="closeShowingIfBg(event)">
+  <div class="showing-sheet">
+    <div class="showing-heading">📅 Schedule a Showing</div>
+    <div class="showing-movie-label" id="showingMovieLabel"></div>
+
+    <div class="form-group">
+      <label class="form-label">Date <span style="color:var(--red2)">*</span></label>
+      <input class="form-input" id="sDate" type="date">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Time (optional)</label>
+      <input class="form-input" id="sTime" type="time">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Theatre / Location (optional)</label>
+      <input class="form-input" id="sLocation" type="text" placeholder="e.g. Marcus Fond du Lac Cinema">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes (optional)</label>
+      <textarea class="form-textarea" id="sNotes" placeholder="Anything you want to remember..."></textarea>
+    </div>
+    <div class="showing-actions">
+      <button class="modal-cancel" onclick="closeShowingOverlay()">Cancel</button>
+      <button class="showing-save" onclick="saveShowing()">📅 Add to Schedule</button>
+    </div>
+  </div>
+</div>
+
 <div class="app">
 
     <div class="header-nav" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:24px 0 0;animation:fadeDown .5s ease both">
@@ -330,6 +379,13 @@ async function sbDelete(table, params) {
     {method:'DELETE',headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`}});
   return r.ok;
 }
+async function sbInsert(table, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}`,
+    {method:'POST',headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(body)});
+  const data = await r.json();
+  if (Array.isArray(data)) return data[0];
+  return data;
+}
 
 // ── Storage ───────────────────────────────────────────────────────────────────
 const MY_LIST_KEY = 'enid_movies_v1'; // kept only for one-time migration read
@@ -409,6 +465,112 @@ let myList = [];
 let pendingMovie = null;   // movie object being added/edited
 let editingId    = null;   // id of movie being edited
 let modalHype    = 3;
+
+// Showings state
+let allShowings      = [];  // [{id, movie_id, date_item_id, notes}]
+let showingDateItems = {};  // date_item_id → {id, item_date, start_time, location}
+let showingMovieId   = null;
+
+// ── Showings — load ───────────────────────────────────────────────────────────
+async function loadShowings() {
+  const rows = await sbGet('movie_showings', `?user_id=eq.${USER_ID}&select=id,movie_id,date_item_id,notes`);
+  return Array.isArray(rows) ? rows : [];
+}
+
+async function loadShowingDateItems(showings) {
+  const ids = showings.map(s => s.date_item_id).filter(Boolean);
+  if (!ids.length) return {};
+  const rows = await sbGet('date_items', `?id=in.(${ids.join(',')})&select=id,item_date,start_time,location`);
+  const map = {};
+  if (Array.isArray(rows)) for (const r of rows) map[r.id] = r;
+  return map;
+}
+
+// ── Showings — overlay ────────────────────────────────────────────────────────
+function openShowingOverlay(movieId) {
+  const movie = myList.find(m => m.id === movieId);
+  if (!movie) return;
+  showingMovieId = movieId;
+  document.getElementById('showingMovieLabel').textContent = movie.title;
+  document.getElementById('sDate').value     = '';
+  document.getElementById('sTime').value     = '';
+  document.getElementById('sLocation').value = '';
+  document.getElementById('sNotes').value    = '';
+  document.getElementById('showingOverlay').style.display = 'flex';
+}
+
+function closeShowingOverlay() {
+  document.getElementById('showingOverlay').style.display = 'none';
+  showingMovieId = null;
+}
+
+function closeShowingIfBg(e) {
+  if (e.target.id === 'showingOverlay') closeShowingOverlay();
+}
+
+async function saveShowing() {
+  const date = document.getElementById('sDate').value;
+  if (!date) { alert('Please pick a date for the showing.'); return; }
+
+  const time     = document.getElementById('sTime').value     || null;
+  const location = document.getElementById('sLocation').value.trim() || null;
+  const notes    = document.getElementById('sNotes').value.trim()    || null;
+
+  const movie = myList.find(m => m.id === showingMovieId);
+  if (!movie) return;
+
+  const btn = document.querySelector('#showingOverlay .showing-save');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
+
+  try {
+    // 1. Create the date_items row — this drives Schedule / Home display
+    const dateItem = await sbInsert('date_items', {
+      user_id:      USER_ID,
+      type:         'movie_showing',
+      title:        movie.title,
+      item_date:    date,
+      start_time:   time,
+      location:     location,
+      description:  notes,
+      repeat_rule:  'none',
+      is_completed: false,
+    });
+
+    if (!dateItem || !dateItem.id) {
+      alert('Could not add to schedule — try again.');
+      return;
+    }
+
+    // 2. Create the movie_showings row — links movie → date_item
+    const showing = await sbInsert('movie_showings', {
+      user_id:      USER_ID,
+      movie_id:     movie.id,
+      date_item_id: dateItem.id,
+      notes:        notes,
+    });
+
+    if (showing && showing.id) {
+      allShowings.push({ id: showing.id, movie_id: movie.id, date_item_id: dateItem.id, notes });
+      showingDateItems[dateItem.id] = dateItem;
+    }
+
+    closeShowingOverlay();
+    renderMyList();
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '📅 Add to Schedule'; }
+  }
+}
+
+async function deleteShowing(showingId, dateItemId) {
+  if (!confirm('Remove this showing from your schedule?')) return;
+  // Optimistic removal
+  allShowings = allShowings.filter(s => s.id !== showingId);
+  delete showingDateItems[dateItemId];
+  renderMyList();
+  // Persist (movie_showings FK → must delete junction row first, then date_item)
+  await sbDelete('movie_showings', `?id=eq.${showingId}&user_id=eq.${USER_ID}`);
+  await sbDelete('date_items',     `?id=eq.${dateItemId}&user_id=eq.${USER_ID}`);
+}
 
 // ── Discover strip ────────────────────────────────────────────────────────────
 async function loadDiscover() {
@@ -616,9 +778,25 @@ function renderMyList() {
       ? `<img class="mc-poster" src="${IMG}w342${m.posterPath}" alt="${escHtml(m.title)}" loading="lazy">`
       : `<div class="mc-poster-ph">🎬</div>`;
 
-    const hypeHtml    = m.hype        ? `<span class="mc-chip hype">${'🍿'.repeat(m.hype)}</span>` : '';
-    const releaseHtml = m.releaseYear ? `<span class="mc-chip release">📅 ${m.releaseYear}</span>` : '';
-    const watchedBadge = m.watched    ? `<div class="mc-watched-badge">✅ Watched!</div>` : '';
+    const hypeHtml     = m.hype        ? `<span class="mc-chip hype">${'🍿'.repeat(m.hype)}</span>` : '';
+    const releaseHtml  = m.releaseYear ? `<span class="mc-chip release">📅 ${m.releaseYear}</span>` : '';
+    const watchedBadge = m.watched     ? `<div class="mc-watched-badge">✅ Watched!</div>` : '';
+
+    // Scheduled showings for this movie
+    const cardShowings = allShowings.filter(s => s.movie_id === m.id);
+    const showingsHtml = cardShowings.length ? `
+      <div class="mc-showings">
+        ${cardShowings.map(s => {
+          const di      = showingDateItems[s.date_item_id] || {};
+          const dateStr = di.item_date   ? fmtRelease(di.item_date)  : 'Date TBD';
+          const timeStr = di.start_time  ? ` · ${fmtTime(di.start_time)}` : '';
+          const locStr  = di.location    ? ` · ${escHtml(di.location)}` : '';
+          return `<div class="mc-showing-item">
+            🎬 ${dateStr}${timeStr}${locStr}
+            <button class="mc-showing-del" onclick="deleteShowing('${s.id}','${s.date_item_id}')" title="Remove showing">×</button>
+          </div>`;
+        }).join('')}
+      </div>` : '';
 
     return `
       <div class="movie-card ${m.watched?'mc-watched':''}" style="animation-delay:${i*.05}s">
@@ -637,9 +815,11 @@ function renderMyList() {
             <button class="mc-btn mc-btn-watch" onclick="toggleWatched('${m.id}')">
               ${m.watched ? '↩ Unwatch' : '✅ Mark Watched'}
             </button>
+            <button class="mc-btn mc-btn-schedule" onclick="openShowingOverlay('${m.id}')">📅 Schedule</button>
             <button class="mc-btn mc-btn-edit" onclick="openEditModal('${m.id}')">✏️ Edit</button>
             <button class="mc-btn mc-btn-delete" onclick="deleteMovie('${m.id}')">🗑</button>
           </div>
+          ${showingsHtml}
         </div>
       </div>`;
   }).join('');
@@ -671,10 +851,19 @@ function getDaysUntil(dateStr) {
   return Math.round((target-today)/86400000);
 }
 
+// Format HH:MM (24-hr) → "7:30 PM"
+function fmtTime(t) {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  return `${((h % 12) || 12)}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
 // ── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
   await migrateFromLocalStorage();
-  myList = await loadMyList();
+  [myList, allShowings] = await Promise.all([loadMyList(), loadShowings()]);
+  showingDateItems = await loadShowingDateItems(allShowings);
   renderMyList();
   loadDiscover();
 }
