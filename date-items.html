@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Enid's Schedule 📅</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────────── */
+    :root {
+      --pink:   #E84EA0;
+      --purple: #A855F7;
+      --mint:   #6EE7B7;
+      --amber:  #F59E0B;
+      --cream:  #FFFBF7;
+      --glass:  rgba(255,255,255,0.76);
+      --border: rgba(168,85,247,0.13);
+      --text:   #2D1B4E;
+      --sub:    #7C6F9B;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 0%,   rgba(232,78,160,.18)  0%, transparent 55%),
+        radial-gradient(ellipse at 85% 40%,  rgba(168,85,247,.12)  0%, transparent 55%),
+        radial-gradient(ellipse at 40% 100%, rgba(110,231,183,.10) 0%, transparent 55%),
+        #FFFBF7;
+      min-height: 100vh;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Loader ────────────────────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0; background: var(--cream);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; z-index: 999; transition: opacity .35s ease;
+    }
+    #loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-icon { font-size: 2.8rem; animation: bounce 1.1s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .loader-text { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); }
+
+    /* ── App shell ─────────────────────────────────────────────────── */
+    #app { max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
+
+    /* ── Header ────────────────────────────────────────────────────── */
+    .app-header {
+      position: sticky; top: 0; z-index: 50;
+      padding: 22px 20px 14px;
+      background: linear-gradient(180deg, rgba(255,251,247,.92) 70%, transparent);
+      backdrop-filter: blur(10px);
+    }
+    .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; line-height: 1.2;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .header-sub { font-size: .78rem; color: var(--sub); margin-top: 3px; }
+
+    .back-btn {
+      flex-shrink: 0;
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--sub);
+      background: rgba(168,85,247,.08);
+      border: 1px solid var(--border);
+      padding: 5px 12px; border-radius: 20px;
+      text-decoration: none; white-space: nowrap; margin-top: 2px;
+      transition: background .15s;
+    }
+    .back-btn:hover { background: rgba(168,85,247,.16); }
+
+    /* ── Schedule list ─────────────────────────────────────────────── */
+    #schedule { padding: 4px 14px 0; display: flex; flex-direction: column; gap: 6px; }
+
+    /* ── Date group header ─────────────────────────────────────────── */
+    .date-group-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 2px 4px;
+    }
+    .date-group-line { flex: 1; height: 1px; background: var(--border); }
+    .date-group-label {
+      font-size: .65rem; font-weight: 800; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--sub); white-space: nowrap;
+    }
+    .date-group-label.today  { color: var(--pink); }
+    .date-group-label.past   { opacity: .55; }
+
+    /* ── Section card ──────────────────────────────────────────────── */
+    .section-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+      margin-bottom: 8px;
+    }
+
+    /* ── Date item row ─────────────────────────────────────────────── */
+    .date-item-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 18px 13px 15px;
+      border-left: 3px solid var(--purple);
+      cursor: pointer;
+      transition: background .14s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .date-item-row:not(:last-child) { border-bottom: 1px solid rgba(168,85,247,.07); }
+    .date-item-row:hover  { background: rgba(168,85,247,.04); }
+    .date-item-row:active { background: rgba(168,85,247,.09); }
+
+    .di-type-icon { font-size: 1.15rem; flex-shrink: 0; width: 28px; text-align: center; margin-top: 1px; }
+    .di-body  { flex: 1; min-width: 0; }
+    .di-title { font-size: .88rem; font-weight: 600; line-height: 1.3; color: var(--text); }
+    .di-meta  {
+      display: flex; align-items: center; flex-wrap: wrap;
+      font-size: .71rem; color: var(--sub); margin-top: 4px; gap: 5px;
+    }
+    .di-repeat {
+      font-size: .62rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--purple); background: rgba(168,85,247,.1);
+      border: 1px solid rgba(168,85,247,.2);
+      padding: 1px 6px; border-radius: 7px; white-space: nowrap;
+    }
+    .di-time {
+      background: rgba(168,85,247,.08);
+      border: 1px solid rgba(168,85,247,.14);
+      padding: 1px 7px; border-radius: 8px;
+      font-weight: 600; font-size: .68rem; letter-spacing: .02em;
+    }
+    .di-sep { opacity: .4; }
+    .di-loc { font-size: .71rem; color: var(--sub); }
+    .di-desc {
+      font-size: .73rem; color: var(--sub); margin-top: 5px;
+      line-height: 1.45; font-style: italic;
+    }
+    .di-type-badge {
+      flex-shrink: 0; margin-top: 2px;
+      font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 6px;
+      border: 1px solid; white-space: nowrap;
+    }
+
+    /* ── Empty state ───────────────────────────────────────────────── */
+    .empty-state {
+      text-align: center; padding: 64px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .empty-icon  { font-size: 3rem; opacity: .35; }
+    .empty-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--sub); }
+    .empty-sub   { font-size: .8rem; color: var(--sub); opacity: .65; }
+
+    /* ── View toggle ────────────────────────────────────────────────── */
+    .view-toggle {
+      display: flex; gap: 5px; padding: 4px 20px 10px;
+    }
+    .view-btn {
+      flex: 1; padding: 9px; border-radius: 12px; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 700;
+      letter-spacing: .03em; transition: all .2s;
+      background: rgba(168,85,247,.07); color: var(--sub);
+    }
+    .view-btn.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; box-shadow: 0 3px 10px rgba(168,85,247,.28);
+    }
+
+    /* ── Calendar grid ───────────────────────────────────────────────── */
+    .cal-wrap { padding: 0 14px; }
+
+    .cal-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 2px 12px;
+    }
+    .cal-nav-btn {
+      width: 34px; height: 34px; border-radius: 10px; border: none; cursor: pointer;
+      background: rgba(168,85,247,.08); color: var(--sub); font-size: 1.15rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s; font-family: inherit;
+    }
+    .cal-nav-btn:hover { background: rgba(168,85,247,.17); }
+
+    .cal-month-label {
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text);
+    }
+
+    .cal-card {
+      background: var(--glass); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+
+    .cal-dow-row {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      padding: 10px 6px 2px; border-bottom: 1px solid var(--border);
+    }
+    .cal-dow-cell {
+      text-align: center; font-size: .6rem; font-weight: 800;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--sub); padding: 4px 0;
+    }
+
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      padding: 6px; gap: 2px;
+    }
+
+    .cal-day {
+      min-height: 50px; padding: 5px 3px 4px; border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      cursor: pointer; transition: background .14s;
+      user-select: none; -webkit-tap-highlight-color: transparent;
+    }
+    .cal-day:hover:not(.other-month) { background: rgba(168,85,247,.07); }
+    .cal-day.other-month { opacity: .22; pointer-events: none; }
+
+    .cal-day.selected:not(.today) {
+      background: rgba(168,85,247,.1);
+      outline: 1.5px solid rgba(168,85,247,.28);
+    }
+    .cal-day.today.selected {
+      background: rgba(232,78,160,.07);
+      outline: 1.5px solid rgba(232,78,160,.3);
+    }
+
+    .cal-day-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; color: var(--text);
+      transition: all .15s; flex-shrink: 0;
+    }
+    .cal-day.today .cal-day-num {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; box-shadow: 0 2px 8px rgba(232,78,160,.38);
+    }
+
+    .cal-dots {
+      display: flex; gap: 2px; flex-wrap: wrap; justify-content: center;
+      max-width: 32px;
+    }
+    .cal-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── Day panel ───────────────────────────────────────────────────── */
+    .day-panel { margin-top: 14px; }
+    .day-panel-header {
+      display: flex; align-items: center; gap: 10px; padding: 0 2px 8px;
+    }
+    .day-panel-line  { flex: 1; height: 1px; background: var(--border); }
+    .day-panel-label {
+      font-size: .65rem; font-weight: 800; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--pink); white-space: nowrap;
+    }
+    .day-panel-empty {
+      text-align: center; padding: 22px 18px;
+      font-size: .8rem; color: var(--sub); font-style: italic;
+    }
+
+    /* ── FAB ───────────────────────────────────────────────────────── */
+    #fab {
+      position: fixed;
+      bottom: 28px;
+      right: max(18px, calc(50% - 282px));
+      width: 56px; height: 56px; border-radius: 18px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border: none; cursor: pointer; z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; color: #fff; line-height: 1;
+      box-shadow: 0 6px 20px rgba(232,78,160,.45);
+      transition: transform .18s, box-shadow .18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #fab:hover  { transform: scale(1.05); box-shadow: 0 8px 26px rgba(232,78,160,.55); }
+    #fab:active { transform: scale(.95); }
+
+    /* ── Bottom sheet ──────────────────────────────────────────────── */
+    .sheet-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 1; transition: opacity .22s ease;
+    }
+    .sheet-overlay.hidden { opacity: 0; pointer-events: none; }
+    .sheet-overlay.hidden .sheet { transform: translateY(100%); }
+
+    .sheet-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(45,27,78,.38);
+      backdrop-filter: blur(3px);
+    }
+
+    .sheet {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 600px;
+      background: var(--cream);
+      border-radius: 24px 24px 0 0;
+      padding: 18px 22px 42px;
+      box-shadow: 0 -8px 40px rgba(168,85,247,.2);
+      transform: translateY(0);
+      transition: transform .28s cubic-bezier(.34,1.4,.64,1);
+      max-height: 92vh; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .sheet-handle {
+      width: 36px; height: 4px; border-radius: 2px;
+      background: rgba(168,85,247,.22); margin: 0 auto 2px;
+    }
+    .sheet-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.12rem; color: var(--text); text-align: center;
+    }
+
+    /* ── Form fields ───────────────────────────────────────────────── */
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+
+    .field-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--sub);
+    }
+    .field-label .opt {
+      font-size: .65rem; font-weight: 500;
+      text-transform: none; letter-spacing: 0; opacity: .7;
+    }
+
+    .field-input, .field-select, .field-textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .87rem; color: var(--text);
+      background: rgba(255,255,255,.85);
+      border: 1.5px solid rgba(168,85,247,.22);
+      border-radius: 12px;
+      padding: 11px 14px;
+      width: 100%; outline: none;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    .field-input:focus, .field-select:focus, .field-textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(168,85,247,.1);
+    }
+    .field-input::placeholder, .field-textarea::placeholder { color: rgba(124,111,155,.45); }
+
+    .field-select {
+      appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237C6F9B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+      padding-right: 36px;
+      background-color: rgba(255,255,255,.85);
+    }
+
+    .field-textarea { resize: none; line-height: 1.55; }
+
+    .time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* ── Color swatches ────────────────────────────────────────────── */
+    .color-swatches { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+    .color-swatch {
+      width: 28px; height: 28px; border-radius: 50%;
+      cursor: pointer; border: 2.5px solid transparent;
+      transition: transform .15s, border-color .15s;
+      flex-shrink: 0;
+    }
+    .color-swatch:hover  { transform: scale(1.12); }
+    .color-swatch.active { border-color: var(--text); transform: scale(1.15); }
+    .color-swatch.default-swatch { background: rgba(168,85,247,.18); }
+    .color-swatch.custom-swatch  {
+      background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+      position: relative; overflow: hidden;
+    }
+    #colorCustomInput {
+      position: absolute; inset: 0; opacity: 0;
+      cursor: pointer; width: 100%; height: 100%;
+    }
+
+    /* ── Sheet footer ──────────────────────────────────────────────── */
+    .sheet-footer {
+      display: flex; align-items: center; gap: 10px; padding-top: 2px;
+    }
+    .btn-cancel {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .84rem; font-weight: 600; color: var(--sub);
+      background: transparent; border: none; cursor: pointer;
+      padding: 10px 12px; border-radius: 12px; transition: background .15s;
+    }
+    .btn-cancel:hover { background: rgba(168,85,247,.07); }
+
+    .btn-save {
+      flex: 1;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem; font-weight: 700; color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border: none; cursor: pointer;
+      padding: 11px 20px; border-radius: 14px;
+      box-shadow: 0 3px 12px rgba(232,78,160,.3);
+      transition: opacity .15s, transform .1s;
+    }
+    .btn-save:hover  { opacity: .9; }
+    .btn-save:active { transform: scale(.97); }
+    .btn-save:disabled { opacity: .5; pointer-events: none; }
+
+    .btn-delete {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 700; color: #DC2626;
+      background: rgba(220,38,38,.07);
+      border: 1px solid rgba(220,38,38,.2);
+      cursor: pointer; padding: 10px 14px; border-radius: 12px;
+      transition: background .15s; white-space: nowrap;
+    }
+    .btn-delete:hover    { background: rgba(220,38,38,.14); }
+    .btn-delete:disabled { opacity: .5; pointer-events: none; }
+
+    /* ── Toast ─────────────────────────────────────────────────────── */
+    #toast {
+      position: fixed; bottom: 106px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--text); color: #fff;
+      padding: 9px 18px; border-radius: 12px;
+      font-size: .82rem; font-weight: 600;
+      opacity: 0; pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+      white-space: nowrap; z-index: 300;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-icon">📅</div>
+  <div class="loader-text">Loading your schedule...</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <div class="header-title">Enid's Schedule 📅</div>
+        <div class="header-sub" id="headerSub">Events, tasks &amp; reminders</div>
+      </div>
+      <a href="index.html" class="back-btn">← Home</a>
+    </div>
+  </header>
+
+  <div class="view-toggle" id="viewToggle">
+    <button class="view-btn active" data-mode="list">☰  List</button>
+    <button class="view-btn" data-mode="calendar">📅  Calendar</button>
+  </div>
+
+  <main id="schedule"></main>
+</div>
+
+<!-- FAB -->
+<button id="fab" aria-label="Add new item">＋</button>
+
+<!-- FORM SHEET -->
+<div id="formSheet" class="sheet-overlay hidden" aria-hidden="true">
+  <div class="sheet-backdrop" id="sheetBackdrop"></div>
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="sheetTitle">New Item</div>
+
+    <!-- Title -->
+    <div class="field-group">
+      <label class="field-label" for="fTitle">Title</label>
+      <input id="fTitle" class="field-input" type="text"
+             placeholder="What is it?" maxlength="160" autocomplete="off">
+    </div>
+
+    <!-- Type -->
+    <div class="field-group">
+      <label class="field-label" for="fType">Type</label>
+      <select id="fType" class="field-select">
+        <option value="event">🎉  Event</option>
+        <option value="task">✅  Task</option>
+        <option value="reminder">🔔  Reminder</option>
+        <option value="appointment">📋  Appointment</option>
+        <option value="movie_showing">🎬  Movie Showing</option>
+      </select>
+    </div>
+
+    <!-- Date -->
+    <div class="field-group">
+      <label class="field-label" for="fDate">Date</label>
+      <input id="fDate" class="field-input" type="date">
+    </div>
+
+    <!-- Repeat -->
+    <div class="field-group">
+      <label class="field-label" for="fRepeat">Repeat</label>
+      <select id="fRepeat" class="field-select">
+        <option value="none">Does not repeat</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly (same day)</option>
+        <option value="monthly">Monthly (same date)</option>
+        <option value="yearly">Yearly (same date)</option>
+      </select>
+    </div>
+
+    <!-- Start / End time -->
+    <div class="time-row">
+      <div class="field-group">
+        <label class="field-label" for="fStart">
+          Start time <span class="opt">(optional)</span>
+        </label>
+        <input id="fStart" class="field-input" type="time">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="fEnd">
+          End time <span class="opt">(optional)</span>
+        </label>
+        <input id="fEnd" class="field-input" type="time">
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="field-group">
+      <label class="field-label" for="fLocation">
+        Location <span class="opt">(optional)</span>
+      </label>
+      <input id="fLocation" class="field-input" type="text"
+             placeholder="Where?" maxlength="120" autocomplete="off">
+    </div>
+
+    <!-- Description -->
+    <div class="field-group">
+      <label class="field-label" for="fDesc">
+        Description <span class="opt">(optional)</span>
+      </label>
+      <textarea id="fDesc" class="field-textarea" rows="3"
+                placeholder="Any notes..." maxlength="500"></textarea>
+    </div>
+
+    <!-- Color -->
+    <div class="field-group">
+      <div class="field-label">
+        Accent color <span class="opt">(optional)</span>
+      </div>
+      <div class="color-swatches" id="colorSwatches">
+        <!-- Default (no override) -->
+        <div class="color-swatch default-swatch" data-color=""
+             style="border-color:rgba(168,85,247,.3)" title="Default"></div>
+        <!-- Presets -->
+        <div class="color-swatch" data-color="#E84EA0" style="background:#E84EA0" title="Pink"></div>
+        <div class="color-swatch" data-color="#A855F7" style="background:#A855F7" title="Purple"></div>
+        <div class="color-swatch" data-color="#6EE7B7" style="background:#6EE7B7" title="Mint"></div>
+        <div class="color-swatch" data-color="#F59E0B" style="background:#F59E0B" title="Amber"></div>
+        <div class="color-swatch" data-color="#3B82F6" style="background:#3B82F6" title="Blue"></div>
+        <div class="color-swatch" data-color="#059669" style="background:#059669" title="Green"></div>
+        <div class="color-swatch" data-color="#DC2626" style="background:#DC2626" title="Red"></div>
+        <!-- Custom -->
+        <div class="color-swatch custom-swatch" title="Custom color">
+          <input type="color" id="colorCustomInput" value="#E84EA0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="sheet-footer" id="sheetFooter">
+      <button class="btn-cancel" id="sheetCancel">Cancel</button>
+      <button class="btn-save"   id="sheetSave">Save item 💜</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────
+   CONFIG
+───────────────────────────────────────────────────────────────────── */
+const SUPA_URL = 'https://oebxxurgxvzjnunjaujh.supabase.co';
+const SUPA_KEY = 'sb_publishable_x0QWqeNaNAFf7vN7Ky0Mzw_c_FMBAAP';
+const USER_ID  = 'ENID';
+
+const TYPE_META = {
+  event:         { icon: '🎉', label: 'Event',       color: '#E84EA0', bg: 'rgba(232,78,160,.1)',   border: 'rgba(232,78,160,.28)' },
+  task:          { icon: '✅', label: 'Task',         color: '#A855F7', bg: 'rgba(168,85,247,.1)',   border: 'rgba(168,85,247,.28)' },
+  reminder:      { icon: '🔔', label: 'Reminder',     color: '#F59E0B', bg: 'rgba(245,158,11,.1)',   border: 'rgba(245,158,11,.28)' },
+  movie_showing: { icon: '🎬', label: 'Movie',        color: '#059669', bg: 'rgba(110,231,183,.15)', border: 'rgba(110,231,183,.4)'  },
+  appointment:   { icon: '📋', label: 'Appointment',  color: '#3B82F6', bg: 'rgba(96,165,250,.1)',   border: 'rgba(96,165,250,.3)'  },
+};
+
+// Preset color values (must match swatches in DOM order)
+const PRESET_COLORS = ['', '#E84EA0', '#A855F7', '#6EE7B7', '#F59E0B', '#3B82F6', '#059669', '#DC2626'];
+
+/* ─────────────────────────────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────────────────────────────── */
+let allItems    = [];   // all date_items rows from DB
+let editingId   = null; // UUID of item being edited; null = create mode
+let pickedColor = '';   // currently selected accent color
+
+// Calendar view state
+let viewMode    = 'list';                   // 'list' | 'calendar'
+let calYear     = new Date().getFullYear();
+let calMonth    = new Date().getMonth();    // 0–11
+let selectedDay = null;                     // 'YYYY-MM-DD' | null
+
+/* ─────────────────────────────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────────────────────────────── */
+function todayStr() {
+  const d  = new Date();
+  const y  = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${y}-${mo}-${dd}`;
+}
+
+function fmtTime(t) {
+  if (!t) return '';
+  const [hStr, mStr] = t.split(':');
+  const hour = parseInt(hStr, 10);
+  const min  = mStr || '00';
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const h12  = hour % 12 || 12;
+  return `${h12}:${min} ${ampm}`;
+}
+
+function fmtDateLabel(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const date  = new Date(y, m - 1, d);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diffMs = date - today;
+  const oneDay = 86_400_000;
+
+  const dayName  = date.toLocaleDateString('en-US', { weekday: 'long' });
+  const monthDay = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+
+  let prefix = dayName;
+  if (diffMs === 0)      prefix = 'Today';
+  else if (diffMs === oneDay)  prefix = 'Tomorrow';
+  else if (diffMs === -oneDay) prefix = 'Yesterday';
+
+  const isToday = diffMs === 0;
+  const isPast  = diffMs < 0;
+  return { label: `${prefix} · ${monthDay}`, isToday, isPast };
+}
+
+function escHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function sortItems(arr) {
+  return arr.slice().sort((a, b) => {
+    if (a.item_date !== b.item_date) return a.item_date.localeCompare(b.item_date);
+    const at = a.start_time || 'zzz';
+    const bt = b.start_time || 'zzz';
+    if (at !== bt) return at.localeCompare(bt);
+    return (a.title || '').localeCompare(b.title || '');
+  });
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   REPEAT EXPANSION
+───────────────────────────────────────────────────────────────────── */
+const REPEAT_LABELS = {
+  daily:   '↺ Daily',
+  weekly:  '↺ Weekly',
+  monthly: '↺ Monthly',
+  yearly:  '↺ Yearly',
+};
+
+function parseDateLocal(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function formatDateLocal(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function nextOcc(d, rule) {
+  const n = new Date(d);
+  if      (rule === 'daily')   n.setDate(n.getDate() + 1);
+  else if (rule === 'weekly')  n.setDate(n.getDate() + 7);
+  else if (rule === 'monthly') n.setMonth(n.getMonth() + 1);
+  else if (rule === 'yearly')  n.setFullYear(n.getFullYear() + 1);
+  return n;
+}
+
+/**
+ * Expand source items into concrete occurrences.
+ * - Non-repeating items (null / 'none') are always passed through as-is.
+ * - Repeating items generate occurrences within [fromStr, toStr] (inclusive, 'YYYY-MM-DD').
+ *   Each occurrence is a shallow copy of the source item with item_date replaced.
+ *   The source `id` is preserved so openEdit() always edits the source record.
+ */
+function expandItems(sourceItems, fromStr, toStr) {
+  const from = parseDateLocal(fromStr);
+  const to   = parseDateLocal(toStr);
+  const out  = [];
+
+  for (const item of sourceItems) {
+    const rule = item.repeat_rule;
+    if (!rule || rule === 'none') {
+      // Non-repeating: always include regardless of window
+      out.push(item);
+      continue;
+    }
+
+    // Repeating: generate occurrences inside the window
+    const base = parseDateLocal(item.item_date);
+    if (base > to) continue; // starts after window end — skip
+
+    // Advance from base to first occurrence >= from
+    let occ = new Date(base);
+    while (occ < from) occ = nextOcc(occ, rule);
+
+    let safety = 0;
+    while (occ <= to && safety < 800) {
+      out.push({ ...item, item_date: formatDateLocal(occ) });
+      occ = nextOcc(occ, rule);
+      safety++;
+    }
+  }
+
+  return out;
+}
+
+/** Compute the expand window for the list view: 30 days ago → 1 year from today */
+function listWindow() {
+  const from = new Date(); from.setDate(from.getDate() - 30);
+  const to   = new Date(); to.setFullYear(to.getFullYear() + 1);
+  return { fromStr: formatDateLocal(from), toStr: formatDateLocal(to) };
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SUPABASE
+───────────────────────────────────────────────────────────────────── */
+const SB_HEADS = {
+  'apikey':        SUPA_KEY,
+  'Authorization': `Bearer ${SUPA_KEY}`,
+  'Content-Type':  'application/json',
+  'Prefer':        'return=representation',
+};
+
+async function sbGet(path) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, { headers: SB_HEADS });
+  if (!r.ok) throw new Error(`GET ${path} → ${r.status}`);
+  return r.json();
+}
+
+async function sbInsert(table, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+    method: 'POST', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const text = await r.text().catch(() => '');
+    throw new Error(`INSERT ${table} → ${r.status}: ${text}`);
+  }
+  return r.json(); // returns inserted row(s)
+}
+
+async function sbPatch(table, qs, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
+    method: 'PATCH', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const text = await r.text().catch(() => '');
+    throw new Error(`PATCH ${table} → ${r.status}: ${text}`);
+  }
+  return r.json();
+}
+
+async function sbDelete(table, qs) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
+    method: 'DELETE',
+    headers: { ...SB_HEADS, 'Prefer': 'return=minimal' },
+  });
+  if (!r.ok) {
+    const text = await r.text().catch(() => '');
+    throw new Error(`DELETE ${table} → ${r.status}: ${text}`);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DATA LOADING
+───────────────────────────────────────────────────────────────────── */
+async function loadAll() {
+  const rows = await sbGet(
+    `date_items?user_id=eq.${USER_ID}&order=item_date.asc,start_time.asc.nullslast,title.asc`
+  );
+  allItems = rows;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SHARED ITEM-ROW BUILDER  (used by both list view and day panel)
+───────────────────────────────────────────────────────────────────── */
+function buildDateMap(items) {
+  const map = Object.create(null);
+  items.forEach(item => {
+    const d = item.item_date;
+    if (!map[d]) map[d] = [];
+    map[d].push(item);
+  });
+  return map;
+}
+
+function buildItemRowEl(item) {
+  const meta   = TYPE_META[item.type] ?? { icon: '📅', label: item.type || 'Item', color: '#A855F7', bg: 'rgba(168,85,247,.1)', border: 'rgba(168,85,247,.28)' };
+  const accent = item.color || meta.color;
+
+  const startFmt = fmtTime(item.start_time);
+  const endFmt   = fmtTime(item.end_time);
+  const timeStr  = startFmt ? (endFmt ? `${startFmt} – ${endFmt}` : startFmt) : '';
+
+  const timeHtml   = timeStr ? `<span class="di-time">${timeStr}</span>` : '';
+  const locHtml    = item.location ? `<span class="di-loc">📍 ${escHtml(item.location)}</span>` : '';
+  const repeatRule = item.repeat_rule;
+  const repeatHtml = (repeatRule && repeatRule !== 'none' && REPEAT_LABELS[repeatRule])
+    ? `<span class="di-repeat">${REPEAT_LABELS[repeatRule]}</span>` : '';
+  const metaHtml   = (timeHtml || locHtml || repeatHtml)
+    ? `<div class="di-meta">${timeHtml}${locHtml}${repeatHtml}</div>` : '';
+  const descHtml   = item.description ? `<div class="di-desc">${escHtml(item.description)}</div>` : '';
+
+  const row = document.createElement('div');
+  row.className = 'date-item-row';
+  row.style.borderLeftColor = accent;
+  row.setAttribute('role', 'button');
+  row.setAttribute('tabindex', '0');
+  row.innerHTML = `
+    <div class="di-type-icon">${meta.icon}</div>
+    <div class="di-body">
+      <div class="di-title">${escHtml(item.title)}</div>
+      ${metaHtml}${descHtml}
+    </div>
+    <span class="di-type-badge"
+      style="color:${meta.color};background:${meta.bg};border-color:${meta.border}">
+      ${meta.label}
+    </span>`;
+
+  row.addEventListener('click', () => openEdit(item.id));
+  row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openEdit(item.id); });
+  return row;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   VIEW MODE TOGGLE
+───────────────────────────────────────────────────────────────────── */
+function setViewMode(mode) {
+  viewMode = mode;
+  document.querySelectorAll('.view-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.mode === mode)
+  );
+  render();
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   CALENDAR VIEW
+───────────────────────────────────────────────────────────────────── */
+function prevMonth() {
+  calMonth--;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  selectedDay = null;
+  render();
+}
+
+function nextMonth() {
+  calMonth++;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  selectedDay = null;
+  render();
+}
+
+function selectDay(dateStr) {
+  // Tap same day again → deselect
+  selectedDay = (selectedDay === dateStr) ? null : dateStr;
+  render();
+}
+
+function renderCalendarView(container) {
+  // Expand items for the full visible month window
+  const daysInMonthForExpand = new Date(calYear, calMonth + 1, 0).getDate();
+  const monthFrom = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-01`;
+  const monthTo   = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(daysInMonthForExpand).padStart(2, '0')}`;
+  const expanded  = expandItems(allItems, monthFrom, monthTo);
+  const dateMap   = buildDateMap(expanded);
+  const today     = todayStr();
+
+  const monthName   = new Date(calYear, calMonth, 1)
+    .toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const firstDow    = new Date(calYear, calMonth, 1).getDay();     // 0=Sun
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const prevDays    = new Date(calYear, calMonth, 0).getDate();
+
+  // Build cells: leading blanks (prev month), current month, trailing blanks
+  const cells = [];
+  for (let i = firstDow - 1; i >= 0; i--)    cells.push({ d: prevDays - i, cur: false });
+  for (let d = 1; d <= daysInMonth; d++)      cells.push({ d, cur: true });
+  while (cells.length % 7 !== 0)              cells.push({ d: cells.length - daysInMonth - firstDow + 1, cur: false });
+
+  const dowHtml = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+    .map(lbl => `<div class="cal-dow-cell">${lbl}</div>`).join('');
+
+  const gridHtml = cells.map(({ d, cur }) => {
+    if (!cur) return `<div class="cal-day other-month"><div class="cal-day-num">${d}</div></div>`;
+
+    const ds    = `${calYear}-${String(calMonth + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const items = dateMap[ds] || [];
+    const isT   = ds === today;
+    const isSel = ds === selectedDay;
+
+    const dots = items.slice(0, 4).map(it => {
+      const c = it.color || (TYPE_META[it.type] ?? { color: '#A855F7' }).color;
+      return `<div class="cal-dot" style="background:${c}"></div>`;
+    }).join('');
+
+    const cls = ['cal-day', isT ? 'today' : '', isSel ? 'selected' : '']
+      .filter(Boolean).join(' ');
+
+    return `<div class="${cls}" data-date="${ds}">
+      <div class="cal-day-num">${d}</div>
+      ${dots ? `<div class="cal-dots">${dots}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // Build the calendar card as HTML, then wire events
+  const wrap = document.createElement('div');
+  wrap.className = 'cal-wrap';
+  wrap.innerHTML = `
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="calPrev">‹</button>
+      <div class="cal-month-label">${monthName}</div>
+      <button class="cal-nav-btn" id="calNext">›</button>
+    </div>
+    <div class="cal-card">
+      <div class="cal-dow-row">${dowHtml}</div>
+      <div class="cal-grid">${gridHtml}</div>
+    </div>`;
+
+  wrap.querySelector('#calPrev').addEventListener('click', prevMonth);
+  wrap.querySelector('#calNext').addEventListener('click', nextMonth);
+  wrap.querySelectorAll('.cal-day:not(.other-month)').forEach(el =>
+    el.addEventListener('click', () => selectDay(el.dataset.date))
+  );
+
+  container.appendChild(wrap);
+
+  // Day panel — rendered below grid when a day is selected
+  if (selectedDay) {
+    const dayItems = dateMap[selectedDay] || [];
+    const { label } = fmtDateLabel(selectedDay);
+
+    const panel = document.createElement('div');
+    panel.className = 'day-panel';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'day-panel-header';
+    hdr.innerHTML = `
+      <div class="day-panel-line"></div>
+      <div class="day-panel-label">${label}</div>
+      <div class="day-panel-line"></div>`;
+    panel.appendChild(hdr);
+
+    if (!dayItems.length) {
+      const empty = document.createElement('div');
+      empty.className = 'day-panel-empty';
+      empty.textContent = 'Nothing scheduled — tap ＋ to add something';
+      panel.appendChild(empty);
+    } else {
+      const card = document.createElement('div');
+      card.className = 'section-card';
+      dayItems.forEach(item => card.appendChild(buildItemRowEl(item)));
+      panel.appendChild(card);
+    }
+
+    container.appendChild(panel);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   RENDER
+───────────────────────────────────────────────────────────────────── */
+function render() {
+  const container = document.getElementById('schedule');
+  const sub       = document.getElementById('headerSub');
+  container.innerHTML = '';
+
+  const count = allItems.length;
+  sub.textContent = `${count} item${count !== 1 ? 's' : ''} · events, tasks & reminders`;
+
+  // ── Calendar view ────────────────────────────────────────────────
+  if (viewMode === 'calendar') {
+    renderCalendarView(container);
+    return;
+  }
+
+  // ── List view ────────────────────────────────────────────────────
+  if (!count) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📅</div>
+        <div class="empty-title">No items yet</div>
+        <div class="empty-sub">Tap ＋ to add your first event, task or reminder</div>
+      </div>`;
+    return;
+  }
+
+  // Expand repeating items within the list window
+  const { fromStr, toStr } = listWindow();
+  const displayItems = expandItems(allItems, fromStr, toStr);
+
+  // Group by item_date
+  const groups = Object.create(null);
+  displayItems.forEach(item => {
+    const key = item.item_date;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  });
+
+  Object.keys(groups).sort().forEach(dateStr => {
+    const items = groups[dateStr];
+    const { label, isToday, isPast } = fmtDateLabel(dateStr);
+
+    const groupHeader = document.createElement('div');
+    groupHeader.className = 'date-group-header';
+    const labelClass = isToday ? 'today' : isPast ? 'past' : '';
+    groupHeader.innerHTML = `
+      <div class="date-group-line"></div>
+      <div class="date-group-label${labelClass ? ' ' + labelClass : ''}">${label}</div>
+      <div class="date-group-line"></div>`;
+    container.appendChild(groupHeader);
+
+    const card = document.createElement('div');
+    card.className = 'section-card';
+    items.forEach(item => card.appendChild(buildItemRowEl(item)));
+    container.appendChild(card);
+  });
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   FORM SHEET — OPEN / CLOSE
+───────────────────────────────────────────────────────────────────── */
+function openCreate() {
+  editingId   = null;
+  pickedColor = '';
+
+  document.getElementById('sheetTitle').textContent   = 'New Item';
+  document.getElementById('fTitle').value             = '';
+  document.getElementById('fType').value              = 'event';
+  // Pre-fill date: use selected calendar day if in calendar view, else today
+  document.getElementById('fDate').value              = (viewMode === 'calendar' && selectedDay) ? selectedDay : todayStr();
+  document.getElementById('fRepeat').value            = 'none';
+  document.getElementById('fStart').value             = '';
+  document.getElementById('fEnd').value               = '';
+  document.getElementById('fLocation').value          = '';
+  document.getElementById('fDesc').value              = '';
+  document.getElementById('sheetSave').textContent    = 'Save item 💜';
+
+  syncColorSwatches('');
+  setDeleteBtn(false);
+  showSheet();
+}
+
+function openEdit(id) {
+  const item = allItems.find(x => x.id === id);
+  if (!item) return;
+
+  editingId   = id;
+  pickedColor = item.color || '';
+
+  document.getElementById('sheetTitle').textContent   = 'Edit Item';
+  document.getElementById('fTitle').value             = item.title                  || '';
+  document.getElementById('fType').value              = item.type                   || 'event';
+  document.getElementById('fDate').value              = item.item_date              || todayStr();
+  document.getElementById('fRepeat').value            = item.repeat_rule            || 'none';
+  document.getElementById('fStart').value             = item.start_time  ? item.start_time.slice(0,5) : '';
+  document.getElementById('fEnd').value               = item.end_time    ? item.end_time.slice(0,5)   : '';
+  document.getElementById('fLocation').value          = item.location    || '';
+  document.getElementById('fDesc').value              = item.description || '';
+  document.getElementById('sheetSave').textContent    = 'Save changes 💜';
+
+  syncColorSwatches(pickedColor);
+  setDeleteBtn(true);
+  showSheet();
+}
+
+function showSheet() {
+  const overlay = document.getElementById('formSheet');
+  overlay.classList.remove('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+  setTimeout(() => document.getElementById('fTitle').focus(), 60);
+}
+
+function closeSheet() {
+  const overlay = document.getElementById('formSheet');
+  overlay.classList.add('hidden');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DELETE BUTTON (edit mode only)
+───────────────────────────────────────────────────────────────────── */
+function setDeleteBtn(show) {
+  const existing = document.getElementById('deleteBtn');
+  if (existing) existing.remove();
+  if (!show) return;
+
+  const btn = document.createElement('button');
+  btn.id = 'deleteBtn';
+  btn.className = 'btn-delete';
+  btn.textContent = 'Delete';
+  btn.addEventListener('click', handleDelete);
+
+  const footer = document.getElementById('sheetFooter');
+  footer.insertBefore(btn, footer.firstChild);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   COLOR SWATCHES
+───────────────────────────────────────────────────────────────────── */
+function syncColorSwatches(selectedColor) {
+  // Mark preset swatches
+  document.querySelectorAll('#colorSwatches .color-swatch:not(.custom-swatch)').forEach(sw => {
+    const swColor = sw.dataset.color ?? '';
+    sw.classList.toggle('active', swColor === selectedColor);
+  });
+
+  // Mark custom swatch if it's a non-preset color
+  const customSwatch = document.querySelector('.custom-swatch');
+  if (selectedColor && !PRESET_COLORS.includes(selectedColor)) {
+    document.getElementById('colorCustomInput').value = selectedColor;
+    customSwatch.classList.add('active');
+  } else {
+    customSwatch.classList.remove('active');
+  }
+}
+
+// Preset swatch clicks
+document.querySelectorAll('#colorSwatches .color-swatch:not(.custom-swatch)').forEach(sw => {
+  sw.addEventListener('click', () => {
+    pickedColor = sw.dataset.color ?? '';
+    syncColorSwatches(pickedColor);
+  });
+});
+
+// Custom color picker — clicking the swatch opens the native picker
+document.querySelector('.custom-swatch').addEventListener('click', () => {
+  // Immediately mark as active with the current custom input value
+  pickedColor = document.getElementById('colorCustomInput').value;
+  syncColorSwatches(pickedColor);
+});
+document.getElementById('colorCustomInput').addEventListener('input', e => {
+  pickedColor = e.target.value;
+  syncColorSwatches(pickedColor);
+});
+
+/* ─────────────────────────────────────────────────────────────────────
+   SAVE
+───────────────────────────────────────────────────────────────────── */
+async function handleSave() {
+  const title = document.getElementById('fTitle').value.trim();
+  if (!title) {
+    document.getElementById('fTitle').focus();
+    showToast('⚠️ Title is required');
+    return;
+  }
+  const date = document.getElementById('fDate').value;
+  if (!date) {
+    document.getElementById('fDate').focus();
+    showToast('⚠️ Date is required');
+    return;
+  }
+
+  const saveBtn = document.getElementById('sheetSave');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Saving…';
+
+  const payload = {
+    title,
+    type:        document.getElementById('fType').value,
+    item_date:   date,
+    repeat_rule: document.getElementById('fRepeat').value   || 'none',
+    start_time:  document.getElementById('fStart').value    || null,
+    end_time:    document.getElementById('fEnd').value      || null,
+    location:    document.getElementById('fLocation').value.trim() || null,
+    description: document.getElementById('fDesc').value.trim()    || null,
+    color:       pickedColor || null,
+  };
+
+  try {
+    if (editingId) {
+      // Update
+      const [updated] = await sbPatch(
+        'date_items',
+        `id=eq.${editingId}&user_id=eq.${USER_ID}`,
+        payload
+      );
+      const idx = allItems.findIndex(x => x.id === editingId);
+      if (idx !== -1) allItems[idx] = updated ?? { ...allItems[idx], ...payload };
+      allItems = sortItems(allItems);
+      showToast('✅ Item updated');
+    } else {
+      // Insert
+      const [inserted] = await sbInsert('date_items', { user_id: USER_ID, ...payload });
+      allItems.push(inserted);
+      allItems = sortItems(allItems);
+      showToast('✅ Item added');
+    }
+    closeSheet();
+    render();
+  } catch (e) {
+    console.error('Save failed:', e);
+    showToast('❌ Save failed — try again');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = editingId ? 'Save changes 💜' : 'Save item 💜';
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DELETE
+───────────────────────────────────────────────────────────────────── */
+async function handleDelete() {
+  if (!editingId) return;
+  const item = allItems.find(x => x.id === editingId);
+  const name = item ? `"${item.title}"` : 'this item';
+
+  if (!confirm(`Delete ${name}?\nThis cannot be undone.`)) return;
+
+  const deleteBtn = document.getElementById('deleteBtn');
+  if (deleteBtn) { deleteBtn.disabled = true; deleteBtn.textContent = 'Deleting…'; }
+
+  try {
+    await sbDelete('date_items', `id=eq.${editingId}&user_id=eq.${USER_ID}`);
+    allItems = allItems.filter(x => x.id !== editingId);
+    closeSheet();
+    render();
+    showToast('🗑️ Item deleted');
+  } catch (e) {
+    console.error('Delete failed:', e);
+    showToast('❌ Delete failed — try again');
+    if (deleteBtn) { deleteBtn.disabled = false; deleteBtn.textContent = 'Delete'; }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   EVENT WIRING
+───────────────────────────────────────────────────────────────────── */
+document.getElementById('fab').addEventListener('click', openCreate);
+document.getElementById('sheetCancel').addEventListener('click', closeSheet);
+document.getElementById('sheetBackdrop').addEventListener('click', closeSheet);
+document.getElementById('sheetSave').addEventListener('click', handleSave);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+// View toggle buttons
+document.querySelectorAll('#viewToggle .view-btn').forEach(btn =>
+  btn.addEventListener('click', () => setViewMode(btn.dataset.mode))
+);
+
+/* ─────────────────────────────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────────────────────────────── */
+async function init() {
+  try {
+    await loadAll();
+    render();
+  } catch (e) {
+    console.error('Init failed:', e);
+    document.getElementById('schedule').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">⚠️</div>
+        <div class="empty-title">Failed to load</div>
+        <div class="empty-sub">${escHtml(e.message)}</div>
+      </div>`;
+  } finally {
+    document.getElementById('loader').classList.add('hidden');
+    document.getElementById('app').style.display = '';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
