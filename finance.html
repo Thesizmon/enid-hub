@@ -241,6 +241,64 @@
       padding: 2px 8px; border-radius: 10px;
     }
 
+    /* ── Cleared row treatment ──────────────────────────────────────── */
+    .oblig-row.is-cleared {
+      opacity: .62;
+      border-left-color: #22c55e !important;
+      background: rgba(34,197,94,.03);
+    }
+
+    /* ── Lifecycle toggle row ───────────────────────────────────────── */
+    .lifecycle-row {
+      margin-top: 8px;
+      display: flex; gap: 5px; flex-wrap: wrap;
+    }
+    .lc-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .67rem; font-weight: 700; letter-spacing: .03em;
+      padding: 4px 11px; border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--sub);
+      cursor: pointer;
+      transition: background .13s, border-color .13s, color .13s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .lc-btn:hover { background: rgba(168,85,247,.06); }
+    .lc-btn.active {
+      background: var(--lc-color);
+      border-color: var(--lc-color);
+      color: #fff;
+    }
+
+    /* ── Variable spent input ───────────────────────────────────────── */
+    .spent-row {
+      margin-top: 8px;
+      display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+    }
+    .spent-label {
+      font-size: .72rem; font-weight: 600; color: var(--sub);
+    }
+    .spent-input {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .84rem; font-weight: 700; color: var(--text);
+      width: 84px; padding: 4px 8px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,.75);
+      outline: none;
+      transition: border-color .15s;
+      -moz-appearance: textfield;
+    }
+    .spent-input::-webkit-outer-spin-button,
+    .spent-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .spent-input:focus { border-color: var(--pink); }
+    .spent-budget {
+      font-size: .72rem; color: var(--sub);
+    }
+
     /* ── Empty state ────────────────────────────────────────────────── */
     .empty-state {
       text-align: center; padding: 40px 20px;
@@ -424,10 +482,16 @@ function renderSummary(period) {
   const startBal    = period.start_balance || 0;
   const totalIncome = incomeBbs + incomeKt + startBal;
 
-  // Obligations total = active (non-paid-off) items only
+  // Obligations total = active (non-paid-off) items
+  // For variable items with a tracked spent_amount, use that instead of the budget amount
   const totalOblig = obligations
     .filter(o => !o.is_paid_off)
-    .reduce((s, o) => s + (Number(o.amount) || 0), 0);
+    .reduce((s, o) => {
+      const eff = (o.is_variable && o.spent_amount !== null && o.spent_amount !== undefined)
+        ? Number(o.spent_amount)
+        : Number(o.amount) || 0;
+      return s + eff;
+    }, 0);
 
   const leftover = totalIncome - totalOblig;
 
@@ -525,7 +589,8 @@ function renderObligations() {
 }
 
 function buildObligRow(o, catColor) {
-  const paidOff = o.is_paid_off;
+  const paidOff  = o.is_paid_off;
+  const cleared  = o.is_cleared;
 
   // Meta line: due date, APR, variable indicator
   const metaParts = [];
@@ -544,8 +609,45 @@ function buildObligRow(o, catColor) {
     ? '<div class="paid-off-badge">✓ Paid Off</div>'
     : (o.is_final ? '<div class="final-badge">🎉 Final Payment</div>' : '');
 
+  // Lifecycle toggles (only for active, non-paid-off items)
+  const togglesHtml = paidOff ? '' : `
+    <div class="lifecycle-row">
+      <button class="lc-btn${o.is_checked   ? ' active' : ''}"
+              style="--lc-color:#E84EA0"
+              data-toggle="${o.id}:is_checked"
+              onclick="toggleLifecycle('${o.id}','is_checked')">✓ Checked</button>
+      <button class="lc-btn${o.is_scheduled ? ' active' : ''}"
+              style="--lc-color:#F59E0B"
+              data-toggle="${o.id}:is_scheduled"
+              onclick="toggleLifecycle('${o.id}','is_scheduled')">📅 Scheduled</button>
+      <button class="lc-btn${o.is_cleared   ? ' active' : ''}"
+              style="--lc-color:#22c55e"
+              data-toggle="${o.id}:is_cleared"
+              onclick="toggleLifecycle('${o.id}','is_cleared')">✓ Cleared</button>
+    </div>`;
+
+  // Variable spending input (only for variable, non-paid-off items)
+  const spentVal = (o.spent_amount !== null && o.spent_amount !== undefined)
+    ? Number(o.spent_amount).toFixed(2) : '';
+  const spentHtml = (o.is_variable && !paidOff) ? `
+    <div class="spent-row">
+      <span class="spent-label">Spent</span>
+      <input class="spent-input" type="number" min="0" step="0.01"
+             placeholder="0.00"
+             value="${spentVal}"
+             onblur="saveSpent('${o.id}',this)"
+             onkeydown="if(event.key==='Enter')this.blur()">
+      <span class="spent-budget">/ ${fmtMoney(o.amount)} budget</span>
+    </div>` : '';
+
+  // Row classes
+  const rowClasses = ['oblig-row',
+    paidOff ? 'paid-off' : '',
+    cleared  ? 'is-cleared' : '',
+  ].filter(Boolean).join(' ');
+
   return `
-    <div class="oblig-row${paidOff ? ' paid-off' : ''}" style="--cat-color:${catColor}">
+    <div class="${rowClasses}" data-oblig-id="${o.id}" style="--cat-color:${catColor}">
       <div class="oblig-main">
         <span class="oblig-name">${escHtml(o.name)}</span>
         <span class="oblig-amount">${fmtMoney(o.amount)}</span>
@@ -553,6 +655,8 @@ function buildObligRow(o, catColor) {
       ${metaHtml}
       ${noteHtml}
       ${badgeHtml}
+      ${spentHtml}
+      ${togglesHtml}
     </div>
   `;
 }
@@ -571,6 +675,96 @@ function escHtml(s) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+/* ── Supabase PATCH ─────────────────────────────────────────────────── */
+async function sbPatch(path, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+    method:  'PATCH',
+    headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
+    body:    JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`Supabase PATCH ${r.status}: ${await r.text()}`);
+}
+
+/* ── Lifecycle toggle ────────────────────────────────────────────────── */
+async function toggleLifecycle(id, field) {
+  const idx = obligations.findIndex(o => o.id === id);
+  if (idx < 0) return;
+
+  const newVal = !obligations[idx][field];
+
+  // Optimistic update — mutate state
+  obligations[idx] = { ...obligations[idx], [field]: newVal };
+
+  // Update toggle button appearance
+  const btn = document.querySelector(`[data-toggle="${id}:${field}"]`);
+  if (btn) btn.classList.toggle('active', newVal);
+
+  // Update row visual (cleared state affects row style)
+  updateRowStyle(id);
+
+  // Recalculate summary
+  refreshSummary();
+
+  // Persist to Supabase (revert on error)
+  try {
+    await sbPatch(`finance_obligations?id=eq.${id}`, { [field]: newVal });
+  } catch (e) {
+    console.error('toggleLifecycle save failed:', e);
+    // Revert
+    obligations[idx] = { ...obligations[idx], [field]: !newVal };
+    if (btn) btn.classList.toggle('active', !newVal);
+    updateRowStyle(id);
+    refreshSummary();
+  }
+}
+
+/* ── Update row DOM style after toggle ───────────────────────────────── */
+function updateRowStyle(id) {
+  const o   = obligations.find(o => o.id === id);
+  const row = document.querySelector(`[data-oblig-id="${id}"]`);
+  if (!o || !row) return;
+  row.classList.toggle('is-cleared', !!o.is_cleared);
+}
+
+/* ── Variable spending input ─────────────────────────────────────────── */
+async function saveSpent(id, inputEl) {
+  const raw = inputEl.value.trim();
+  const val = raw === '' ? null : parseFloat(raw);
+
+  // Reject non-numeric
+  if (raw !== '' && (isNaN(val) || val < 0)) {
+    const idx = obligations.findIndex(o => o.id === id);
+    const prev = idx >= 0 ? obligations[idx].spent_amount : null;
+    inputEl.value = (prev !== null && prev !== undefined)
+      ? Number(prev).toFixed(2) : '';
+    return;
+  }
+
+  const idx = obligations.findIndex(o => o.id === id);
+  if (idx < 0) return;
+
+  obligations[idx] = { ...obligations[idx], spent_amount: val };
+
+  // Update displayed amount on the input itself
+  inputEl.value = val !== null ? Number(val).toFixed(2) : '';
+
+  // Recalculate summary
+  refreshSummary();
+
+  // Persist
+  try {
+    await sbPatch(`finance_obligations?id=eq.${id}`, { spent_amount: val });
+  } catch (e) {
+    console.error('saveSpent failed:', e);
+  }
+}
+
+/* ── Re-render summary using current state ───────────────────────────── */
+function refreshSummary() {
+  const period = periods.find(p => p.id === activePid);
+  if (period) renderSummary(period);
 }
 
 /* ── Boot ───────────────────────────────────────────────────────────── */
