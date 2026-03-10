@@ -505,7 +505,62 @@
     }
     .note-btn-save:hover  { opacity: .9; }
     .note-btn-save:active { transform: scale(.97); }
+
+    /* ── Notification system ──────────────────────────────────────────── */
+    @keyframes overlayIn   { from{opacity:0}             to{opacity:1} }
+    @keyframes modalPop    { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+    @keyframes noteSlideIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes toastFadeUp { from{opacity:0;transform:translate(-50%,12px)} to{opacity:1;transform:translate(-50%,0)} }
+    @keyframes slideUp     { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+    .ns-overlay{position:fixed;inset:0;background:rgba(45,27,61,.5);z-index:250;display:flex;align-items:flex-start;justify-content:center;padding:20px 16px;backdrop-filter:blur(8px);animation:overlayIn .2s ease;overflow-y:auto}
+    .ns-modal{background:rgba(255,255,255,.95);border:1.5px solid rgba(232,78,160,.22);border-radius:24px;padding:28px 24px;width:100%;max-width:520px;box-shadow:0 24px 64px rgba(45,27,61,.28);backdrop-filter:blur(20px);animation:modalPop .3s cubic-bezier(.34,1.56,.64,1)}
+    .ns-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px}
+    .ns-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+    .ns-subtitle{font-size:.74rem;color:rgba(124,111,155,.6);margin-top:3px}
+    .ns-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:rgba(124,111,155,.6);transition:color .2s;line-height:1;padding:4px;flex-shrink:0}
+    .ns-close:hover{color:var(--pink)}
+    .ns-body{max-height:70vh;overflow-y:auto;padding-right:4px}
+    .ns-body::-webkit-scrollbar{width:4px}
+    .ns-body::-webkit-scrollbar-thumb{background:rgba(232,78,160,.3);border-radius:4px}
+    .ns-group{margin-bottom:16px}
+    .ns-group-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);padding:4px 0 8px;border-bottom:1px solid rgba(168,85,247,.1);margin-bottom:8px}
+    .ns-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:13px;cursor:pointer;transition:background .18s;border:1px solid transparent}
+    .ns-row:hover{background:rgba(232,78,160,.05);border-color:rgba(232,78,160,.12)}
+    .ns-row-info{flex:1;min-width:0}
+    .ns-row-label{font-size:.83rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ns-row-meta{font-size:.72rem;color:var(--sub);margin-top:2px}
+    .ns-chevron{font-size:1.2rem;color:rgba(124,111,155,.6);transition:transform .2s;flex-shrink:0;user-select:none}
+    .ns-type-tag{display:inline-block;font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:999px;margin-left:5px;vertical-align:middle}
+    .ns-type-conditional{background:rgba(245,158,11,.15);color:#B45309;border:1px solid rgba(245,158,11,.3)}
+    .ns-type-monthly{background:rgba(59,130,246,.12);color:#1D4ED8;border:1px solid rgba(59,130,246,.2)}
+    .ns-toggle{position:relative;display:flex;align-items:center;flex-shrink:0;cursor:pointer}
+    .ns-toggle input{position:absolute;opacity:0;width:0;height:0}
+    .ns-toggle-track{width:36px;height:20px;border-radius:10px;background:rgba(168,85,247,.2);transition:background .2s;cursor:pointer;display:block;position:relative}
+    .ns-toggle input:checked+.ns-toggle-track{background:linear-gradient(135deg,var(--pink),var(--purple))}
+    .ns-toggle-track::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+    .ns-toggle input:checked+.ns-toggle-track::after{transform:translateX(16px)}
+    .ns-editor-row{padding:12px 12px 14px;margin:0 0 6px;background:rgba(168,85,247,.04);border:1.5px solid rgba(232,78,160,.14);border-radius:0 0 13px 13px;animation:noteSlideIn .2s ease}
+    .ns-edit-input,.ns-edit-textarea{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(168,85,247,.2);background:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--text);outline:none;transition:border-color .2s;margin-bottom:8px;box-sizing:border-box}
+    .ns-edit-input:focus,.ns-edit-textarea:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(232,78,160,.15)}
+    .ns-edit-textarea{min-height:64px;resize:vertical;line-height:1.5}
+    .ns-edit-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .ns-edit-time{padding:7px 10px;border-radius:9px;border:1.5px solid rgba(168,85,247,.2);background:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--text);outline:none;transition:border-color .2s}
+    .ns-edit-time:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(232,78,160,.15)}
+    .ns-edit-days-label{font-size:.72rem;color:var(--sub);font-weight:600}
+    .ns-day-cb{display:inline-flex;align-items:center;cursor:pointer;font-size:.7rem;color:var(--sub)}
+    .ns-day-cb input{display:none}
+    .ns-day-cb span{padding:3px 6px;border-radius:5px;border:1.5px solid rgba(168,85,247,.18);background:transparent;transition:all .15s;font-weight:600}
+    .ns-day-cb input:checked+span{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border-color:transparent}
+    .ns-save-btn{width:100%;padding:9px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .2s}
+    .ns-save-btn:hover{opacity:.88;transform:translateY(-1px)}
   </style>
+  <!-- PWA -->
+  <meta name="theme-color" content="#E84EA0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Enid 🐺">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -558,6 +613,38 @@
         <button class="note-btn-skip" id="noteSkip">Skip</button>
         <button class="note-btn-save" id="noteSave">Save note 💜</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Notification permission banner -->
+<div id="notifBanner" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:300;width:calc(100% - 40px);max-width:500px">
+  <div style="background:linear-gradient(135deg,rgba(232,78,160,.96),rgba(168,85,247,.96));border-radius:18px;padding:18px 20px;box-shadow:0 8px 32px rgba(232,78,160,.35);backdrop-filter:blur(12px);display:flex;align-items:center;gap:14px;animation:slideUp .4s cubic-bezier(.34,1.56,.64,1)">
+    <div style="font-size:1.8rem;flex-shrink:0">🐺</div>
+    <div style="flex:1">
+      <div style="font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:#fff">Enable Enid notifications?</div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.8);margin-top:3px">Morning kickoff, after work check-in, evening routine &amp; weekend nudges 💜</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+      <button onclick="requestNotifPermission()" style="padding:7px 16px;border-radius:999px;border:none;background:#fff;color:var(--pink);font-size:.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">Yes please!! ✨</button>
+      <button onclick="dismissNotifBanner()" style="padding:5px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif">Not now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification Settings Modal -->
+<div class="ns-overlay" id="notifSettingsOverlay" style="display:none"
+     onclick="if(event.target.id==='notifSettingsOverlay')closeNotifSettings()">
+  <div class="ns-modal">
+    <div class="ns-header">
+      <div>
+        <div class="ns-title">🔔 Notification Schedule</div>
+        <div class="ns-subtitle">Tap a row to edit title, body, time &amp; days 💜</div>
+      </div>
+      <button class="ns-close" onclick="closeNotifSettings()">✕</button>
+    </div>
+    <div class="ns-body" id="nsBody">
+      <!-- Rendered by renderNotifModal() -->
     </div>
   </div>
 </div>
@@ -1400,6 +1487,297 @@ async function buildDayNav() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
+   PWA & NOTIFICATIONS
+───────────────────────────────────────────────────────────────────── */
+
+// ── Service Worker registration ───────────────────────────────────────────────
+let swRegistration = null;
+
+async function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    swRegistration = await navigator.serviceWorker.register('sw.js', {scope:'/enid-hub/'});
+    console.log('🐺 Service Worker registered!!');
+    scheduleNotifications();
+  } catch(e) {
+    console.log('SW registration failed:', e);
+  }
+}
+
+// ── Notification permission banner ────────────────────────────────────────────
+const NOTIF_DISMISSED_KEY = 'enid_hub_notif_dismissed';
+
+function checkNotifBanner() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'granted') { scheduleNotifications(); return; }
+  if (Notification.permission === 'denied') return;
+  if (localStorage.getItem(NOTIF_DISMISSED_KEY)) return;
+  setTimeout(() => { document.getElementById('notifBanner').style.display = 'block'; }, 3000);
+}
+
+async function requestNotifPermission() {
+  dismissNotifBanner();
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    scheduleNotifications();
+    showToast("Notifications enabled!! 🐺🔥 I'll remind you every day 💜");
+  }
+}
+
+function dismissNotifBanner() {
+  document.getElementById('notifBanner').style.display = 'none';
+  localStorage.setItem(NOTIF_DISMISSED_KEY, '1');
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;padding:12px 22px;border-radius:999px;font-size:.82rem;font-weight:700;z-index:400;box-shadow:0 4px 20px rgba(232,78,160,.4);white-space:nowrap;animation:toastFadeUp .4s ease';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// ── Notification scheduler ────────────────────────────────────────────────────
+// setInterval checks every 30s; SW displays the notification when triggered.
+let schedulerInterval = null;
+let NOTIF_SCHEDULE    = [];  // rows from Supabase notifications table
+
+const firedToday = new Set();
+
+async function loadNotifications() {
+  try {
+    const rows = await sbGet(`notifications?user_id=eq.${USER_ID}&order=hour.asc,minute.asc`);
+    if (rows && rows.length) NOTIF_SCHEDULE = rows;
+    else console.warn('🐺 No notification schedule found — seed the notifications table');
+  } catch(e) {
+    console.warn('🐺 loadNotifications failed:', e);
+  }
+}
+
+async function saveNotification(notif) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/notifications`, {
+    method: 'POST',
+    headers: {
+      'apikey':        SUPA_KEY,
+      'Authorization': `Bearer ${SUPA_KEY}`,
+      'Content-Type':  'application/json',
+      'Prefer':        'resolution=merge-duplicates,return=minimal',
+    },
+    body: JSON.stringify(notif),
+  });
+  return r.ok;
+}
+
+function scheduleNotifications() {
+  if (Notification.permission !== 'granted') return;
+  if (schedulerInterval) clearInterval(schedulerInterval);
+  checkSchedule();
+  schedulerInterval = setInterval(checkSchedule, 30000);
+}
+
+function checkSchedule() {
+  if (!NOTIF_SCHEDULE.length) return;
+
+  const now      = new Date();
+  const dow      = now.getDay();
+  const hour     = now.getHours();
+  const min      = now.getMinutes();
+  const todayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+
+  // Reset the fired set at midnight
+  if (firedToday.has('__date__') && !firedToday.has(todayKey)) firedToday.clear();
+  firedToday.add('__date__');
+  firedToday.add(todayKey);
+
+  NOTIF_SCHEDULE.forEach(n => {
+    if (!n.enabled) return;
+
+    const key = `${todayKey}_${n.id}`;
+    if (firedToday.has(key)) return;
+    if (hour !== n.hour || min !== n.minute) return;
+
+    // Monthly: only fires on the last calendar day of the month
+    if (n.notif_type === 'monthly') {
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      if (tomorrow.getMonth() === now.getMonth()) return; // not last day
+    } else {
+      if (!n.days.includes(dow)) return;
+    }
+
+    // Conditional: suppress if any habits already completed today
+    if (n.notif_type === 'conditional') {
+      if (dayCompletions.size > 0) return;
+    }
+
+    firedToday.add(key);
+    fireNotification(n);
+  });
+}
+
+function fireNotification(notif) {
+  if (swRegistration) {
+    navigator.serviceWorker.controller?.postMessage({
+      type:  'SHOW_NOTIFICATION',
+      title: notif.title,
+      body:  notif.body,
+      tag:   `enid-${notif.id}`,
+      url:   '/enid-hub/',
+    });
+  } else {
+    new Notification(notif.title, {
+      body: notif.body,
+      icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"%3E%3Crect width="192" height="192" rx="40" fill="%23E84EA0"/%3E%3Ctext y="140" x="96" text-anchor="middle" font-size="120"%3E🐺%3C/text%3E%3C/svg%3E',
+      tag:  `enid-${notif.id}`,
+    });
+  }
+}
+
+// ── Notification settings modal ───────────────────────────────────────────────
+function openNotifSettings() {
+  if (!('Notification' in window)) { showToast('Notifications not supported in this browser 😔'); return; }
+  if (Notification.permission === 'denied') {
+    showToast('Notifications blocked! Tap the lock icon → Notifications → Allow 💜');
+    return;
+  }
+  if (Notification.permission === 'default') { requestNotifPermission(); return; }
+  renderNotifModal();
+  document.getElementById('notifSettingsOverlay').style.display = 'flex';
+}
+
+function closeNotifSettings() {
+  document.getElementById('notifSettingsOverlay').style.display = 'none';
+  document.querySelectorAll('.ns-editor-row').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.ns-chevron').forEach(el => el.style.transform = '');
+}
+
+function renderNotifModal() {
+  if (!NOTIF_SCHEDULE.length) {
+    document.getElementById('nsBody').innerHTML =
+      `<div style="text-align:center;padding:32px 20px;font-family:'Playfair Display',serif;color:var(--sub)">No schedule loaded 🐺<br><small>Seed the notifications table in Supabase!</small></div>`;
+    return;
+  }
+
+  const GROUP_ORDER = ['Morning', 'Afternoon', 'Evening', 'Weekend', 'Monthly'];
+  const GROUP_ICONS = { Morning:'☀️', Afternoon:'💼', Evening:'🌙', Weekend:'📋', Monthly:'💰' };
+  const grouped = {};
+  GROUP_ORDER.forEach(g => { grouped[g] = []; });
+  NOTIF_SCHEDULE.forEach(n => { if (grouped[n.group_label]) grouped[n.group_label].push(n); });
+
+  let html = '';
+  GROUP_ORDER.forEach(group => {
+    const rows = grouped[group];
+    if (!rows.length) return;
+    html += `<div class="ns-group"><div class="ns-group-label">${GROUP_ICONS[group]} ${group}</div>`;
+    rows.forEach(n => {
+      const timeStr = `${String(n.hour).padStart(2,'0')}:${String(n.minute).padStart(2,'0')}`;
+      const daysStr = _fmtDaysShort(n.days, n.notif_type);
+      const typeTag = n.notif_type !== 'fixed'
+        ? `<span class="ns-type-tag ns-type-${n.notif_type}">${n.notif_type}</span>` : '';
+      html += `
+        <div class="ns-row" onclick="toggleNotifEditor('${n.id}')">
+          <label class="ns-toggle" onclick="event.stopPropagation()">
+            <input type="checkbox" ${n.enabled ? 'checked' : ''}
+              onchange="toggleNotifEnabled('${n.id}', this.checked)">
+            <span class="ns-toggle-track"></span>
+          </label>
+          <div class="ns-row-info">
+            <div class="ns-row-label">${n.label}${typeTag}</div>
+            <div class="ns-row-meta">${timeStr} · ${daysStr}</div>
+          </div>
+          <div class="ns-chevron" id="nsChevron_${n.id}">›</div>
+        </div>
+        <div class="ns-editor-row" id="nsEditor_${n.id}" style="display:none">
+          <input class="ns-edit-input" id="nsTitle_${n.id}" value="${_escHtml(n.title)}" placeholder="Notification title">
+          <textarea class="ns-edit-textarea" id="nsBodyTxt_${n.id}" placeholder="Notification body">${_escHtml(n.body)}</textarea>
+          <div class="ns-edit-row">
+            <input type="time" class="ns-edit-time" id="nsTime_${n.id}" value="${timeStr}">
+            <span class="ns-edit-days-label">Days:</span>
+            ${_buildDayCheckboxes(n.id, n.days, n.notif_type)}
+          </div>
+          <button class="ns-save-btn" onclick="saveNotifRow('${n.id}')">Save 💜</button>
+        </div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('nsBody').innerHTML = html;
+}
+
+function toggleNotifEditor(id) {
+  const editor  = document.getElementById(`nsEditor_${id}`);
+  const chevron = document.getElementById(`nsChevron_${id}`);
+  const isOpen  = editor.style.display !== 'none';
+  document.querySelectorAll('.ns-editor-row').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.ns-chevron').forEach(el => el.style.transform = '');
+  if (!isOpen) {
+    editor.style.display = 'block';
+    if (chevron) chevron.style.transform = 'rotate(90deg)';
+  }
+}
+
+async function toggleNotifEnabled(id, enabled) {
+  const notif = NOTIF_SCHEDULE.find(n => n.id === id);
+  if (!notif) return;
+  notif.enabled = enabled;
+  await saveNotification({ ...notif });
+  if (Notification.permission === 'granted') scheduleNotifications();
+}
+
+async function saveNotifRow(id) {
+  const notif = NOTIF_SCHEDULE.find(n => n.id === id);
+  if (!notif) return;
+  const titleEl = document.getElementById(`nsTitle_${id}`);
+  const bodyEl  = document.getElementById(`nsBodyTxt_${id}`);
+  const timeEl  = document.getElementById(`nsTime_${id}`);
+  const [newHour, newMin] = timeEl.value.split(':').map(Number);
+  const newDays = _getDayCheckboxValues(id, notif.notif_type, notif.days);
+  notif.title  = titleEl.value.trim()  || notif.title;
+  notif.body   = bodyEl.value.trim()   || notif.body;
+  notif.hour   = newHour;
+  notif.minute = newMin;
+  notif.days   = newDays;
+  const ok = await saveNotification({ ...notif });
+  if (ok) {
+    showToast('Notification saved!! 💜🐺');
+    renderNotifModal();
+    if (Notification.permission === 'granted') scheduleNotifications();
+  } else {
+    showToast('Save failed 😔 Check your connection');
+  }
+}
+
+function _fmtDaysShort(days, type) {
+  if (type === 'monthly') return 'Last day of month';
+  const names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  if (days.length === 7) return 'Every day';
+  const sorted = [...days].sort((a,b) => a-b);
+  if (JSON.stringify(sorted) === JSON.stringify([1,2,3,4,5])) return 'Mon–Fri';
+  if (JSON.stringify(sorted) === JSON.stringify([0,6])) return 'Sat+Sun';
+  if (JSON.stringify(sorted) === JSON.stringify([0])) return 'Sunday only';
+  return days.map(d => names[d]).join(', ');
+}
+
+function _buildDayCheckboxes(id, activeDays, type) {
+  if (type === 'monthly')
+    return `<span style="font-size:.75rem;color:rgba(124,111,155,.6);font-style:italic">auto: last day of month</span>`;
+  const dayNames = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  return dayNames.map((name, i) =>
+    `<label class="ns-day-cb"><input type="checkbox" data-nid="${id}" data-day="${i}"${activeDays.includes(i) ? ' checked' : ''}><span>${name}</span></label>`
+  ).join('');
+}
+
+function _getDayCheckboxValues(id, type, fallback) {
+  if (type === 'monthly') return fallback;
+  const checked = document.querySelectorAll(`input[data-nid="${id}"][data-day]:checked`);
+  const vals = [...checked].map(el => parseInt(el.dataset.day));
+  return vals.length ? vals : fallback;
+}
+
+function _escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─────────────────────────────────────────────────────────────────────
    INIT
 ───────────────────────────────────────────────────────────────────── */
 async function init() {
@@ -1416,6 +1794,7 @@ async function init() {
       loadDateItems(dateStr),
       loadFinanceWidget(),
       loadBooksWidget(),
+      loadNotifications(),
     ]);
     render();
     await buildDayNav();
@@ -1449,6 +1828,8 @@ document.addEventListener('keydown', e => {
 });
 
 init();
+registerSW();
+checkNotifBanner();
 </script>
 </body>
 </html>
