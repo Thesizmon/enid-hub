@@ -235,6 +235,46 @@
       background: rgba(110,231,183,.1);
       border-top: 1px solid rgba(110,231,183,.3);
     }
+
+    /* ── KT Shift ───────────────────────────────────────────────────── */
+    /* Chip in postwork header (when no active shift) */
+    .kt-set-chip {
+      font-size: .62rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--amber);
+      background: rgba(245,158,11,.1);
+      border: 1px solid rgba(245,158,11,.22);
+      padding: 3px 9px; border-radius: 10px;
+      cursor: pointer; display: inline-block;
+      margin-top: 6px;
+      user-select: none;
+    }
+    .kt-set-chip:hover { background: rgba(245,158,11,.2); }
+
+    /* Active KT shift: banner inside the card */
+    .kt-banner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; padding: 10px 18px;
+      background: rgba(245,158,11,.1);
+      border-top: 1px solid rgba(245,158,11,.22);
+      font-size: .8rem; font-weight: 600; color: #92400E;
+    }
+    .kt-banner-text { flex: 1; }
+    .kt-remove-btn {
+      font-size: .7rem; color: var(--amber); cursor: pointer;
+      background: rgba(245,158,11,.15);
+      border: 1px solid rgba(245,158,11,.3);
+      padding: 3px 9px; border-radius: 8px;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .kt-remove-btn:hover { background: rgba(245,158,11,.28); }
+
+    /* Grey out habit list when KT shift is active */
+    .section-card.kt-active .habit-list {
+      opacity: .3;
+      pointer-events: none;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -272,9 +312,11 @@ const USER_ID  = 'ENID';
 /* ─────────────────────────────────────────────────────────────────────
    STATE
 ───────────────────────────────────────────────────────────────────── */
-let habits        = [];           // all habit rows from DB
-let dayCompletions = new Set();   // habit_ids completed on viewDate
-let viewDate       = new Date();  // date currently being viewed
+let habits         = [];           // all habit rows from DB
+let dayCompletions = new Set();    // habit_ids completed on viewDate (daily habits)
+let weeklyDone     = new Set();    // habit_ids completed this week (weekly habits via weekend_tasks)
+let ktShiftToday   = false;        // whether viewDate has a KT shift in kt_shifts
+let viewDate       = new Date();   // date currently being viewed
 
 /* ─────────────────────────────────────────────────────────────────────
    HELPERS
@@ -285,8 +327,17 @@ function fmtDate(d) {
   const dd = String(d.getDate()).padStart(2, '0');
   return `${y}-${m}-${dd}`;
 }
-function isWeekend(d)    { return d.getDay() === 0 || d.getDay() === 6; }
-function isViewToday()   { return fmtDate(viewDate) === fmtDate(new Date()); }
+function isWeekend(d)  { return d.getDay() === 0 || d.getDay() === 6; }
+function isViewToday() { return fmtDate(viewDate) === fmtDate(new Date()); }
+
+/** Returns the Monday of the week containing date d, as YYYY-MM-DD */
+function getWeekStart(d) {
+  const date = new Date(d);
+  const day  = date.getDay(); // 0=Sun, 1=Mon … 6=Sat
+  const diff = day === 0 ? -6 : 1 - day; // anchor on Monday
+  date.setDate(date.getDate() + diff);
+  return fmtDate(date);
+}
 
 /* ─────────────────────────────────────────────────────────────────────
    SUPABASE
@@ -325,6 +376,7 @@ async function loadHabits() {
   );
 }
 
+/** Load daily habit completions for a specific date */
 async function loadCompletions(dateStr) {
   const rows = await sbGet(
     `habit_completions?user_id=eq.${USER_ID}&completed_on=eq.${dateStr}&select=habit_id`
@@ -332,8 +384,24 @@ async function loadCompletions(dateStr) {
   dayCompletions = new Set(rows.map(r => r.habit_id));
 }
 
+/** Load weekly habit completions for the week containing weekStartStr */
+async function loadWeeklyCompletions(weekStartStr) {
+  const rows = await sbGet(
+    `weekend_tasks?user_id=eq.${USER_ID}&week_start=eq.${weekStartStr}&select=habit_id`
+  );
+  weeklyDone = new Set(rows.map(r => r.habit_id));
+}
+
+/** Check whether viewDate has a KT shift recorded */
+async function loadKTShift(dateStr) {
+  const rows = await sbGet(
+    `kt_shifts?user_id=eq.${USER_ID}&shift_date=eq.${dateStr}&select=id`
+  );
+  ktShiftToday = rows.length > 0;
+}
+
 /* ─────────────────────────────────────────────────────────────────────
-   TOGGLE
+   TOGGLE — daily habits
 ───────────────────────────────────────────────────────────────────── */
 async function toggleHabit(habitId) {
   const dateStr = fmtDate(viewDate);
@@ -346,25 +414,8 @@ async function toggleHabit(habitId) {
       'habit_completions',
       `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&completed_on=eq.${dateStr}`
     );
-
   } else {
-    /* ── check ── */
-
-    // or_group: uncheck sibling(s) so only one counts
-    const habit = habits.find(h => h.id === habitId);
-    if (habit && habit.or_group) {
-      const siblings = habits.filter(h => h.or_group === habit.or_group && h.id !== habitId);
-      for (const sib of siblings) {
-        if (dayCompletions.has(sib.id)) {
-          dayCompletions.delete(sib.id);
-          await sbDelete(
-            'habit_completions',
-            `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(sib.id)}&completed_on=eq.${dateStr}`
-          );
-        }
-      }
-    }
-
+    /* ── check ── (or_group: both habits may be checked independently) */
     dayCompletions.add(habitId);
     render();
     await sbInsert('habit_completions', {
@@ -376,34 +427,87 @@ async function toggleHabit(habitId) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
+   TOGGLE — weekly habits (weekend_tasks table, week-scoped)
+───────────────────────────────────────────────────────────────────── */
+async function toggleWeeklyHabit(habitId) {
+  const weekStartStr = getWeekStart(viewDate);
+
+  if (weeklyDone.has(habitId)) {
+    /* ── uncheck ── */
+    weeklyDone.delete(habitId);
+    render();
+    await sbDelete(
+      'weekend_tasks',
+      `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&week_start=eq.${weekStartStr}`
+    );
+  } else {
+    /* ── check ── */
+    weeklyDone.add(habitId);
+    render();
+    await sbInsert('weekend_tasks', {
+      user_id: USER_ID,
+      habit_id: habitId,
+      week_start: weekStartStr,
+      completed_at: fmtDate(viewDate),
+    });
+  }
+
+  buildDayNav();
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   TOGGLE — KT shift (kt_shifts table)
+───────────────────────────────────────────────────────────────────── */
+async function toggleKTShift() {
+  const dateStr = fmtDate(viewDate);
+
+  if (ktShiftToday) {
+    /* ── remove shift ── */
+    ktShiftToday = false;
+    render();
+    await sbDelete(
+      'kt_shifts',
+      `user_id=eq.${USER_ID}&shift_date=eq.${dateStr}`
+    );
+  } else {
+    /* ── add shift ── */
+    ktShiftToday = true;
+    render();
+    await sbInsert('kt_shifts', {
+      user_id: USER_ID, shift_date: dateStr, confirmed: false,
+    });
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
    SECTIONS CONFIG
-   Returns the ordered list of sections to display for viewDate.
+   Each section carries a doneSet (dayCompletions or weeklyDone) and
+   an optional ktSection flag for the postwork block.
 ───────────────────────────────────────────────────────────────────── */
 function getSections() {
-  const weekend = isWeekend(viewDate);
-
+  const weekend   = isWeekend(viewDate);
   const bySection = (key) => habits.filter(h => h.section === key);
 
   if (weekend) {
     return [
-      { key:'weekend', icon:'🌸', label:'Weekend Day',       sub:'Breathe, build & be present',        habits: bySection('weekend'), color:'weekend' },
-      { key:'evening', icon:'🌙', label:'Evening Wind-Down', sub:'Close the day with intention 💜',     habits: bySection('evening'), color:'evening' },
-      { key:'weekly',  icon:'📋', label:'Weekly Resets',     sub:'Once a week keeps chaos away',        habits: bySection('weekly'),  color:'weekly'  },
+      { key:'weekend', icon:'🌸', label:'Weekend Day',       sub:'Breathe, build & be present',           habits: bySection('weekend'), color:'weekend', doneSet: dayCompletions },
+      { key:'evening', icon:'🌙', label:'Evening Wind-Down', sub:'Close the day with intention 💜',        habits: bySection('evening'), color:'evening', doneSet: dayCompletions },
+      { key:'weekly',  icon:'📋', label:'Weekly Resets',     sub:'Once a week keeps chaos away',           habits: bySection('weekly'),  color:'weekly',  doneSet: weeklyDone    },
     ];
   } else {
     return [
-      { key:'morning', icon:'☀️',  label:'Morning Routine',   sub:'Set yourself up for the day 💛',      habits: bySection('morning'), color:'morning'  },
-      { key:'postwork',icon:'💼',  label:'After Work Routine', sub:'Decompress & reset 💙 · Weekdays only', habits: bySection('postwork'),color:'postwork' },
-      { key:'evening', icon:'🌙', label:'Evening Wind-Down',  sub:'Close the day with intention 💜',     habits: bySection('evening'), color:'evening'  },
-      { key:'weekly',  icon:'📋', label:'Weekly Resets',      sub:'Once a week keeps chaos away',        habits: bySection('weekly'),  color:'weekly'   },
+      { key:'morning',  icon:'☀️',  label:'Morning Routine',    sub:'Set yourself up for the day 💛',         habits: bySection('morning'),  color:'morning',  doneSet: dayCompletions },
+      { key:'postwork', icon:'💼',  label:'After Work Routine',  sub:'Decompress & reset 💙 · Weekdays only',  habits: bySection('postwork'), color:'postwork', doneSet: dayCompletions, ktSection: true },
+      { key:'evening',  icon:'🌙', label:'Evening Wind-Down',   sub:'Close the day with intention 💜',        habits: bySection('evening'),  color:'evening',  doneSet: dayCompletions },
+      { key:'weekly',   icon:'📋', label:'Weekly Resets',       sub:'Once a week keeps chaos away',           habits: bySection('weekly'),   color:'weekly',   doneSet: weeklyDone    },
     ];
   }
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   PROGRESS  (or_group counts as 1 unit, not N)
+   PROGRESS  (or_group counts as 1 unit regardless of how many checked)
 ───────────────────────────────────────────────────────────────────── */
-function calcProgress(habitList) {
+function calcProgress(habitList, doneSet) {
   const orGroupDone = {}; // group_key → boolean
   let total = 0, done = 0;
 
@@ -411,12 +515,12 @@ function calcProgress(habitList) {
     if (h.or_group) {
       if (!(h.or_group in orGroupDone)) {
         orGroupDone[h.or_group] = false;
-        total++; // group counts as 1
+        total++; // whole group counts as 1
       }
-      if (dayCompletions.has(h.id)) orGroupDone[h.or_group] = true;
+      if (doneSet.has(h.id)) orGroupDone[h.or_group] = true;
     } else {
       total++;
-      if (dayCompletions.has(h.id)) done++;
+      if (doneSet.has(h.id)) done++;
     }
   });
 
@@ -435,12 +539,18 @@ function render() {
   getSections().forEach(sec => {
     if (!sec.habits.length) return;
 
-    const { done, total } = calcProgress(sec.habits);
-    const pct    = total ? (done / total) * 100 : 0;
+    const { done, total } = calcProgress(sec.habits, sec.doneSet);
+    const pct     = total ? (done / total) * 100 : 0;
     const allDone = done === total && total > 0;
+    const isKT    = !!(sec.ktSection && ktShiftToday);
 
     const card = document.createElement('div');
-    card.className = `section-card${allDone ? ' all-done' : ''}`;
+    card.className = `section-card${allDone ? ' all-done' : ''}${isKT ? ' kt-active' : ''}`;
+
+    // KT chip: shown in postwork progress area when NO active shift
+    const ktChipHtml = (sec.ktSection && !ktShiftToday)
+      ? `<div class="kt-set-chip">🏪 KT Shift</div>`
+      : '';
 
     card.innerHTML = `
       <div class="section-header">
@@ -454,11 +564,26 @@ function render() {
         <div class="sec-progress">
           <div class="sec-frac">${done}/${total}</div>
           <div class="sec-bar"><div class="sec-fill" style="width:${pct}%"></div></div>
+          ${ktChipHtml}
         </div>
       </div>
+      ${isKT ? `
+      <div class="kt-banner">
+        <span class="kt-banner-text">🏪 KT Shift today — postwork routine skipped</span>
+        <span class="kt-remove-btn">Remove</span>
+      </div>
+      ` : ''}
       <div class="habit-list" id="hl_${sec.key}"></div>
     `;
     container.appendChild(card);
+
+    // Wire up KT shift toggle buttons
+    if (sec.ktSection) {
+      const setChip   = card.querySelector('.kt-set-chip');
+      const removeBtn = card.querySelector('.kt-remove-btn');
+      if (setChip)   setChip.addEventListener('click',   e => { e.stopPropagation(); toggleKTShift(); });
+      if (removeBtn) removeBtn.addEventListener('click', e => { e.stopPropagation(); toggleKTShift(); });
+    }
 
     const list = document.getElementById(`hl_${sec.key}`);
     const orShown = {};
@@ -470,8 +595,8 @@ function render() {
         orShown[h.or_group] = true;
       }
 
-      // ── habit row
-      const checked = dayCompletions.has(h.id);
+      // ── habit row (uses sec.doneSet for checked state)
+      const checked = sec.doneSet.has(h.id);
       const row = document.createElement('div');
       row.className = `habit-row${checked ? ' done' : ''}`;
       row.innerHTML = `
@@ -481,7 +606,14 @@ function render() {
           <div class="h-name">${h.name}${h.or_group ? '<span class="or-badge">OR</span>' : ''}</div>
         </div>
       `;
-      row.addEventListener('click', () => toggleHabit(h.id));
+      // Route to the right toggle (weekly habits → weekend_tasks)
+      row.addEventListener('click', () => {
+        if (h.section === 'weekly') {
+          toggleWeeklyHabit(h.id);
+        } else {
+          toggleHabit(h.id);
+        }
+      });
       list.appendChild(row);
 
       // ── or_group: closing divider after last group member
@@ -535,9 +667,9 @@ function updateHeader() {
 
 /* ─────────────────────────────────────────────────────────────────────
    DAY NAV  (7-day strip with progress dots)
+   Note: dots reflect daily habit_completions only (not weekly habits).
 ───────────────────────────────────────────────────────────────────── */
 async function buildDayNav() {
-  // collect last 7 days
   const dates = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (6 - i));
@@ -545,7 +677,6 @@ async function buildDayNav() {
   });
   const dateStrs = dates.map(fmtDate);
 
-  // fetch all completions for these 7 dates in a single round-trip
   let byDate = {};
   try {
     const rows = await sbGet(
@@ -555,7 +686,7 @@ async function buildDayNav() {
       if (!byDate[r.completed_on]) byDate[r.completed_on] = 0;
       byDate[r.completed_on]++;
     });
-  } catch(e) { /* non-fatal — dots just stay empty */ }
+  } catch(e) { /* non-fatal — dots stay empty */ }
 
   const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const nav = document.getElementById('dayNav');
@@ -567,10 +698,10 @@ async function buildDayNav() {
     const isView  = dk === fmtDate(viewDate);
     const count   = byDate[dk] || 0;
 
-    // rough expected totals (or_group counts as 1)
-    // weekday: morning(11)+postwork(5)+evening(7)+weekly(4) = 27
-    // weekend: weekend(5)+evening(7)+weekly(4) = 16
-    const expected = weekend ? 16 : 27;
+    // Expected daily habit counts (excludes weekly, which aren't in habit_completions)
+    // weekday: morning(11) + postwork(5) + evening(7) = 23
+    // weekend: weekend(5)  + evening(7)               = 12
+    const expected = weekend ? 12 : 23;
     const pct = count / expected;
 
     const btn = document.createElement('div');
@@ -586,9 +717,14 @@ async function buildDayNav() {
     `;
 
     btn.addEventListener('click', async () => {
-      if (isView) return; // already viewing this day
-      viewDate = new Date(dk + 'T12:00:00'); // noon to avoid TZ edge cases
-      await loadCompletions(dk);
+      if (isView) return;
+      viewDate = new Date(dk + 'T12:00:00'); // noon avoids TZ edge cases
+      const weekStartStr = getWeekStart(viewDate);
+      await Promise.all([
+        loadCompletions(dk),
+        loadWeeklyCompletions(weekStartStr),
+        loadKTShift(dk),
+      ]);
       render();
       buildDayNav();
     });
@@ -608,8 +744,14 @@ async function buildDayNav() {
 ───────────────────────────────────────────────────────────────────── */
 async function init() {
   try {
+    const dateStr      = fmtDate(viewDate);
+    const weekStartStr = getWeekStart(viewDate);
     await loadHabits();
-    await loadCompletions(fmtDate(viewDate));
+    await Promise.all([
+      loadCompletions(dateStr),
+      loadWeeklyCompletions(weekStartStr),
+      loadKTShift(dateStr),
+    ]);
     render();
     await buildDayNav();
   } catch (err) {
@@ -620,7 +762,7 @@ async function init() {
     `;
     return;
   }
-  // hide loader
+  // Hide loader
   const loader = document.getElementById('loader');
   loader.classList.add('hidden');
   setTimeout(() => {
