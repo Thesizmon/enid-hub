@@ -1,7 +1,7 @@
 // ── Enid's Service Worker 🐺 ─────────────────────────────────────────────────
 // Handles push notifications and offline caching
 
-const CACHE_NAME = 'enid-hub-v1';
+const CACHE_NAME = 'enid-hub-v2'; // bumped — badges + cards added
 const URLS_TO_CACHE = [
   '/enid-hub/',
   '/enid-hub/index.html',
@@ -11,6 +11,8 @@ const URLS_TO_CACHE = [
   '/enid-hub/movies.html',
   '/enid-hub/books.html',
   '/enid-hub/date-items.html',
+  '/enid-hub/badges.html',
+  // cards.html (~4MB) intentionally omitted from pre-cache — too large for offline storage
 ];
 
 // ── Enid-coded notification messages ────────────────────────────────────────
