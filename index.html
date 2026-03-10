@@ -713,7 +713,7 @@ async function loadFinanceWidget() {
 async function loadBooksWidget() {
   try {
     const rows = await sbGet(
-      `books?user_id=eq.${USER_ID}&shelf=eq.reading&order=updated_at.desc.nullslast&limit=1`
+      `books?user_id=eq.${USER_ID}&status=eq.reading&order=updated_at.desc.nullslast&limit=1`
     );
     booksWidget = rows.length ? rows[0] : null;
   } catch(e) {
