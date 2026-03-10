@@ -152,6 +152,111 @@
     .empty-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--sub); }
     .empty-sub   { font-size: .8rem; color: var(--sub); opacity: .65; }
 
+    /* ── View toggle ────────────────────────────────────────────────── */
+    .view-toggle {
+      display: flex; gap: 5px; padding: 4px 20px 10px;
+    }
+    .view-btn {
+      flex: 1; padding: 9px; border-radius: 12px; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 700;
+      letter-spacing: .03em; transition: all .2s;
+      background: rgba(168,85,247,.07); color: var(--sub);
+    }
+    .view-btn.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; box-shadow: 0 3px 10px rgba(168,85,247,.28);
+    }
+
+    /* ── Calendar grid ───────────────────────────────────────────────── */
+    .cal-wrap { padding: 0 14px; }
+
+    .cal-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 2px 12px;
+    }
+    .cal-nav-btn {
+      width: 34px; height: 34px; border-radius: 10px; border: none; cursor: pointer;
+      background: rgba(168,85,247,.08); color: var(--sub); font-size: 1.15rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s; font-family: inherit;
+    }
+    .cal-nav-btn:hover { background: rgba(168,85,247,.17); }
+
+    .cal-month-label {
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text);
+    }
+
+    .cal-card {
+      background: var(--glass); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+
+    .cal-dow-row {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      padding: 10px 6px 2px; border-bottom: 1px solid var(--border);
+    }
+    .cal-dow-cell {
+      text-align: center; font-size: .6rem; font-weight: 800;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--sub); padding: 4px 0;
+    }
+
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      padding: 6px; gap: 2px;
+    }
+
+    .cal-day {
+      min-height: 50px; padding: 5px 3px 4px; border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      cursor: pointer; transition: background .14s;
+      user-select: none; -webkit-tap-highlight-color: transparent;
+    }
+    .cal-day:hover:not(.other-month) { background: rgba(168,85,247,.07); }
+    .cal-day.other-month { opacity: .22; pointer-events: none; }
+
+    .cal-day.selected:not(.today) {
+      background: rgba(168,85,247,.1);
+      outline: 1.5px solid rgba(168,85,247,.28);
+    }
+    .cal-day.today.selected {
+      background: rgba(232,78,160,.07);
+      outline: 1.5px solid rgba(232,78,160,.3);
+    }
+
+    .cal-day-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; color: var(--text);
+      transition: all .15s; flex-shrink: 0;
+    }
+    .cal-day.today .cal-day-num {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; box-shadow: 0 2px 8px rgba(232,78,160,.38);
+    }
+
+    .cal-dots {
+      display: flex; gap: 2px; flex-wrap: wrap; justify-content: center;
+      max-width: 32px;
+    }
+    .cal-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── Day panel ───────────────────────────────────────────────────── */
+    .day-panel { margin-top: 14px; }
+    .day-panel-header {
+      display: flex; align-items: center; gap: 10px; padding: 0 2px 8px;
+    }
+    .day-panel-line  { flex: 1; height: 1px; background: var(--border); }
+    .day-panel-label {
+      font-size: .65rem; font-weight: 800; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--pink); white-space: nowrap;
+    }
+    .day-panel-empty {
+      text-align: center; padding: 22px 18px;
+      font-size: .8rem; color: var(--sub); font-style: italic;
+    }
+
     /* ── FAB ───────────────────────────────────────────────────────── */
     #fab {
       position: fixed;
@@ -337,6 +442,11 @@
     </div>
   </header>
 
+  <div class="view-toggle" id="viewToggle">
+    <button class="view-btn active" data-mode="list">☰  List</button>
+    <button class="view-btn" data-mode="calendar">📅  Calendar</button>
+  </div>
+
   <main id="schedule"></main>
 </div>
 
@@ -470,6 +580,12 @@ let allItems    = [];   // all date_items rows from DB
 let editingId   = null; // UUID of item being edited; null = create mode
 let pickedColor = '';   // currently selected accent color
 
+// Calendar view state
+let viewMode    = 'list';                   // 'list' | 'calendar'
+let calYear     = new Date().getFullYear();
+let calMonth    = new Date().getMonth();    // 0–11
+let selectedDay = null;                     // 'YYYY-MM-DD' | null
+
 /* ─────────────────────────────────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────────────────────────────────── */
@@ -598,6 +714,182 @@ async function loadAll() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
+   SHARED ITEM-ROW BUILDER  (used by both list view and day panel)
+───────────────────────────────────────────────────────────────────── */
+function buildDateMap() {
+  const map = Object.create(null);
+  allItems.forEach(item => {
+    const d = item.item_date;
+    if (!map[d]) map[d] = [];
+    map[d].push(item);
+  });
+  return map;
+}
+
+function buildItemRowEl(item) {
+  const meta   = TYPE_META[item.type] ?? { icon: '📅', label: item.type || 'Item', color: '#A855F7', bg: 'rgba(168,85,247,.1)', border: 'rgba(168,85,247,.28)' };
+  const accent = item.color || meta.color;
+
+  const startFmt = fmtTime(item.start_time);
+  const endFmt   = fmtTime(item.end_time);
+  const timeStr  = startFmt ? (endFmt ? `${startFmt} – ${endFmt}` : startFmt) : '';
+
+  const timeHtml = timeStr ? `<span class="di-time">${timeStr}</span>` : '';
+  const locHtml  = item.location ? `<span class="di-sep">·</span><span class="di-loc">📍 ${escHtml(item.location)}</span>` : '';
+  const metaHtml = (timeHtml || locHtml) ? `<div class="di-meta">${timeHtml}${locHtml}</div>` : '';
+  const descHtml = item.description ? `<div class="di-desc">${escHtml(item.description)}</div>` : '';
+
+  const row = document.createElement('div');
+  row.className = 'date-item-row';
+  row.style.borderLeftColor = accent;
+  row.setAttribute('role', 'button');
+  row.setAttribute('tabindex', '0');
+  row.innerHTML = `
+    <div class="di-type-icon">${meta.icon}</div>
+    <div class="di-body">
+      <div class="di-title">${escHtml(item.title)}</div>
+      ${metaHtml}${descHtml}
+    </div>
+    <span class="di-type-badge"
+      style="color:${meta.color};background:${meta.bg};border-color:${meta.border}">
+      ${meta.label}
+    </span>`;
+
+  row.addEventListener('click', () => openEdit(item.id));
+  row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openEdit(item.id); });
+  return row;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   VIEW MODE TOGGLE
+───────────────────────────────────────────────────────────────────── */
+function setViewMode(mode) {
+  viewMode = mode;
+  document.querySelectorAll('.view-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.mode === mode)
+  );
+  render();
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   CALENDAR VIEW
+───────────────────────────────────────────────────────────────────── */
+function prevMonth() {
+  calMonth--;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  selectedDay = null;
+  render();
+}
+
+function nextMonth() {
+  calMonth++;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  selectedDay = null;
+  render();
+}
+
+function selectDay(dateStr) {
+  // Tap same day again → deselect
+  selectedDay = (selectedDay === dateStr) ? null : dateStr;
+  render();
+}
+
+function renderCalendarView(container) {
+  const dateMap = buildDateMap();
+  const today   = todayStr();
+
+  const monthName   = new Date(calYear, calMonth, 1)
+    .toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const firstDow    = new Date(calYear, calMonth, 1).getDay();     // 0=Sun
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const prevDays    = new Date(calYear, calMonth, 0).getDate();
+
+  // Build cells: leading blanks (prev month), current month, trailing blanks
+  const cells = [];
+  for (let i = firstDow - 1; i >= 0; i--)    cells.push({ d: prevDays - i, cur: false });
+  for (let d = 1; d <= daysInMonth; d++)      cells.push({ d, cur: true });
+  while (cells.length % 7 !== 0)              cells.push({ d: cells.length - daysInMonth - firstDow + 1, cur: false });
+
+  const dowHtml = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+    .map(lbl => `<div class="cal-dow-cell">${lbl}</div>`).join('');
+
+  const gridHtml = cells.map(({ d, cur }) => {
+    if (!cur) return `<div class="cal-day other-month"><div class="cal-day-num">${d}</div></div>`;
+
+    const ds    = `${calYear}-${String(calMonth + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const items = dateMap[ds] || [];
+    const isT   = ds === today;
+    const isSel = ds === selectedDay;
+
+    const dots = items.slice(0, 4).map(it => {
+      const c = it.color || (TYPE_META[it.type] ?? { color: '#A855F7' }).color;
+      return `<div class="cal-dot" style="background:${c}"></div>`;
+    }).join('');
+
+    const cls = ['cal-day', isT ? 'today' : '', isSel ? 'selected' : '']
+      .filter(Boolean).join(' ');
+
+    return `<div class="${cls}" data-date="${ds}">
+      <div class="cal-day-num">${d}</div>
+      ${dots ? `<div class="cal-dots">${dots}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // Build the calendar card as HTML, then wire events
+  const wrap = document.createElement('div');
+  wrap.className = 'cal-wrap';
+  wrap.innerHTML = `
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="calPrev">‹</button>
+      <div class="cal-month-label">${monthName}</div>
+      <button class="cal-nav-btn" id="calNext">›</button>
+    </div>
+    <div class="cal-card">
+      <div class="cal-dow-row">${dowHtml}</div>
+      <div class="cal-grid">${gridHtml}</div>
+    </div>`;
+
+  wrap.querySelector('#calPrev').addEventListener('click', prevMonth);
+  wrap.querySelector('#calNext').addEventListener('click', nextMonth);
+  wrap.querySelectorAll('.cal-day:not(.other-month)').forEach(el =>
+    el.addEventListener('click', () => selectDay(el.dataset.date))
+  );
+
+  container.appendChild(wrap);
+
+  // Day panel — rendered below grid when a day is selected
+  if (selectedDay) {
+    const dayItems = dateMap[selectedDay] || [];
+    const { label } = fmtDateLabel(selectedDay);
+
+    const panel = document.createElement('div');
+    panel.className = 'day-panel';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'day-panel-header';
+    hdr.innerHTML = `
+      <div class="day-panel-line"></div>
+      <div class="day-panel-label">${label}</div>
+      <div class="day-panel-line"></div>`;
+    panel.appendChild(hdr);
+
+    if (!dayItems.length) {
+      const empty = document.createElement('div');
+      empty.className = 'day-panel-empty';
+      empty.textContent = 'Nothing scheduled — tap ＋ to add something';
+      panel.appendChild(empty);
+    } else {
+      const card = document.createElement('div');
+      card.className = 'section-card';
+      dayItems.forEach(item => card.appendChild(buildItemRowEl(item)));
+      panel.appendChild(card);
+    }
+
+    container.appendChild(panel);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
    RENDER
 ───────────────────────────────────────────────────────────────────── */
 function render() {
@@ -608,6 +900,13 @@ function render() {
   const count = allItems.length;
   sub.textContent = `${count} item${count !== 1 ? 's' : ''} · events, tasks & reminders`;
 
+  // ── Calendar view ────────────────────────────────────────────────
+  if (viewMode === 'calendar') {
+    renderCalendarView(container);
+    return;
+  }
+
+  // ── List view ────────────────────────────────────────────────────
   if (!count) {
     container.innerHTML = `
       <div class="empty-state">
@@ -626,12 +925,10 @@ function render() {
     groups[key].push(item);
   });
 
-  // Render each date group in ascending order
   Object.keys(groups).sort().forEach(dateStr => {
     const items = groups[dateStr];
     const { label, isToday, isPast } = fmtDateLabel(dateStr);
 
-    // Date header
     const groupHeader = document.createElement('div');
     groupHeader.className = 'date-group-header';
     const labelClass = isToday ? 'today' : isPast ? 'past' : '';
@@ -641,53 +938,9 @@ function render() {
       <div class="date-group-line"></div>`;
     container.appendChild(groupHeader);
 
-    // Card containing all items for this date
     const card = document.createElement('div');
     card.className = 'section-card';
-
-    items.forEach(item => {
-      const meta   = TYPE_META[item.type] ?? { icon: '📅', label: item.type || 'Item', color: '#A855F7', bg: 'rgba(168,85,247,.1)', border: 'rgba(168,85,247,.28)' };
-      const accent = item.color || meta.color;
-
-      const startFmt = fmtTime(item.start_time);
-      const endFmt   = fmtTime(item.end_time);
-      const timeStr  = startFmt ? (endFmt ? `${startFmt} – ${endFmt}` : startFmt) : '';
-
-      const timeHtml = timeStr
-        ? `<span class="di-time">${timeStr}</span>`
-        : '';
-      const locHtml = item.location
-        ? `<span class="di-sep">·</span><span class="di-loc">📍 ${escHtml(item.location)}</span>`
-        : '';
-      const metaHtml = (timeHtml || locHtml)
-        ? `<div class="di-meta">${timeHtml}${locHtml}</div>`
-        : '';
-      const descHtml = item.description
-        ? `<div class="di-desc">${escHtml(item.description)}</div>`
-        : '';
-
-      const row = document.createElement('div');
-      row.className = 'date-item-row';
-      row.style.borderLeftColor = accent;
-      row.setAttribute('role', 'button');
-      row.setAttribute('tabindex', '0');
-      row.innerHTML = `
-        <div class="di-type-icon">${meta.icon}</div>
-        <div class="di-body">
-          <div class="di-title">${escHtml(item.title)}</div>
-          ${metaHtml}
-          ${descHtml}
-        </div>
-        <span class="di-type-badge"
-          style="color:${meta.color};background:${meta.bg};border-color:${meta.border}">
-          ${meta.label}
-        </span>`;
-
-      row.addEventListener('click', () => openEdit(item.id));
-      row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openEdit(item.id); });
-      card.appendChild(row);
-    });
-
+    items.forEach(item => card.appendChild(buildItemRowEl(item)));
     container.appendChild(card);
   });
 }
@@ -702,7 +955,8 @@ function openCreate() {
   document.getElementById('sheetTitle').textContent   = 'New Item';
   document.getElementById('fTitle').value             = '';
   document.getElementById('fType').value              = 'event';
-  document.getElementById('fDate').value              = todayStr();
+  // Pre-fill date: use selected calendar day if in calendar view, else today
+  document.getElementById('fDate').value              = (viewMode === 'calendar' && selectedDay) ? selectedDay : todayStr();
   document.getElementById('fStart').value             = '';
   document.getElementById('fEnd').value               = '';
   document.getElementById('fLocation').value          = '';
@@ -902,6 +1156,11 @@ document.getElementById('sheetCancel').addEventListener('click', closeSheet);
 document.getElementById('sheetBackdrop').addEventListener('click', closeSheet);
 document.getElementById('sheetSave').addEventListener('click', handleSave);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+// View toggle buttons
+document.querySelectorAll('#viewToggle .view-btn').forEach(btn =>
+  btn.addEventListener('click', () => setViewMode(btn.dataset.mode))
+);
 
 /* ─────────────────────────────────────────────────────────────────────
    INIT
