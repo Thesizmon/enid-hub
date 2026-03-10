@@ -431,7 +431,21 @@ async function saveMovie(entry) {
   writeWidget(myList);
 }
 
-async function deleteMovieFromDB(id) {
+async function deleteMovieFromDB(id, movieShowings) {
+  // 1. Collect linked date_item IDs before removing junction rows
+  const dateItemIds = (movieShowings||[]).map(s => s.date_item_id).filter(Boolean);
+
+  // 2. Delete movie_showings first (FK: movie_showings.movie_id → movies)
+  if (movieShowings && movieShowings.length) {
+    await sbDelete('movie_showings', `?movie_id=eq.${id}&user_id=eq.${USER_ID}`);
+  }
+
+  // 3. Delete the linked date_items rows that belonged to those showings
+  if (dateItemIds.length) {
+    await sbDelete('date_items', `?id=in.(${dateItemIds.join(',')})&user_id=eq.${USER_ID}`);
+  }
+
+  // 4. Delete the movie itself
   await sbDelete('movies', `?id=eq.${id}&user_id=eq.${USER_ID}`);
   writeWidget(myList);
 }
@@ -750,9 +764,17 @@ async function toggleWatched(id) {
 // ── Delete ────────────────────────────────────────────────────────────────────
 async function deleteMovie(id) {
   if (!confirm('Remove this movie from your list?')) return;
-  myList = myList.filter(m=>m.id!==id);
-  await deleteMovieFromDB(id);
+
+  // Collect this movie's showings for cascade deletion
+  const movieShowings = allShowings.filter(s => s.movie_id === id);
+
+  // Optimistically remove from all local state
+  movieShowings.forEach(s => delete showingDateItems[s.date_item_id]);
+  allShowings = allShowings.filter(s => s.movie_id !== id);
+  myList = myList.filter(m => m.id !== id);
   renderMyList();
+
+  await deleteMovieFromDB(id, movieShowings);
 }
 
 // ── Render my list ────────────────────────────────────────────────────────────
