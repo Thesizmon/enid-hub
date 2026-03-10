@@ -301,6 +301,22 @@
       font-size: .72rem; color: var(--sub);
     }
 
+    /* ── Editable income input (KT Income) ──────────────────────────── */
+    .income-input {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem; font-weight: 600; color: var(--text);
+      width: 90px; padding: 3px 7px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,.75);
+      outline: none; text-align: right;
+      transition: border-color .15s;
+      -moz-appearance: textfield;
+    }
+    .income-input::-webkit-outer-spin-button,
+    .income-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .income-input:focus { border-color: var(--pink); }
+
     /* ── Empty state ────────────────────────────────────────────────── */
     .empty-state {
       text-align: center; padding: 40px 20px;
@@ -628,7 +644,11 @@ function renderSummary(period) {
         </div>
         <div class="income-row">
           <span class="income-label">🏪 KT Income</span>
-          <span class="income-val">${fmtMoney(incomeKt)}</span>
+          <input class="income-input" type="number" min="0" step="0.01"
+                 value="${Number(incomeKt).toFixed(2)}"
+                 placeholder="0.00"
+                 onblur="saveKtIncome(this)"
+                 onkeydown="if(event.key==='Enter')this.blur()">
         </div>
         ${startBalRow}
       </div>
@@ -728,10 +748,6 @@ function buildObligRow(o, catColor) {
   // Lifecycle toggles (only for active, non-paid-off items)
   const togglesHtml = paidOff ? '' : `
     <div class="lifecycle-row">
-      <button class="lc-btn${o.is_checked   ? ' active' : ''}"
-              style="--lc-color:#E84EA0"
-              data-toggle="${o.id}:is_checked"
-              onclick="toggleLifecycle('${o.id}','is_checked')">✓ Checked</button>
       <button class="lc-btn${o.is_scheduled ? ' active' : ''}"
               style="--lc-color:#F59E0B"
               data-toggle="${o.id}:is_scheduled"
@@ -881,6 +897,36 @@ async function saveSpent(id, inputEl) {
 function refreshSummary() {
   const period = periods.find(p => p.id === activePid);
   if (period) renderSummary(period);
+}
+
+/* ── KT Income editable input ────────────────────────────────────────── */
+async function saveKtIncome(inputEl) {
+  const raw = inputEl.value.trim();
+  const val = raw === '' ? 0 : parseFloat(raw);
+
+  // Reject invalid input — revert to current stored value
+  const period = periods.find(p => p.id === activePid);
+  if (isNaN(val) || val < 0) {
+    inputEl.value = period ? Number(period.income_kt || 0).toFixed(2) : '0.00';
+    return;
+  }
+
+  // Update local state
+  const idx = periods.findIndex(p => p.id === activePid);
+  if (idx >= 0) periods[idx] = { ...periods[idx], income_kt: val };
+
+  // Re-render summary with new value
+  refreshSummary();
+
+  // Persist to Supabase
+  try {
+    await sbPatch(`pay_periods?id=eq.${activePid}`, { income_kt: val });
+  } catch (e) {
+    console.error('saveKtIncome failed:', e);
+    // Revert local state on error
+    if (idx >= 0) periods[idx] = { ...periods[idx], income_kt: Number(period?.income_kt || 0) };
+    refreshSummary();
+  }
 }
 
 /* ── Supabase POST ──────────────────────────────────────────────────── */
