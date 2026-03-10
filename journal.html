@@ -693,7 +693,7 @@
 
   /* ── Tags parsing ────────────────────────────────────────────── */
   function parseTags(raw) {
-    if (!raw || !raw.trim()) return null;
+    if (!raw || !raw.trim()) return [];
     return raw.split(',').map(t => t.trim()).filter(Boolean);
   }
 
