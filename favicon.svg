@@ -1,4 +1,217 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#E84EA0"/>
-  <text y="24" x="16" text-anchor="middle" font-size="20">💅</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 440" width="420" height="440">
+  <defs>
+    <!-- Nail gradients -->
+    <linearGradient id="gPink" x1="25%" y1="0%" x2="75%" y2="100%">
+      <stop offset="0%" stop-color="#F8C8D0"/>
+      <stop offset="45%" stop-color="#EE7888"/>
+      <stop offset="100%" stop-color="#C84068"/>
+    </linearGradient>
+    <linearGradient id="gOrange" x1="25%" y1="0%" x2="75%" y2="100%">
+      <stop offset="0%" stop-color="#FFD878"/>
+      <stop offset="45%" stop-color="#F59030"/>
+      <stop offset="100%" stop-color="#D85808"/>
+    </linearGradient>
+    <linearGradient id="gYellow" x1="25%" y1="0%" x2="75%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFA8"/>
+      <stop offset="45%" stop-color="#F8E030"/>
+      <stop offset="100%" stop-color="#C8A000"/>
+    </linearGradient>
+    <linearGradient id="gCyan" x1="25%" y1="0%" x2="75%" y2="100%">
+      <stop offset="0%" stop-color="#C8F4FF"/>
+      <stop offset="45%" stop-color="#5CCCE8"/>
+      <stop offset="100%" stop-color="#1898C0"/>
+    </linearGradient>
+    <linearGradient id="gPurple" x1="25%" y1="0%" x2="75%" y2="100%">
+      <stop offset="0%" stop-color="#E0D4FF"/>
+      <stop offset="45%" stop-color="#9870D8"/>
+      <stop offset="100%" stop-color="#4820A0"/>
+    </linearGradient>
+    <!-- Skin gradient -->
+    <linearGradient id="gSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDDEC4"/>
+      <stop offset="60%" stop-color="#F2B898"/>
+      <stop offset="100%" stop-color="#EAA888"/>
+    </linearGradient>
+    <linearGradient id="gSkinDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2C4A0"/>
+      <stop offset="100%" stop-color="#DDA080"/>
+    </linearGradient>
+    <!-- Cuff gradients (horizontal) -->
+    <linearGradient id="gCuffBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D8C898"/>
+      <stop offset="55%" stop-color="#C8B888"/>
+      <stop offset="100%" stop-color="#B8A0CC"/>
+    </linearGradient>
+    <linearGradient id="gCuffHi" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EEE0B0"/>
+      <stop offset="55%" stop-color="#E0D0A0"/>
+      <stop offset="100%" stop-color="#D8C4E8"/>
+    </linearGradient>
+    <linearGradient id="gCuffSh" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B8A870"/>
+      <stop offset="55%" stop-color="#A89868"/>
+      <stop offset="100%" stop-color="#9880B0"/>
+    </linearGradient>
+    <!-- Bobble pattern for cuff -->
+    <pattern id="bobbles" x="4" y="4" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="7" r="6" fill="rgba(255,255,255,0.16)" stroke="rgba(0,0,0,0.20)" stroke-width="0.7"/>
+    </pattern>
+    <!-- Sticker white outline + drop shadow -->
+    <filter id="sticker" x="-16%" y="-14%" width="132%" height="128%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="12" result="dilated"/>
+      <feFlood flood-color="white" result="white"/>
+      <feComposite in="white" in2="dilated" operator="in" result="border"/>
+      <feDropShadow dx="2" dy="5" stdDeviation="7" flood-color="rgba(60,30,80,0.30)" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="border"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g filter="url(#sticker)">
+
+    <!-- ─── CUFF BODY ─────────────────────────────────────── -->
+    <path d="M 74,265 C 68,265 63,270 63,277
+             L 65,400 C 65,410 76,415 92,416
+             C 185,422 245,422 330,416
+             C 350,414 359,407 359,397
+             L 361,277 C 361,270 356,265 350,265 Z"
+          fill="url(#gCuffBody)" stroke="#2A1838" stroke-width="2.5"/>
+    <!-- Bobble texture overlay -->
+    <path d="M 74,265 C 68,265 63,270 63,277
+             L 65,400 C 65,410 76,415 92,416
+             C 185,422 245,422 330,416
+             C 350,414 359,407 359,397
+             L 361,277 C 361,270 356,265 350,265 Z"
+          fill="url(#bobbles)"/>
+
+    <!-- Cuff scalloped top edge — two rows of bumps -->
+    <path d="M 74,267 Q 81,257 88,267 Q 95,257 102,267 Q 109,257 116,267
+             Q 123,257 130,267 Q 137,257 144,267 Q 151,257 158,267
+             Q 165,257 172,267 Q 179,257 186,267 Q 193,257 200,267
+             Q 207,257 214,267 Q 221,257 228,267 Q 235,257 242,267
+             Q 249,257 256,267 Q 263,257 270,267 Q 277,257 284,267
+             Q 291,257 298,267 Q 305,257 312,267 Q 319,257 326,267
+             Q 333,257 340,267 Q 347,257 354,267"
+          fill="url(#gCuffHi)" stroke="#2A1838" stroke-width="2"/>
+
+    <path d="M 66,281 Q 73,271 80,281 Q 87,271 94,281 Q 101,271 108,281
+             Q 115,271 122,281 Q 129,271 136,281 Q 143,271 150,281
+             Q 157,271 164,281 Q 171,271 178,281 Q 185,271 192,281
+             Q 199,271 206,281 Q 213,271 220,281 Q 227,271 234,281
+             Q 241,271 248,281 Q 255,271 262,281 Q 269,271 276,281
+             Q 283,271 290,281 Q 297,271 304,281 Q 311,271 318,281
+             Q 325,271 332,281 Q 339,271 346,281 Q 353,271 360,281"
+          fill="url(#gCuffHi)" stroke="#2A1838" stroke-width="2"/>
+
+    <!-- Dark band between scallop rows -->
+    <path d="M 66,281 Q 73,289 80,281 Q 87,289 94,281 Q 101,289 108,281
+             Q 115,289 122,281 Q 129,289 136,281 Q 143,289 150,281
+             Q 157,289 164,281 Q 171,289 178,281 Q 185,289 192,281
+             Q 199,289 206,281 Q 213,289 220,281 Q 227,289 234,281
+             Q 241,289 248,281 Q 255,289 262,281 Q 269,289 276,281
+             Q 283,289 290,281 Q 297,289 304,281 Q 311,289 318,281
+             Q 325,289 332,281 Q 339,289 346,281 Q 353,289 360,281"
+          fill="url(#gCuffSh)" stroke="none" opacity="0.4"/>
+
+    <!-- ─── PALM ─────────────────────────────────────────── -->
+    <path d="M 105,250 L 104,272 Q 120,282 200,285
+             Q 282,284 305,274 L 308,258
+             Q 288,268 200,270 Q 118,268 105,250 Z"
+          fill="url(#gSkin)" stroke="#2A1838" stroke-width="2"/>
+
+    <!-- Thumb-to-palm web -->
+    <path d="M 298,226 Q 292,248 295,262 Q 302,272 312,272
+             L 310,258 L 307,248 Q 302,238 298,226 Z"
+          fill="url(#gSkin)" stroke="#2A1838" stroke-width="1.8"/>
+
+    <!-- ─── FINGERS ────────────────────────────────────── -->
+    <!-- Pinky -->
+    <path d="M 105,182 L 104,252 Q 115,259 126,252 L 126,182 Q 115,178 105,182 Z"
+          fill="url(#gSkin)" stroke="#2A1838" stroke-width="2"/>
+    <path d="M 107,218 Q 115,215 124,218" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+    <path d="M 107,234 Q 115,231 124,234" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+
+    <!-- Ring -->
+    <path d="M 144,170 L 143,254 Q 157,261 170,254 L 170,170 Q 157,166 144,170 Z"
+          fill="url(#gSkin)" stroke="#2A1838" stroke-width="2"/>
+    <path d="M 146,210 Q 157,207 168,210" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+    <path d="M 146,228 Q 157,225 168,228" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+
+    <!-- Middle -->
+    <path d="M 186,164 L 185,256 Q 200,263 215,256 L 215,164 Q 200,160 186,164 Z"
+          fill="url(#gSkin)" stroke="#2A1838" stroke-width="2"/>
+    <path d="M 188,207 Q 200,204 213,207" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+    <path d="M 188,226 Q 200,223 213,226" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+
+    <!-- Index -->
+    <path d="M 230,172 L 229,254 Q 243,261 257,254 L 257,172 Q 243,168 230,172 Z"
+          fill="url(#gSkin)" stroke="#2A1838" stroke-width="2"/>
+    <path d="M 232,212 Q 243,209 255,212" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+    <path d="M 232,230 Q 243,227 255,230" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+
+    <!-- Thumb -->
+    <path d="M 294,224 Q 294,200 306,180 Q 318,166 332,170
+             Q 346,176 344,196 L 335,226 Q 318,234 294,224 Z"
+          fill="url(#gSkin)" stroke="#2A1838" stroke-width="2"/>
+    <!-- Thumb knuckle crease -->
+    <path d="M 302,210 Q 318,205 335,210" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.2"/>
+
+    <!-- Gap shadows between fingers -->
+    <line x1="126" y1="182" x2="144" y2="252" stroke="#2A1838" stroke-width="1.5" opacity="0.6"/>
+    <line x1="170" y1="170" x2="186" y2="254" stroke="#2A1838" stroke-width="1.5" opacity="0.6"/>
+    <line x1="215" y1="164" x2="230" y2="252" stroke="#2A1838" stroke-width="1.5" opacity="0.6"/>
+    <line x1="257" y1="172" x2="278" y2="254" stroke="#2A1838" stroke-width="1.5" opacity="0.6"/>
+
+    <!-- ─── NAILS ──────────────────────────────────────── -->
+
+    <!-- PINK — Pinky  cx=115 ty=88 by=182 hw=10 -->
+    <path d="M 105,182 C 102,155 106,116 115,88
+             C 124,116 128,155 126,182 Q 115,190 105,182 Z"
+          fill="url(#gPink)" stroke="#2A1838" stroke-width="2.5"/>
+    <ellipse cx="110" cy="136" rx="3.5" ry="26" transform="rotate(-1,110,136)"
+             fill="white" opacity="0.50"/>
+    <ellipse cx="110" cy="97"  rx="3" ry="6"
+             fill="white" opacity="0.80"/>
+
+    <!-- ORANGE — Ring  cx=157 ty=42 by=170 hw=11 -->
+    <path d="M 146,170 C 143,137 147,86 157,42
+             C 167,86 171,137 168,170 Q 157,178 146,170 Z"
+          fill="url(#gOrange)" stroke="#2A1838" stroke-width="2.5"/>
+    <ellipse cx="151" cy="110" rx="3.5" ry="32" transform="rotate(-0.5,151,110)"
+             fill="white" opacity="0.50"/>
+    <ellipse cx="151" cy="52"  rx="3" ry="6"
+             fill="white" opacity="0.80"/>
+
+    <!-- YELLOW — Middle  cx=200 ty=28 by=164 hw=12 -->
+    <path d="M 187,164 C 184,126 188,76 200,28
+             C 212,76 216,126 213,164 Q 200,172 187,164 Z"
+          fill="url(#gYellow)" stroke="#2A1838" stroke-width="2.5"/>
+    <ellipse cx="193" cy="100" rx="4" ry="37" transform="rotate(-0.5,193,100)"
+             fill="white" opacity="0.50"/>
+    <ellipse cx="193" cy="38"  rx="3.5" ry="7"
+             fill="white" opacity="0.80"/>
+
+    <!-- CYAN — Index  cx=243 ty=68 by=172 hw=11 -->
+    <path d="M 230,172 C 228,140 232,98 243,68
+             C 254,98 258,140 256,172 Q 243,180 230,172 Z"
+          fill="url(#gCyan)" stroke="#2A1838" stroke-width="2.5"/>
+    <ellipse cx="235" cy="122" rx="3.5" ry="28" transform="rotate(0.5,235,122)"
+             fill="white" opacity="0.50"/>
+    <ellipse cx="235" cy="78"  rx="3" ry="6"
+             fill="white" opacity="0.80"/>
+
+    <!-- PURPLE — Thumb  angled ~20° CW  base≈(312,222) tip≈(330,155) -->
+    <path d="M 294,222 C 292,200 300,172 323,154
+             C 338,170 342,196 330,222 Q 314,231 294,222 Z"
+          fill="url(#gPurple)" stroke="#2A1838" stroke-width="2.5"/>
+    <!-- highlight follows nail angle -->
+    <ellipse cx="306" cy="192" rx="3.5" ry="21" transform="rotate(-22,306,192)"
+             fill="white" opacity="0.50"/>
+    <ellipse cx="322" cy="161" rx="3.5" ry="7"  transform="rotate(-22,322,161)"
+             fill="white" opacity="0.80"/>
+
+  </g>
 </svg>
