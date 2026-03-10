@@ -504,6 +504,7 @@ async function updateBookField(id, fields) {
   if (fields.notes      !== undefined) row.notes       = fields.notes;
   if (fields.totalPages !== undefined) row.total_pages = fields.totalPages;
   if (Object.keys(row).length === 0) return;
+  row.updated_at = new Date().toISOString(); // keep widget sort order current
   await sbPatch('books', `?id=eq.${id}&user_id=eq.${USER_ID}`, row);
   writeBookWidget(BOOKS);
 }
