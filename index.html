@@ -46,7 +46,7 @@
       transition: opacity .35s ease;
     }
     #loader.hidden { opacity: 0; pointer-events: none; }
-    .loader-wolf { font-size: 2.8rem; animation: bounce 1.1s ease-in-out infinite; }
+    .loader-wolf { width: 90px; height: 90px; object-fit: contain; animation: bounce 1.1s ease-in-out infinite; filter: drop-shadow(0 6px 20px rgba(232,78,160,.5)); }
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
     .loader-text {
       font-family: 'Playfair Display', serif;
@@ -582,7 +582,7 @@
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="loader-wolf">🐺</div>
+  <img class="loader-wolf" src="nails.png" alt="💅">
   <div class="loader-text">Loading your day...</div>
 </div>
 
