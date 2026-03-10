@@ -407,7 +407,7 @@ function movieToRow(m) {
     release_year: m.releaseYear  || null,
     hype:         m.hype         || 3,
     watched:      m.watched      || false,
-    added_at:     m.addedAt      || Date.now(),
+    added_at:     m.addedAt ? new Date(m.addedAt).toISOString() : new Date().toISOString(),
   };
 }
 
