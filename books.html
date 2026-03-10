@@ -462,7 +462,7 @@ function bookToRow(b) {
     pages_read:  b.pagesRead  || 0,
     status:      b.status     || 'want',
     notes:       b.notes      || null,
-    added_at:    b.addedAt    || Date.now(),
+    added_at:    b.addedAt    || new Date().toISOString(),
   };
 }
 
@@ -488,12 +488,10 @@ async function loadBooksFromDB() {
 
 async function saveBook(b) {
   await sbUpsert('books', bookToRow(b), 'id');
-  writeBookWidget(BOOKS);
 }
 
 async function deleteBookFromDB(id) {
   await sbDelete('books', `?id=eq.${id}&user_id=eq.${USER_ID}`);
-  writeBookWidget(BOOKS);
 }
 
 async function updateBookField(id, fields) {
@@ -506,16 +504,6 @@ async function updateBookField(id, fields) {
   if (Object.keys(row).length === 0) return;
   row.updated_at = new Date().toISOString(); // keep widget sort order current
   await sbPatch('books', `?id=eq.${id}&user_id=eq.${USER_ID}`, row);
-  writeBookWidget(BOOKS);
-}
-
-// Write simplified widget cache for tracker dashboard
-function writeBookWidget(list) {
-  const widget = list.filter(b=>b.status==='reading').map(b=>({
-    id:b.id, title:b.title, author:b.author,
-    coverId:b.coverId, pagesRead:b.pagesRead, totalPages:b.totalPages,
-  }));
-  localStorage.setItem('enid_books_widget', JSON.stringify(widget));
 }
 
 // One-time migration: push localStorage books into Supabase if DB is empty
@@ -532,11 +520,6 @@ async function migrateFromLocalStorage() {
   localStorage.removeItem(BOOKS_KEY);
 }
 
-// Legacy saveBooks kept as thin alias so existing call sites still work
-async function saveBooks(list) {
-  // No-op: individual book saves now go through saveBook() / updateBookField()
-  writeBookWidget(list);
-}
 
 let BOOKS = [];
 let SESSIONS = []; // loaded from Supabase
