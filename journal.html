@@ -204,6 +204,25 @@
     .icon-btn.delete:hover { background: rgba(220,38,38,.09); border-color: rgba(220,38,38,.2); }
     .icon-btn:disabled { opacity: .45; cursor: not-allowed; }
 
+    /* ── Date group separator ───────────────────────────────────────── */
+    .date-separator {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .68rem; font-weight: 700; letter-spacing: .06em;
+      color: var(--sub); text-transform: uppercase;
+      padding: 4px 2px 0; pointer-events: none; user-select: none;
+    }
+    .date-separator::before,
+    .date-separator::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Reflection source footer ───────────────────────────────────── */
+    .reflection-source {
+      font-size: .65rem; color: var(--sub);
+      margin-top: 9px; opacity: .75;
+    }
+
     /* ── Empty state ───────────────────────────────────────────────── */
     .empty-state {
       text-align: center;
@@ -481,6 +500,23 @@
     });
   }
 
+  // Longer label used in date-group separators
+  function fmtDateSeparator(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr.length === 10 ? dateStr + 'T12:00:00' : dateStr);
+    const now = new Date();
+    const today   = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const itemDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const diffDays = Math.round((today - itemDay) / 86400000);
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    return d.toLocaleDateString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric',
+      year: d.getFullYear() !== now.getFullYear() ? 'numeric' : undefined,
+    });
+  }
+
   function sortKey(item) {
     const primary   = item.entry_date || item.completed_on || '';
     const secondary = item.created_at || '';
@@ -537,6 +573,7 @@
           <span class="date-chip">${dateLabel}</span>
         </div>
         <div class="card-body">${escHtml(item.note || '')}</div>
+        <div class="reflection-source">🏠 from routine tracker</div>
       </div>`;
   }
 
@@ -565,25 +602,45 @@
       `${jCount} ${jCount === 1 ? 'entry' : 'entries'} · ${rCount} ${rCount === 1 ? 'reflection' : 'reflections'}`;
 
     if (!visible.length) {
-      const labels = {
-        all: 'entries yet',
-        journal: 'journal entries yet',
-        reflection: 'reflections yet',
+      const emptyConfig = {
+        all: {
+          icon: '🌙',
+          title: 'Nothing here yet',
+          sub: 'Tap <strong>✏️ New Entry</strong> below to write your first journal entry,<br>or add notes to habits in the routine tracker to see reflections here.',
+        },
+        journal: {
+          icon: '📓',
+          title: 'No journal entries yet',
+          sub: 'Tap <strong>✏️ New Entry</strong> below to write your first one.',
+        },
+        reflection: {
+          icon: '💬',
+          title: 'No habit reflections yet',
+          sub: 'After checking off a habit in the routine tracker,<br>you\'ll be prompted to add a note. Those notes appear here.',
+        },
       };
+      const cfg = emptyConfig[activeFilter] || emptyConfig.all;
       feed.innerHTML = `
         <div class="empty-state">
-          <div class="empty-icon">🌙</div>
-          <div class="empty-title">Nothing here yet</div>
-          <div class="empty-sub">You don't have any ${labels[activeFilter] || 'entries'}.<br>
-            ${activeFilter !== 'reflection' ? 'Tap <strong>✏️ New Entry</strong> to write your first one!' : 'Add notes to your habits in the routine tracker.'}
-          </div>
+          <div class="empty-icon">${cfg.icon}</div>
+          <div class="empty-title">${cfg.title}</div>
+          <div class="empty-sub">${cfg.sub}</div>
         </div>`;
       return;
     }
 
-    feed.innerHTML = visible.map(item =>
-      item._type === 'journal' ? buildJournalCard(item) : buildReflectionCard(item)
-    ).join('');
+    // Build feed with date group separators
+    const parts = [];
+    let lastDateKey = null;
+    for (const item of visible) {
+      const dateKey = item.entry_date || item.completed_on || '';
+      if (dateKey !== lastDateKey) {
+        parts.push(`<div class="date-separator"><span>${fmtDateSeparator(dateKey)}</span></div>`);
+        lastDateKey = dateKey;
+      }
+      parts.push(item._type === 'journal' ? buildJournalCard(item) : buildReflectionCard(item));
+    }
+    feed.innerHTML = parts.join('');
   }
 
   /* ── Overlay helpers ─────────────────────────────────────────── */
