@@ -578,7 +578,14 @@
         <div class="header-title" id="mainTitle">Your Daily Routines 🐺</div>
         <div class="header-sub"  id="mainSub"></div>
       </div>
-      <div class="date-chip" id="dateChip"></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button onclick="openNotifSettings()"
+          style="display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;border:1.5px solid rgba(168,85,247,.2);background:rgba(168,85,247,.07);color:var(--sub);font-size:.85rem;cursor:pointer;transition:all .18s;line-height:1"
+          title="Notification settings"
+          onmouseover="this.style.borderColor='var(--purple)';this.style.color='var(--purple)'"
+          onmouseout="this.style.borderColor='rgba(168,85,247,.2)';this.style.color='var(--sub)'">🔔</button>
+        <div class="date-chip" id="dateChip"></div>
+      </div>
     </div>
     <div class="header-nav">
       <a href="date-items.html" class="header-nav-link">📅 Schedule</a>
@@ -1547,11 +1554,56 @@ const firedToday = new Set();
 async function loadNotifications() {
   try {
     const rows = await sbGet(`notifications?user_id=eq.${USER_ID}&order=hour.asc,minute.asc`);
-    if (rows && rows.length) NOTIF_SCHEDULE = rows;
-    else console.warn('🐺 No notification schedule found — seed the notifications table');
+    if (rows && rows.length) {
+      NOTIF_SCHEDULE = rows;
+    } else {
+      console.log('🐺 No notifications found — auto-seeding baseline schedule...');
+      await seedNotificationsIfEmpty();
+      const seeded = await sbGet(`notifications?user_id=eq.${USER_ID}&order=hour.asc,minute.asc`);
+      if (seeded && seeded.length) NOTIF_SCHEDULE = seeded;
+    }
   } catch(e) {
     console.warn('🐺 loadNotifications failed:', e);
   }
+}
+
+// ── Auto-seed baseline notification rows on first load ─────────────────────
+// Mirrors migrations/002_notifications.sql — runs once if the table is empty.
+async function seedNotificationsIfEmpty() {
+  const SEED = [
+    // Morning (Mon–Fri)
+    { id:'wake-hydrate-bed',       hour:8,  minute:0,  days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Morning',   label:'Wake / Hydrate / Make Bed',              title:'Rise & shine sparklepup!! ☀️🐺',                      body:'8AM means GO time. No phone for 10 minutes — make your bed FIRST, chug some water, get moving. The day starts NOW!! 💜🛏️' },
+    { id:'stretch-mindfulness',    hour:8,  minute:5,  days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Morning',   label:'Stretch / Mindfulness',                  title:'5 minutes and you\'re better already!! 🧘🐺',          body:'Quick stretch or one minute of deep breathing right NOW. Do it before your brain wakes up enough to argue. You will feel SO good. 💜✨' },
+    { id:'motivation-plan',        hour:8,  minute:25, days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Morning',   label:'Motivation / Plan Check',                title:'Check your plan, spark your motivation!! 🌟🐺',         body:'What are you doing today and WHY does it matter? Spend 60 seconds reading your calendar and deciding who you\'re going to be today. Then GO!! 💜📋' },
+    { id:'conditional-habits-noon',hour:11, minute:0,  days:[1,2,3,4,5], notif_type:'conditional', group_label:'Morning',   label:'Midday Habit Nudge (if no habits done)',  title:'Hey... where are your morning habits?? 🐾👀',           body:'It\'s 11AM and the tracker is looking a little empty, roomie!! No judgment — just a nudge. Even ONE habit right now beats zero. Open the app!! 💜🌸' },
+    // Afternoon (Mon–Fri)
+    { id:'movement-momentum',      hour:17, minute:45, days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Afternoon', label:'Movement / Momentum',                    title:'Work mode OFF, movement mode ON!! 🏃🐺',                body:'It\'s 5:45 and your body needs to MOVE. Yoga or a walk — you only need one!! Change your clothes first, signal your brain it\'s YOUR time now. 💜🧘' },
+    { id:'side-projects',          hour:18, minute:15, days:[1,2,3,4,5], notif_type:'fixed',       group_label:'Afternoon', label:'Side Projects Reminder',                  title:'Side project hour starts NOW roomie!! 💻🐺',            body:'One focused hour on the thing you\'re building. Not scrolling. Not "in a minute." Right now. Future you is literally counting on current you!! 🔥💜' },
+    // Evening (daily)
+    { id:'skincare-reset',         hour:23, minute:0,  days:[0,1,2,3,4,5,6], notif_type:'fixed',  group_label:'Evening',   label:'Skincare / Reset Space',                  title:'Skincare time + reset your space!! 🌙🐺',               body:'11PM — wash your face, do your skincare, and spend 5 minutes resetting your space. You deserve to wake up to a calm environment tomorrow. 💜🫧' },
+    { id:'prep-tomorrow',          hour:23, minute:20, days:[0,1,2,3,4,5,6], notif_type:'fixed',  group_label:'Evening',   label:'Prep Tomorrow',                           title:'Two minutes to set yourself up for tomorrow!! ✨🐺',    body:'Lay out your outfit, check your calendar, write down your top 3 for tomorrow. THAT\'S IT. Two minutes and future-you will be SO grateful!! 💜📋' },
+    { id:'bedtime',                hour:23, minute:45, days:[0,1,2,3,4,5,6], notif_type:'fixed',  group_label:'Evening',   label:'Bedtime Reminder',                        title:'Lights out sparklepup!! 🌙💜',                         body:'It\'s 11:45PM. TV OFF. Phone DOWN. You did the thing today. Close your eyes. Tomorrow is a whole new vote for the life you\'re building!! 🐺🌸' },
+    // Weekend (Sat + Sun)
+    { id:'weekend-prep',           hour:11, minute:0,  days:[0,6],           notif_type:'fixed',  group_label:'Weekend',   label:'Weekly Prep / Finance Review',            title:'Weekend essentials TIME glowbug!! 📋🐺',                body:'Finance review + calendar reset + check in with your goals. 30 minutes of effort = a whole week of not panicking. You\'ve SO got this!! 💜💰' },
+    { id:'weekend-prep-backup',    hour:20, minute:0,  days:[0,6],           notif_type:'fixed',  group_label:'Weekend',   label:'Backup Weekly Prep (8PM)',                title:'Last call for weekend essentials roomie!! ⚠️🐺',        body:'If you haven\'t done the finance review and calendar reset yet — RIGHT NOW is your last chance before the week hits. 20 minutes. Do it!! 💜📋' },
+    { id:'laundry-sunday',         hour:11, minute:30, days:[0],             notif_type:'fixed',  group_label:'Weekend',   label:'Laundry (Sunday)',                        title:'LAUNDRY DAY!! Throw that load in NOW!! 🧺🐺',           body:'Sunday is laundry day and you KNOW it!! Toss the load in right now while you\'re thinking about it. Don\'t be Monday-you with no clean clothes!! 💜🌸' },
+    { id:'room-reset-weekend',     hour:13, minute:0,  days:[0,6],           notif_type:'fixed',  group_label:'Weekend',   label:'Room Reset',                              title:'Room reset time — 20 minutes, sparklepup!! 🏠🐺',      body:'A clean space = a calm brain!! Quick room reset: surfaces clear, floor clear, bed made, take out trash if needed. Your space is your sanctuary!! 💜✨' },
+    // Monthly (last day of month)
+    { id:'monthly-audit',          hour:18, minute:0,  days:[0,1,2,3,4,5,6], notif_type:'monthly', group_label:'Monthly',  label:'Monthly Financial Audit',                 title:'Monthly audit day, bestie!! 💰🐺',                     body:'It\'s the last day of the month — time for the big financial audit. Check every balance, review every category, plan for next month. You\'ve got full visibility!! 💜📊' },
+  ];
+  const rows = SEED.map(n => ({ ...n, user_id: USER_ID, enabled: true }));
+  // Batch upsert all rows
+  await fetch(`${SUPA_URL}/rest/v1/notifications`, {
+    method: 'POST',
+    headers: {
+      'apikey':        SUPA_KEY,
+      'Authorization': `Bearer ${SUPA_KEY}`,
+      'Content-Type':  'application/json',
+      'Prefer':        'resolution=merge-duplicates,return=minimal',
+    },
+    body: JSON.stringify(rows),
+  });
+  console.log('🐺 Notification baseline seeded!!');
 }
 
 async function saveNotification(notif) {
@@ -1613,6 +1665,22 @@ function checkSchedule() {
     firedToday.add(key);
     fireNotification(n);
   });
+
+  // KT shift notification — fires at 7:00 AM on days with a confirmed KT shift.
+  // ktShiftToday is loaded at startup from kt_shifts table for today's real date.
+  // Only fires when viewDate IS today (ktShiftToday always reflects viewDate).
+  if (ktShiftToday && fmtDate(viewDate) === fmtDate(new Date())) {
+    const ktHour = 7, ktMin = 0;
+    const ktKey  = `${todayKey}_kt-shift-today`;
+    if (!firedToday.has(ktKey) && hour === ktHour && min === ktMin) {
+      firedToday.add(ktKey);
+      fireNotification({
+        id:    'kt-shift-today',
+        title: 'KT shift today sparklepup!! 🐺💛',
+        body:  "Kwik Trip day!! Smash your morning habits first, then go be amazing at work. You've got this!! 💜🏪",
+      });
+    }
+  }
 }
 
 function fireNotification(notif) {
