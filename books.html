@@ -464,7 +464,7 @@ function bookToRow(b) {
     pages_read:  b.pagesRead  || 0,
     status:      b.status     || 'want',
     notes:       b.notes      || null,
-    added_at:    b.addedAt    || new Date().toISOString(),
+    added_at:    b.addedAt ? new Date(b.addedAt).toISOString() : new Date().toISOString(),
   };
 }
 
