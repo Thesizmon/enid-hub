@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎬 Enid's Movie List</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Dancing+Script:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -323,7 +325,7 @@ body::after{
 
   <!-- Discover upcoming -->
   <div class="section-header">
-    <span class="section-title">🎞 NOW PLAYING & COMING SOON</span>
+    <span class="section-title">✨ COMING SOON</span>
     <div class="section-line"></div>
     <span class="section-count" id="discoverCount">loading...</span>
   </div>
@@ -592,14 +594,19 @@ async function deleteShowing(showingId, dateItemId) {
 // ── Discover strip ────────────────────────────────────────────────────────────
 async function loadDiscover() {
   try {
-    // Fetch now playing + upcoming in parallel
-    const [nowPlaying, upcoming] = await Promise.all([
-      tmdbGet('/movie/now_playing?language=en-US&region=US&page=1'),
+    // Fetch two pages of upcoming — future releases only
+    const today = new Date().toISOString().split('T')[0];
+    const [page1, page2] = await Promise.all([
       tmdbGet('/movie/upcoming?language=en-US&region=US&page=1'),
+      tmdbGet('/movie/upcoming?language=en-US&region=US&page=2'),
     ]);
     const seen = new Set();
-    const combined = [...(nowPlaying.results||[]), ...(upcoming.results||[])]
-      .filter(m => { if(seen.has(m.id)){return false;} seen.add(m.id); return true; })
+    const combined = [...(page1.results||[]), ...(page2.results||[])]
+      .filter(m => {
+        if (seen.has(m.id)) return false;
+        seen.add(m.id);
+        return m.release_date && m.release_date >= today; // future only
+      })
       .sort((a,b) => new Date(a.release_date) - new Date(b.release_date))
       .slice(0, 30);
 
