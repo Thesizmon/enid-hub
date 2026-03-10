@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Enid's Daily Tracker 🐺</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────────── */
+    :root {
+      --pink:   #E84EA0;
+      --purple: #A855F7;
+      --mint:   #6EE7B7;
+      --amber:  #F59E0B;
+      --cream:  #FFFBF7;
+      --glass:  rgba(255,255,255,0.76);
+      --border: rgba(168,85,247,0.13);
+      --text:   #2D1B4E;
+      --sub:    #7C6F9B;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 0%,   rgba(232,78,160,.18)  0%, transparent 55%),
+        radial-gradient(ellipse at 85% 40%,  rgba(168,85,247,.12)  0%, transparent 55%),
+        radial-gradient(ellipse at 40% 100%, rgba(110,231,183,.10) 0%, transparent 55%),
+        #FFFBF7;
+      min-height: 100vh;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Loader ────────────────────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--cream);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; z-index: 999;
+      transition: opacity .35s ease;
+    }
+    #loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-wolf { font-size: 2.8rem; animation: bounce 1.1s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .loader-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--purple);
+    }
+
+    /* ── App shell ─────────────────────────────────────────────────── */
+    #app { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+
+    /* ── Header ────────────────────────────────────────────────────── */
+    .app-header {
+      position: sticky; top: 0; z-index: 50;
+      padding: 22px 20px 14px;
+      background: linear-gradient(180deg, rgba(255,251,247,.92) 70%, transparent);
+      backdrop-filter: blur(10px);
+    }
+    .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; line-height: 1.2;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .header-sub { font-size: .78rem; color: var(--sub); margin-top: 3px; }
+    .date-chip {
+      flex-shrink: 0;
+      font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--sub);
+      background: rgba(168,85,247,.08);
+      border: 1px solid var(--border);
+      padding: 5px 11px; border-radius: 20px;
+      white-space: nowrap; margin-top: 2px;
+    }
+
+    /* ── Day nav strip ─────────────────────────────────────────────── */
+    .day-nav {
+      display: flex; gap: 5px;
+      overflow-x: auto; padding: 2px 20px 14px;
+      scrollbar-width: none;
+    }
+    .day-nav::-webkit-scrollbar { display: none; }
+
+    .day-btn {
+      flex: 0 0 auto;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 8px 11px;
+      border-radius: 14px; cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all .18s;
+      min-width: 50px;
+      user-select: none;
+    }
+    .day-btn:hover { background: rgba(168,85,247,.07); }
+    .day-btn.weekend-day { background: rgba(245,158,11,.06); border-color: rgba(245,158,11,.2); }
+    .day-btn.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(168,85,247,.32);
+    }
+
+    .day-name {
+      font-size: .6rem; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--sub);
+    }
+    .day-btn.active .day-name { color: rgba(255,255,255,.75); }
+    .day-num  { font-size: .92rem; font-weight: 700; color: var(--text); }
+    .day-btn.active .day-num  { color: #fff; }
+
+    .day-dots { display: flex; gap: 3px; }
+    .day-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(168,85,247,.18); transition: background .3s;
+    }
+    .day-dot.done    { background: var(--mint); }
+    .day-dot.partial { background: var(--amber); }
+    .day-btn.active .day-dot         { background: rgba(255,255,255,.35); }
+    .day-btn.active .day-dot.done    { background: rgba(255,255,255,.95); }
+    .day-btn.active .day-dot.partial { background: rgba(255,255,255,.65); }
+
+    /* ── Sections container ────────────────────────────────────────── */
+    #sections { padding: 0 14px; display: flex; flex-direction: column; gap: 14px; }
+
+    /* ── Section card ──────────────────────────────────────────────── */
+    .section-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+    .section-card.all-done {
+      border-color: rgba(110,231,183,.45);
+      box-shadow: 0 2px 18px rgba(110,231,183,.14);
+    }
+
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec-left { display: flex; align-items: center; gap: 10px; }
+    .sec-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .sec-icon.morning  { background: linear-gradient(135deg, #FFF3D0, #FFE0A0); }
+    .sec-icon.postwork { background: linear-gradient(135deg, #E0EEFF, #C7D9FF); }
+    .sec-icon.evening  { background: linear-gradient(135deg, #EDE0FF, #D5C0FF); }
+    .sec-icon.weekend  { background: linear-gradient(135deg, #FFE8F5, #FFCCEB); }
+    .sec-icon.weekly   { background: linear-gradient(135deg, #D4FBF0, #A8F0E0); }
+
+    .sec-title { font-weight: 700; font-size: .92rem; }
+    .sec-sub   { font-size: .7rem;  color: var(--sub); margin-top: 1px; }
+
+    .sec-progress { text-align: right; }
+    .sec-frac  { font-size: .78rem; font-weight: 700; color: var(--purple); }
+    .sec-bar   { width: 54px; height: 4px; background: rgba(168,85,247,.12); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+    .sec-fill  { height: 100%; background: linear-gradient(90deg, var(--pink), var(--purple)); border-radius: 2px; transition: width .35s ease; }
+
+    /* ── Habit list ────────────────────────────────────────────────── */
+    .habit-list { padding: 4px 0; }
+
+    .habit-row {
+      display: flex; align-items: center; gap: 11px;
+      padding: 11px 18px;
+      cursor: pointer;
+      transition: background .14s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .habit-row:hover  { background: rgba(168,85,247,.04); }
+    .habit-row:active { background: rgba(168,85,247,.09); }
+
+    /* Checkbox pill */
+    .hc {
+      width: 22px; height: 22px; flex-shrink: 0;
+      border-radius: 7px;
+      border: 2px solid rgba(168,85,247,.28);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s;
+      background: transparent;
+    }
+    .habit-row.done .hc {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(232,78,160,.38);
+    }
+    .hc-mark { color: #fff; font-size: .72rem; font-weight: 800; display: none; }
+    .habit-row.done .hc-mark { display: block; }
+
+    .h-emoji { font-size: 1.1rem; flex-shrink: 0; }
+
+    .h-body  { flex: 1; min-width: 0; }
+    .h-name  { font-size: .87rem; font-weight: 500; line-height: 1.3; }
+    .habit-row.done .h-name { text-decoration: line-through; color: var(--sub); }
+
+    .or-badge {
+      display: inline-block;
+      font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+      color: var(--amber);
+      background: rgba(245,158,11,.12);
+      border: 1px solid rgba(245,158,11,.28);
+      padding: 1px 5px; border-radius: 4px;
+      margin-left: 5px; vertical-align: middle;
+    }
+
+    /* OR group divider */
+    .or-divider {
+      display: flex; align-items: center; gap: 8px;
+      padding: 4px 18px;
+    }
+    .or-line  { flex: 1; height: 1px; background: rgba(245,158,11,.22); }
+    .or-label {
+      font-size: .62rem; font-weight: 800; letter-spacing: .1em;
+      color: var(--amber);
+      background: rgba(245,158,11,.1);
+      border: 1px solid rgba(245,158,11,.22);
+      padding: 2px 9px; border-radius: 20px;
+    }
+
+    /* Section complete banner */
+    .done-banner {
+      text-align: center;
+      padding: 12px 18px;
+      font-size: .8rem; font-weight: 600;
+      color: #059669;
+      background: rgba(110,231,183,.1);
+      border-top: 1px solid rgba(110,231,183,.3);
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-wolf">🐺</div>
+  <div class="loader-text">Loading your day...</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <div class="header-title" id="mainTitle">Your Daily Routines 🐺</div>
+        <div class="header-sub"  id="mainSub"></div>
+      </div>
+      <div class="date-chip" id="dateChip"></div>
+    </div>
+  </header>
+
+  <div class="day-nav" id="dayNav"></div>
+  <main id="sections"></main>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────
+   CONFIG
+───────────────────────────────────────────────────────────────────── */
+const SUPA_URL = 'https://oebxxurgxvzjnunjaujh.supabase.co';
+const SUPA_KEY = 'sb_publishable_x0QWqeNaNAFf7vN7Ky0Mzw_c_FMBAAP';
+const USER_ID  = 'ENID';
+
+/* ─────────────────────────────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────────────────────────────── */
+let habits        = [];           // all habit rows from DB
+let dayCompletions = new Set();   // habit_ids completed on viewDate
+let viewDate       = new Date();  // date currently being viewed
+
+/* ─────────────────────────────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────────────────────────────── */
+function fmtDate(d) {
+  const y  = d.getFullYear();
+  const m  = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dd}`;
+}
+function isWeekend(d)    { return d.getDay() === 0 || d.getDay() === 6; }
+function isViewToday()   { return fmtDate(viewDate) === fmtDate(new Date()); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   SUPABASE
+───────────────────────────────────────────────────────────────────── */
+const SB_HEADS = {
+  'apikey':        SUPA_KEY,
+  'Authorization': `Bearer ${SUPA_KEY}`,
+  'Content-Type':  'application/json',
+  'Prefer':        'return=minimal',
+};
+
+async function sbGet(path) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, { headers: SB_HEADS });
+  if (!r.ok) throw new Error(`sbGet ${path} → ${r.status}`);
+  return r.json();
+}
+async function sbInsert(table, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+    method: 'POST', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`sbInsert ${table} → ${r.status}`);
+}
+async function sbDelete(table, qs) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
+    method: 'DELETE', headers: SB_HEADS,
+  });
+  if (!r.ok) throw new Error(`sbDelete ${table} → ${r.status}`);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DATA LOADING
+───────────────────────────────────────────────────────────────────── */
+async function loadHabits() {
+  habits = await sbGet(
+    `habits?user_id=eq.${USER_ID}&order=section.asc,display_order.asc`
+  );
+}
+
+async function loadCompletions(dateStr) {
+  const rows = await sbGet(
+    `habit_completions?user_id=eq.${USER_ID}&completed_on=eq.${dateStr}&select=habit_id`
+  );
+  dayCompletions = new Set(rows.map(r => r.habit_id));
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   TOGGLE
+───────────────────────────────────────────────────────────────────── */
+async function toggleHabit(habitId) {
+  const dateStr = fmtDate(viewDate);
+
+  if (dayCompletions.has(habitId)) {
+    /* ── uncheck ── */
+    dayCompletions.delete(habitId);
+    render();
+    await sbDelete(
+      'habit_completions',
+      `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(habitId)}&completed_on=eq.${dateStr}`
+    );
+
+  } else {
+    /* ── check ── */
+
+    // or_group: uncheck sibling(s) so only one counts
+    const habit = habits.find(h => h.id === habitId);
+    if (habit && habit.or_group) {
+      const siblings = habits.filter(h => h.or_group === habit.or_group && h.id !== habitId);
+      for (const sib of siblings) {
+        if (dayCompletions.has(sib.id)) {
+          dayCompletions.delete(sib.id);
+          await sbDelete(
+            'habit_completions',
+            `user_id=eq.${USER_ID}&habit_id=eq.${encodeURIComponent(sib.id)}&completed_on=eq.${dateStr}`
+          );
+        }
+      }
+    }
+
+    dayCompletions.add(habitId);
+    render();
+    await sbInsert('habit_completions', {
+      user_id: USER_ID, habit_id: habitId, completed_on: dateStr,
+    });
+  }
+
+  buildDayNav(); // refresh progress dots
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SECTIONS CONFIG
+   Returns the ordered list of sections to display for viewDate.
+───────────────────────────────────────────────────────────────────── */
+function getSections() {
+  const weekend = isWeekend(viewDate);
+
+  const bySection = (key) => habits.filter(h => h.section === key);
+
+  if (weekend) {
+    return [
+      { key:'weekend', icon:'🌸', label:'Weekend Day',       sub:'Breathe, build & be present',        habits: bySection('weekend'), color:'weekend' },
+      { key:'evening', icon:'🌙', label:'Evening Wind-Down', sub:'Close the day with intention 💜',     habits: bySection('evening'), color:'evening' },
+      { key:'weekly',  icon:'📋', label:'Weekly Resets',     sub:'Once a week keeps chaos away',        habits: bySection('weekly'),  color:'weekly'  },
+    ];
+  } else {
+    return [
+      { key:'morning', icon:'☀️',  label:'Morning Routine',   sub:'Set yourself up for the day 💛',      habits: bySection('morning'), color:'morning'  },
+      { key:'postwork',icon:'💼',  label:'After Work Routine', sub:'Decompress & reset 💙 · Weekdays only', habits: bySection('postwork'),color:'postwork' },
+      { key:'evening', icon:'🌙', label:'Evening Wind-Down',  sub:'Close the day with intention 💜',     habits: bySection('evening'), color:'evening'  },
+      { key:'weekly',  icon:'📋', label:'Weekly Resets',      sub:'Once a week keeps chaos away',        habits: bySection('weekly'),  color:'weekly'   },
+    ];
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   PROGRESS  (or_group counts as 1 unit, not N)
+───────────────────────────────────────────────────────────────────── */
+function calcProgress(habitList) {
+  const orGroupDone = {}; // group_key → boolean
+  let total = 0, done = 0;
+
+  habitList.forEach(h => {
+    if (h.or_group) {
+      if (!(h.or_group in orGroupDone)) {
+        orGroupDone[h.or_group] = false;
+        total++; // group counts as 1
+      }
+      if (dayCompletions.has(h.id)) orGroupDone[h.or_group] = true;
+    } else {
+      total++;
+      if (dayCompletions.has(h.id)) done++;
+    }
+  });
+
+  Object.values(orGroupDone).forEach(v => { if (v) done++; });
+  return { done, total };
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   RENDER
+───────────────────────────────────────────────────────────────────── */
+function render() {
+  updateHeader();
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+
+  getSections().forEach(sec => {
+    if (!sec.habits.length) return;
+
+    const { done, total } = calcProgress(sec.habits);
+    const pct    = total ? (done / total) * 100 : 0;
+    const allDone = done === total && total > 0;
+
+    const card = document.createElement('div');
+    card.className = `section-card${allDone ? ' all-done' : ''}`;
+
+    card.innerHTML = `
+      <div class="section-header">
+        <div class="sec-left">
+          <div class="sec-icon ${sec.color}">${sec.icon}</div>
+          <div>
+            <div class="sec-title">${sec.label}</div>
+            <div class="sec-sub">${sec.sub}</div>
+          </div>
+        </div>
+        <div class="sec-progress">
+          <div class="sec-frac">${done}/${total}</div>
+          <div class="sec-bar"><div class="sec-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>
+      <div class="habit-list" id="hl_${sec.key}"></div>
+    `;
+    container.appendChild(card);
+
+    const list = document.getElementById(`hl_${sec.key}`);
+    const orShown = {};
+
+    sec.habits.forEach(h => {
+      // ── or_group: opening divider before first group member
+      if (h.or_group && !orShown[h.or_group]) {
+        list.appendChild(mkOrDivider('DO ONE'));
+        orShown[h.or_group] = true;
+      }
+
+      // ── habit row
+      const checked = dayCompletions.has(h.id);
+      const row = document.createElement('div');
+      row.className = `habit-row${checked ? ' done' : ''}`;
+      row.innerHTML = `
+        <div class="hc"><span class="hc-mark">✓</span></div>
+        <div class="h-emoji">${h.emoji || '•'}</div>
+        <div class="h-body">
+          <div class="h-name">${h.name}${h.or_group ? '<span class="or-badge">OR</span>' : ''}</div>
+        </div>
+      `;
+      row.addEventListener('click', () => toggleHabit(h.id));
+      list.appendChild(row);
+
+      // ── or_group: closing divider after last group member
+      const groupHabits = sec.habits.filter(s => s.or_group === h.or_group);
+      if (h.or_group && h.id === groupHabits[groupHabits.length - 1].id) {
+        list.appendChild(mkOrDivider(null));
+      }
+    });
+
+    if (allDone) {
+      const banner = document.createElement('div');
+      banner.className = 'done-banner';
+      banner.textContent = '✨ Section complete — nice work! 🐺';
+      card.appendChild(banner);
+    }
+  });
+}
+
+function mkOrDivider(label) {
+  const el = document.createElement('div');
+  el.className = 'or-divider';
+  el.innerHTML = label
+    ? `<div class="or-line"></div><div class="or-label">${label}</div><div class="or-line"></div>`
+    : `<div class="or-line"></div>`;
+  return el;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   HEADER UPDATE
+───────────────────────────────────────────────────────────────────── */
+function updateHeader() {
+  const weekend = isWeekend(viewDate);
+  const isToday = isViewToday();
+  const today   = new Date();
+
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  document.getElementById('mainTitle').textContent =
+    weekend ? 'Weekend Mode 🌸🐺' : 'Your Daily Routines 🐺';
+
+  document.getElementById('mainSub').textContent = isToday
+    ? (weekend
+        ? "It's the weekend — breathe, build & be present 🌈"
+        : 'Show up for yourself today, one habit at a time 💜')
+    : `Viewing ${DAYS[viewDate.getDay()]} the ${viewDate.getDate()} — ${weekend ? 'weekend' : 'weekday'}`;
+
+  document.getElementById('dateChip').textContent =
+    `${DAYS[today.getDay()]}, ${MONTHS[today.getMonth()]} ${today.getDate()}`;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   DAY NAV  (7-day strip with progress dots)
+───────────────────────────────────────────────────────────────────── */
+async function buildDayNav() {
+  // collect last 7 days
+  const dates = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return d;
+  });
+  const dateStrs = dates.map(fmtDate);
+
+  // fetch all completions for these 7 dates in a single round-trip
+  let byDate = {};
+  try {
+    const rows = await sbGet(
+      `habit_completions?user_id=eq.${USER_ID}&completed_on=in.(${dateStrs.join(',')})&select=habit_id,completed_on`
+    );
+    rows.forEach(r => {
+      if (!byDate[r.completed_on]) byDate[r.completed_on] = 0;
+      byDate[r.completed_on]++;
+    });
+  } catch(e) { /* non-fatal — dots just stay empty */ }
+
+  const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const nav = document.getElementById('dayNav');
+  nav.innerHTML = '';
+
+  dates.forEach(d => {
+    const dk      = fmtDate(d);
+    const weekend = isWeekend(d);
+    const isView  = dk === fmtDate(viewDate);
+    const count   = byDate[dk] || 0;
+
+    // rough expected totals (or_group counts as 1)
+    // weekday: morning(11)+postwork(5)+evening(7)+weekly(4) = 27
+    // weekend: weekend(5)+evening(7)+weekly(4) = 16
+    const expected = weekend ? 16 : 27;
+    const pct = count / expected;
+
+    const btn = document.createElement('div');
+    btn.className = `day-btn${isView ? ' active' : ''}${weekend && !isView ? ' weekend-day' : ''}`;
+    btn.innerHTML = `
+      <div class="day-name">${DAY_NAMES[d.getDay()]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      <div class="day-dots">
+        <div class="day-dot ${pct >= .40 ? 'done' : pct >= .15 ? 'partial' : ''}"></div>
+        <div class="day-dot ${pct >= .65 ? 'done' : pct >= .35 ? 'partial' : ''}"></div>
+        <div class="day-dot ${pct >= .90 ? 'done' : pct >= .60 ? 'partial' : ''}"></div>
+      </div>
+    `;
+
+    btn.addEventListener('click', async () => {
+      if (isView) return; // already viewing this day
+      viewDate = new Date(dk + 'T12:00:00'); // noon to avoid TZ edge cases
+      await loadCompletions(dk);
+      render();
+      buildDayNav();
+    });
+
+    nav.appendChild(btn);
+  });
+
+  // Scroll active button into center
+  const active = nav.querySelector('.day-btn.active');
+  if (active) {
+    nav.scrollLeft = active.offsetLeft - nav.offsetWidth / 2 + active.offsetWidth / 2;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────────────────────────────── */
+async function init() {
+  try {
+    await loadHabits();
+    await loadCompletions(fmtDate(viewDate));
+    render();
+    await buildDayNav();
+  } catch (err) {
+    console.error('Init failed:', err);
+    document.getElementById('loader').innerHTML = `
+      <div class="loader-wolf">😵</div>
+      <div class="loader-text">Couldn't load — check your connection and refresh.</div>
+    `;
+    return;
+  }
+  // hide loader
+  const loader = document.getElementById('loader');
+  loader.classList.add('hidden');
+  setTimeout(() => {
+    loader.style.display = 'none';
+    document.getElementById('app').style.display = '';
+  }, 380);
+}
+
+init();
+</script>
+</body>
+</html>
