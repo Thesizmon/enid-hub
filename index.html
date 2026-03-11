@@ -388,6 +388,25 @@
       border: 1px solid; white-space: nowrap;
     }
 
+    /* Date item checkbox / done state */
+    .date-item-row { cursor: pointer; }
+    .di-check {
+      width: 22px; height: 22px; flex-shrink: 0;
+      border-radius: 7px;
+      border: 2px solid rgba(168,85,247,.28);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s; background: transparent;
+    }
+    .date-item-row.di-done .di-check {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(232,78,160,.38);
+    }
+    .di-check-mark { color: #fff; font-size: .72rem; font-weight: 800; display: none; }
+    .date-item-row.di-done .di-check-mark { display: block; }
+    .date-item-row.di-done .di-title { text-decoration: line-through; color: var(--sub); }
+    .date-item-row.di-done { opacity: .72; }
+
     /* ── Widgets (Step 5E) ──────────────────────────────────────────── */
     .widgets-divider {
       display: flex; align-items: center; gap: 10px;
@@ -1367,6 +1386,27 @@ function buildMoviesWidgetCard() {
 /* ─────────────────────────────────────────────────────────────────────
    DATE ITEMS CARD
 ───────────────────────────────────────────────────────────────────── */
+async function toggleDateItem(id) {
+  const item = dateItems.find(d => String(d.id) === String(id));
+  if (!item) return;
+  const newVal = !item.is_completed;
+  item.is_completed = newVal;
+
+  // Optimistic DOM update
+  const row = document.querySelector(`.date-item-row[data-di-id="${id}"]`);
+  if (row) row.classList.toggle('di-done', newVal);
+
+  // Persist to Supabase
+  try {
+    await sbPatch('date_items', `id=eq.${id}&user_id=eq.${USER_ID}`, { is_completed: newVal });
+  } catch (e) {
+    // Revert on error
+    item.is_completed = !newVal;
+    if (row) row.classList.toggle('di-done', !newVal);
+    showToast('Could not save — try again ❌');
+  }
+}
+
 function buildDateItemsCard() {
   const card  = document.createElement('div');
   card.className = 'section-card';
@@ -1390,7 +1430,8 @@ function buildDateItemsCard() {
       ? `<div class="di-meta">${timeHtml}${locHtml}${repeatHtml}</div>` : '';
 
     return `
-      <div class="date-item-row" style="border-left-color:${accent}">
+      <div class="date-item-row${item.is_completed ? ' di-done' : ''}" data-di-id="${item.id}" style="border-left-color:${accent}">
+        <div class="di-check"><span class="di-check-mark">✓</span></div>
         <div class="di-type-icon">${meta.icon}</div>
         <div class="di-body">
           <div class="di-title">${item.title}</div>
@@ -1414,6 +1455,13 @@ function buildDateItemsCard() {
     </div>
     <div class="date-items-list">${itemsHtml}</div>
   `;
+
+  // Delegated click → toggle completion
+  card.querySelector('.date-items-list').addEventListener('click', e => {
+    const row = e.target.closest('.date-item-row');
+    if (!row) return;
+    toggleDateItem(row.dataset.diId);
+  });
 
   return card;
 }
