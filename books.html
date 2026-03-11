@@ -242,8 +242,19 @@ body::after{
 .enid-loader.visible{opacity:1;pointer-events:all}
 .enid-loader-bg{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px)}
 .enid-loader-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px}
-.enid-loader-img{width:90px;height:90px;object-fit:contain;animation:nailsBounce 1.4s ease-in-out infinite;filter:drop-shadow(0 6px 20px rgba(232,78,160,.5))}
+.enid-loader-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:90px;height:90px}
+.enid-loader-wrap::before{content:'';position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(232,78,160,.22) 0%,rgba(168,85,247,.12) 50%,transparent 70%);animation:glowPulse 2s ease-in-out infinite;pointer-events:none}
+@keyframes glowPulse{0%,100%{transform:scale(1);opacity:.65}50%{transform:scale(1.22);opacity:1}}
+.enid-loader-img{width:90px;height:90px;object-fit:contain;animation:nailsBounce 1.4s ease-in-out infinite,nailsShimmer 3s ease-in-out infinite}
 @keyframes nailsBounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-14px) scale(1.05)}}
+@keyframes nailsShimmer{0%{filter:drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1) saturate(1)}20%{filter:drop-shadow(0 8px 26px rgba(168,85,247,.72)) brightness(1.1) saturate(1.15)}40%{filter:drop-shadow(0 9px 28px rgba(59,130,246,.62)) brightness(1.15) saturate(1.2)}60%{filter:drop-shadow(0 8px 26px rgba(16,185,129,.65)) brightness(1.1) saturate(1.15)}80%{filter:drop-shadow(0 7px 24px rgba(245,158,11,.65)) brightness(1.06) saturate(1.1)}100%{filter:drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1) saturate(1)}}
+.sp{position:absolute;line-height:1;pointer-events:none;animation:spTwinkle 1.8s ease-in-out infinite}
+.sp1{top:-13px;left:20px;font-size:.88rem;color:#E84EA0;animation-delay:0s}
+.sp2{top:4px;right:-15px;font-size:.72rem;color:#A855F7;animation-delay:.45s}
+.sp3{bottom:-9px;left:10px;font-size:.68rem;color:#F59E0B;animation-delay:.9s}
+.sp4{bottom:5px;right:-11px;font-size:.82rem;color:#6EE7B7;animation-delay:1.3s}
+.sp5{top:-5px;left:-13px;font-size:.62rem;color:#60A5FA;animation-delay:.65s}
+@keyframes spTwinkle{0%,100%{opacity:0;transform:scale(.2) rotate(0deg)}45%,55%{opacity:1;transform:scale(1.15) rotate(72deg)}}
 .enid-dots{display:flex;gap:7px;margin-top:2px}
 .enid-dot{width:8px;height:8px;border-radius:50%;animation:dotPop 1.2s ease-in-out infinite}
 .enid-dot:nth-child(1){background:#F9A8D4;animation-delay:0s}
@@ -276,9 +287,16 @@ body::after{
 <div class="enid-loader" id="enidLoader">
   <div class="enid-loader-bg"></div>
   <div class="enid-loader-inner">
-    <img class="enid-loader-img" src="nails.png" alt="💅">
+    <div class="enid-loader-wrap">
+      <img class="enid-loader-img" src="nails.png" alt="💅">
+      <span class="sp sp1">✦</span>
+      <span class="sp sp2">✦</span>
+      <span class="sp sp3">✦</span>
+      <span class="sp sp4">✦</span>
+      <span class="sp sp5">✦</span>
+    </div>
     <div class="enid-dots"><div class="enid-dot"></div><div class="enid-dot"></div><div class="enid-dot"></div><div class="enid-dot"></div></div>
-    <div class="enid-loader-text" id="enidLoaderText">loading your data, sparklepup!!</div>
+    <div class="enid-loader-text" id="enidLoaderText">turning pages, finding magic... 📚🐺</div>
   </div>
 </div>
 
