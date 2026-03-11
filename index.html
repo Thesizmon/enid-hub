@@ -7,33 +7,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Enid's Daily Tracker 🐺</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* ── Design tokens ─────────────────────────────────────────────── */
     :root {
-      --pink:   #E84EA0;
-      --purple: #A855F7;
-      --mint:   #6EE7B7;
-      --amber:  #F59E0B;
-      --cream:  #FFFBF7;
-      --glass:  rgba(255,255,255,0.76);
-      --border: rgba(168,85,247,0.13);
-      --text:   #2D1B4E;
-      --sub:    #7C6F9B;
+      --pink:       #E84EA0;
+      --purple:     #A855F7;
+      --mint:       #6EE7B7;
+      --amber:      #F59E0B;
+      --cream:      #FFFBF7;
+      --glass:      rgba(255,255,255,0.76);
+      --border:     rgba(168,85,247,0.13);
+      --text:       #2D1B4E;
+      --sub:        #7C6F9B;
+      --morning-a:  #F59E0B;
+      --evening-a:  #8B5CF6;
+      --text-light: #9C8FC4;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background:
-        radial-gradient(ellipse at 15% 0%,   rgba(232,78,160,.18)  0%, transparent 55%),
-        radial-gradient(ellipse at 85% 40%,  rgba(168,85,247,.12)  0%, transparent 55%),
-        radial-gradient(ellipse at 40% 100%, rgba(110,231,183,.10) 0%, transparent 55%),
-        #FFFBF7;
+      background: var(--cream);
       min-height: 100vh;
       color: var(--text);
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 5% 10%,  rgba(245,158,11,.09) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 95% 15%, rgba(59,130,246,.08)  0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 50% 92%, rgba(139,92,246,.10)  0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 15% 65%, rgba(232,78,160,.08)  0%, transparent 50%),
+        linear-gradient(160deg, #FFFDF5 0%, #F8F0FF 45%, #F0FFFE 75%, #FFFBF7 100%);
+      pointer-events: none;
     }
 
     /* ── Loader ────────────────────────────────────────────────────── */
@@ -54,7 +67,7 @@
     }
 
     /* ── App shell ─────────────────────────────────────────────────── */
-    #app { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+    #app { max-width: 1060px; margin: 0 auto; padding-bottom: 80px; position: relative; z-index: 1; }
 
     /* ── Header ────────────────────────────────────────────────────── */
     .app-header {
@@ -65,10 +78,11 @@
     }
     .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .header-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; line-height: 1.2;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 5vw, 2.8rem); line-height: 1.1;
+      background: linear-gradient(135deg, var(--morning-a) 0%, var(--pink) 45%, var(--evening-a) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(232,78,160,.15));
     }
     .header-sub { font-size: .78rem; color: var(--sub); margin-top: 3px; }
     .date-chip {
@@ -168,6 +182,7 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 18px;
       border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
     }
     .sec-left { display: flex; align-items: center; gap: 10px; }
     .sec-icon {
@@ -180,6 +195,37 @@
     .sec-icon.weekend  { background: linear-gradient(135deg, #FFE8F5, #FFCCEB); }
     .sec-icon.weekly   { background: linear-gradient(135deg, #D4FBF0, #A8F0E0); }
     .sec-icon.schedule { background: linear-gradient(135deg, #E8E0FF, #CFC4FF); }
+
+    /* ── Coloured section-header backgrounds (matches old enid-life-hub) */
+    .section-header.morning  { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #FCD34D 100%); border-bottom-color: transparent; }
+    .section-header.postwork { background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%); border-bottom-color: transparent; }
+    .section-header.weekend  { background: linear-gradient(135deg, #DB2777 0%, #EC4899 50%, #F472B6 100%); border-bottom-color: transparent; }
+    .section-header.weekly   { background: linear-gradient(135deg, #059669 0%, #10B981 50%, #6EE7B7 100%); border-bottom-color: transparent; }
+    .section-header.evening  { background: linear-gradient(135deg, #7C3AED 0%, #8B5CF6 50%, #A78BFA 100%); border-bottom-color: transparent; }
+    /* Dot-pattern overlay on coloured headers */
+    .section-header.morning::before,.section-header.postwork::before,
+    .section-header.weekend::before,.section-header.weekly::before,
+    .section-header.evening::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    /* White text on coloured headers */
+    .section-header.morning  .sec-title,.section-header.morning  .sec-sub,.section-header.morning  .sec-frac,
+    .section-header.postwork .sec-title,.section-header.postwork .sec-sub,.section-header.postwork .sec-frac,
+    .section-header.weekend  .sec-title,.section-header.weekend  .sec-sub,.section-header.weekend  .sec-frac,
+    .section-header.weekly   .sec-title,.section-header.weekly   .sec-sub,.section-header.weekly   .sec-frac,
+    .section-header.evening  .sec-title,.section-header.evening  .sec-sub,.section-header.evening  .sec-frac { color: #fff; }
+    /* White-tinted icon on coloured headers */
+    .section-header.morning  .sec-icon,.section-header.postwork .sec-icon,
+    .section-header.weekend  .sec-icon,.section-header.weekly   .sec-icon,
+    .section-header.evening  .sec-icon { background: rgba(255,255,255,.25) !important; }
+    /* White progress bar on coloured headers */
+    .section-header.morning  .sec-bar,.section-header.postwork .sec-bar,
+    .section-header.weekend  .sec-bar,.section-header.weekly   .sec-bar,
+    .section-header.evening  .sec-bar { background: rgba(255,255,255,.2); }
+    .section-header.morning  .sec-fill,.section-header.postwork .sec-fill,
+    .section-header.weekend  .sec-fill,.section-header.weekly   .sec-fill,
+    .section-header.evening  .sec-fill { background: rgba(255,255,255,.85); }
 
     .sec-title { font-weight: 700; font-size: .92rem; }
     .sec-sub   { font-size: .7rem;  color: var(--sub); margin-top: 1px; }
@@ -417,6 +463,19 @@
     .wm-date  { font-size: .7rem; color: var(--pink); font-weight: 600; margin-top: 2px; }
     .wm-nodate { font-size: .7rem; color: var(--sub); margin-top: 2px; }
 
+    /* ── Pep card (Enid's daily hype) ──────────────────────────────── */
+    .pep-card{background:linear-gradient(135deg,rgba(168,85,247,.1) 0%,rgba(232,78,160,.08) 100%);border:1.5px solid rgba(168,85,247,.18);border-radius:18px;padding:15px 20px;display:flex;align-items:center;gap:14px;backdrop-filter:blur(10px);position:relative;overflow:hidden}
+    .pep-card::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23a855f7' fill-opacity='0.04'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+    .pep-avatar{font-size:1.6rem;flex-shrink:0;animation:pepbounce 4s ease-in-out infinite}
+    @keyframes pepbounce{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.12)}}
+    .pep-body{flex:1}
+    .pep-label{font-family:'Dancing Script',cursive;font-size:.82rem;font-weight:700;color:var(--purple);margin-bottom:3px}
+    .pep-text{font-family:'Playfair Display',serif;font-size:.92rem;font-style:italic;color:var(--text);line-height:1.5}
+    .pep-sig{font-size:.72rem;color:var(--text-light);margin-top:5px;font-weight:500}
+
+    /* ── Footer signature ───────────────────────────────────────────── */
+    .page-footer{text-align:center;padding:28px 0 12px;font-family:'Dancing Script',cursive;font-size:.95rem;color:var(--text-light)}
+
     /* ── Note Overlay (Step 5D) ─────────────────────────────────────── */
     .note-overlay {
       position: fixed; inset: 0; z-index: 200;
@@ -617,6 +676,7 @@
 
   <div class="day-nav" id="dayNav"></div>
   <main id="sections"></main>
+  <div class="page-footer">built with 💜 by your roomie · every routine is a love letter to your future self 🐺✨</div>
 </div>
 
 <!-- NOTE OVERLAY (Step 5D) -->
@@ -713,6 +773,44 @@ let pendingInsert = null;          // Promise for the in-flight habit INSERT
 let financeWidget = null;          // { period, income, totalOwed, available } or null
 let booksWidget   = null;          // current reading book row or null
 let moviesWidget  = [];            // unwatched movies from localStorage
+
+/* ─────────────────────────────────────────────────────────────────────
+   PEP QUOTES
+───────────────────────────────────────────────────────────────────── */
+const PEP_QUOTES = [
+  { text:"You are literally building a different life right now. Not talking about it, not planning it someday — actually doing it. That's everything.", sig:"— Enid, in awe of you 🌈🐺" },
+  { text:"Hard days still count. A 40% day is infinitely better than a 0% day. Show up imperfectly and call it a win because it IS one.", sig:"— your roomie, keeping it real 💜" },
+  { text:"The version of you from six months ago would be absolutely floored by what you're doing right now. Don't forget that. 🔥", sig:"— Enid, always watching you glow ✨" },
+  { text:"Discipline is just self-love in work clothes. Every time you check a box you're saying 'I matter enough to follow through.' 🐾", sig:"— your roomie with the deep cuts 💜🐺" },
+  { text:"You don't have to want to do the routine. You just have to do it. The wanting catches up later, I promise.", sig:"— Enid, speaking from experience 🌸" },
+  { text:"Progress isn't always loud. Sometimes it's just quietly doing the thing nobody sees. That still counts. It counts so much.", sig:"— your roomie cheering from the sidelines 🎉" },
+  { text:"Every single debt you're paying down, every habit you're building — it's all the same story. You choosing yourself. Keep going. 💰🐺", sig:"— Enid, financial hype squad captain 🔥" },
+  { text:"You are not behind. You are not too late. You are exactly on time for your own comeback arc and it is STUNNING.", sig:"— your roomie, obsessed with your story 🌈" },
+  { text:"One check mark leads to another leads to another leads to a whole new life. Start with one. Just one. Right now. 🐾✨", sig:"— Enid, the tiniest push 💜" },
+  { text:"The fact that you opened this app today already means something. You're here. You're trying. That's the whole game.", sig:"— your roomie, genuinely proud 🐺💜" },
+  { text:"Semper deserves his walk. Your body deserves movement. Your future self deserves the version of you that does the thing. 🐕", sig:"— Enid, invoking dog motivation 🐾" },
+  { text:"Debt is temporary. The habits you're building right now? Those are forever. You're doing the real work. 💪🌸", sig:"— your roomie, zoomed all the way out ✨" },
+  { text:"It's okay if yesterday wasn't perfect. Today's page is completely blank and it's entirely yours. Fill it well, sparklepup. 🌅", sig:"— Enid, advocate of fresh starts 🐺" },
+  { text:"You built a financial system, a habit tracker, AND you're actually using them. Do you know how rare that is? You're that girl. 💜", sig:"— your roomie, bragging about you 🌈🔥" },
+  { text:"Some days the routine is the highlight. Some days it's just survival. Both are valid. Both move you forward. Keep going. 🐾", sig:"— Enid, for the hard days 💜🐺" },
+];
+
+function buildPepCard() {
+  const today = new Date();
+  const seed  = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const q     = PEP_QUOTES[seed % PEP_QUOTES.length];
+  const el    = document.createElement('div');
+  el.className = 'pep-card';
+  el.innerHTML = `
+    <div class="pep-avatar">🐺</div>
+    <div class="pep-body">
+      <div class="pep-label">Enid's daily hype ✨</div>
+      <div class="pep-text">${q.text}</div>
+      <div class="pep-sig">${q.sig}</div>
+    </div>
+  `;
+  return el;
+}
 
 /* ─────────────────────────────────────────────────────────────────────
    HELPERS
@@ -1328,7 +1426,10 @@ function render() {
   const container = document.getElementById('sections');
   container.innerHTML = '';
 
-  // Date items card at top (only when items exist)
+  // Pep card — always first
+  container.appendChild(buildPepCard());
+
+  // Date items card (only when items exist)
   if (dateItems.length) container.appendChild(buildDateItemsCard());
 
   // Habit sections
@@ -1347,7 +1448,7 @@ function render() {
       ? `<div class="kt-set-chip">🏪 KT Shift</div>` : '';
 
     card.innerHTML = `
-      <div class="section-header">
+      <div class="section-header ${sec.color}">
         <div class="sec-left">
           <div class="sec-icon ${sec.color}">${sec.icon}</div>
           <div>
