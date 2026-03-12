@@ -135,6 +135,14 @@
       max-width: 320px;
       margin: 16px auto 0;
     }
+    .roomie-line {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.05rem;
+      color: var(--pink);
+      opacity: .72;
+      margin-top: 10px;
+      letter-spacing: .01em;
+    }
 
     /* ── Image / Polaroid section ────────────────────────────────────── */
     .image-section {
@@ -276,72 +284,86 @@
       .rules-grid { grid-template-columns: 1fr; }
     }
 
-    /* Cloud-blob cards — each nth-child has a unique organic shape */
+    /* Cloud-blob cards — organic shapes, pastel gradients, text-safe padding */
     .rule-cloud {
-      background: rgba(255,255,255,.74);
       backdrop-filter: blur(14px);
-      border: 1px solid rgba(168,85,247,.16);
-      padding: 18px 15px 15px;
+      border: none;
+      padding: 20px 18px 16px;
       position: relative;
       transition: transform .2s ease, box-shadow .2s ease;
       cursor: default;
+      /* min-height keeps short rules from collapsing too small */
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
+    /* Dialed-back blob shapes — organic but not so extreme text gets squeezed */
     .rule-cloud:nth-child(1) {
-      border-radius: 55% 45% 36% 64% / 48% 62% 38% 52%;
-      box-shadow: 0 5px 22px rgba(232,78,160,.10);
+      background: linear-gradient(145deg, rgba(255,210,232,.80) 0%, rgba(255,235,248,.90) 100%);
+      border-radius: 48% 52% 38% 62% / 44% 56% 42% 58%;
+      box-shadow: 0 5px 22px rgba(232,78,160,.13);
     }
     .rule-cloud:nth-child(2) {
-      border-radius: 38% 62% 54% 46% / 62% 40% 60% 38%;
-      box-shadow: 0 5px 22px rgba(168,85,247,.10);
+      background: linear-gradient(145deg, rgba(232,210,255,.78) 0%, rgba(245,235,255,.90) 100%);
+      border-radius: 36% 64% 52% 48% / 56% 40% 58% 44%;
+      box-shadow: 0 5px 22px rgba(168,85,247,.12);
     }
     .rule-cloud:nth-child(3) {
-      border-radius: 64% 36% 44% 56% / 36% 54% 46% 64%;
-      box-shadow: 0 5px 22px rgba(245,158,11,.09);
+      background: linear-gradient(145deg, rgba(255,232,195,.80) 0%, rgba(255,248,230,.90) 100%);
+      border-radius: 58% 42% 44% 56% / 38% 52% 50% 62%;
+      box-shadow: 0 5px 22px rgba(245,158,11,.12);
     }
     .rule-cloud:nth-child(4) {
-      border-radius: 44% 56% 62% 38% / 58% 44% 44% 56%;
-      box-shadow: 0 5px 22px rgba(110,231,183,.12);
+      background: linear-gradient(145deg, rgba(195,248,225,.78) 0%, rgba(228,255,242,.90) 100%);
+      border-radius: 44% 56% 58% 42% / 52% 46% 48% 56%;
+      box-shadow: 0 5px 22px rgba(110,231,183,.14);
     }
     .rule-cloud:nth-child(5) {
-      border-radius: 60% 40% 34% 66% / 44% 68% 32% 56%;
-      box-shadow: 0 5px 22px rgba(232,78,160,.09);
-    }
-    .rule-cloud:nth-child(6) {
-      border-radius: 40% 60% 58% 42% / 64% 36% 64% 36%;
-      box-shadow: 0 5px 22px rgba(168,85,247,.10);
-    }
-    .rule-cloud:nth-child(7) {
-      border-radius: 68% 32% 40% 60% / 38% 62% 38% 62%;
-      box-shadow: 0 5px 22px rgba(245,158,11,.09);
-    }
-    .rule-cloud:nth-child(8) {
-      border-radius: 42% 58% 66% 34% / 60% 42% 58% 40%;
+      background: linear-gradient(145deg, rgba(255,218,236,.80) 0%, rgba(255,238,248,.90) 100%);
+      border-radius: 54% 46% 36% 64% / 46% 62% 36% 54%;
       box-shadow: 0 5px 22px rgba(232,78,160,.12);
     }
+    .rule-cloud:nth-child(6) {
+      background: linear-gradient(145deg, rgba(210,228,255,.78) 0%, rgba(232,242,255,.90) 100%);
+      border-radius: 40% 60% 54% 46% / 60% 38% 60% 40%;
+      box-shadow: 0 5px 22px rgba(99,160,247,.12);
+    }
+    .rule-cloud:nth-child(7) {
+      background: linear-gradient(145deg, rgba(255,245,195,.80) 0%, rgba(255,252,228,.90) 100%);
+      border-radius: 62% 38% 42% 58% / 40% 58% 44% 60%;
+      box-shadow: 0 5px 22px rgba(245,158,11,.11);
+    }
+    .rule-cloud:nth-child(8) {
+      background: linear-gradient(145deg, rgba(255,215,235,.80) 0%, rgba(255,232,245,.90) 100%);
+      border-radius: 42% 58% 60% 40% / 56% 44% 56% 44%;
+      box-shadow: 0 5px 22px rgba(232,78,160,.13);
+    }
     .rule-cloud:hover {
-      transform: translateY(-4px) rotate(.6deg);
-      box-shadow: 0 10px 32px rgba(168,85,247,.16);
+      transform: translateY(-4px) rotate(.5deg);
+      box-shadow: 0 10px 32px rgba(168,85,247,.18);
     }
     .rule-num {
       font-family: 'Caveat', cursive;
       font-size: .76rem;
       color: var(--pink);
       font-weight: 700;
-      opacity: .55;
-      margin-bottom: 6px;
+      opacity: .6;
     }
     .rule-text {
       font-family: 'Playfair Display', serif;
-      font-size: .91rem;
+      font-size: .88rem;
       font-style: italic;
       color: var(--text);
-      line-height: 1.55;
+      line-height: 1.58;
+      flex: 1;
     }
+    /* Deco emoji now inline at bottom — no more overlap */
     .rule-deco {
-      font-size: .82rem;
-      position: absolute;
-      bottom: 10px; right: 14px;
-      opacity: .28;
+      font-size: .78rem;
+      opacity: .35;
+      align-self: flex-end;
+      line-height: 1;
     }
 
     /* ── Signature cluster ───────────────────────────────────────────── */
@@ -541,6 +563,7 @@
     </svg>
 
     <p class="subtitle">A little stillness before you go back to your life.</p>
+    <p class="roomie-line">Roomie, you're better than this. Don't look. 🐺</p>
   </div>
 
   <!-- Image / polaroid -->
