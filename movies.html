@@ -232,6 +232,71 @@ body::after{
 .nav-scroll-row{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
 .nav-scroll-row::-webkit-scrollbar{display:none}
 @media(min-width:768px){.nav-scroll-row{flex-wrap:wrap;overflow-x:visible}}
+
+/* ── Location bar ── */
+.loc-bar{display:flex;align-items:center;gap:10px;background:rgba(168,85,247,.08);border:1.5px solid rgba(168,85,247,.18);border-radius:12px;padding:11px 16px;margin-bottom:20px;flex-wrap:wrap;animation:fadeUp .4s ease both}
+.loc-btn{padding:8px 16px;border-radius:8px;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.12);color:var(--purple);font-size:.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;flex-shrink:0}
+.loc-btn:hover{background:rgba(168,85,247,.22);transform:translateY(-1px)}
+.loc-status{font-size:.75rem;color:var(--text2);font-family:var(--mono);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── Tonight's Showings ── */
+.tonights-section{margin-bottom:32px;animation:fadeUp .4s ease both}
+.tonights-grid{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin;scrollbar-color:rgba(232,78,160,.3) transparent}
+.tonights-grid::-webkit-scrollbar{height:4px}
+.tonights-grid::-webkit-scrollbar-thumb{background:rgba(232,78,160,.3);border-radius:999px}
+.tonight-card{flex-shrink:0;width:130px;cursor:pointer;transition:all .2s;background:var(--card);border:1.5px solid rgba(232,78,160,.2);border-radius:12px;overflow:hidden}
+.tonight-card:hover{transform:translateY(-3px);border-color:rgba(232,78,160,.45);box-shadow:0 8px 24px rgba(232,78,160,.15)}
+.tc-poster{width:130px;height:100px;object-fit:cover;display:block}
+.tc-poster-ph{width:130px;height:100px;background:linear-gradient(135deg,#1a1520,#0d0a16);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.tc-info{padding:8px}
+.tc-title{font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:.04em;color:var(--cream);line-height:1.15;margin-bottom:4px}
+.tc-next{font-size:.72rem;font-weight:700;color:var(--pink);font-family:var(--mono);margin-bottom:2px}
+.tc-theatre{font-size:.6rem;color:var(--text2);line-height:1.3}
+
+/* ── Next Showing badge on card ── */
+.mc-next-showing{display:flex;align-items:flex-start;gap:8px;background:rgba(232,78,160,.07);border:1px solid rgba(232,78,160,.18);border-radius:10px;padding:8px 10px;margin-top:8px}
+.mc-ns-icon{font-size:.9rem;flex-shrink:0;margin-top:1px}
+.mc-ns-info{display:flex;flex-direction:column;gap:1px}
+.mc-ns-label{font-size:.55rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);opacity:.75}
+.mc-ns-line{font-size:.72rem;font-weight:600;color:var(--text);font-family:var(--mono)}
+
+/* ── Show Local Times button ── */
+.mc-btn-showtimes{background:rgba(232,78,160,.1);border-color:rgba(232,78,160,.25);color:var(--pink);margin-top:7px;width:100%}
+.mc-btn-showtimes:hover{background:rgba(232,78,160,.2)}
+
+/* ── Ticket Purchased ── */
+.mc-ticket{display:flex;align-items:center;gap:8px;margin-top:7px;padding:7px 10px;border-radius:8px;border:1px solid rgba(245,200,66,.2);background:rgba(245,200,66,.06);cursor:pointer;transition:all .18s;user-select:none}
+.mc-ticket:hover{background:rgba(245,200,66,.12)}
+.mc-ticket-check{width:18px;height:18px;border-radius:5px;border:1.5px solid rgba(245,200,66,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;background:transparent}
+.mc-ticket.purchased .mc-ticket-check{background:linear-gradient(135deg,var(--gold),#e6b800);border-color:transparent}
+.mc-ticket-checkmark{font-size:.65rem;color:#111;display:none}
+.mc-ticket.purchased .mc-ticket-checkmark{display:block}
+.mc-ticket-label{font-size:.72rem;color:rgba(245,200,66,.7);font-weight:600}
+.mc-ticket.purchased .mc-ticket-label{color:var(--gold)}
+
+/* ── Showtimes drawer ── */
+.showtimes-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(10px)}
+.showtimes-sheet{background:var(--bg3);border:1.5px solid rgba(232,78,160,.25);border-radius:20px 20px 0 0;padding:28px;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;box-shadow:0 -4px 40px rgba(232,78,160,.12);animation:slideUp .32s cubic-bezier(.34,1.2,.64,1)}
+.st-heading{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;color:var(--cream);margin-bottom:2px}
+.st-movie-label{font-size:.75rem;color:var(--pink);font-family:var(--mono);margin-bottom:20px;opacity:.85}
+.st-theatre-group{margin-bottom:16px}
+.st-theatre-name{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);font-family:var(--mono);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.st-dist{font-size:.62rem;color:var(--text3);font-weight:400}
+.st-times{display:flex;flex-wrap:wrap;gap:7px}
+.st-time-pill{padding:5px 12px;border-radius:6px;background:rgba(232,78,160,.12);border:1px solid rgba(232,78,160,.25);color:var(--pink);font-size:.75rem;font-family:var(--mono);font-weight:600}
+.st-time-pill.past{opacity:.4;background:rgba(255,255,255,.04);border-color:var(--border);color:var(--text3)}
+.st-divider{height:1px;background:var(--border);margin:18px 0}
+.st-section-title{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);font-family:var(--mono);margin-bottom:12px}
+.mst-row{margin-bottom:14px}
+.mst-theatre-nm{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);font-family:var(--mono);margin-bottom:6px}
+.mst-times{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.mst-time{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text2);font-size:.72rem;font-family:var(--mono)}
+.mst-del{background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:.9rem;padding:0;line-height:1;transition:color .15s}
+.mst-del:hover{color:var(--red2)}
+.mst-add-btn{padding:4px 10px;border-radius:6px;border:1px dashed rgba(232,78,160,.3);background:transparent;color:rgba(232,78,160,.6);font-size:.7rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s}
+.mst-add-btn:hover{background:rgba(232,78,160,.1);color:var(--pink)}
+.st-close-btn{padding:9px 24px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s}
+.st-close-btn:hover{border-color:var(--pink);color:var(--pink)}
 </style>
 </head>
 <body>
@@ -305,6 +370,21 @@ body::after{
   </div>
 </div>
 
+<!-- Showtimes Drawer -->
+<div class="showtimes-overlay" id="showtimesOverlay" style="display:none" onclick="closeShowtimesIfBg(event)">
+  <div class="showtimes-sheet">
+    <div class="st-heading">🎬 Local Showtimes</div>
+    <div class="st-movie-label" id="showtimesMovieLabel"></div>
+    <div id="showtimesDisplayContent"></div>
+    <div class="st-divider"></div>
+    <div class="st-section-title">✏️ Manage Showtimes</div>
+    <div id="manageShowtimesContent"></div>
+    <div class="showing-actions" style="padding-top:14px;border-top:1px solid var(--border);margin-top:14px">
+      <button class="st-close-btn" onclick="closeShowtimesDrawer()">Done</button>
+    </div>
+  </div>
+</div>
+
 <div class="app">
 
     <div class="header-nav" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:24px 0 0;animation:fadeDown .5s ease both">
@@ -323,6 +403,22 @@ body::after{
     <div class="hero-eyebrow">// PERSONAL CINEMA LOG</div>
     <h1 class="hero-title">ENID'S<br><span>MOVIE LIST</span></h1>
     <div class="hero-sub">the watchlist, the hype, the whole cinematic experience 🎬💜</div>
+  </div>
+
+  <!-- Location bar -->
+  <div class="loc-bar" id="locBar">
+    <button class="loc-btn" onclick="requestLocation()">📍 Use My Location</button>
+    <div class="loc-status" id="locStatus">Enable location for distance-sorted showtimes</div>
+  </div>
+
+  <!-- Tonight's Showings -->
+  <div id="tonightsSection" class="tonights-section" style="display:none">
+    <div class="section-header">
+      <span class="section-title">🎟 TONIGHT'S SHOWINGS</span>
+      <div class="section-line"></div>
+      <span class="section-count" id="tonightsCount"></span>
+    </div>
+    <div class="tonights-grid" id="tonightsContent"></div>
   </div>
 
   <!-- Search -->
@@ -482,6 +578,7 @@ function writeWidget(list) {
       id: m.id, title: m.title, posterPath: m.posterPath,
       releaseYear: m.releaseYear, hype: m.hype,
       nextShowing: nextDI ? { date: nextDI.item_date, time: nextDI.start_time || null } : null,
+      ticketPurchased: isTicketPurchased(m.id),
     };
   });
   localStorage.setItem('enid_movies_widget', JSON.stringify(widget));
@@ -854,6 +951,25 @@ function renderMyList() {
         }).join('')}
       </div>` : '';
 
+    // Next Showing badge (local theatre showtimes)
+    const nextSh = !m.watched ? getNextShowing(m.id) : null;
+    const nextShowingHtml = nextSh ? `
+      <div class="mc-next-showing">
+        <div class="mc-ns-icon">🎬</div>
+        <div class="mc-ns-info">
+          <div class="mc-ns-label">NEXT SHOWING</div>
+          <div class="mc-ns-line">${escHtml(nextSh.theatre.name)} — ${nextSh.time}${nextSh.isToday ? ' ✨' : ''}</div>
+        </div>
+      </div>` : '';
+
+    // Ticket Purchased toggle
+    const tktBought = isTicketPurchased(m.id);
+    const ticketHtml = `
+      <div class="mc-ticket${tktBought?' purchased':''}" onclick="toggleTicket('${m.id}')">
+        <div class="mc-ticket-check"><span class="mc-ticket-checkmark">✓</span></div>
+        <div class="mc-ticket-label">${tktBought ? '🎟 Ticket purchased!' : '☐ Ticket Purchased'}</div>
+      </div>`;
+
     return `
       <div class="movie-card ${m.watched?'mc-watched':''}" style="animation-delay:${i*.05}s">
         <div class="mc-poster-wrap">
@@ -875,6 +991,9 @@ function renderMyList() {
             <button class="mc-btn mc-btn-edit" onclick="openEditModal('${m.id}')">✏️ Edit</button>
             <button class="mc-btn mc-btn-delete" onclick="deleteMovie('${m.id}')">🗑</button>
           </div>
+          ${nextShowingHtml}
+          ${ticketHtml}
+          <button class="mc-btn mc-btn-showtimes" onclick="openShowtimesDrawer('${m.id}')">🎬 Show Local Times</button>
           ${showingsHtml}
         </div>
       </div>`;
@@ -916,12 +1035,288 @@ function fmtTime(t) {
   return `${((h % 12) || 12)}:${String(m).padStart(2,'0')} ${ampm}`;
 }
 
+// ── Theatre network ───────────────────────────────────────────────────────────
+const THEATRES = [
+  { slug:'odyssey',          name:'Odyssey Fond du Lac',        lat:43.7680, lng:-88.4465 },
+  { slug:'marcusOshkosh',    name:'Marcus Oshkosh Cinema',      lat:44.0229, lng:-88.5518 },
+  { slug:'marcusSheboygan',  name:'Marcus Sheboygan Cinema',    lat:43.7505, lng:-87.7145 },
+  { slug:'marcusValley',     name:'Marcus Valley Grand Cinema', lat:44.8122, lng:-91.4958 },
+  { slug:'marcusHollywood',  name:'Marcus Hollywood Cinema',    lat:44.2707, lng:-88.4350 },
+  { slug:'marcusBrookfield', name:'Marcus Brookfield Cinema',   lat:43.0503, lng:-88.0668 },
+  { slug:'amcMayfair',       name:'AMC Mayfair Mall',           lat:43.0671, lng:-88.0292 },
+];
+
+// ── Geolocation ───────────────────────────────────────────────────────────────
+let userLocation = null;
+
+function loadUserLocation() {
+  const raw = localStorage.getItem('userLocation');
+  if (raw) try { userLocation = JSON.parse(raw); } catch(e) {}
+}
+
+function requestLocation() {
+  const btn = document.querySelector('.loc-btn');
+  if (btn) { btn.textContent = '⏳ Detecting...'; btn.disabled = true; }
+  if (!navigator.geolocation) {
+    showToast('Geolocation not supported in this browser ❌');
+    if (btn) { btn.textContent = '📍 Use My Location'; btn.disabled = false; }
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      localStorage.setItem('userLocation', JSON.stringify(userLocation));
+      if (btn) { btn.textContent = '📍 Use My Location'; btn.disabled = false; }
+      renderLocationBar();
+      renderMyList();
+      renderTonightsShowings();
+    },
+    () => {
+      showToast('Location access denied — using default order 📍');
+      if (btn) { btn.textContent = '📍 Use My Location'; btn.disabled = false; }
+    }
+  );
+}
+
+function renderLocationBar() {
+  const statusEl = document.getElementById('locStatus');
+  if (!statusEl) return;
+  if (userLocation) {
+    const closest = getSortedTheatres()[0];
+    const dist    = haversine(userLocation.lat, userLocation.lng, closest.lat, closest.lng).toFixed(1);
+    statusEl.textContent = `📍 Location active — ${closest.name} is closest (${dist} mi)`;
+    const bar = document.getElementById('locBar');
+    if (bar) bar.style.borderColor = 'rgba(110,231,183,.25)';
+  } else {
+    statusEl.textContent = 'Enable location for distance-sorted showtimes';
+  }
+}
+
+// ── Haversine distance (miles) ────────────────────────────────────────────────
+function haversine(lat1, lng1, lat2, lng2) {
+  const R    = 3958.8;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a    = Math.sin(dLat/2)**2
+             + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function getSortedTheatres() {
+  if (!userLocation) return THEATRES;
+  return [...THEATRES].sort((a, b) =>
+    haversine(userLocation.lat, userLocation.lng, a.lat, a.lng) -
+    haversine(userLocation.lat, userLocation.lng, b.lat, b.lng)
+  );
+}
+
+// ── Showtime helpers ──────────────────────────────────────────────────────────
+// Storage: localStorage key `enid_showtimes_<movieId>`
+// Format:  { [theatreSlug]: ["7:00 PM", "9:30 PM"], ... }
+function getShowtimes(movieId) {
+  const raw = localStorage.getItem(`enid_showtimes_${movieId}`);
+  return raw ? JSON.parse(raw) : {};
+}
+
+function saveShowtimes(movieId, data) {
+  localStorage.setItem(`enid_showtimes_${movieId}`, JSON.stringify(data));
+}
+
+function parseTimeToMins(t) {
+  const parts  = t.trim().split(' ');
+  const period = parts[1] || 'AM';
+  let [h, m]   = parts[0].split(':').map(Number);
+  if (period === 'PM' && h !== 12) h += 12;
+  if (period === 'AM' && h === 12) h = 0;
+  return h * 60 + (m || 0);
+}
+
+function isTimeFuture(t) {
+  const now = new Date();
+  return parseTimeToMins(t) > now.getHours() * 60 + now.getMinutes();
+}
+
+// Returns the best { theatre, time, isToday } for a movie, prioritised by
+// closest theatre → soonest future showing.  Returns null if no showtimes.
+function getNextShowing(movieId) {
+  const showtimes = getShowtimes(movieId);
+  for (const theatre of getSortedTheatres()) {
+    const times = showtimes[theatre.slug] || [];
+    if (!times.length) continue;
+    const future = times.filter(isTimeFuture);
+    const best   = future.length ? future[0] : times[0];
+    return { theatre, time: best, isToday: future.length > 0 };
+  }
+  return null;
+}
+
+// ── Ticket purchased ──────────────────────────────────────────────────────────
+// Storage: localStorage key `ticketPurchased_<movieId>` = 'true'
+// Synced to homepage via enid_movies_widget → ticketPurchased field.
+function isTicketPurchased(movieId) {
+  return localStorage.getItem(`ticketPurchased_${movieId}`) === 'true';
+}
+
+function toggleTicket(movieId) {
+  if (isTicketPurchased(movieId)) localStorage.removeItem(`ticketPurchased_${movieId}`);
+  else localStorage.setItem(`ticketPurchased_${movieId}`, 'true');
+  writeWidget(myList);
+  renderMyList();
+}
+
+// ── Tonight's Showings section ────────────────────────────────────────────────
+function renderTonightsShowings() {
+  const section  = document.getElementById('tonightsSection');
+  const content  = document.getElementById('tonightsContent');
+  const countEl  = document.getElementById('tonightsCount');
+  if (!section || !content) return;
+
+  const theatres  = getSortedTheatres();
+  const withTimes = myList.filter(m => !m.watched).map(m => {
+    let bestTheatre = null, bestTime = null;
+    for (const t of theatres) {
+      const times = getShowtimes(m.id)[t.slug] || [];
+      if (times.length) { bestTheatre = t; bestTime = times[0]; break; }
+    }
+    return bestTheatre ? { movie: m, theatre: bestTheatre, time: bestTime } : null;
+  }).filter(Boolean);
+
+  if (!withTimes.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  if (countEl) countEl.textContent = withTimes.length + ' film' + (withTimes.length !== 1 ? 's' : '');
+
+  withTimes.sort((a, b) => parseTimeToMins(a.time) - parseTimeToMins(b.time));
+  content.innerHTML = withTimes.map(({ movie: m, theatre, time }) => {
+    const poster = m.posterPath
+      ? `<img class="tc-poster" src="${IMG}w185${m.posterPath}" alt="${escHtml(m.title)}" loading="lazy">`
+      : `<div class="tc-poster-ph">🎬</div>`;
+    return `
+      <div class="tonight-card" onclick="openShowtimesDrawer('${m.id}')">
+        ${poster}
+        <div class="tc-info">
+          <div class="tc-title">${escHtml(m.title)}</div>
+          <div class="tc-next">${time}</div>
+          <div class="tc-theatre">${escHtml(theatre.name)}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Showtimes drawer ──────────────────────────────────────────────────────────
+let drawerMovieId = null;
+
+function openShowtimesDrawer(movieId) {
+  drawerMovieId = movieId;
+  const overlay = document.getElementById('showtimesOverlay');
+  if (!overlay) return;
+  renderShowtimesDrawer();
+  overlay.style.display = 'flex';
+}
+
+function closeShowtimesDrawer() {
+  document.getElementById('showtimesOverlay').style.display = 'none';
+  drawerMovieId = null;
+}
+
+function closeShowtimesIfBg(e) {
+  if (e.target.id === 'showtimesOverlay') closeShowtimesDrawer();
+}
+
+function renderShowtimesDrawer() {
+  if (!drawerMovieId) return;
+  const movie    = myList.find(m => m.id === drawerMovieId);
+  if (!movie) return;
+  const theatres  = getSortedTheatres();
+  const showtimes = getShowtimes(drawerMovieId);
+
+  document.getElementById('showtimesMovieLabel').textContent = movie.title;
+
+  // ── Showtime display (sorted by distance) ──
+  const hasAny = theatres.some(t => (showtimes[t.slug]||[]).length > 0);
+  let displayHtml = '';
+  if (!hasAny) {
+    displayHtml = `<div style="text-align:center;color:var(--text3);padding:16px 0;font-family:'Dancing Script',cursive;font-size:1rem">No showtimes added yet — use the manager below ✨</div>`;
+  } else {
+    theatres.forEach(t => {
+      const times = showtimes[t.slug] || [];
+      if (!times.length) return;
+      const distLabel = userLocation
+        ? `<span class="st-dist">${haversine(userLocation.lat, userLocation.lng, t.lat, t.lng).toFixed(1)} mi</span>`
+        : '';
+      displayHtml += `
+        <div class="st-theatre-group">
+          <div class="st-theatre-name">${escHtml(t.name)} ${distLabel}</div>
+          <div class="st-times">
+            ${times.map(time => `<span class="st-time-pill${isTimeFuture(time)?'':' past'}">${time}</span>`).join('')}
+          </div>
+        </div>`;
+    });
+  }
+  document.getElementById('showtimesDisplayContent').innerHTML = displayHtml;
+
+  // ── Manage section (add / remove times per theatre) ──
+  let manageHtml = '';
+  theatres.forEach(t => {
+    const times = showtimes[t.slug] || [];
+    manageHtml += `
+      <div class="mst-row">
+        <div class="mst-theatre-nm">${escHtml(t.name)}</div>
+        <div class="mst-times">
+          ${times.map((tm, i) => `
+            <span class="mst-time">${tm}
+              <button class="mst-del" onclick="removeShowtime('${t.slug}',${i})">×</button>
+            </span>`).join('')}
+          <button class="mst-add-btn" onclick="promptAddShowtime('${t.slug}','${escHtml(t.name)}')">+ Add</button>
+        </div>
+      </div>`;
+  });
+  document.getElementById('manageShowtimesContent').innerHTML = manageHtml;
+}
+
+function promptAddShowtime(slug, theatreName) {
+  const raw = prompt(`Add a showtime for ${theatreName}\nFormat: 7:00 PM`);
+  if (!raw) return;
+  const trimmed = raw.trim();
+  if (!trimmed) return;
+  const showtimes = getShowtimes(drawerMovieId);
+  if (!showtimes[slug]) showtimes[slug] = [];
+  showtimes[slug].push(trimmed);
+  showtimes[slug].sort((a, b) => parseTimeToMins(a) - parseTimeToMins(b));
+  saveShowtimes(drawerMovieId, showtimes);
+  renderShowtimesDrawer();
+  renderMyList();
+  renderTonightsShowings();
+}
+
+function removeShowtime(slug, idx) {
+  const showtimes = getShowtimes(drawerMovieId);
+  if (!showtimes[slug]) return;
+  showtimes[slug].splice(idx, 1);
+  if (!showtimes[slug].length) delete showtimes[slug];
+  saveShowtimes(drawerMovieId, showtimes);
+  renderShowtimesDrawer();
+  renderMyList();
+  renderTonightsShowings();
+}
+
+// ── Simple toast (for location messages) ─────────────────────────────────────
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(20,15,30,.96);border:1px solid rgba(232,78,160,.3);color:#fff;padding:10px 20px;border-radius:10px;font-size:.82rem;z-index:9999;white-space:nowrap;pointer-events:none;opacity:1;transition:opacity .3s';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2500);
+}
+
 // ── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
+  loadUserLocation();
   await migrateFromLocalStorage();
   [myList, allShowings] = await Promise.all([loadMyList(), loadShowings()]);
   showingDateItems = await loadShowingDateItems(allShowings);
   renderMyList();
+  renderTonightsShowings();
+  renderLocationBar();
   loadDiscover();
 }
 init();
