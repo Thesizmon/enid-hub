@@ -183,30 +183,55 @@
         inset 0 0 0 1px rgba(255,255,255,.6);
     }
 
-    /* Placeholder — swap with <img> when art is ready */
-    .img-placeholder {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      background: linear-gradient(135deg,
-        rgba(232,78,160,.07) 0%,
-        rgba(168,85,247,.10) 50%,
-        rgba(110,231,183,.07) 100%);
+    /* Real image wrapper */
+    .img-wrap {
+      position: relative;
       border-radius: 3px 12px 8px 6px / 6px 4px 14px 8px;
-      border: 1.5px dashed rgba(168,85,247,.28);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
+      overflow: hidden;
     }
-    .ph-icon  { font-size: 2.3rem; opacity: .45; }
-    .ph-label {
-      font-family: 'Caveat', cursive;
-      font-size: .92rem;
-      color: var(--sub);
-      text-align: center;
-      opacity: .65;
-      line-height: 1.5;
+    .img-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: 3px 12px 8px 6px / 6px 4px 14px 8px;
+      filter: brightness(1.06) saturate(0.88) contrast(1.02);
+    }
+    /* Dreamy pastel wash over the photo */
+    .img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(232,78,160,.10) 0%,
+        rgba(168,85,247,.07) 45%,
+        rgba(245,158,11,.05) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Soft pastel glow halo behind the whole polaroid */
+    .polaroid-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -22px -18px;
+      z-index: -1;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse 80% 70% at 40% 50%,  rgba(232,78,160,.18) 0%,  transparent 65%),
+        radial-gradient(ellipse 70% 80% at 65% 40%,  rgba(168,85,247,.14) 0%,  transparent 65%),
+        radial-gradient(ellipse 60% 60% at 50% 100%, rgba(245,158,11,.10) 0%,  transparent 60%);
+      filter: blur(18px);
+      pointer-events: none;
+    }
+
+    /* Frame doodles — positioned relative to polaroid-wrap */
+    .fd {
+      position: absolute;
+      pointer-events: none;
+      animation: floatDk var(--dur,7s) ease-in-out infinite;
+      animation-delay: var(--del,0s);
+      opacity: var(--op,.45);
+      z-index: 2;
     }
 
     /* Polaroid caption (below photo) */
@@ -523,14 +548,68 @@
     <div class="polaroid-wrap">
       <div class="tape"></div>
       <div class="tape-2"></div>
+
+      <!-- Frame doodles orbiting the photo -->
+
+      <!-- Heart top-left -->
+      <svg class="fd" style="--dur:8s;--del:0s;--op:.52;top:-14px;left:-12px;width:20px"
+           viewBox="0 0 24 24" fill="none" stroke="#E84EA0" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+
+      <!-- Star top-right -->
+      <svg class="fd" style="--dur:6.5s;--del:1s;--op:.50;top:-18px;right:-10px;width:22px"
+           viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+      </svg>
+
+      <!-- Sparkle left-mid -->
+      <svg class="fd" style="--dur:9s;--del:.4s;--op:.44;top:36%;left:-22px;width:16px"
+           viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"
+           stroke-linecap="round" aria-hidden="true">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+
+      <!-- Crescent moon right-mid -->
+      <svg class="fd" style="--dur:11s;--del:2s;--op:.46;top:40%;right:-24px;width:18px"
+           viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="1.6"
+           stroke-linecap="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+
+      <!-- Small heart bottom-left -->
+      <svg class="fd" style="--dur:7s;--del:1.5s;--op:.42;bottom:-10px;left:-8px;width:15px"
+           viewBox="0 0 24 24" fill="none" stroke="#E84EA0" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+
+      <!-- Star bottom-right -->
+      <svg class="fd" style="--dur:8.5s;--del:.8s;--op:.48;bottom:-16px;right:-8px;width:18px"
+           viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+      </svg>
+
+      <!-- Mint sparkle top-center -->
+      <svg class="fd" style="--dur:5s;--del:.2s;--op:.40;top:-22px;left:44%;width:13px"
+           viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2"
+           stroke-linecap="round" aria-hidden="true">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+
+      <!-- Swirl bottom-left -->
+      <svg class="fd" style="--dur:13s;--del:3s;--op:.28;bottom:-26px;left:8%;width:26px"
+           viewBox="0 0 60 60" fill="none" stroke="#E84EA0" stroke-width="2"
+           stroke-linecap="round" aria-hidden="true">
+        <path d="M30 30C30 20 40 15 42 25C44 35 34 42 26 36C18 30 22 18 30 16C38 14 48 22 46 32C44 42 34 50 24 44C14 38 14 24 24 18"/>
+      </svg>
+
       <div class="polaroid">
-        <!-- Swap .img-placeholder for <img src="lupin-cages.jpg" alt="Enid in the Lupin Cages"> when art is ready -->
-        <div class="img-placeholder">
-          <span class="ph-icon">🌿</span>
-          <span class="ph-label">
-            Enid · Lupin Cages<br>
-            <span style="font-size:.78rem;opacity:.6">image coming soon</span>
-          </span>
+        <div class="img-wrap">
+          <img src="enid-lupin.jpg" alt="Enid meditating in the Lupin Cages" loading="lazy">
         </div>
         <div class="polaroid-inner-caption">✦ Enid in the Lupin Cages ✦</div>
       </div>
