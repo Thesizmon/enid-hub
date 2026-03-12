@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>↯</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Caveat:wght@400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: hidden; width: 100%; height: 100%; }
+
+    body {
+      font-family: 'Caveat', cursive;
+      background: #06050F;
+      min-height: 100vh;
+      color: #B8A0E8;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Deep atmospheric gradient ───────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 48%, rgba(38,14,80,.60)  0%, transparent 62%),
+        radial-gradient(ellipse 40% 35% at 28% 72%, rgba(0,140,130,.07)  0%, transparent 55%),
+        radial-gradient(ellipse 38% 40% at 72% 22%, rgba(80,30,160,.09)  0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 0%,  rgba(20,8,50,.70)    0%, transparent 60%),
+        linear-gradient(180deg, #06030E 0%, #0A0620 50%, #06050F 100%);
+      pointer-events: none;
+    }
+
+    /* ── Woven fabric texture ────────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+      opacity: .045;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M0 0h8v1H0zM0 4h8v1H0zM0 7h8v1H0z' fill='%237B4FBB' fill-opacity='1'/%3E%3Cpath d='M0 0v8h1V0zM4 0v8h1V0zM7 0v8h1V0z' fill='%237B4FBB' fill-opacity='0.6'/%3E%3C/svg%3E");
+    }
+
+    /* ── Particle canvas ─────────────────────────────────────────────── */
+    #particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+    .pt {
+      position: absolute;
+      border-radius: 50%;
+      animation: ptDrift var(--dur,14s) linear infinite;
+      animation-delay: var(--del,0s);
+      width:  var(--sz,2px);
+      height: var(--sz,2px);
+    }
+    @keyframes ptDrift {
+      0%   { transform: translateY(105vh) translateX(0);               opacity: 0; }
+      8%   { opacity: var(--op,.3); }
+      92%  { opacity: var(--op,.3); }
+      100% { transform: translateY(-8vh) translateX(var(--drift,20px)); opacity: 0; }
+    }
+
+    /* ── App shell ───────────────────────────────────────────────────── */
+    #app {
+      position: relative; z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px 56px;
+      gap: 0;
+    }
+
+    /* ── Top eyebrow ─────────────────────────────────────────────────── */
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: .62rem;
+      letter-spacing: .4em;
+      color: rgba(160,120,240,.38);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    /* ── Portal scene wrapper ────────────────────────────────────────── */
+    .portal-scene {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Atmospheric glow BEHIND the portal */
+    .portal-halo {
+      position: absolute;
+      width: 140%;
+      height: 140%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse 65% 60% at 50% 50%, rgba(0,210,170,.10) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 75% at 50% 50%, rgba(80,30,160,.22)  0%, transparent 65%),
+        radial-gradient(ellipse 100% 95% at 50% 50%, rgba(30,10,60,.40)  0%, transparent 75%);
+      filter: blur(22px);
+      pointer-events: none;
+      z-index: 0;
+      animation: haloBreath 6s ease-in-out infinite;
+    }
+    @keyframes haloBreath {
+      0%, 100% { transform: scale(1);    opacity: .85; }
+      50%       { transform: scale(1.06); opacity: 1; }
+    }
+
+    /* ── Main portal SVG ─────────────────────────────────────────────── */
+    .portal-svg {
+      position: relative; z-index: 1;
+      width: min(310px, 84vw);
+      height: auto;
+      animation: portalFloat 5.5s ease-in-out infinite;
+      filter:
+        drop-shadow(0 0 18px rgba(100,50,200,.45))
+        drop-shadow(0 0 40px rgba(0,190,160,.18));
+    }
+    @keyframes portalFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-9px); }
+    }
+
+    /* Center glow pulse (applied to a <g> inside the SVG) */
+    .center-pulse {
+      animation: glowPulse 3.2s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: .80; }
+      50%       { opacity: 1.00; }
+    }
+
+    /* Outer stitch ring — very slow rotation */
+    .outer-stitch {
+      transform-origin: 150px 190px;
+      animation: stitchTurn 80s linear infinite;
+    }
+    @keyframes stitchTurn {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ── Text below portal ───────────────────────────────────────────── */
+    .portal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.38rem;
+      font-weight: 400;
+      letter-spacing: .14em;
+      color: rgba(190,160,255,.62);
+      text-align: center;
+      margin-top: 26px;
+      text-shadow: 0 0 28px rgba(120,60,220,.45);
+    }
+    .portal-whisper {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .84rem;
+      color: rgba(120,200,190,.38);
+      text-align: center;
+      margin-top: 9px;
+      letter-spacing: .05em;
+    }
+
+    /* ── Easter egg objects (fixed to viewport edges) ────────────────── */
+    .egg {
+      position: fixed;
+      cursor: pointer;
+      transition: transform .18s ease, filter .18s ease, opacity .18s ease;
+      z-index: 10;
+    }
+    .egg:hover  { filter: brightness(2.2) drop-shadow(0 0 8px rgba(140,80,220,.6)); transform: scale(1.18); opacity: 1 !important; }
+    .egg:active { transform: scale(.88); }
+
+    /* ── Toast ───────────────────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 30px; left: 50%;
+      transform: translateX(-50%) translateY(14px);
+      background: rgba(10,5,28,.94);
+      border: 1px solid rgba(120,60,200,.38);
+      border-radius: 22px;
+      padding: 11px 22px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem;
+      color: rgba(195,170,255,.92);
+      box-shadow: 0 4px 30px rgba(80,30,180,.28), 0 0 0 1px rgba(255,255,255,.03);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .28s ease, transform .28s ease;
+      z-index: 200;
+      white-space: nowrap;
+      max-width: 88vw;
+      text-align: center;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Hidden signature ────────────────────────────────────────────── */
+    .portal-sig {
+      position: fixed;
+      bottom: 14px; right: 16px;
+      font-family: 'Caveat', cursive;
+      font-size: .74rem;
+      color: rgba(80,55,130,.28);
+      letter-spacing: .08em;
+      z-index: 5;
+      text-decoration: none;
+    }
+
+    /* ── Back link — barely visible ──────────────────────────────────── */
+    .back {
+      position: fixed;
+      top: 14px; left: 16px;
+      font-family: 'Caveat', cursive;
+      font-size: .88rem;
+      color: rgba(100,70,160,.25);
+      text-decoration: none;
+      transition: color .22s;
+      z-index: 10;
+    }
+    .back:hover { color: rgba(170,130,255,.65); }
+  </style>
+</head>
+<body>
+
+<!-- ── Particles ─────────────────────────────────────────────────────────── -->
+<div id="particles" aria-hidden="true"></div>
+
+<!-- ── Toast ─────────────────────────────────────────────────────────────── -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- ── Back ──────────────────────────────────────────────────────────────── -->
+<a href="index.html" class="back">← back</a>
+
+<!-- ── Main ──────────────────────────────────────────────────────────────── -->
+<div id="app">
+
+  <p class="eyebrow">through the little door</p>
+
+  <div class="portal-scene">
+    <div class="portal-halo"></div>
+
+    <svg class="portal-svg" viewBox="0 0 300 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Ring gradients — each progressively lighter / different hue -->
+        <radialGradient id="gR1" cx="48%" cy="44%" r="54%">
+          <stop offset="0%"   stop-color="#221040"/>
+          <stop offset="100%" stop-color="#0E0618"/>
+        </radialGradient>
+        <radialGradient id="gR2" cx="48%" cy="44%" r="54%">
+          <stop offset="0%"   stop-color="#2A1555"/>
+          <stop offset="100%" stop-color="#150B2C"/>
+        </radialGradient>
+        <radialGradient id="gR3" cx="50%" cy="46%" r="54%">
+          <stop offset="0%"   stop-color="#1C2260"/>
+          <stop offset="60%"  stop-color="#181450"/>
+          <stop offset="100%" stop-color="#0E0C2A"/>
+        </radialGradient>
+        <radialGradient id="gR4" cx="50%" cy="48%" r="54%">
+          <stop offset="0%"   stop-color="#0E4848"/>
+          <stop offset="100%" stop-color="#0A2035"/>
+        </radialGradient>
+        <radialGradient id="gCenter" cx="50%" cy="44%" r="54%">
+          <stop offset="0%"   stop-color="#E0FF80"/>
+          <stop offset="25%"  stop-color="#40D8A8"/>
+          <stop offset="60%"  stop-color="#2855B0"/>
+          <stop offset="100%" stop-color="#0E1840"/>
+        </radialGradient>
+        <radialGradient id="gCore" cx="50%" cy="42%" r="52%">
+          <stop offset="0%"   stop-color="#FFFFFF" stop-opacity=".9"/>
+          <stop offset="50%"  stop-color="#D8FFB0" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="#40D8A8" stop-opacity="0"/>
+        </radialGradient>
+        <!-- Glow filter for center -->
+        <filter id="fGlow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="fSoftGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- ── Ring 1 — outermost dark fabric ────────────────────────── -->
+      <ellipse cx="150" cy="190" rx="142" ry="178" fill="url(#gR1)"/>
+      <!-- Double-stitch outer border -->
+      <ellipse class="outer-stitch" cx="150" cy="190" rx="142" ry="178" fill="none"
+        stroke="#4A2878" stroke-width="2.2" stroke-dasharray="11 5.5"/>
+      <ellipse cx="150" cy="190" rx="139" ry="175" fill="none"
+        stroke="#6B3F9B" stroke-width="1" stroke-dasharray="11 5.5" stroke-dashoffset="8" opacity=".4"/>
+
+      <!-- Decorative buttons at cardinal points on outer ring -->
+      <!-- Top button -->
+      <g transform="translate(150,14)">
+        <circle r="10" fill="#180830" stroke="#5A309A" stroke-width="1.8"/>
+        <circle r="8"  fill="none"   stroke="#3D2070" stroke-width=".8"/>
+        <circle cx="-2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx="-2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <!-- Cross-thread lines -->
+        <line x1="-2.8" y1="-2.8" x2=" 2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+        <line x1=" 2.8" y1="-2.8" x2="-2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+      </g>
+      <!-- Bottom button -->
+      <g transform="translate(150,366)">
+        <circle r="10" fill="#180830" stroke="#5A309A" stroke-width="1.8"/>
+        <circle r="8"  fill="none"   stroke="#3D2070" stroke-width=".8"/>
+        <circle cx="-2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx="-2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <line x1="-2.8" y1="-2.8" x2=" 2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+        <line x1=" 2.8" y1="-2.8" x2="-2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+      </g>
+      <!-- Left button -->
+      <g transform="translate(10,190)">
+        <circle r="10" fill="#180830" stroke="#5A309A" stroke-width="1.8"/>
+        <circle r="8"  fill="none"   stroke="#3D2070" stroke-width=".8"/>
+        <circle cx="-2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx="-2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <line x1="-2.8" y1="-2.8" x2=" 2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+        <line x1=" 2.8" y1="-2.8" x2="-2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+      </g>
+      <!-- Right button -->
+      <g transform="translate(290,190)">
+        <circle r="10" fill="#180830" stroke="#5A309A" stroke-width="1.8"/>
+        <circle r="8"  fill="none"   stroke="#3D2070" stroke-width=".8"/>
+        <circle cx="-2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy="-2.8" r="1.4" fill="#5A309A"/>
+        <circle cx="-2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <circle cx=" 2.8" cy=" 2.8" r="1.4" fill="#5A309A"/>
+        <line x1="-2.8" y1="-2.8" x2=" 2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+        <line x1=" 2.8" y1="-2.8" x2="-2.8" y2=" 2.8" stroke="#3D2070" stroke-width=".7" opacity=".6"/>
+      </g>
+      <!-- Diagonal buttons at corners -->
+      <g transform="translate(52,60)">
+        <circle r="7" fill="#120620" stroke="#3A2060" stroke-width="1.4"/>
+        <circle cx="-2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx="-2" cy=" 2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy=" 2" r="1" fill="#4A2878"/>
+      </g>
+      <g transform="translate(248,60)">
+        <circle r="7" fill="#120620" stroke="#3A2060" stroke-width="1.4"/>
+        <circle cx="-2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx="-2" cy=" 2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy=" 2" r="1" fill="#4A2878"/>
+      </g>
+      <g transform="translate(52,320)">
+        <circle r="7" fill="#120620" stroke="#3A2060" stroke-width="1.4"/>
+        <circle cx="-2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx="-2" cy=" 2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy=" 2" r="1" fill="#4A2878"/>
+      </g>
+      <g transform="translate(248,320)">
+        <circle r="7" fill="#120620" stroke="#3A2060" stroke-width="1.4"/>
+        <circle cx="-2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy="-2" r="1" fill="#4A2878"/>
+        <circle cx="-2" cy=" 2" r="1" fill="#4A2878"/>
+        <circle cx=" 2" cy=" 2" r="1" fill="#4A2878"/>
+      </g>
+
+      <!-- ── Ring 2 ───────────────────────────────────────────────────── -->
+      <ellipse cx="150" cy="194" rx="112" ry="144" fill="url(#gR2)"/>
+      <ellipse cx="150" cy="194" rx="112" ry="144" fill="none"
+        stroke="#382080" stroke-width="2"   stroke-dasharray="9 4.5"/>
+      <ellipse cx="150" cy="194" rx="109" ry="141" fill="none"
+        stroke="#6040A8" stroke-width=".9"  stroke-dasharray="9 4.5" stroke-dashoffset="7" opacity=".45"/>
+
+      <!-- ── Ring 3 ───────────────────────────────────────────────────── -->
+      <ellipse cx="150" cy="198" rx="82" ry="108" fill="url(#gR3)"/>
+      <ellipse cx="150" cy="198" rx="82" ry="108" fill="none"
+        stroke="#186868" stroke-width="1.8" stroke-dasharray="7 4"/>
+      <ellipse cx="150" cy="198" rx="79"  ry="105" fill="none"
+        stroke="#28A090" stroke-width=".8"  stroke-dasharray="7 4" stroke-dashoffset="5.5" opacity=".5"/>
+
+      <!-- ── Ring 4 ───────────────────────────────────────────────────── -->
+      <ellipse cx="150" cy="202" rx="54" ry="72" fill="url(#gR4)"/>
+      <ellipse cx="150" cy="202" rx="54" ry="72" fill="none"
+        stroke="#20A090" stroke-width="1.6" stroke-dasharray="6 3.5"/>
+      <ellipse cx="150" cy="202" rx="51"  ry="69" fill="none"
+        stroke="#40D0B8" stroke-width=".7"  stroke-dasharray="6 3.5" stroke-dashoffset="4.5" opacity=".55"/>
+
+      <!-- ── Center — the other world ──────────────────────────────────── -->
+      <g class="center-pulse" filter="url(#fSoftGlow)">
+        <ellipse cx="150" cy="206" rx="30" ry="48" fill="url(#gCenter)" opacity=".9"/>
+      </g>
+      <g class="center-pulse" filter="url(#fGlow)">
+        <ellipse cx="150" cy="203" rx="14" ry="26" fill="url(#gCore)" opacity=".7"/>
+        <ellipse cx="150" cy="200" rx="6"  ry="12" fill="#FFFFFF" opacity=".55"/>
+        <!-- Tiny bright core -->
+        <ellipse cx="150" cy="198" rx="2.5" ry="5" fill="#FFFFFF" opacity=".9"/>
+      </g>
+
+    </svg>
+  </div>
+
+  <h1 class="portal-title">The Other Side</h1>
+  <p class="portal-whisper">be careful which doors you open</p>
+
+</div>
+
+<!-- ── Easter egg: button eyes ──────────────────────────────────────────── -->
+<svg class="egg" style="bottom:32%;right:6%;width:48px;height:22px;opacity:.22"
+     viewBox="0 0 48 22" fill="none"
+     onclick="showEgg('The other world is always watching. 👁')"
+     aria-label="hidden detail">
+  <circle cx="11"  cy="11" r="10" fill="#0A0520" stroke="#4A2878" stroke-width="1.4"/>
+  <circle cx="11"  cy="11" r="8"  fill="none"   stroke="#2D1850" stroke-width=".8"/>
+  <circle cx="7.5" cy="7.5" r="1.6" fill="#5A30A0"/>
+  <circle cx="14.5" cy="7.5" r="1.6" fill="#5A30A0"/>
+  <circle cx="7.5" cy="14.5" r="1.6" fill="#5A30A0"/>
+  <circle cx="14.5" cy="14.5" r="1.6" fill="#5A30A0"/>
+  <line x1="7.5" y1="7.5" x2="14.5" y2="14.5" stroke="#2D1850" stroke-width=".8"/>
+  <line x1="14.5" y1="7.5" x2="7.5" y2="14.5" stroke="#2D1850" stroke-width=".8"/>
+
+  <circle cx="37"  cy="11" r="10" fill="#0A0520" stroke="#4A2878" stroke-width="1.4"/>
+  <circle cx="37"  cy="11" r="8"  fill="none"   stroke="#2D1850" stroke-width=".8"/>
+  <circle cx="33.5" cy="7.5" r="1.6" fill="#5A30A0"/>
+  <circle cx="40.5" cy="7.5" r="1.6" fill="#5A30A0"/>
+  <circle cx="33.5" cy="14.5" r="1.6" fill="#5A30A0"/>
+  <circle cx="40.5" cy="14.5" r="1.6" fill="#5A30A0"/>
+  <line x1="33.5" y1="7.5" x2="40.5" y2="14.5" stroke="#2D1850" stroke-width=".8"/>
+  <line x1="40.5" y1="7.5" x2="33.5" y2="14.5" stroke="#2D1850" stroke-width=".8"/>
+</svg>
+
+<!-- ── Easter egg: tiny hidden door ─────────────────────────────────────── -->
+<svg class="egg" style="bottom:11%;left:5%;width:24px;height:38px;opacity:.18"
+     viewBox="0 0 24 38" fill="none"
+     onclick="showEgg('Some doors are meant to be discovered.')"
+     aria-label="hidden detail">
+  <rect x="1" y="1" width="22" height="36" rx="2.5" fill="#120828" stroke="#3D2060" stroke-width="1.5"/>
+  <rect x="2.5" y="2.5" width="19" height="33" rx="2" fill="none" stroke="#2A1548" stroke-width=".8"/>
+  <!-- Door arch -->
+  <path d="M2.5 12 Q12 2.5 21.5 12" fill="none" stroke="#3D2060" stroke-width="1"/>
+  <!-- Knob -->
+  <circle cx="18" cy="20" r="1.8" fill="#4A2878"/>
+  <circle cx="18" cy="20" r="1.2" fill="none" stroke="#6A40A0" stroke-width=".7"/>
+  <!-- Stitching along edges -->
+  <rect x="1" y="1" width="22" height="36" rx="2.5" fill="none"
+    stroke="#3D2060" stroke-width="1" stroke-dasharray="4 3" opacity=".5"/>
+</svg>
+
+<!-- ── Easter egg: black cat ─────────────────────────────────────────────── -->
+<svg class="egg" style="top:10%;left:4%;width:38px;height:34px;opacity:.20"
+     viewBox="0 0 38 34" fill="none"
+     onclick="showEgg('I don\'t have a name. I\'m the cat. 🐈‍⬛')"
+     aria-label="hidden detail">
+  <!-- Body -->
+  <path d="M8 20 Q8 12 15 11 Q22 10 24 15 Q30 13 30 21 Q30 28 21 30 Q11 30 8 25 Z"
+        fill="#080415" stroke="#3D2060" stroke-width="1.3" stroke-dasharray="4 2.5"/>
+  <!-- Ears -->
+  <path d="M15 11 L12 3 L18 8 Z"  fill="#080415" stroke="#3D2060" stroke-width="1"/>
+  <path d="M22 11 L25 3 L28 8 Z" fill="#080415" stroke="#3D2060" stroke-width="1"/>
+  <!-- Teal eyes (Coraline's cat has green eyes) -->
+  <ellipse cx="16" cy="17" rx="2.2" ry="2.8" fill="#1A8060"/>
+  <ellipse cx="23" cy="17" rx="2.2" ry="2.8" fill="#1A8060"/>
+  <!-- Tail -->
+  <path d="M30 23 Q36 18 34 11 Q32 6 29 13"
+        fill="none" stroke="#3D2060" stroke-width="1.8" stroke-dasharray="3.5 2.5"/>
+</svg>
+
+<!-- ── Easter egg: stitched star ─────────────────────────────────────────── -->
+<svg class="egg" style="top:9%;right:6%;width:30px;height:30px;opacity:.22"
+     viewBox="0 0 30 30" fill="none"
+     onclick="showEgg('She\'s always been there. Waiting. ✦')"
+     aria-label="hidden detail">
+  <path d="M15 2l3 9h9.5l-7.7 5.6 2.9 9-7.7-5.6-7.7 5.6 2.9-9L2.5 11H12Z"
+        fill="#140828" stroke="#5A309A" stroke-width="1.5"
+        stroke-dasharray="5 2.5" stroke-linejoin="round"/>
+  <!-- Inner star -->
+  <path d="M15 6l2 6h6.3l-5 3.8 1.9 6L15 18l-5.2 3.8 1.9-6L6.7 12H13Z"
+        fill="#1A0A38" stroke="#3A2070" stroke-width=".8" stroke-linejoin="round"/>
+</svg>
+
+<!-- ── Easter egg: needle and thread ────────────────────────────────────── -->
+<svg class="egg" style="bottom:22%;right:4%;width:14px;height:46px;opacity:.19"
+     viewBox="0 0 14 46" fill="none"
+     onclick="showEgg('Everything here is made by hand. ✦')"
+     aria-label="hidden detail">
+  <!-- Needle body -->
+  <line x1="7" y1="5" x2="7" y2="40" stroke="#5A30A0" stroke-width="1.6" stroke-dasharray="5 2.5"/>
+  <!-- Needle eye -->
+  <ellipse cx="7" cy="5" rx="3.5" ry="4.5" fill="#0A0520" stroke="#5A30A0" stroke-width="1.2"/>
+  <ellipse cx="7" cy="5" rx="1.3" ry="2" fill="none" stroke="#7A50C0" stroke-width=".8"/>
+  <!-- Tip -->
+  <path d="M5.5 40 L7 46 L8.5 40 Z" fill="#5A30A0" opacity=".8"/>
+  <!-- Trailing thread -->
+  <path d="M7 5 Q18 12 14 22 Q10 32 20 40"
+        fill="none" stroke="#3D2070" stroke-width=".9" stroke-dasharray="3.5 2.5" opacity=".5"/>
+</svg>
+
+<!-- ── Hidden signature ──────────────────────────────────────────────────── -->
+<span class="portal-sig">made for Simon by Enid</span>
+
+<script>
+  // ── Particles ──────────────────────────────────────────────────────────────
+  const pWrap = document.getElementById('particles');
+  const ptColors = [
+    'rgba(160,120,255,', 'rgba(120,80,220,',
+    'rgba(80,200,180,',  'rgba(200,160,255,',
+    'rgba(100,160,220,', 'rgba(220,200,255,'
+  ];
+  for (let i = 0; i < 32; i++) {
+    const p    = document.createElement('div');
+    p.className = 'pt';
+    const sz    = (Math.random() * 2.4 + 0.7).toFixed(1);
+    const op    = (Math.random() * 0.28 + 0.06).toFixed(2);
+    const dur   = (Math.random() * 14 + 12).toFixed(1);
+    const del   = (Math.random() * -26).toFixed(1);
+    const drift = ((Math.random() - 0.5) * 60).toFixed(0);
+    const left  = (Math.random() * 100).toFixed(1);
+    const col   = ptColors[Math.floor(Math.random() * ptColors.length)];
+    p.style.cssText = `
+      --sz:${sz}px; --op:${op}; --dur:${dur}s; --del:${del}s; --drift:${drift}px;
+      width:${sz}px; height:${sz}px; left:${left}%; bottom:-6px;
+      background:${col}${op});
+    `;
+    pWrap.appendChild(p);
+  }
+
+  // ── Toast ──────────────────────────────────────────────────────────────────
+  let _t;
+  function showEgg(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(_t);
+    _t = setTimeout(() => el.classList.remove('show'), 3400);
+  }
+</script>
+
+</body>
+</html>
