@@ -1997,15 +1997,64 @@ async function buildDayNav() {
 // ── Service Worker registration ───────────────────────────────────────────────
 let swRegistration = null;
 
+/* VAPID public key — private key lives in Supabase Edge Function secrets only */
+const VAPID_PUBLIC_KEY = 'BO3DkaVBKI48aJA_53cNfTwvBUTaQiYqbL8LFP1qzrjJJzLswm5tumiwcR9A5iQzlChgjQ3AOyZpdyLv-uM0py8';
+
 async function registerSW() {
   if (!('serviceWorker' in navigator)) return;
   try {
     swRegistration = await navigator.serviceWorker.register('sw.js', {scope:'/enid-hub/'});
-    console.log('🐺 Service Worker registered!!');
-    scheduleNotifications();
+    console.log('🐺 SW registered');
+    scheduleNotifications(); // in-tab fallback (fires while app tab is open)
+    if (Notification.permission === 'granted') ensurePushSubscription();
   } catch(e) {
     console.log('SW registration failed:', e);
   }
+}
+
+/* Web Push: subscribe + persist endpoint to Supabase push_subscriptions */
+function urlBase64ToUint8Array(b64) {
+  const pad = '='.repeat((4 - b64.length % 4) % 4);
+  const raw = atob((b64 + pad).replace(/-/g, '+').replace(/_/g, '/'));
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+}
+
+async function ensurePushSubscription() {
+  if (!swRegistration || !('PushManager' in window)) return null;
+  try {
+    let sub = await swRegistration.pushManager.getSubscription();
+    if (!sub) {
+      sub = await swRegistration.pushManager.subscribe({
+        userVisibleOnly:      true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      });
+    }
+    await storePushSubscription(sub);
+    return sub;
+  } catch(e) {
+    console.warn('🐺 Push subscription error:', e);
+    return null;
+  }
+}
+
+async function storePushSubscription(sub) {
+  if (!sub) return;
+  const b64url = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  const payload = {
+    user_id:    USER_ID,
+    endpoint:   sub.endpoint,
+    p256dh:     b64url(sub.getKey('p256dh')),
+    auth:       b64url(sub.getKey('auth')),
+    user_agent: navigator.userAgent.slice(0, 255),
+  };
+  try {
+    await fetch(SUPA_URL + '/rest/v1/push_subscriptions', {
+      method:  'POST',
+      headers: Object.assign({}, SB_HEADERS, { 'Prefer': 'resolution=merge-duplicates' }),
+      body:    JSON.stringify(payload),
+    });
+    console.log('🐺 Push subscription stored in Supabase');
+  } catch(e) { console.warn('🐺 storePushSubscription failed:', e); }
 }
 
 // ── Notification permission banner ────────────────────────────────────────────
@@ -2024,6 +2073,7 @@ async function requestNotifPermission() {
   const perm = await Notification.requestPermission();
   if (perm === 'granted') {
     scheduleNotifications();
+    ensurePushSubscription(); // register real Web Push subscription
     showToast("Notifications enabled!! 🐺🔥 I'll remind you every day 💜");
   }
 }
