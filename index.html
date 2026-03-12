@@ -29,24 +29,32 @@
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
+      background: #FDF4EE;
       min-height: 100vh;
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+    /* Layer 1 — richer pastel colour washes */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 0;
+      position: fixed; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse 70% 55% at 5% 10%,  rgba(245,158,11,.09) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 95% 15%, rgba(59,130,246,.08)  0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 50% 92%, rgba(139,92,246,.10)  0%, transparent 60%),
-        radial-gradient(ellipse 50% 45% at 15% 65%, rgba(232,78,160,.08)  0%, transparent 50%),
-        linear-gradient(160deg, #FFFDF5 0%, #F8F0FF 45%, #F0FFFE 75%, #FFFBF7 100%);
+        radial-gradient(ellipse 70% 55% at 5%  10%,  rgba(245,158,11,.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 95% 15%,  rgba(59,130,246,.14) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 50% 92%,  rgba(139,92,246,.19) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 15% 65%,  rgba(232,78,160,.16) 0%, transparent 50%),
+        radial-gradient(ellipse 55% 50% at 80% 50%,  rgba(110,231,183,.10) 0%, transparent 55%),
+        linear-gradient(160deg, #FFF8EE 0%, #F3E8FF 45%, #E8FBF6 75%, #FFF3EE 100%);
       pointer-events: none;
+    }
+    /* Layer 2 — subtle static grain texture */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     /* ── Loader ────────────────────────────────────────────────────── */
@@ -117,10 +125,9 @@
 
     /* ── Header ────────────────────────────────────────────────────── */
     .app-header {
-      position: sticky; top: 0; z-index: 50;
+      position: relative;
       padding: 22px 20px 14px;
-      background: linear-gradient(180deg, rgba(255,251,247,.92) 70%, transparent);
-      backdrop-filter: blur(10px);
+      background: transparent;
     }
     .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .header-title {
@@ -541,6 +548,65 @@
     /* ── Footer signature ───────────────────────────────────────────── */
     .page-footer{text-align:center;padding:28px 0 12px;font-family:'Dancing Script',cursive;font-size:.95rem;color:var(--text-light)}
 
+    /* ── Floating emoji background (Layer 3) ────────────────────────── */
+    #emoji-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .eb-emoji {
+      position: absolute;
+      font-size: 1.05rem;
+      opacity: 0;
+      user-select: none; pointer-events: none;
+      animation: ebPulse var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+    }
+    @keyframes ebPulse {
+      0%, 100% { opacity: 0;                        transform: scale(.82) rotate(-5deg); }
+      50%       { opacity: var(--max-opacity, .14); transform: scale(1.06) rotate(5deg);  }
+    }
+
+    /* ── Routine overview tracker ───────────────────────────────────── */
+    .overview-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 15px 18px 16px;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+    .overview-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem; font-weight: 700;
+      color: var(--purple); margin-bottom: 11px;
+    }
+    .overview-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 9px 14px;
+    }
+    .ov-item { display: flex; flex-direction: column; gap: 4px; }
+    .ov-label {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: .71rem; font-weight: 600; color: var(--sub);
+    }
+    .ov-frac { font-weight: 700; color: var(--text); font-size: .75rem; }
+    .ov-bar  { height: 4px; background: rgba(168,85,247,.1); border-radius: 2px; overflow: hidden; }
+    .ov-fill { height: 100%; border-radius: 2px; transition: width .4s ease; }
+
+    /* ── Section quote blocks ───────────────────────────────────────── */
+    .section-quote {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 18px 14px;
+      border-top: 1px solid rgba(168,85,247,.07);
+      background: linear-gradient(135deg, rgba(255,251,247,.6), rgba(248,240,255,.45));
+    }
+    .sq-avatar { font-size: .95rem; flex-shrink: 0; margin-top: 1px; opacity: .85; }
+    .sq-body   { flex: 1; min-width: 0; }
+    .sq-text {
+      font-family: 'Playfair Display', serif;
+      font-size: .76rem; font-style: italic;
+      color: var(--sub); line-height: 1.48;
+    }
+    .sq-sig {
+      font-size: .62rem; color: var(--text-light);
+      margin-top: 4px; font-weight: 500;
+    }
+
     /* ── Note Overlay (Step 5D) ─────────────────────────────────────── */
     .note-overlay {
       position: fixed; inset: 0; z-index: 200;
@@ -703,6 +769,9 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+
+<!-- EMOJI BACKGROUND (Layer 3 — pulsing ambient emojis) -->
+<div id="emoji-bg"></div>
 
 <!-- LOADER -->
 <div id="loader">
@@ -882,6 +951,101 @@ function buildPepCard() {
     </div>
   `;
   return el;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SECTION QUOTE BLOCKS
+───────────────────────────────────────────────────────────────────── */
+const SECTION_QUOTES = {
+  morning:  { emoji:'☀️', text:'Your morning sets the tone for everything that follows. Show up for it.', sig:'— rise & shine, wolf 🐺✨' },
+  postwork: { emoji:'💙', text:'Coming home to yourself matters just as much as showing up at work.', sig:'— the reset is sacred 💜' },
+  evening:  { emoji:'🌙', text:'The way you end your day is a quiet promise to tomorrow.', sig:'— wind down with love 🌸' },
+  weekend:  { emoji:'🌸', text:'Rest is not quitting. Rest is how you stay in the game.', sig:'— breathe easy, wolf 🐺' },
+  weekly:   { emoji:'📋', text:'A little review each week keeps future-you grateful.', sig:'— small steps, big life 💜' },
+};
+
+function buildSectionQuote(key) {
+  const q = SECTION_QUOTES[key];
+  if (!q) return null;
+  const el = document.createElement('div');
+  el.className = 'section-quote';
+  el.innerHTML = `
+    <div class="sq-avatar">${q.emoji}</div>
+    <div class="sq-body">
+      <div class="sq-text">${q.text}</div>
+      <div class="sq-sig">${q.sig}</div>
+    </div>
+  `;
+  return el;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   ROUTINE OVERVIEW TRACKER
+───────────────────────────────────────────────────────────────────── */
+function buildOverviewCard() {
+  const sections = getSections().filter(s => s.habits.length > 0);
+  if (!sections.length) return null;
+
+  const BAR_COLORS = {
+    morning:  'linear-gradient(90deg,#F59E0B,#FBBF24)',
+    postwork: 'linear-gradient(90deg,#3B82F6,#60A5FA)',
+    evening:  'linear-gradient(90deg,#8B5CF6,#A78BFA)',
+    weekend:  'linear-gradient(90deg,#EC4899,#F472B6)',
+    weekly:   'linear-gradient(90deg,#10B981,#6EE7B7)',
+  };
+  const LABELS = {
+    morning:'Morning', postwork:'After Work', evening:'Evening',
+    weekend:'Weekend', weekly:'Weekly',
+  };
+
+  const gridHtml = sections.map(sec => {
+    const { done, total } = calcProgress(sec.habits, sec.doneSet);
+    const pct   = total ? Math.round((done / total) * 100) : 0;
+    const color = BAR_COLORS[sec.key] || 'linear-gradient(90deg,var(--pink),var(--purple))';
+    const label = LABELS[sec.key] || sec.label;
+    return `
+      <div class="ov-item">
+        <div class="ov-label">
+          <span>${label}</span>
+          <span class="ov-frac">${done}/${total}</span>
+        </div>
+        <div class="ov-bar"><div class="ov-fill" style="width:${pct}%;background:${color}"></div></div>
+      </div>`;
+  }).join('');
+
+  const card = document.createElement('div');
+  card.className = 'overview-card';
+  card.innerHTML = `
+    <div class="overview-title">Today's Progress ✨</div>
+    <div class="overview-grid">${gridHtml}</div>
+  `;
+  return card;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   EMOJI BACKGROUND
+───────────────────────────────────────────────────────────────────── */
+function initEmojiBg() {
+  const bg = document.getElementById('emoji-bg');
+  if (!bg) return;
+  const emojis  = ['✨','💖','⭐','🫧','🌸','💫','🌷','💜','🌟','🩷','✿','🪷'];
+  // [left%, top%] pairs spread across the full viewport
+  const spots = [
+    [7,4],[19,11],[33,3],[47,7],[63,5],[79,3],[89,8],[97,6],
+    [4,22],[14,29],[27,21],[41,27],[57,23],[71,26],[84,19],[94,25],
+    [9,48],[21,54],[37,47],[53,51],[67,46],[81,52],[91,48],[2,70],
+    [24,74],[47,67],[64,72],[79,69],[11,84],[34,89],[59,87],[87,81],
+  ];
+  spots.forEach(([left, top], i) => {
+    const span = document.createElement('span');
+    span.className = 'eb-emoji';
+    span.textContent = emojis[i % emojis.length];
+    const dur   = 3.5 + (i % 6) * 0.65;
+    const delay = (i * 0.41) % 6;
+    const maxOp = 0.08 + (i % 4) * 0.035;
+    span.style.cssText = `left:${left}%;top:${top}%;--dur:${dur}s;--delay:${delay}s;--max-opacity:${maxOp}`;
+    bg.appendChild(span);
+  });
 }
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -1530,6 +1694,10 @@ function render() {
   // Pep card — always first
   container.appendChild(buildPepCard());
 
+  // Routine overview tracker — right after pep card
+  const ovCard = buildOverviewCard();
+  if (ovCard) container.appendChild(ovCard);
+
   // Date items card (only when items exist)
   if (dateItems.length) container.appendChild(buildDateItemsCard());
 
@@ -1620,6 +1788,10 @@ function render() {
       banner.textContent = '✨ Section complete — nice work! 🐺';
       card.appendChild(banner);
     }
+
+    // Section quote block — always at the bottom of the card
+    const sqEl = buildSectionQuote(sec.key);
+    if (sqEl) card.appendChild(sqEl);
   });
 
   // ── Secondary signals (widgets) — rendered after all habit sections ──
@@ -2138,6 +2310,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') hideNotePrompt();
 });
 
+initEmojiBg();
 init();
 registerSW();
 checkNotifBanner();
