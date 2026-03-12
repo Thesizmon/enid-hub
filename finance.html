@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Enid's Finance 💰</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* ── Design tokens ─────────────────────────────────────────────── */
     :root {
@@ -26,14 +26,32 @@
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background:
-        radial-gradient(ellipse at 15% 0%,   rgba(232,78,160,.18)  0%, transparent 55%),
-        radial-gradient(ellipse at 85% 40%,  rgba(168,85,247,.12)  0%, transparent 55%),
-        radial-gradient(ellipse at 40% 100%, rgba(110,231,183,.10) 0%, transparent 55%),
-        #FFFBF7;
+      background: #FDF4EE;
       min-height: 100vh;
       color: var(--text);
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    /* Layer 1 — richer pastel colour washes */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 5%  10%,  rgba(232,78,160,.16)  0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 95% 15%,  rgba(168,85,247,.12)  0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 50% 92%,  rgba(110,231,183,.10) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 15% 65%,  rgba(245,158,11,.10)  0%, transparent 50%),
+        radial-gradient(ellipse 55% 50% at 80% 50%,  rgba(59,130,246,.08)  0%, transparent 55%),
+        linear-gradient(160deg, #FFF8EE 0%, #F3E8FF 45%, #E8FBF6 75%, #FFF3EE 100%);
+      pointer-events: none;
+    }
+    /* Layer 2 — subtle static grain texture */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     /* ── Loader ────────────────────────────────────────────────────── */
@@ -60,21 +78,35 @@
     .loader-text { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); }
 
     /* ── App shell ─────────────────────────────────────────────────── */
-    #app { max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
+    #app { max-width: 600px; margin: 0 auto; padding-bottom: 100px; position: relative; z-index: 2; }
+
+    /* ── Emoji background (Layer 3) ─────────────────────────────────── */
+    #emoji-bg { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+    .eb-emoji {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0;
+      user-select: none; pointer-events: none;
+      animation: ebPulse var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+    }
+    @keyframes ebPulse {
+      0%, 100% { opacity: 0;                        transform: scale(.8);  }
+      50%       { opacity: var(--max-opacity, .28); transform: scale(1.1); }
+    }
 
     /* ── Header ────────────────────────────────────────────────────── */
     .app-header {
-      position: sticky; top: 0; z-index: 50;
+      position: relative;
       padding: 22px 20px 14px;
-      background: linear-gradient(180deg, rgba(255,251,247,.96) 70%, transparent);
-      backdrop-filter: blur(10px);
+      background: transparent;
     }
     .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .header-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; line-height: 1.2;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1.1;
+      background: linear-gradient(135deg, var(--amber) 0%, var(--pink) 45%, var(--purple) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(232,78,160,.15));
     }
     .header-sub { font-size: .78rem; color: var(--sub); margin-top: 3px; }
 
@@ -447,6 +479,69 @@
       transition: background .12s, color .12s;
     }
     .txn-del-btn:hover { background: rgba(239,68,68,.1); color: #ef4444; }
+
+    /* ── Other Income section ───────────────────────────────────────── */
+    .other-income-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(110,231,183,.22);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 2px 14px rgba(110,231,183,.08);
+      margin: 10px 14px 0;
+    }
+    .other-income-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 13px 16px 12px;
+      background: rgba(110,231,183,.07);
+      border-bottom: 1px solid rgba(110,231,183,.15);
+    }
+    .other-income-title { font-size: .84rem; font-weight: 700; flex: 1; color: var(--text); }
+    .other-income-total { font-size: .8rem; font-weight: 700; color: #10B981; margin-right: 4px; }
+    .add-income-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .7rem; font-weight: 700; letter-spacing: .02em;
+      padding: 5px 13px; border-radius: 20px;
+      border: 1.5px solid #10B981;
+      background: transparent; color: #10B981;
+      cursor: pointer; white-space: nowrap;
+      transition: background .13s, color .13s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .add-income-btn:hover    { background: rgba(16,185,129,.08); }
+    .add-income-btn.is-open  { background: #10B981; color: #fff; border-color: #10B981; }
+    .income-item-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 11px 16px 10px;
+      border-bottom: 1px solid rgba(110,231,183,.1);
+      transition: background .13s;
+    }
+    .income-item-row:last-child { border-bottom: none; }
+    .income-item-row:hover { background: rgba(110,231,183,.04); }
+    .income-item-body { flex: 1; min-width: 0; }
+    .income-item-label {
+      font-size: .87rem; font-weight: 600; color: var(--text);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .income-item-meta { font-size: .72rem; color: var(--sub); margin-top: 2px; }
+    .income-item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+    .income-item-amount { font-size: .9rem; font-weight: 700; color: #10B981; }
+    .income-item-del {
+      font-size: .78rem; line-height: 1;
+      background: none; border: none; cursor: pointer;
+      color: var(--sub); padding: 2px 5px; border-radius: 6px;
+      transition: background .12s, color .12s;
+    }
+    .income-item-del:hover { background: rgba(239,68,68,.1); color: #ef4444; }
+    .income-empty {
+      padding: 20px 16px; text-align: center;
+      font-size: .84rem; color: var(--sub);
+    }
+    .add-income-form {
+      padding: 14px 16px 16px;
+      border-bottom: 1px solid rgba(110,231,183,.15);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .add-income-form.hidden { display: none; }
   </style>
 </head>
 <body>
@@ -464,6 +559,9 @@
   <div class="loader-text">counting coins & vibes 💸✨</div>
 </div>
 
+<!-- ── Emoji background ───────────────────────────────────────────── -->
+<div id="emoji-bg"></div>
+
 <!-- ── App ─────────────────────────────────────────────────────────── -->
 <div id="app" style="display:none">
 
@@ -471,7 +569,7 @@
   <header class="app-header">
     <div class="header-row">
       <div>
-        <h1 class="header-title">💰 Finance</h1>
+        <h1 class="header-title">💰 Enid's Finance</h1>
         <div class="header-sub" id="headerSub">Loading…</div>
       </div>
       <a href="index.html" class="back-btn">← Home</a>
@@ -491,6 +589,9 @@
 
   <!-- Obligations by category -->
   <div class="obligations-wrap" id="obligationsSection"></div>
+
+  <!-- Other Income -->
+  <div id="otherIncomeSection"></div>
 
   <!-- Receipts / transaction log -->
   <div id="receiptsSection"></div>
@@ -514,11 +615,45 @@ const CAT_CONFIG = {
 const CAT_ORDER = ['cc', 'loan', 'affirm', 'sub', 'life'];
 
 /* ── State ──────────────────────────────────────────────────────────── */
-let periods      = [];
-let activePid    = null;
-let obligations  = [];
-let transactions = [];
-let addFormOpen  = false;
+let periods         = [];
+let activePid       = null;
+let obligations     = [];
+let transactions    = [];
+let otherIncomeItems = [];
+let addFormOpen     = false;
+let addIncomeFormOpen = false;
+
+/* ── Other Income localStorage helpers ──────────────────────────────── */
+const OI_KEY = 'enid_other_income_v1';
+function loadOtherIncome(pid) {
+  try {
+    const store = JSON.parse(localStorage.getItem(OI_KEY) || '{}');
+    return store[pid] || [];
+  } catch { return []; }
+}
+function saveOtherIncome(pid, items) {
+  try {
+    const store = JSON.parse(localStorage.getItem(OI_KEY) || '{}');
+    store[pid] = items;
+    localStorage.setItem(OI_KEY, JSON.stringify(store));
+  } catch {}
+}
+
+/* ── Start Balance localStorage helpers (override per period) ────────── */
+const SB_OVERRIDE_KEY = 'enid_start_balance_overrides_v1';
+function getStartBalOverride(pid) {
+  try {
+    const store = JSON.parse(localStorage.getItem(SB_OVERRIDE_KEY) || '{}');
+    return store.hasOwnProperty(pid) ? store[pid] : null;
+  } catch { return null; }
+}
+function setStartBalOverride(pid, val) {
+  try {
+    const store = JSON.parse(localStorage.getItem(SB_OVERRIDE_KEY) || '{}');
+    store[pid] = val;
+    localStorage.setItem(SB_OVERRIDE_KEY, JSON.stringify(store));
+  } catch {}
+}
 
 /* ── Supabase helper ─────────────────────────────────────────────────── */
 const SB_HEADERS = {
@@ -595,11 +730,13 @@ async function switchPeriod(pid) {
   document.querySelectorAll('.period-tab').forEach(b => {
     b.classList.toggle('active', b.dataset.pid === pid);
   });
-  document.getElementById('obligationsSection').innerHTML = '';
-  document.getElementById('summarySection').innerHTML    = '';
-  document.getElementById('receiptsSection').innerHTML   = '';
+  document.getElementById('obligationsSection').innerHTML  = '';
+  document.getElementById('summarySection').innerHTML     = '';
+  document.getElementById('otherIncomeSection').innerHTML = '';
+  document.getElementById('receiptsSection').innerHTML    = '';
   document.getElementById('errorBanner').style.display = 'none';
-  addFormOpen = false;
+  addFormOpen       = false;
+  addIncomeFormOpen = false;
   try {
     await loadPeriod();
   } catch (e) {
@@ -620,20 +757,94 @@ async function loadPeriod() {
     sbGet(`finance_transactions?user_id=eq.${USER_ID}&period_id=eq.${activePid}&order=transaction_date.desc,created_at.desc`),
   ]);
 
+  // Load Other Income from localStorage
+  otherIncomeItems = loadOtherIncome(activePid);
+
+  // Resolve Starting Balance for this period
+  await resolveStartBalance(period);
+
   renderSummary(period);
   renderObligations();
+  renderOtherIncome();
   renderTransactions();
+}
+
+/* ── Resolve starting balance (rollover logic) ────────────────────────── */
+async function resolveStartBalance(period) {
+  // Check for user-set local override first
+  const override = getStartBalOverride(period.id);
+  if (override !== null) {
+    period._resolvedStartBal = override;
+    return;
+  }
+
+  // If DB already has a start_balance, use it
+  if (period.start_balance !== null && period.start_balance !== undefined && period.start_balance !== 0) {
+    period._resolvedStartBal = Number(period.start_balance);
+    return;
+  }
+
+  // Otherwise: find the prior period and compute its EST LEFT as the default
+  const sorted = [...periods].sort((a, b) => a.start_date.localeCompare(b.start_date));
+  const idx    = sorted.findIndex(p => p.id === period.id);
+  if (idx <= 0) {
+    // No prior period — no default to set
+    period._resolvedStartBal = 0;
+    return;
+  }
+
+  const priorPeriod = sorted[idx - 1];
+
+  // Fetch prior period's obligations + transactions to compute EST LEFT
+  try {
+    const [priorObls, priorTxns] = await Promise.all([
+      sbGet(`finance_obligations?user_id=eq.${USER_ID}&period_id=eq.${priorPeriod.id}&order=display_order.asc`),
+      sbGet(`finance_transactions?user_id=eq.${USER_ID}&period_id=eq.${priorPeriod.id}&order=transaction_date.desc`),
+    ]);
+
+    const priorOI        = loadOtherIncome(priorPeriod.id);
+    const priorOITotal   = priorOI.reduce((s, i) => s + (Number(i.amount) || 0), 0);
+    const priorStartBal  = getStartBalOverride(priorPeriod.id) !== null
+      ? getStartBalOverride(priorPeriod.id)
+      : (priorPeriod._resolvedStartBal ?? Number(priorPeriod.start_balance || 0));
+
+    const priorIncome    = (Number(priorPeriod.income_bbs) || 0)
+                         + (Number(priorPeriod.income_kt)  || 0)
+                         + priorStartBal
+                         + priorOITotal;
+
+    const priorOblig = priorObls
+      .filter(o => !o.is_paid_off)
+      .reduce((s, o) => {
+        const eff = (o.is_variable && o.spent_amount !== null && o.spent_amount !== undefined)
+          ? Number(o.spent_amount) : Number(o.amount) || 0;
+        return s + eff;
+      }, 0);
+
+    const priorLeft = priorIncome - priorOblig;
+    period._resolvedStartBal = priorLeft;
+
+    // Auto-save to Supabase so this period now has it
+    const idx2 = periods.findIndex(p => p.id === period.id);
+    if (idx2 >= 0) periods[idx2]._resolvedStartBal = priorLeft;
+    await sbPatch(`pay_periods?id=eq.${period.id}`, { start_balance: priorLeft });
+  } catch (e) {
+    console.warn('resolveStartBalance fallback:', e);
+    period._resolvedStartBal = 0;
+  }
 }
 
 /* ── Summary card ─────────────────────────────────────────────────────── */
 function renderSummary(period) {
-  const incomeBbs   = period.income_bbs    || 0;
-  const incomeKt    = period.income_kt     || 0;
-  const startBal    = period.start_balance || 0;
-  const totalIncome = incomeBbs + incomeKt + startBal;
+  const incomeBbs  = Number(period.income_bbs || 0);
+  const incomeKt   = Number(period.income_kt  || 0);
+  const startBal   = period._resolvedStartBal !== undefined
+    ? Number(period._resolvedStartBal)
+    : Number(period.start_balance || 0);
+  const otherTotal = otherIncomeItems.reduce((s, i) => s + (Number(i.amount) || 0), 0);
+  const totalIncome = incomeBbs + incomeKt + startBal + otherTotal;
 
   // Obligations total = active (non-paid-off) items
-  // For variable items with a tracked spent_amount, use that instead of the budget amount
   const totalOblig = obligations
     .filter(o => !o.is_paid_off)
     .reduce((s, o) => {
@@ -645,10 +856,10 @@ function renderSummary(period) {
 
   const leftover = totalIncome - totalOblig;
 
-  const startBalRow = startBal
+  const otherRow = otherTotal > 0
     ? `<div class="income-row">
-         <span class="income-label">🏦 Starting Balance</span>
-         <span class="income-val">${fmtMoney(startBal)}</span>
+         <span class="income-label">💚 Other Income</span>
+         <span class="income-val" style="color:#10B981">${fmtMoney(otherTotal)}</span>
        </div>`
     : '';
 
@@ -657,18 +868,27 @@ function renderSummary(period) {
       <div class="summary-title">Pay Period Overview</div>
       <div class="income-rows">
         <div class="income-row">
+          <span class="income-label">🏦 Starting Balance</span>
+          <input class="income-input" type="number" min="0" step="0.01"
+                 value="${startBal.toFixed(2)}"
+                 placeholder="0.00"
+                 title="Starting balance for this period"
+                 onblur="saveStartBalance(this)"
+                 onkeydown="if(event.key==='Enter')this.blur()">
+        </div>
+        <div class="income-row">
           <span class="income-label">💼 BBS Income</span>
           <span class="income-val">${fmtMoney(incomeBbs)}</span>
         </div>
         <div class="income-row">
           <span class="income-label">🏪 KT Income</span>
           <input class="income-input" type="number" min="0" step="0.01"
-                 value="${Number(incomeKt).toFixed(2)}"
+                 value="${incomeKt.toFixed(2)}"
                  placeholder="0.00"
                  onblur="saveKtIncome(this)"
                  onkeydown="if(event.key==='Enter')this.blur()">
         </div>
-        ${startBalRow}
+        ${otherRow}
       </div>
       <div class="summary-divider"></div>
       <div class="summary-stats">
@@ -917,6 +1137,29 @@ function refreshSummary() {
   if (period) renderSummary(period);
 }
 
+/* ── Floating emoji background ───────────────────────────────────────── */
+function initEmojiBg() {
+  const bg = document.getElementById('emoji-bg');
+  if (!bg) return;
+  const emojis = ['💸','💰','✨','💖','⭐','🫧','💫','💜','🌟','🩷','✿','💳'];
+  const spots = [
+    [7,4],[19,11],[33,3],[47,7],[63,5],[79,3],[89,8],[97,6],
+    [4,22],[14,29],[27,21],[41,27],[57,23],[71,26],[84,19],[94,25],
+    [9,48],[21,54],[37,47],[53,51],[67,46],[81,52],[91,48],[2,70],
+    [24,74],[47,67],[64,72],[79,69],[11,84],[34,89],[59,87],[87,81],
+  ];
+  spots.forEach(([left, top], i) => {
+    const span = document.createElement('span');
+    span.className = 'eb-emoji';
+    span.textContent = emojis[i % emojis.length];
+    const dur   = 3.5 + (i % 6) * 0.65;
+    const delay = (i * 0.41) % 6;
+    const maxOp = 0.18 + (i % 4) * 0.05;
+    span.style.cssText = `left:${left}%;top:${top}%;--dur:${dur}s;--delay:${delay}s;--max-opacity:${maxOp}`;
+    bg.appendChild(span);
+  });
+}
+
 /* ── KT Income editable input ────────────────────────────────────────── */
 async function saveKtIncome(inputEl) {
   const raw = inputEl.value.trim();
@@ -947,6 +1190,39 @@ async function saveKtIncome(inputEl) {
   }
 }
 
+/* ── Starting Balance editable input ────────────────────────────────── */
+async function saveStartBalance(inputEl) {
+  const raw = inputEl.value.trim();
+  const val = raw === '' ? 0 : parseFloat(raw);
+
+  const period = periods.find(p => p.id === activePid);
+  if (isNaN(val) || val < 0) {
+    const cur = period?._resolvedStartBal ?? Number(period?.start_balance || 0);
+    inputEl.value = cur.toFixed(2);
+    return;
+  }
+
+  // Persist override in localStorage (so manual edits survive even if DB has a value)
+  setStartBalOverride(activePid, val);
+
+  // Update local period state
+  const idx = periods.findIndex(p => p.id === activePid);
+  if (idx >= 0) {
+    periods[idx]._resolvedStartBal = val;
+    periods[idx].start_balance     = val;
+  }
+
+  // Recalculate summary
+  refreshSummary();
+
+  // Persist to Supabase
+  try {
+    await sbPatch(`pay_periods?id=eq.${activePid}`, { start_balance: val });
+  } catch (e) {
+    console.error('saveStartBalance failed:', e);
+  }
+}
+
 /* ── Supabase POST ──────────────────────────────────────────────────── */
 async function sbPost(table, body) {
   const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
@@ -966,6 +1242,134 @@ async function sbDelete(path) {
     headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
   });
   if (!r.ok) throw new Error(`Supabase DELETE ${r.status}: ${await r.text()}`);
+}
+
+/* ── Other Income: render ────────────────────────────────────────────── */
+function renderOtherIncome() {
+  const container = document.getElementById('otherIncomeSection');
+  if (!container) return;
+
+  const total = otherIncomeItems.reduce((s, i) => s + (Number(i.amount) || 0), 0);
+
+  // Build add form
+  const todayStr = fmtDateLocal(new Date());
+  const formHtml = `
+    <div class="add-income-form${addIncomeFormOpen ? '' : ' hidden'}" id="addIncomeForm">
+      <div class="form-row">
+        <div class="form-field" style="flex:2">
+          <label class="form-label" for="fIncDesc">Description</label>
+          <input class="form-input" type="text" id="fIncDesc"
+                 placeholder="e.g. Invoice Payment, Side gig…" maxlength="120">
+        </div>
+        <div class="form-field" style="flex:1">
+          <label class="form-label" for="fIncAmt">Amount</label>
+          <input class="form-input" type="number" id="fIncAmt"
+                 placeholder="0.00" min="0.01" step="0.01">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label" for="fIncDate">Date (optional)</label>
+          <input class="form-input" type="date" id="fIncDate" value="${todayStr}">
+        </div>
+      </div>
+      <div id="incFormError" class="form-error" style="display:none"></div>
+      <div class="form-actions">
+        <button class="form-cancel-btn" onclick="toggleAddIncomeForm()">Cancel</button>
+        <button class="form-save-btn" id="incSaveBtn" onclick="addOtherIncome()">Save Income</button>
+      </div>
+    </div>`;
+
+  // Build list
+  let listHtml = '';
+  if (!otherIncomeItems.length) {
+    listHtml = '<div class="income-empty">No other income logged yet.</div>';
+  } else {
+    listHtml = otherIncomeItems.map(item => {
+      const dateStr = item.date ? fmtTxnDate(item.date) : '';
+      return `
+        <div class="income-item-row" data-income-id="${item.id}">
+          <div class="income-item-body">
+            <div class="income-item-label">${escHtml(item.label)}</div>
+            ${dateStr ? `<div class="income-item-meta">${dateStr}</div>` : ''}
+          </div>
+          <div class="income-item-right">
+            <span class="income-item-amount">+${fmtMoney(item.amount)}</span>
+            <button class="income-item-del" title="Delete"
+                    onclick="deleteOtherIncome('${item.id}')">✕</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  container.innerHTML = `
+    <div class="other-income-card">
+      <div class="other-income-header">
+        <span class="other-income-title">💚 Other Income</span>
+        ${total > 0 ? `<span class="other-income-total">+${fmtMoney(total)}</span>` : ''}
+        <button class="add-income-btn${addIncomeFormOpen ? ' is-open' : ''}"
+                id="addIncomeToggleBtn"
+                onclick="toggleAddIncomeForm()">${addIncomeFormOpen ? '✕ Cancel' : '+ Add Income'}</button>
+      </div>
+      ${formHtml}
+      <div id="incomeList">${listHtml}</div>
+    </div>`;
+}
+
+function toggleAddIncomeForm() {
+  addIncomeFormOpen = !addIncomeFormOpen;
+  renderOtherIncome();
+  if (addIncomeFormOpen) {
+    setTimeout(() => {
+      const el = document.getElementById('fIncDesc');
+      if (el) el.focus();
+    }, 60);
+  }
+}
+
+function addOtherIncome() {
+  const descEl  = document.getElementById('fIncDesc');
+  const amtEl   = document.getElementById('fIncAmt');
+  const dateEl  = document.getElementById('fIncDate');
+  const errEl   = document.getElementById('incFormError');
+  const saveBtn = document.getElementById('incSaveBtn');
+
+  const label = descEl.value.trim();
+  const amt   = parseFloat(amtEl.value);
+  const date  = dateEl.value || null;
+
+  if (!label)                return showIncomeError('Please enter a description.');
+  if (isNaN(amt) || amt <= 0) return showIncomeError('Please enter a valid amount greater than $0.');
+
+  errEl.style.display = 'none';
+  saveBtn.disabled    = true;
+  saveBtn.textContent = 'Saving…';
+
+  const newItem = {
+    id:     `oi_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,
+    label,
+    amount: amt,
+    date,
+  };
+
+  otherIncomeItems.unshift(newItem);
+  saveOtherIncome(activePid, otherIncomeItems);
+
+  addIncomeFormOpen = false;
+  renderOtherIncome();
+  refreshSummary();
+}
+
+function showIncomeError(msg) {
+  const el = document.getElementById('incFormError');
+  if (el) { el.textContent = msg; el.style.display = ''; }
+}
+
+function deleteOtherIncome(id) {
+  otherIncomeItems = otherIncomeItems.filter(i => i.id !== id);
+  saveOtherIncome(activePid, otherIncomeItems);
+  renderOtherIncome();
+  refreshSummary();
 }
 
 /* ── Receipts: render the full section ──────────────────────────────── */
@@ -1197,6 +1601,7 @@ function fmtTxnDate(dateStr) {
 }
 
 /* ── Boot ───────────────────────────────────────────────────────────── */
+initEmojiBg();
 init();
 </script>
 </body>
