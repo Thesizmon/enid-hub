@@ -300,6 +300,7 @@ const SUBJECT_META = [
     badge:   { bg: 'rgba(168,85,247,.15)', color: '#7E22CE', label: 'Language' },
     btnGrad: 'linear-gradient(135deg,#A855F7,#7C3AED)',
     fillGrad:'linear-gradient(90deg,#A855F7,#C084FC)',
+    courseUrl: 'japanese.html',
   },
   {
     id:      'yoga',
@@ -325,7 +326,7 @@ const DEFAULT_DATA = {
   subjects: {
     bible:     { unit: 'Foundations',     lesson: 1, totalLessons: 10 },
     usHistory: { unit: 'Colonial America', lesson: 1, totalLessons: 8  },
-    japanese:  { unit: 'Hiragana',         lesson: 1, totalLessons: 46 },
+    japanese:  { unit: 'Unit 1 – Writing System', lesson: 1, totalLessons: 42 },
     yoga:      { unit: 'Foundations',      lesson: 1, totalLessons: 12 },
     pilates:   { unit: 'Core Stability',   lesson: 1, totalLessons: 10 },
   }
@@ -387,13 +388,20 @@ function renderCard(meta, subject) {
       </div>
     </div>
     <div id="btn-wrap-${meta.id}">
-      ${done
-        ? `<div class="unit-complete-badge">✅ Unit complete! Update the unit to continue.</div>`
-        : `<button class="btn-complete" id="btn-${meta.id}"
-              style="background:${meta.btnGrad};color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1)"
-              onclick="markComplete('${meta.id}')">
-              ✓ Mark Lesson ${subject.lesson} Complete
-           </button>`
+      ${meta.courseUrl
+        ? `<a href="${meta.courseUrl}"
+              style="display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px 16px;border-radius:12px;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.02em;background:${meta.btnGrad};color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1);transition:transform .15s,box-shadow .15s"
+              onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,.15)'"
+              onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px rgba(0,0,0,.1)'">
+              📖 View Full Course →
+           </a>`
+        : done
+          ? `<div class="unit-complete-badge">✅ Unit complete! Update the unit to continue.</div>`
+          : `<button class="btn-complete" id="btn-${meta.id}"
+                style="background:${meta.btnGrad};color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1)"
+                onclick="markComplete('${meta.id}')">
+                ✓ Mark Lesson ${subject.lesson} Complete
+             </button>`
       }
     </div>
   `;

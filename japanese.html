@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Japanese Language 🇯🇵🐺</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:   #E84EA0;
+      --purple: #A855F7;
+      --mint:   #6EE7B7;
+      --amber:  #F59E0B;
+      --sky:    #60C8F5;
+      --glass:  rgba(255,255,255,0.76);
+      --border: rgba(168,85,247,0.13);
+      --text:   #2D1B4E;
+      --sub:    #7C6F9B;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: #FDF4EE;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 10%,  rgba(232,78,160,.11) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 15%,  rgba(168,85,247,.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(96,200,245,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 15% 80%,  rgba(110,231,183,.09) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 35% at 85% 85%,  rgba(245,158,11,.07) 0%, transparent 50%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed; inset: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      background: #FDF4EE;
+      transition: opacity .4s, visibility .4s;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-wolf { font-size: 3rem; animation: loaderPulse 1.2s ease-in-out infinite; }
+    @keyframes loaderPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+    /* App shell */
+    #app { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; display: none; }
+
+    /* Header */
+    .app-header { margin-bottom: 24px; }
+    .header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .header-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1.15;
+    }
+    .header-sub { font-size: .82rem; color: var(--sub); margin-top: 2px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      padding: 5px 12px; border-radius: 20px; text-decoration: none;
+      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      color: var(--sub); transition: background .15s; white-space: nowrap; flex-shrink: 0;
+    }
+    .back-btn:hover { background: rgba(168,85,247,.18); }
+    .header-nav { padding: 7px 0 0; display: flex; gap: 7px; flex-wrap: wrap; }
+    .header-nav-link {
+      font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+      padding: 4px 12px; border-radius: 20px; text-decoration: none;
+      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      color: var(--sub); transition: background .15s; white-space: nowrap;
+    }
+    .header-nav-link:hover { background: rgba(168,85,247,.18); }
+    .header-nav-link.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+    }
+
+    /* Progress bar */
+    .course-progress-wrap {
+      background: var(--glass); border: 1.5px solid var(--border);
+      border-radius: 18px; padding: 16px 20px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      margin-bottom: 20px;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+    .progress-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .8rem; font-weight: 600; color: var(--sub); margin-bottom: 8px;
+    }
+    .progress-meta .prog-label { font-weight: 700; color: var(--purple); }
+    .progress-track {
+      height: 9px; background: rgba(168,85,247,.1);
+      border-radius: 99px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      transition: width .5s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    /* Glass card base */
+    .glass-card {
+      background: var(--glass); border: 1.5px solid var(--border);
+      border-radius: 18px; padding: 20px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+
+    /* Sentence of the Day */
+    .sotd-card {
+      margin-bottom: 20px;
+      border-color: rgba(232,78,160,.2);
+    }
+    .sotd-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .sotd-unit-tag {
+      font-size: .65rem; font-weight: 700; letter-spacing: .04em;
+      padding: 2px 8px; border-radius: 20px;
+      background: rgba(232,78,160,.1); color: var(--pink);
+    }
+    .sotd-japanese {
+      font-size: 1.35rem; font-weight: 700; color: var(--text);
+      line-height: 1.4; margin-bottom: 4px;
+    }
+    .sotd-romaji {
+      font-size: .85rem; color: var(--purple); font-style: italic; margin-bottom: 4px;
+    }
+    .sotd-english {
+      font-size: .88rem; color: var(--sub);
+    }
+
+    /* Unit accordion */
+    .unit-section { margin-bottom: 12px; }
+    .unit-header {
+      background: var(--glass); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 14px 18px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      cursor: pointer; display: flex; align-items: center; gap: 12px;
+      transition: background .15s, box-shadow .15s;
+      user-select: none;
+    }
+    .unit-header:hover { background: rgba(255,255,255,.9); box-shadow: 0 3px 14px rgba(168,85,247,.1); }
+    .unit-header.open { border-radius: 14px 14px 0 0; border-bottom-color: transparent; }
+    .unit-arrow {
+      font-size: .8rem; color: var(--sub); transition: transform .25s;
+      margin-left: auto; flex-shrink: 0;
+    }
+    .unit-header.open .unit-arrow { transform: rotate(90deg); }
+    .unit-name { font-size: .95rem; font-weight: 700; color: var(--text); }
+    .unit-weeks { font-size: .72rem; color: var(--sub); margin-top: 1px; }
+    .unit-fraction {
+      font-size: .72rem; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+      background: rgba(168,85,247,.1); color: var(--purple); white-space: nowrap; flex-shrink: 0;
+    }
+    .unit-fraction.complete { background: rgba(110,231,183,.2); color: #059669; }
+
+    .unit-lessons {
+      background: rgba(255,255,255,.55); border: 1.5px solid var(--border);
+      border-top: none; border-radius: 0 0 14px 14px;
+      overflow: hidden;
+      max-height: 0; transition: max-height .35s ease;
+    }
+    .unit-lessons.open { max-height: 2000px; }
+
+    /* Lesson row */
+    .lesson-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 18px; cursor: pointer;
+      transition: background .12s; border-bottom: 1px solid rgba(168,85,247,.06);
+    }
+    .lesson-row:last-child { border-bottom: none; }
+    .lesson-row:hover:not(.locked) { background: rgba(168,85,247,.06); }
+    .lesson-row.locked { cursor: default; opacity: .55; }
+
+    .lesson-num {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700;
+    }
+    .lesson-num.complete { background: #10b981; color: #fff; }
+    .lesson-num.current { background: transparent; border: 2px solid var(--purple); color: var(--purple); }
+    .lesson-num.locked { background: rgba(168,85,247,.08); border: 2px solid rgba(168,85,247,.18); color: var(--sub); }
+
+    .lesson-title { font-size: .87rem; font-weight: 600; color: var(--text); flex: 1; }
+    .lesson-arrow { font-size: .8rem; color: var(--sub); flex-shrink: 0; }
+    .lesson-row.locked .lesson-arrow { opacity: 0; }
+
+    /* ── LESSON VIEW ─────────────────────────────────────────── */
+    #lessonView { display: none; }
+
+    .lesson-view-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .78rem; font-weight: 700; color: var(--sub);
+      background: none; border: none; cursor: pointer; padding: 0;
+      margin-bottom: 16px; font-family: 'DM Sans', sans-serif;
+      transition: color .15s;
+    }
+    .lesson-view-back:hover { color: var(--purple); }
+
+    .lesson-hero {
+      background: var(--glass); border: 1.5px solid rgba(168,85,247,.2);
+      border-radius: 18px; padding: 20px 20px 16px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      margin-bottom: 18px;
+    }
+    .lesson-unit-badge {
+      font-size: .68rem; font-weight: 700; letter-spacing: .05em;
+      padding: 3px 10px; border-radius: 20px;
+      background: rgba(168,85,247,.12); color: var(--purple);
+      display: inline-block; margin-bottom: 8px;
+    }
+    .lesson-hero-title {
+      font-size: 1.2rem; font-weight: 700; color: var(--text); line-height: 1.3;
+    }
+
+    /* Lesson section cards */
+    .lesson-section {
+      margin-bottom: 14px;
+    }
+    .lesson-section-card {
+      background: var(--glass); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 16px 18px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 2px 12px rgba(168,85,247,.04);
+    }
+    .ls-header {
+      font-size: .82rem; font-weight: 700; color: var(--purple);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .ls-body {
+      font-size: .87rem; color: var(--text); line-height: 1.65;
+    }
+    .ls-body p { margin-bottom: 8px; }
+    .ls-body p:last-child { margin-bottom: 0; }
+
+    /* Examples table */
+    .ex-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    .ex-table th {
+      font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+      color: var(--sub); padding: 4px 10px 6px; text-align: left;
+      border-bottom: 1px solid rgba(168,85,247,.1);
+    }
+    .ex-table td {
+      padding: 7px 10px; vertical-align: top;
+      border-bottom: 1px solid rgba(168,85,247,.06);
+    }
+    .ex-table tr:last-child td { border-bottom: none; }
+    .ex-japanese { font-weight: 700; font-size: .92rem; color: var(--text); }
+    .ex-romaji { color: var(--purple); font-style: italic; font-size: .82rem; }
+    .ex-english { color: var(--sub); font-size: .82rem; }
+
+    /* Sentence mining card */
+    .mining-sentence {
+      background: rgba(168,85,247,.04); border: 1.5px solid rgba(168,85,247,.1);
+      border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+    }
+    .mining-sentence:last-child { margin-bottom: 0; }
+    .mining-japanese { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .mining-romaji { font-size: .8rem; color: var(--purple); font-style: italic; margin-bottom: 2px; }
+    .mining-english { font-size: .8rem; color: var(--sub); }
+    .mining-unit-tag {
+      font-size: .62rem; font-weight: 700; letter-spacing: .05em;
+      padding: 2px 7px; border-radius: 20px; display: inline-block; margin-top: 5px;
+      background: rgba(232,78,160,.1); color: var(--pink);
+    }
+
+    /* Mark complete button */
+    .btn-mark-complete {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 14px 20px; border-radius: 14px; border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .92rem; font-weight: 700; cursor: pointer;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; letter-spacing: .03em;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+      box-shadow: 0 4px 18px rgba(232,78,160,.3);
+      margin-top: 6px;
+    }
+    .btn-mark-complete:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(232,78,160,.4); }
+    .btn-mark-complete:active { transform: scale(.97); }
+    .btn-mark-complete:disabled {
+      opacity: .55; cursor: not-allowed; transform: none !important; box-shadow: none !important;
+      background: rgba(168,85,247,.2); color: var(--sub);
+    }
+
+    /* Lesson nav arrows */
+    .lesson-nav {
+      display: flex; justify-content: space-between; gap: 10px; margin-top: 12px;
+    }
+    .btn-lesson-nav {
+      flex: 1; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--border);
+      background: var(--glass); color: var(--sub);
+      font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 700;
+      cursor: pointer; transition: background .15s, color .15s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .btn-lesson-nav:hover:not(:disabled) { background: rgba(168,85,247,.08); color: var(--purple); }
+    .btn-lesson-nav:disabled { opacity: .35; cursor: not-allowed; }
+    .btn-lesson-nav.next { justify-content: flex-end; }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--text); color: #fff;
+      font-size: .82rem; font-weight: 600;
+      padding: 10px 20px; border-radius: 99px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 100; white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(45,27,78,.25);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Celebration overlay */
+    #confetti-wrap {
+      position: fixed; inset: 0; pointer-events: none; z-index: 500; overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute; width: 10px; height: 10px; border-radius: 2px;
+      animation: confettiFall 1.8s ease-out forwards;
+    }
+    @keyframes confettiFall {
+      0%   { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(120vh) rotate(720deg); }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(168,85,247,.2); border-radius: 99px; }
+  </style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">
+  <div style="text-align:center">
+    <div class="loader-wolf">🇯🇵</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+<!-- Confetti -->
+<div id="confetti-wrap"></div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <div class="header-title">🇯🇵 Japanese Language 🐺</div>
+        <div class="header-sub">12-week beginner course ✨</div>
+      </div>
+      <a href="academy.html" class="back-btn">← Academy</a>
+    </div>
+    <nav class="header-nav">
+      <a href="date-items.html" class="header-nav-link">📅 Schedule</a>
+      <a href="finance.html"    class="header-nav-link">💰 Finance</a>
+      <a href="journal.html"    class="header-nav-link">📓 Journal</a>
+      <a href="books.html"      class="header-nav-link">📚 Books</a>
+      <a href="movies.html"     class="header-nav-link">📽️ Movies</a>
+      <a href="analytics.html"  class="header-nav-link">📊 Analytics</a>
+      <a href="badges.html"     class="header-nav-link">🏆 Badges</a>
+      <a href="cards.html"      class="header-nav-link">🃏 Cards</a>
+      <a href="academy.html"    class="header-nav-link active">🎓 Academy</a>
+    </nav>
+  </header>
+
+  <!-- Course Progress Bar -->
+  <div class="course-progress-wrap">
+    <div class="progress-meta">
+      <span>Course Progress</span>
+      <span class="prog-label" id="progLabel">0 / 42 lessons</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ COURSE VIEW ══════════════ -->
+  <div id="courseView">
+
+    <!-- Sentence of the Day -->
+    <div class="glass-card sotd-card">
+      <div class="sotd-label">
+        🌸 Sentence of the Day
+        <span class="sotd-unit-tag" id="sotdUnit"></span>
+      </div>
+      <div class="sotd-japanese" id="sotdJapanese"></div>
+      <div class="sotd-romaji"   id="sotdRomaji"></div>
+      <div class="sotd-english"  id="sotdEnglish"></div>
+    </div>
+
+    <!-- Units -->
+    <div id="unitsContainer"></div>
+
+  </div><!-- /courseView -->
+
+  <!-- ══════════════ LESSON VIEW ══════════════ -->
+  <div id="lessonView">
+    <button class="lesson-view-back" onclick="showCourse()">← Back to Course</button>
+    <div id="lessonContent"></div>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────
+
+const SENTENCE_BANK = [
+  // Identity 1-15
+  {id:1,  japanese:"わたし は サイモン です",                        romaji:"Watashi wa Simon desu",                              english:"I am Simon",                                        unit:"Identity"},
+  {id:2,  japanese:"わたし は アメリカじん です",                   romaji:"Watashi wa Amerikajin desu",                         english:"I am American",                                     unit:"Identity"},
+  {id:3,  japanese:"わたし は がくせい です",                        romaji:"Watashi wa gakusei desu",                            english:"I am a student",                                    unit:"Identity"},
+  {id:4,  japanese:"あなた は だれ ですか",                          romaji:"Anata wa dare desu ka",                              english:"Who are you?",                                      unit:"Identity"},
+  {id:5,  japanese:"かれ は ともだち です",                          romaji:"Kare wa tomodachi desu",                             english:"He is my friend",                                   unit:"Identity"},
+  {id:6,  japanese:"かのじょ は せんせい です",                      romaji:"Kanojo wa sensei desu",                              english:"She is a teacher",                                  unit:"Identity"},
+  {id:7,  japanese:"これ は ほん です",                              romaji:"Kore wa hon desu",                                   english:"This is a book",                                    unit:"Identity"},
+  {id:8,  japanese:"それ は ペン です",                              romaji:"Sore wa pen desu",                                   english:"That is a pen",                                     unit:"Identity"},
+  {id:9,  japanese:"あれ は くるま です",                            romaji:"Are wa kuruma desu",                                 english:"That over there is a car",                          unit:"Identity"},
+  {id:10, japanese:"ここ は がっこう です",                          romaji:"Koko wa gakkou desu",                                english:"This place is a school",                            unit:"Identity"},
+  {id:11, japanese:"わたし の なまえ は サイモン です",             romaji:"Watashi no namae wa Simon desu",                     english:"My name is Simon",                                  unit:"Identity"},
+  {id:12, japanese:"おなまえ は なん ですか",                        romaji:"Onamae wa nan desu ka",                              english:"What is your name?",                                unit:"Identity"},
+  {id:13, japanese:"はじめまして",                                   romaji:"Hajimemashite",                                      english:"Nice to meet you",                                  unit:"Greetings"},
+  {id:14, japanese:"よろしく おねがい します",                       romaji:"Yoroshiku onegaishimasu",                            english:"Please treat me well",                              unit:"Greetings"},
+  {id:15, japanese:"わたし は にほんご を べんきょう して います",  romaji:"Watashi wa nihongo wo benkyou shite imasu",          english:"I am studying Japanese",                            unit:"Identity"},
+  // Preferences 16-30
+  {id:16, japanese:"すし が すき です",                              romaji:"Sushi ga suki desu",                                 english:"I like sushi",                                      unit:"Preferences"},
+  {id:17, japanese:"ラーメン が だいすき です",                      romaji:"Raamen ga daisuki desu",                             english:"I love ramen",                                      unit:"Preferences"},
+  {id:18, japanese:"コーヒー が すき です",                          romaji:"Koohii ga suki desu",                                english:"I like coffee",                                     unit:"Preferences"},
+  {id:19, japanese:"にほんご が すき です",                          romaji:"Nihongo ga suki desu",                               english:"I like Japanese",                                   unit:"Preferences"},
+  {id:20, japanese:"えいが が すき です",                            romaji:"Eiga ga suki desu",                                  english:"I like movies",                                     unit:"Preferences"},
+  {id:21, japanese:"おんがく が すき です",                          romaji:"Ongaku ga suki desu",                                english:"I like music",                                      unit:"Preferences"},
+  {id:22, japanese:"ねこ が すき です",                              romaji:"Neko ga suki desu",                                  english:"I like cats",                                       unit:"Preferences"},
+  {id:23, japanese:"いぬ が すき です",                              romaji:"Inu ga suki desu",                                   english:"I like dogs",                                       unit:"Preferences"},
+  {id:24, japanese:"なに が すき ですか",                            romaji:"Nani ga suki desu ka",                               english:"What do you like?",                                 unit:"Preferences"},
+  {id:25, japanese:"やさい が きらい です",                          romaji:"Yasai ga kirai desu",                                english:"I don't like vegetables",                           unit:"Preferences"},
+  {id:26, japanese:"さかな は すき です が にく は きらい です",    romaji:"Sakana wa suki desu ga niku wa kirai desu",          english:"I like fish but I don't like meat",                 unit:"Preferences"},
+  {id:27, japanese:"どんな おんがく が すき ですか",                romaji:"Donna ongaku ga suki desu ka",                       english:"What kind of music do you like?",                   unit:"Preferences"},
+  {id:28, japanese:"J-POP が すき です",                             romaji:"J-pop ga suki desu",                                 english:"I like J-POP",                                      unit:"Preferences"},
+  {id:29, japanese:"アニメ が すき です",                            romaji:"Anime ga suki desu",                                 english:"I like anime",                                      unit:"Preferences"},
+  {id:30, japanese:"にほん が すき です",                            romaji:"Nihon ga suki desu",                                 english:"I like Japan",                                      unit:"Preferences"},
+  // Daily Life 31-50
+  {id:31, japanese:"まいにち べんきょう します",                     romaji:"Mainichi benkyou shimasu",                           english:"I study every day",                                 unit:"Daily Life"},
+  {id:32, japanese:"あさ ごはん を たべます",                        romaji:"Asa gohan wo tabemasu",                              english:"I eat breakfast in the morning",                    unit:"Daily Life"},
+  {id:33, japanese:"コーヒー を のみます",                           romaji:"Koohii wo nomimasu",                                 english:"I drink coffee",                                    unit:"Daily Life"},
+  {id:34, japanese:"がっこう に いきます",                           romaji:"Gakkou ni ikimasu",                                  english:"I go to school",                                    unit:"Daily Life"},
+  {id:35, japanese:"しごと に いきます",                             romaji:"Shigoto ni ikimasu",                                 english:"I go to work",                                      unit:"Daily Life"},
+  {id:36, japanese:"うち に かえります",                             romaji:"Uchi ni kaerimasu",                                  english:"I go home",                                         unit:"Daily Life"},
+  {id:37, japanese:"テレビ を みます",                               romaji:"Terebi wo mimasu",                                   english:"I watch TV",                                        unit:"Daily Life"},
+  {id:38, japanese:"ほん を よみます",                               romaji:"Hon wo yomimasu",                                    english:"I read a book",                                     unit:"Daily Life"},
+  {id:39, japanese:"おんがく を ききます",                           romaji:"Ongaku wo kikimasu",                                 english:"I listen to music",                                 unit:"Daily Life"},
+  {id:40, japanese:"ともだち と はなします",                         romaji:"Tomodachi to hanashimasu",                           english:"I talk with my friend",                             unit:"Daily Life"},
+  {id:41, japanese:"まいあさ シャワー を あびます",                  romaji:"Maiasa shawaa wo abimasu",                           english:"I take a shower every morning",                     unit:"Daily Life"},
+  {id:42, japanese:"よる ねます",                                    romaji:"Yoru nemasu",                                        english:"I sleep at night",                                  unit:"Daily Life"},
+  {id:43, japanese:"しちじ に おきます",                             romaji:"Shichiji ni okimasu",                                english:"I wake up at 7 o'clock",                            unit:"Daily Life"},
+  {id:44, japanese:"いつも コーヒー を のみます",                    romaji:"Itsumo koohii wo nomimasu",                          english:"I always drink coffee",                             unit:"Daily Life"},
+  {id:45, japanese:"ときどき えいが を みます",                      romaji:"Tokidoki eiga wo mimasu",                            english:"I sometimes watch movies",                          unit:"Daily Life"},
+  {id:46, japanese:"あまり テレビ を みません",                      romaji:"Amari terebi wo mimasen",                            english:"I don't watch TV much",                             unit:"Daily Life"},
+  {id:47, japanese:"ぜんぜん にく を たべません",                    romaji:"Zenzen niku wo tabemasen",                           english:"I don't eat meat at all",                           unit:"Daily Life"},
+  {id:48, japanese:"もう ごはん を たべました",                      romaji:"Mou gohan wo tabemashita",                           english:"I already ate",                                     unit:"Daily Life"},
+  {id:49, japanese:"まだ べんきょう して いません",                  romaji:"Mada benkyou shite imasen",                          english:"I haven't studied yet",                             unit:"Daily Life"},
+  {id:50, japanese:"きのう えいが を みました",                      romaji:"Kinou eiga wo mimashita",                            english:"I watched a movie yesterday",                       unit:"Daily Life"},
+  // Location 51-65
+  {id:51, japanese:"トイレ は どこ ですか",                          romaji:"Toire wa doko desu ka",                              english:"Where is the bathroom?",                            unit:"Location"},
+  {id:52, japanese:"えき は どこ ですか",                            romaji:"Eki wa doko desu ka",                                english:"Where is the station?",                             unit:"Location"},
+  {id:53, japanese:"ここ に います",                                 romaji:"Koko ni imasu",                                      english:"I am here",                                         unit:"Location"},
+  {id:54, japanese:"スーパー に いきます",                           romaji:"Suupaa ni ikimasu",                                  english:"I go to the supermarket",                           unit:"Location"},
+  {id:55, japanese:"にほん に すんで います",                        romaji:"Nihon ni sunde imasu",                               english:"I live in Japan",                                   unit:"Location"},
+  {id:56, japanese:"とうきょう に います",                           romaji:"Toukyou ni imasu",                                   english:"I am in Tokyo",                                     unit:"Location"},
+  {id:57, japanese:"みぎ に まがって ください",                      romaji:"Migi ni magatte kudasai",                            english:"Please turn right",                                 unit:"Location"},
+  {id:58, japanese:"ひだり に まがって ください",                    romaji:"Hidari ni magatte kudasai",                          english:"Please turn left",                                  unit:"Location"},
+  {id:59, japanese:"まっすぐ いって ください",                       romaji:"Massugu itte kudasai",                               english:"Please go straight",                                unit:"Location"},
+  {id:60, japanese:"このちかく に コンビニ が ありますか",          romaji:"Kono chikaku ni konbini ga arimasu ka",              english:"Is there a convenience store nearby?",              unit:"Location"},
+  {id:61, japanese:"へや に います",                                 romaji:"Heya ni imasu",                                      english:"I am in the room",                                  unit:"Location"},
+  {id:62, japanese:"テーブル の うえ に あります",                   romaji:"Teebu no ue ni arimasu",                             english:"It is on top of the table",                         unit:"Location"},
+  {id:63, japanese:"かばん の なか に あります",                     romaji:"Kaban no naka ni arimasu",                           english:"It is inside the bag",                              unit:"Location"},
+  {id:64, japanese:"えき の まえ で まちます",                       romaji:"Eki no mae de machimasu",                            english:"I will wait in front of the station",               unit:"Location"},
+  {id:65, japanese:"かわ の そば に こうえん が あります",           romaji:"Kawa no soba ni kouen ga arimasu",                   english:"There is a park by the river",                      unit:"Location"},
+  // Shopping 66-75
+  {id:66, japanese:"これ は いくら ですか",                          romaji:"Kore wa ikura desu ka",                              english:"How much is this?",                                 unit:"Shopping"},
+  {id:67, japanese:"ちょっと たかい です",                           romaji:"Chotto takai desu",                                  english:"It's a little expensive",                           unit:"Shopping"},
+  {id:68, japanese:"やすい です",                                    romaji:"Yasui desu",                                         english:"It's cheap",                                        unit:"Shopping"},
+  {id:69, japanese:"これ を ください",                               romaji:"Kore wo kudasai",                                    english:"Please give me this",                               unit:"Shopping"},
+  {id:70, japanese:"ちょっと まって ください",                       romaji:"Chotto matte kudasai",                               english:"Please wait a moment",                              unit:"Shopping"},
+  {id:71, japanese:"レシート を ください",                           romaji:"Reshiito wo kudasai",                                english:"Please give me a receipt",                          unit:"Shopping"},
+  {id:72, japanese:"クレジットカード で はらえますか",               romaji:"Kurejitto kaado de haraemasu ka",                    english:"Can I pay by credit card?",                         unit:"Shopping"},
+  {id:73, japanese:"ふくろ は いりません",                           romaji:"Fukuro wa irimasen",                                 english:"I don't need a bag",                                unit:"Shopping"},
+  {id:74, japanese:"これ と これ を ください",                       romaji:"Kore to kore wo kudasai",                            english:"Please give me this and this",                      unit:"Shopping"},
+  {id:75, japanese:"もう すこし やすく なりませんか",               romaji:"Mou sukoshi yasuku narimasen ka",                    english:"Could it be a little cheaper?",                     unit:"Shopping"},
+  // Questions 76-90
+  {id:76, japanese:"いま なんじ ですか",                             romaji:"Ima nanji desu ka",                                  english:"What time is it now?",                              unit:"Questions"},
+  {id:77, japanese:"きょう は なんようび ですか",                    romaji:"Kyou wa nanyoubi desu ka",                           english:"What day is it today?",                             unit:"Questions"},
+  {id:78, japanese:"にほんご が わかりますか",                       romaji:"Nihongo ga wakarimasu ka",                           english:"Do you understand Japanese?",                       unit:"Questions"},
+  {id:79, japanese:"すこし わかります",                              romaji:"Sukoshi wakarimasu",                                 english:"I understand a little",                             unit:"Questions"},
+  {id:80, japanese:"もっと ゆっくり いって ください",               romaji:"Motto yukkuri itte kudasai",                         english:"Please speak more slowly",                          unit:"Questions"},
+  {id:81, japanese:"もう いちど いって ください",                    romaji:"Mou ichido itte kudasai",                            english:"Please say it one more time",                       unit:"Questions"},
+  {id:82, japanese:"にほんご で なんと いいますか",                  romaji:"Nihongo de nanto iimasu ka",                         english:"How do you say it in Japanese?",                    unit:"Questions"},
+  {id:83, japanese:"これ は なん ですか",                            romaji:"Kore wa nan desu ka",                                english:"What is this?",                                     unit:"Questions"},
+  {id:84, japanese:"だれ ですか",                                    romaji:"Dare desu ka",                                       english:"Who is it?",                                        unit:"Questions"},
+  {id:85, japanese:"なぜ ですか",                                    romaji:"Naze desu ka",                                       english:"Why?",                                              unit:"Questions"},
+  {id:86, japanese:"いつ ですか",                                    romaji:"Itsu desu ka",                                       english:"When?",                                             unit:"Questions"},
+  {id:87, japanese:"どうやって いきますか",                          romaji:"Douyatte ikimasu ka",                                english:"How do you get there?",                             unit:"Questions"},
+  {id:88, japanese:"いくつ ありますか",                              romaji:"Ikutsu arimasu ka",                                  english:"How many are there?",                               unit:"Questions"},
+  {id:89, japanese:"どちら が すき ですか",                          romaji:"Dochira ga suki desu ka",                            english:"Which do you like?",                                unit:"Questions"},
+  {id:90, japanese:"なに を たべますか",                             romaji:"Nani wo tabemasu ka",                                english:"What will you eat?",                                unit:"Questions"},
+  // Extended 91-100
+  {id:91,  japanese:"わたし は まいにち にほんご を べんきょう して います", romaji:"Watashi wa mainichi nihongo wo benkyou shite imasu", english:"I study Japanese every day",                  unit:"Extended"},
+  {id:92,  japanese:"ともだち と いっしょ に えいが を みました",    romaji:"Tomodachi to issho ni eiga wo mimashita",            english:"I watched a movie together with a friend",          unit:"Extended"},
+  {id:93,  japanese:"あした とうきょう に いく つもり です",         romaji:"Ashita toukyou ni iku tsumori desu",                 english:"I plan to go to Tokyo tomorrow",                     unit:"Extended"},
+  {id:94,  japanese:"にほん に いった こと が あります",             romaji:"Nihon ni itta koto ga arimasu",                      english:"I have been to Japan before",                       unit:"Extended"},
+  {id:95,  japanese:"もっと にほんご が じょうず に なりたい です",  romaji:"Motto nihongo ga jouzu ni naritai desu",             english:"I want to become better at Japanese",               unit:"Extended"},
+  {id:96,  japanese:"にほんご は むずかしい です が たのしい です",  romaji:"Nihongo wa muzukashii desu ga tanoshii desu",        english:"Japanese is difficult, but it's fun",               unit:"Extended"},
+  {id:97,  japanese:"すこし ずつ じょうず に なって います",         romaji:"Sukoshi zutsu jouzu ni natte imasu",                 english:"I am getting better little by little",              unit:"Extended"},
+  {id:98,  japanese:"まいにち れんしゅう すれば じょうず に なります",romaji:"Mainichi renshuu sureba jouzu ni narimasu",         english:"If you practice every day, you will improve",       unit:"Extended"},
+  {id:99,  japanese:"あきらめ ない で がんばって ください",          romaji:"Akirame nai de ganbatte kudasai",                    english:"Please don't give up and do your best",             unit:"Extended"},
+  {id:100, japanese:"にほんご の べんきょう は たのしい たび です",  romaji:"Nihongo no benkyou wa tanoshii tabi desu",           english:"Studying Japanese is a fun journey",                unit:"Extended"},
+];
+
+// ─────────────────────────────────────────────────────────────
+// CURRICULUM
+// ─────────────────────────────────────────────────────────────
+const UNITS = [
+  {
+    id: 1,
+    title: "Unit 1 – Writing System",
+    weeks: "Weeks 1–2",
+    lessons: [
+      {
+        id: 1, title: "Introduction to Japanese Writing Systems",
+        concept: "Japanese uses 3 scripts: Hiragana (phonetic, for native words), Katakana (phonetic, for foreign loan words), and Kanji (meaning-based Chinese characters). We start with Hiragana — the foundation of everything.",
+        examples: [
+          {japanese:"あ", romaji:"a (hiragana)", english:"Phonetic vowel sound"},
+          {japanese:"ア", romaji:"a (katakana)", english:"Same sound, foreign/loan word script"},
+          {japanese:"山", romaji:"yama", english:"Mountain (kanji)"},
+        ],
+        reading: "Identify and distinguish: あいうえお vs アイウエオ vs 山川木火",
+        writing: "Practice writing あいうえお (vowels) using correct stroke order",
+        listening: "Listen and repeat: あ い う え お — match each sound to its character",
+        homework: "Write all 5 vowels 5× each. Notice the difference between hiragana and katakana forms.",
+        sentenceMiningIds: [1, 2],
+      },
+      {
+        id: 2, title: "Hiragana – The Five Vowels",
+        concept: "The 5 pure vowels: あ(a) い(i) う(u) え(e) お(o). These are pure sounds — like Spanish vowels. Every other hiragana syllable is built on these. Mastering them is the true foundation.",
+        examples: [
+          {japanese:"あい", romaji:"ai", english:"Love"},
+          {japanese:"いえ", romaji:"ie", english:"House"},
+          {japanese:"うえ", romaji:"ue", english:"Above / Up"},
+          {japanese:"えき", romaji:"eki", english:"Station"},
+          {japanese:"おかし", romaji:"okashi", english:"Sweets / Candy"},
+        ],
+        reading: "Read aloud: あか いぬ うみ えほん おかし",
+        writing: "Practice stroke order for all 5 vowels. あ has 3 strokes; memorize the order.",
+        listening: "Hear and identify: which vowel is being spoken?",
+        homework: "Write each vowel 10× paying attention to stroke order.",
+        sentenceMiningIds: [13, 14],
+      },
+      {
+        id: 3, title: "Hiragana – K and S Rows",
+        concept: "K-row: か(ka) き(ki) く(ku) け(ke) こ(ko). S-row: さ(sa) し(shi — NOT 'si'!) す(su) せ(se) そ(so). Note: し is a special sound — 'shi', not 'si'. This is a critical exception to memorize.",
+        examples: [
+          {japanese:"かさ", romaji:"kasa", english:"Umbrella"},
+          {japanese:"きく", romaji:"kiku", english:"Chrysanthemum / to listen"},
+          {japanese:"さくら", romaji:"sakura", english:"Cherry blossom"},
+          {japanese:"すし", romaji:"sushi", english:"Sushi"},
+          {japanese:"そら", romaji:"sora", english:"Sky"},
+        ],
+        reading: "Read: かき きく くさ けむり こめ / さかな しお すな せかい そと",
+        writing: "Write each character 5× with stroke order",
+        listening: "Distinguish: ka/ki/ku/ke/ko and sa/shi/su/se/so in spoken words",
+        homework: "Write all K and S row characters 5× each. Remember: し = shi!",
+        sentenceMiningIds: [16, 31],
+      },
+      {
+        id: 4, title: "Hiragana – T and N Rows",
+        concept: "T-row: た(ta) ち(chi!) つ(tsu!) て(te) と(to). CRITICAL: ち = 'chi' (not 'ti') and つ = 'tsu' (not 'tu'). N-row: な(na) に(ni) ぬ(nu) ね(ne) の(no). These are phonetically regular except for the T exceptions.",
+        examples: [
+          {japanese:"たべもの", romaji:"tabemono", english:"Food"},
+          {japanese:"ちかてつ", romaji:"chikatetsu", english:"Subway"},
+          {japanese:"ねこ", romaji:"neko", english:"Cat"},
+          {japanese:"にほん", romaji:"nihon", english:"Japan"},
+          {japanese:"のみもの", romaji:"nomimono", english:"Drink / Beverage"},
+        ],
+        reading: "Read: たこ ちず つき てら とり / なつ にわ ぬの ねつ のり",
+        writing: "Extra focus on stroke order for ち and つ — they are unique shapes",
+        listening: "Listen and write: is it 'ta', 'chi', 'tsu', 'te', or 'to'?",
+        homework: "Write ち and つ 10× each to master their special pronunciation. All T and N row 5× each.",
+        sentenceMiningIds: [11, 34],
+      },
+      {
+        id: 5, title: "Hiragana – H and M Rows",
+        concept: "H-row: は(ha→reads as 'wa' as particle!) ひ(hi) ふ(fu!) へ(he→reads as 'e' as particle!) ほ(ho). M-row: ま(ma) み(mi) む(mu) め(me) も(mo). Key: ふ = 'fu' not 'hu'. は and へ have special particle readings you'll learn in grammar.",
+        examples: [
+          {japanese:"はな", romaji:"hana", english:"Flower / Nose"},
+          {japanese:"ふじさん", romaji:"fujisan", english:"Mt. Fuji"},
+          {japanese:"へや", romaji:"heya", english:"Room"},
+          {japanese:"ほん", romaji:"hon", english:"Book"},
+          {japanese:"みず", romaji:"mizu", english:"Water"},
+        ],
+        reading: "Read: はし ひと ふね へた ほし / まち みち むし めだか もり",
+        writing: "Practice both rows. Pay attention to ふ — it's more breath-heavy than 'hu'",
+        listening: "Identify H and M row sounds in spoken Japanese words",
+        homework: "Write all H and M row 5× each. Memorize: は = wa as particle, へ = e as particle.",
+        sentenceMiningIds: [40, 38],
+      },
+      {
+        id: 6, title: "Hiragana – Y, R, W Rows and ん",
+        concept: "Y-row: や(ya) ゆ(yu) よ(yo). R-row: ら(ra) り(ri) る(ru) れ(re) ろ(ro) — note: Japanese 'r' is a soft flap, not English 'r'. W-row: わ(wa) を(wo — ONLY used as object particle). ん = standalone 'n' consonant — unique in Japanese.",
+        examples: [
+          {japanese:"やま", romaji:"yama", english:"Mountain"},
+          {japanese:"ゆき", romaji:"yuki", english:"Snow"},
+          {japanese:"よる", romaji:"yoru", english:"Night"},
+          {japanese:"りんご", romaji:"ringo", english:"Apple"},
+          {japanese:"わたし", romaji:"watashi", english:"I / Me"},
+        ],
+        reading: "Read: やね ゆめ よみ / らく りか るす れき ろく / わに",
+        writing: "Practice the soft Japanese 'r' sound. Write all Y, R, W rows and ん",
+        listening: "Hear the difference between Japanese r and English r/l",
+        homework: "Write the complete hiragana chart from memory (46 characters). Check your work!",
+        sentenceMiningIds: [15, 18],
+      },
+      {
+        id: 7, title: "Dakuten, Combo Characters & Full Review",
+        concept: "Dakuten (゛) makes consonants voiced: か→が さ→ざ た→だ は→ば. Handakuten (゜) makes p-sounds: は→ぱ ひ→ぴ ふ→ぷ へ→ぺ ほ→ぽ. Combo characters use small や/ゆ/よ: きゃ(kya) しゅ(shu) ちょ(cho) にゃ(nya) etc. Long vowels use っ (small tsu) for double consonants.",
+        examples: [
+          {japanese:"がっこう", romaji:"gakkou", english:"School"},
+          {japanese:"びょういん", romaji:"byouin", english:"Hospital"},
+          {japanese:"しゅくだい", romaji:"shukudai", english:"Homework"},
+          {japanese:"ちょうど", romaji:"choudo", english:"Exactly / Just right"},
+          {japanese:"ざっし", romaji:"zasshi", english:"Magazine"},
+        ],
+        reading: "Read: ぎんこう ざっし だいがく ばんごはん ぱーてぃ / きゃく しゅみ ちょっと",
+        writing: "Practice dakuten pairs and 10 combo characters",
+        listening: "Distinguish voiced vs unvoiced: か vs が、さ vs ざ etc.",
+        homework: "Read 10 random hiragana words from a list without looking at the chart. Time yourself.",
+        sentenceMiningIds: [7, 8],
+      },
+    ]
+  },
+  {
+    id: 2,
+    title: "Unit 2 – Core Grammar",
+    weeks: "Weeks 3–4",
+    lessons: [
+      {
+        id: 8, title: "Particles – は (Topic Marker)",
+        concept: "は (pronounced 'wa' as particle) marks the TOPIC of the sentence — what we're talking about. Pattern: [Topic]は [Comment]です. The topic is not always the subject. は sets the context for everything that follows.",
+        examples: [
+          {japanese:"わたしはがくせいです", romaji:"Watashi wa gakusei desu", english:"I am a student"},
+          {japanese:"にほんはきれいです", romaji:"Nihon wa kirei desu", english:"Japan is beautiful"},
+          {japanese:"これはほんです", romaji:"Kore wa hon desu", english:"This is a book"},
+        ],
+        reading: "Read and identify the topic in: 田中さんはせんせいです。ここはとうきょうです。",
+        writing: "Write 5 sentences using [noun]は[noun]です pattern",
+        listening: "Identify the topic marker は in spoken sentences",
+        homework: "Write 5 original sentences with は topic marker about yourself and your surroundings.",
+        sentenceMiningIds: [1, 3],
+      },
+      {
+        id: 9, title: "Particles – が (Subject Marker)",
+        concept: "が marks the grammatical subject — what IS doing something or what EXISTS. Use が for: new information, emphasis, expressing desire/ability/emotion, existence (あります/います). は = general topic; が = specific subject focus.",
+        examples: [
+          {japanese:"ねこがいます", romaji:"Neko ga imasu", english:"There IS a cat (existence)"},
+          {japanese:"なにがすきですか", romaji:"Nani ga suki desu ka", english:"What do you like? (desire)"},
+          {japanese:"あめがふっています", romaji:"Ame ga futte imasu", english:"It is raining (natural phenomenon)"},
+        ],
+        reading: "Read and explain the difference: ねこはかわいいです vs ねこがいます",
+        writing: "Write 3 sentences using が for existence and 2 for emphasis",
+        listening: "Hear は vs が in context and explain the nuance difference",
+        homework: "Write 5 sentences contrasting は and が usage. Think about what you're emphasizing.",
+        sentenceMiningIds: [24, 60],
+      },
+      {
+        id: 10, title: "Particles – を (Object Marker)",
+        concept: "を (pronounced 'wo' or 'o') marks the direct object — the thing the verb acts upon. It always follows the noun being acted on. を is only used as a particle — it never appears at the start of a sentence.",
+        examples: [
+          {japanese:"すしをたべます", romaji:"Sushi wo tabemasu", english:"(I) eat sushi"},
+          {japanese:"にほんごをべんきょうします", romaji:"Nihongo wo benkyou shimasu", english:"(I) study Japanese"},
+          {japanese:"おんがくをききます", romaji:"Ongaku wo kikimasu", english:"(I) listen to music"},
+        ],
+        reading: "Read and identify what is being acted on: コーヒーをのみます。えいがをみます。",
+        writing: "Write 5 sentences with [object]を[verb]ます pattern",
+        listening: "Identify the direct object in spoken sentences",
+        homework: "Write your daily routine using を: what do you eat, drink, read, watch?",
+        sentenceMiningIds: [15, 39],
+      },
+      {
+        id: 11, title: "Particles – に and へ (Direction/Location/Time)",
+        concept: "に marks: (1) destination of movement (2) specific location of existence (3) specific time point (4) indirect object. へ marks direction of movement — more journey-focused than destination-focused. Both translate as 'to' but carry different nuance.",
+        examples: [
+          {japanese:"がっこうにいきます", romaji:"Gakkou ni ikimasu", english:"I go to school (destination)"},
+          {japanese:"しちじにおきます", romaji:"Shichiji ni okimasu", english:"I wake up at 7 (time)"},
+          {japanese:"とうきょうへいきます", romaji:"Toukyou e ikimasu", english:"I head toward Tokyo (direction)"},
+        ],
+        reading: "Read and identify に usage: つくえのうえにあります。ごじにきてください。",
+        writing: "Write 3 sentences with に for destination and 2 with に for time",
+        listening: "Hear に and へ in context — what's the difference in feeling?",
+        homework: "Write your weekly schedule using に for days and times: げつようびにがっこうにいきます etc.",
+        sentenceMiningIds: [34, 35],
+      },
+      {
+        id: 12, title: "Particles – で and と (Location of Action & With/And)",
+        concept: "で marks where an action takes place (NOT where someone exists — that's に). と means 'with' (for people doing things together) and 'and' (listing nouns). Key distinction: うちにいます (I exist at home) vs うちでたべます (I eat at home — action).",
+        examples: [
+          {japanese:"としょかんでべんきょうします", romaji:"Toshokan de benkyou shimasu", english:"I study AT the library"},
+          {japanese:"ともだちとたべます", romaji:"Tomodachi to tabemasu", english:"I eat WITH a friend"},
+          {japanese:"コーヒーとケーキをください", romaji:"Koohii to keeki wo kudasai", english:"Coffee AND cake please"},
+        ],
+        reading: "Read and identify で vs に: こうえんでおよぎます。えきにいます。",
+        writing: "Write 5 sentences using で for action location and と for 'with'",
+        listening: "Identify the particle and explain what it tells you about the sentence",
+        homework: "Describe 3 activities you do this week: where (で), with whom (と), and what you eat/drink (を).",
+        sentenceMiningIds: [40, 92],
+      },
+      {
+        id: 13, title: "い-Adjectives",
+        concept: "い-adjectives end in い and conjugate without です. Negative: drop い, add くない. Past: drop い, add かった. Past negative: drop い, add くなかった. They directly modify nouns without any connector. Very productive pattern!",
+        examples: [
+          {japanese:"おいしい", romaji:"oishii", english:"Delicious → おいしくない (not delicious) → おいしかった (was delicious)"},
+          {japanese:"たかい", romaji:"takai", english:"Expensive / Tall"},
+          {japanese:"やすい", romaji:"yasui", english:"Cheap"},
+          {japanese:"たのしい", romaji:"tanoshii", english:"Fun"},
+          {japanese:"むずかしい", romaji:"muzukashii", english:"Difficult"},
+        ],
+        reading: "Read and identify the form: このりんごはあまくない。きのうはさむかった。",
+        writing: "Conjugate: おいしい, たかい, やすい, あたらしい, たのしい into all 4 forms",
+        listening: "Hear an adjective sentence and identify: present/past, positive/negative",
+        homework: "Write 8 sentences using い-adjectives — include at least one of each form (pos/neg/past/past-neg).",
+        sentenceMiningIds: [67, 96],
+      },
+      {
+        id: 14, title: "な-Adjectives",
+        concept: "な-adjectives need な when directly modifying nouns. Before です they use the adjective stem alone. Negative: stem + じゃない/じゃありません. Common な-adjectives: すき(like) きれい(beautiful) しずか(quiet) べんり(convenient) ゆうめい(famous) げんき(healthy/lively).",
+        examples: [
+          {japanese:"きれいなひと", romaji:"kirei na hito", english:"A beautiful person (na before noun)"},
+          {japanese:"しずかなまち", romaji:"shizuka na machi", english:"A quiet town"},
+          {japanese:"すきじゃないです", romaji:"suki ja nai desu", english:"I don't like it"},
+        ],
+        reading: "Read and identify: にぎやかなまちですね。しずかじゃないです。",
+        writing: "Use 5 な-adjectives to describe your surroundings — both modifying nouns and as predicates",
+        listening: "Distinguish い-adjective vs な-adjective in spoken sentences",
+        homework: "Write 6 sentences with な-adjectives: 2 modifying nouns, 2 positive predicates, 2 negative predicates.",
+        sentenceMiningIds: [79, 96],
+      },
+    ]
+  },
+  {
+    id: 3,
+    title: "Unit 3 – Vocabulary",
+    weeks: "Weeks 5–6",
+    lessons: [
+      {
+        id: 15, title: "Numbers 1–10",
+        concept: "Two number systems: Sino-Japanese (used for most counting): いち(1) に(2) さん(3) し/よん(4) ご(5) ろく(6) しち/なな(7) はち(8) く/きゅう(9) じゅう(10). Native Japanese (for general counting up to 10): ひとつ ふたつ みっつ よっつ いつつ むっつ ななつ やっつ ここのつ とお.",
+        examples: [
+          {japanese:"さんにんいます", romaji:"san-nin imasu", english:"There are 3 people"},
+          {japanese:"よんじかん", romaji:"yo-jikan", english:"4 hours"},
+          {japanese:"みっつください", romaji:"mittsu kudasai", english:"Please give me 3 (general objects)"},
+        ],
+        reading: "Count objects in images using both systems: ひとつ、ふたつ… and いち、に、さん…",
+        writing: "Write numbers 1–10 in both systems",
+        listening: "Hear a number and identify which system is being used",
+        homework: "Memorize both counting systems completely. Practice counting items around you.",
+        sentenceMiningIds: [43, 88],
+      },
+      {
+        id: 16, title: "Numbers 11–100 and Counters",
+        concept: "Pattern for teens and tens: じゅういち(11) にじゅう(20) さんじゅうご(35) ひゃく(100). Counters attach to numbers: まい(flat/paper items) ほん(long thin items) こ(small round objects) にん(people) だい(machines/vehicles). Counter changes number pronunciation!",
+        examples: [
+          {japanese:"にまいください", romaji:"ni-mai kudasai", english:"2 sheets please (flat counter)"},
+          {japanese:"さんにんいます", romaji:"san-nin imasu", english:"3 people here"},
+          {japanese:"ほんごさっつ", romaji:"hon go-satsu", english:"5 books (volume counter)"},
+        ],
+        reading: "Read prices: ひゃくえん、にひゃくえん、さんびゃくえん",
+        writing: "Write 11–20, 30, 40, 50, 100 in hiragana",
+        listening: "Hear a counter phrase and identify the number and counter type",
+        homework: "Learn counters: まい、ほん、こ、にん、だい. Write 2 example sentences for each.",
+        sentenceMiningIds: [66, 75],
+      },
+      {
+        id: 17, title: "Time – Days, Hours, Months",
+        concept: "Days of week: にちようび(Sun) げつようび(Mon) かようび(Tue) すいようび(Wed) もくようび(Thu) きんようび(Fri) どようび(Sat). Time: ごぜん(AM) ごご(PM) 〜じ(o'clock) 〜ふん/ぷん(minutes). Months: いちがつ〜じゅうにがつ (just add がつ to numbers).",
+        examples: [
+          {japanese:"きんようびのごごさんじ", romaji:"kinyoubi no gogo sanji", english:"Friday at 3PM"},
+          {japanese:"げつようびにがっこうにいきます", romaji:"getsuyoubi ni gakkou ni ikimasu", english:"I go to school on Monday"},
+          {japanese:"しちがつにほんにいきます", romaji:"shichigatsu nihon ni ikimasu", english:"I go to Japan in July"},
+        ],
+        reading: "Read a schedule written in Japanese: times and days",
+        writing: "Write today's date, day of week, and current time in Japanese",
+        listening: "Hear a time or date and write it down",
+        homework: "Write your weekly schedule entirely in Japanese using days and times.",
+        sentenceMiningIds: [76, 77],
+      },
+      {
+        id: 18, title: "Food Vocabulary",
+        concept: "Core food vocabulary: ごはん(rice/meal) みず(water) おちゃ(green tea) コーヒー(coffee) パン(bread) やさい(vegetables) にく(meat) さかな(fish) くだもの(fruit) たまご(egg) とりにく(chicken) うどん(udon noodles) そば(soba) ラーメン(ramen) すし(sushi). Katakana for foreign foods!",
+        examples: [
+          {japanese:"すしがすきです", romaji:"sushi ga suki desu", english:"I like sushi"},
+          {japanese:"まいにちコーヒーをのみます", romaji:"mainichi koohii wo nomimasu", english:"I drink coffee every day"},
+          {japanese:"やさいをたべてください", romaji:"yasai wo tabete kudasai", english:"Please eat your vegetables"},
+        ],
+        reading: "Read a simple menu written in hiragana and katakana",
+        writing: "Write your 5 favorite foods and 3 foods you dislike in Japanese",
+        listening: "Hear a food order and write down what was ordered",
+        homework: "Write what you ate today for each meal using Japanese food vocabulary.",
+        sentenceMiningIds: [16, 26],
+      },
+      {
+        id: 19, title: "People and Family",
+        concept: "Japanese has humble (own family) vs honorific (others' family) forms. Your own: はは(mother) ちち(father) あに(older brother) あね(older sister) おとうと(younger brother) いもうと(younger sister). Others': おかあさん おとうさん おにいさん おねえさん. General: ともだち(friend) せんせい(teacher) がくせい(student).",
+        examples: [
+          {japanese:"はははおかあさんです", romaji:"haha wa okaasan desu", english:"My mother is (someone's) mother — context explains which"},
+          {japanese:"ともだちとたべます", romaji:"tomodachi to tabemasu", english:"I eat with a friend"},
+          {japanese:"せんせいはやまださんです", romaji:"sensei wa Yamada-san desu", english:"The teacher is Mr/Ms Yamada"},
+        ],
+        reading: "Read a passage about someone's family",
+        writing: "Write 5 sentences about your own family using humble forms",
+        listening: "Hear family words and identify: humble or honorific?",
+        homework: "Write a short paragraph (3–5 sentences) introducing your family in Japanese.",
+        sentenceMiningIds: [5, 6],
+      },
+      {
+        id: 20, title: "Colors and Descriptive Adjectives",
+        concept: "Colors: あか(い)(red) あお(い)(blue) しろ(い)(white) くろ(い)(black) きいろ(い)(yellow) みどり(の)(green) むらさき(の)(purple) ピンク(の)(pink). Note: the い-colors use い-adjective form; の-colors use の before nouns. Key adjectives: おおきい(big) ちいさい(small) ながい(long) みじかい(short) あたらしい(new) ふるい(old).",
+        examples: [
+          {japanese:"あかいくるま", romaji:"akai kuruma", english:"A red car (い-adjective form)"},
+          {japanese:"みどりのバッグ", romaji:"midori no baggu", english:"A green bag (の form)"},
+          {japanese:"おおきいねこ", romaji:"ookii neko", english:"A big cat"},
+        ],
+        reading: "Describe 5 objects around you in Japanese using colors and adjectives",
+        writing: "Write color + adjective combinations for 8 objects",
+        listening: "Hear a description and draw or identify the object being described",
+        homework: "Describe your room using at least 5 color words and 5 descriptive adjectives.",
+        sentenceMiningIds: [67, 73],
+      },
+      {
+        id: 21, title: "50 Essential Verbs",
+        concept: "Two verb types: る-verbs (ichidan) — drop る and add て/た/ます: たべる(eat) みる(see) おきる(wake up) ねる(sleep) でる(exit). う-verbs (godan) — irregular て-form: いく(go→いって) くる(come→きて) のむ(drink→のんで) かく(write→かいて) はなす(speak→はなして) よむ(read→よんで) きく(listen→きいて). Polite speech = ます-form.",
+        examples: [
+          {japanese:"たべます", romaji:"tabemasu", english:"(I) eat — polite present"},
+          {japanese:"いきます", romaji:"ikimasu", english:"(I) go — polite present"},
+          {japanese:"わかります", romaji:"wakarimasu", english:"(I) understand"},
+        ],
+        reading: "Read a passage and identify all verbs and their forms",
+        writing: "Conjugate 10 verbs into ます form. Identify る vs う type.",
+        listening: "Hear a verb and identify its type and meaning",
+        homework: "Memorize 20 core verbs. Write each in dictionary form and ます form.",
+        sentenceMiningIds: [32, 39],
+      },
+    ]
+  },
+  {
+    id: 4,
+    title: "Unit 4 – Conversation",
+    weeks: "Weeks 7–8",
+    lessons: [
+      {
+        id: 22, title: "Greetings and Daily Expressions",
+        concept: "Essential daily Japanese: おはようございます(good morning formal)/おはよう(casual), こんにちは(hello/good afternoon), こんばんは(good evening), おやすみなさい(goodnight), ありがとうございます(thank you), どういたしまして(you're welcome), すみません(excuse me/sorry — very versatile!), ごめんなさい(I'm sorry), はい(yes) いいえ(no).",
+        examples: [
+          {japanese:"おはようございます", romaji:"Ohayou gozaimasu", english:"Good morning (formal)"},
+          {japanese:"すみません、えきはどこですか", romaji:"Sumimasen, eki wa doko desu ka", english:"Excuse me, where is the station?"},
+          {japanese:"ありがとうございます", romaji:"Arigatou gozaimasu", english:"Thank you very much"},
+        ],
+        reading: "Read a short morning dialogue between two people",
+        writing: "Write a complete greeting dialogue for: morning, afternoon, evening",
+        listening: "Hear different greetings and identify time of day and formality level",
+        homework: "Practice all 9 greeting expressions aloud 5× each. Use them throughout your day.",
+        sentenceMiningIds: [13, 14],
+      },
+      {
+        id: 23, title: "Self-Introduction – はじめまして",
+        concept: "Full introduction sequence: はじめまして。わたしは〜です。〜からきました。〜をしています。よろしくおねがいします。Response: こちらこそよろしくおねがいします (likewise, pleased to meet you). はじめまして is only for first meetings.",
+        examples: [
+          {japanese:"はじめまして。わたしはサイモンです。", romaji:"Hajimemashite. Watashi wa Simon desu.", english:"Nice to meet you. I am Simon."},
+          {japanese:"アメリカからきました。", romaji:"Amerika kara kimashita.", english:"I came from America."},
+          {japanese:"にほんごをべんきょうしています。よろしく！", romaji:"Nihongo wo benkyou shite imasu. Yoroshiku!", english:"I am studying Japanese. Nice to meet you!"},
+        ],
+        reading: "Read a self-introduction paragraph and answer comprehension questions",
+        writing: "Write your complete self-introduction (4–5 sentences)",
+        listening: "Hear a self-introduction and fill in: name, country, occupation/study",
+        homework: "Memorize your personal self-introduction completely. Record yourself saying it.",
+        sentenceMiningIds: [11, 12],
+      },
+      {
+        id: 24, title: "Questions with か and Question Words",
+        concept: "Add か to the end of any statement → question. Question words: なに/なん(what) どこ(where) だれ(who) いつ(when) なぜ/どうして(why) どう(how) どれ(which one) いくら(how much money) いくつ(how many). Question words replace the noun they ask about — the particle stays!",
+        examples: [
+          {japanese:"これはなんですか", romaji:"Kore wa nan desu ka", english:"What is this?"},
+          {japanese:"どこにいきますか", romaji:"Doko ni ikimasu ka", english:"Where are you going?"},
+          {japanese:"だれですか", romaji:"Dare desu ka", english:"Who is it?"},
+        ],
+        reading: "Read a Q&A dialogue and identify which question word is used each time",
+        writing: "Write questions for these answers: I am a student / I like sushi / I go to the library",
+        listening: "Hear a question and identify the question word and expected answer type",
+        homework: "Write 10 questions using 6 different question words. Answer 5 of them.",
+        sentenceMiningIds: [78, 83],
+      },
+      {
+        id: 25, title: "Likes and Dislikes – すき/きらい",
+        concept: "[thing]がすきです (I like). [thing]がきらいです (I dislike). [thing]がだいすきです (I love). [thing]があまりすきじゃないです (don't really like). For asking: 〜はどうですか (How about~?), なにがすきですか (What do you like?). Note: が is used with すき/きらい, not を.",
+        examples: [
+          {japanese:"すしがだいすきです", romaji:"Sushi ga daisuki desu", english:"I love sushi"},
+          {japanese:"にほんごはどうですか", romaji:"Nihongo wa dou desu ka", english:"How about Japanese?"},
+          {japanese:"あまりすきじゃないです", romaji:"Amari suki ja nai desu", english:"I don't really like it"},
+        ],
+        reading: "Read a dialogue where two people discuss their likes and dislikes",
+        writing: "Write 6 sentences: 2 loves, 2 likes, 1 dislikes, 1 doesn't really like",
+        listening: "Hear sentences and rank them on a like/dislike scale",
+        homework: "Interview yourself: write 8 topics and whether you like/love/dislike each with full sentences.",
+        sentenceMiningIds: [16, 27],
+      },
+      {
+        id: 26, title: "Location – どこですか",
+        concept: "〜はどこですか (Where is ~?). Location words: ここ(here, near me) そこ(there, near you) あそこ(over there, away from both). Existence: 〜にあります(inanimate) 〜にいます(animate). Position words with の: うえ(above) した(below) まえ(in front) うしろ(behind) なか(inside) そば(near).",
+        examples: [
+          {japanese:"トイレはどこですか", romaji:"Toire wa doko desu ka", english:"Where is the bathroom?"},
+          {japanese:"テーブルのうえにあります", romaji:"Teeble no ue ni arimasu", english:"It is on top of the table"},
+          {japanese:"ねこはそこにいます", romaji:"Neko wa soko ni imasu", english:"The cat is over there"},
+        ],
+        reading: "Read a paragraph with location descriptions and draw a simple map",
+        writing: "Describe where 5 objects in your room are located",
+        listening: "Hear a location description and point to the correct place on a diagram",
+        homework: "Write directions from your home to a nearby landmark using location vocabulary.",
+        sentenceMiningIds: [51, 52],
+      },
+      {
+        id: 27, title: "Requests – ください and てください",
+        concept: "[noun]をください (please give me [noun] — shopping/requesting). Verb て-form + ください (please do [action]). Polite request escalation: てください → てくださいますか → ていただけますか. Essential requests: もっとゆっくりはなしてください (speak slowly) もういちどいってください (say again) てつだってください (please help).",
+        examples: [
+          {japanese:"みずをください", romaji:"Mizu wo kudasai", english:"Please give me water"},
+          {japanese:"もっとゆっくりいってください", romaji:"Motto yukkuri itte kudasai", english:"Please speak more slowly"},
+          {japanese:"まってください", romaji:"Matte kudasai", english:"Please wait"},
+        ],
+        reading: "Read a service interaction and identify all requests",
+        writing: "Write 6 requests: 3 noun requests and 3 verb て-form requests",
+        listening: "Hear requests and respond appropriately (はい、わかりました etc.)",
+        homework: "Write 8 requests you might need in real Japan: restaurant, station, classroom, store.",
+        sentenceMiningIds: [69, 80],
+      },
+      {
+        id: 28, title: "Shopping Dialogue",
+        concept: "Full shopping interaction: いらっしゃいませ (welcome — staff), 〜をさがしています (looking for ~), これはいくらですか (how much?), 〜をください (I'll take), おいくらですか (what's the total?), カードでもいいですか (card OK?), おつりをください (change please), ありがとうございました (thank you — transaction complete).",
+        examples: [
+          {japanese:"これはいくらですか", romaji:"Kore wa ikura desu ka", english:"How much is this?"},
+          {japanese:"にせんえんです", romaji:"Nisen-en desu", english:"It's 2000 yen"},
+          {japanese:"じゃあ、これをください", romaji:"Jaa, kore wo kudasai", english:"Then, I'll take this one"},
+        ],
+        reading: "Read a full shopping dialogue and answer: what did they buy? how much did it cost?",
+        writing: "Write your own shopping dialogue for buying 3 different items",
+        listening: "Listen to a shopping scenario and track: items, prices, payment method",
+        homework: "Memorize the complete shopping dialogue flow. Role-play both customer and staff.",
+        sentenceMiningIds: [66, 71],
+      },
+    ]
+  },
+  {
+    id: 5,
+    title: "Unit 5 – Sentence Building",
+    weeks: "Weeks 9–10",
+    lessons: [
+      {
+        id: 29, title: "SOV Structure and Basic Sentences",
+        concept: "Japanese is Subject-Object-Verb — the OPPOSITE of English. The verb ALWAYS comes last. Particles (は が を に で と へ) hold the structure, so word order can shift for emphasis. Pattern: [Subject]は[Object]を[Verb]ます. Adjectives come BEFORE the noun they modify.",
+        examples: [
+          {japanese:"わたしはすしをたべます", romaji:"Watashi wa sushi wo tabemasu", english:"I eat sushi (S-O-V)"},
+          {japanese:"かのじょはほんをよみます", romaji:"Kanojo wa hon wo yomimasu", english:"She reads a book"},
+          {japanese:"にほんごはむずかしいです", romaji:"Nihongo wa muzukashii desu", english:"Japanese is difficult"},
+        ],
+        reading: "Parse 5 sentences: identify S, O, V and all particles",
+        writing: "Write 5 complete SOV sentences about your daily activities",
+        listening: "Hear a sentence and identify: subject, object, verb",
+        homework: "Write 10 complete sentences using SOV structure with different verbs and particles.",
+        sentenceMiningIds: [32, 33],
+      },
+      {
+        id: 30, title: "Negative Forms",
+        concept: "Making things negative: ます → ません (polite verb negative). です → じゃないです/じゃありません (noun/na-adj negative). い-adjective: drop い, add くない. な-adjective: stem + じゃない. Each form type has its own negative pattern — no single universal negation word.",
+        examples: [
+          {japanese:"たべません", romaji:"tabemasen", english:"(I) don't eat"},
+          {japanese:"がくせいじゃないです", romaji:"gakusei ja nai desu", english:"(I'm) not a student"},
+          {japanese:"たかくない", romaji:"takakunai", english:"(It's) not expensive"},
+        ],
+        reading: "Read sentences and convert from positive to negative",
+        writing: "Write the negative form of: たべます、がくせいです、おいしい、きれい",
+        listening: "Hear sentences and identify: positive or negative?",
+        homework: "Write 8 negative sentences covering all form types (verb/noun/い-adj/な-adj).",
+        sentenceMiningIds: [46, 47],
+      },
+      {
+        id: 31, title: "Past Tense",
+        concept: "Polite past: ます → ました (positive). ません → ませんでした (negative). です → でした. い-adjective: drop い, add かった (positive) / くなかった (negative). な-adjective: stem + だった/じゃなかった. This mirrors the present pattern — just change the ending!",
+        examples: [
+          {japanese:"たべました", romaji:"tabemashita", english:"(I) ate"},
+          {japanese:"いきませんでした", romaji:"ikimasendeshita", english:"(I) didn't go"},
+          {japanese:"たのしかった", romaji:"tanoshikatta", english:"(It) was fun"},
+        ],
+        reading: "Read a diary entry in past tense and summarize what happened",
+        writing: "Rewrite 5 present tense sentences in past tense",
+        listening: "Hear a story in past tense and answer comprehension questions",
+        homework: "Write about yesterday: what you did (ました), what you didn't do (ませんでした), how it was (かった).",
+        sentenceMiningIds: [50, 91],
+      },
+      {
+        id: 32, title: "て-Form – Connecting Actions",
+        concept: "て-form connects sequential actions and is used in many patterns. Formation: る-verbs drop る add て; う-verbs vary: く→いて、ぐ→いで、す→して、ぬ/ぶ/む→んで、る/う/つ→って、くる→きて、する→して. Uses: て+います(currently doing/state) て+ください(please do) て+から(after doing) て+もいいですか(may I?).",
+        examples: [
+          {japanese:"たべてのみました", romaji:"tabete nomimashita", english:"(I) ate and (then) drank"},
+          {japanese:"おきてシャワーをあびました", romaji:"okite shawaa wo abimashita", english:"(I) woke up and took a shower"},
+          {japanese:"にほんごをべんきょうしています", romaji:"nihongo wo benkyou shite imasu", english:"(I) am studying Japanese"},
+        ],
+        reading: "Read a morning routine paragraph using て-form chains",
+        writing: "Write your morning routine using 5 て-form connected actions",
+        listening: "Hear a sequence of actions and number them in order",
+        homework: "Write 6 sentences using て-form: 2 sequential actions, 2 〜ています, 2 〜てください.",
+        sentenceMiningIds: [80, 92],
+      },
+      {
+        id: 33, title: "たい-Form – Expressing Desires",
+        concept: "[verb stem]+たいです = want to do. Stem+たくない = don't want to. Stem+たかった = wanted to (past). Stem+たくなかった = didn't want to. For third person desires use 〜たがっています. Used with が or を for the object (both are acceptable).",
+        examples: [
+          {japanese:"すしをたべたいです", romaji:"sushi wo tabetai desu", english:"I want to eat sushi"},
+          {japanese:"にほんにいきたいです", romaji:"nihon ni ikitai desu", english:"I want to go to Japan"},
+          {japanese:"もっとべんきょうしたい", romaji:"motto benkyou shitai", english:"I want to study more"},
+        ],
+        reading: "Read a bucket list written in たい form",
+        writing: "Write your top 5 wants for Japan travel using たいです",
+        listening: "Hear desires and identify: what do they want to do?",
+        homework: "Write a paragraph about your Japanese language goals using たい form (5+ sentences).",
+        sentenceMiningIds: [95, 93],
+      },
+      {
+        id: 34, title: "Useful Patterns – Permission, Obligation, Intention",
+        concept: "てもいいですか = May I~? / Is it OK to~? (request permission). てもいいです = You may (grant permission). てはいけません = Must not (prohibition). なければなりません = Must do (obligation). つもりです = I intend to. はずです = It should be / I expect that.",
+        examples: [
+          {japanese:"たべてもいいですか", romaji:"tabete mo ii desu ka", english:"May I eat?"},
+          {japanese:"いかなければなりません", romaji:"ikanakereba narimasen", english:"I must go"},
+          {japanese:"あしたくるつもりです", romaji:"ashita kuru tsumori desu", english:"I intend to come tomorrow"},
+        ],
+        reading: "Read a dialogue using permission/obligation patterns and identify each",
+        writing: "Write 2 sentences for each pattern: permission, prohibition, obligation, intention",
+        listening: "Hear modal expressions and identify: permission/obligation/intention?",
+        homework: "Write about your weekly schedule using: must do (なければ), intend to (つもり), may (もいい).",
+        sentenceMiningIds: [93, 86],
+      },
+      {
+        id: 35, title: "Connecting Sentences – Conjunctions",
+        concept: "Key connectors: が (but/however — within one sentence), でも (but — starts new sentence), から (because/so — [reason]から[result]), ので (because — softer/more polite than から), そして/それから (and then/after that), でも/しかし (however — formal), だから (therefore).",
+        examples: [
+          {japanese:"むずかしいですが、たのしいです", romaji:"muzukashii desu ga, tanoshii desu", english:"It's difficult, but it's fun"},
+          {japanese:"つかれたので、ねます", romaji:"tsukareta node, nemasu", english:"Because I'm tired, I'll sleep"},
+          {japanese:"べんきょうします。それから、ねます。", romaji:"benkyou shimasu. sorekara, nemasu.", english:"I'll study. Then I'll sleep."},
+        ],
+        reading: "Read a paragraph using multiple conjunctions and identify them all",
+        writing: "Connect 5 pairs of sentences using: が、から、ので、でも、そして",
+        listening: "Hear compound sentences and identify the conjunction used",
+        homework: "Write a paragraph about your day using all 5 conjunctions introduced.",
+        sentenceMiningIds: [96, 98],
+      },
+    ]
+  },
+  {
+    id: 6,
+    title: "Unit 6 – Reading Practice",
+    weeks: "Weeks 11–12",
+    lessons: [
+      {
+        id: 36, title: "Reading Hiragana – Building Fluency",
+        concept: "Reading fluency tips: chunk by particles not individual characters (recognize は/が/を/に/で immediately as grammar markers), recognize common word shapes holistically, read aloud for muscle memory. Practice passage: まいにち、わたしはろくじにおきます。シャワーをあびて、あさごはんをたべます。それから、がっこうにいきます。",
+        examples: [
+          {japanese:"まいにち", romaji:"mainichi", english:"Every day (common time word)"},
+          {japanese:"それから", romaji:"sorekara", english:"After that / Then (conjunction)"},
+          {japanese:"〜をあびます", romaji:"~wo abimasu", english:"To shower / to be drenched in"},
+        ],
+        reading: "Read the passage aloud 3× progressively faster. Aim for natural rhythm.",
+        writing: "Write the passage from memory",
+        listening: "Listen to native audio of the passage and follow along",
+        homework: "Read the passage aloud 10× until it feels natural. Record yourself and listen back.",
+        sentenceMiningIds: [31, 41],
+      },
+      {
+        id: 37, title: "Dialogue – At a Café",
+        concept: "Reading a full café dialogue. Key vocab: かしこまりました(certainly/understood — formal staff), ごちゅうもん(your order — honorific), おのみもの(your drink — honorific), ホット(hot) アイス(iced), どちらになさいますか(which would you like? — very polite), おまちください(please wait).",
+        examples: [
+          {japanese:"すみません。コーヒーをひとつください。", romaji:"Sumimasen. Koohii wo hitotsu kudasai.", english:"Excuse me. One coffee please."},
+          {japanese:"かしこまりました", romaji:"Kashikomarimashita", english:"Certainly (formal agreement — staff use only)"},
+          {japanese:"ホットとアイスどちらになさいますか", romaji:"Hotto to aisu, dochira ni nasaimasu ka", english:"Hot or iced, which would you like?"},
+        ],
+        reading: "Read the full café dialogue and answer: what was ordered? how many items?",
+        writing: "Write your own café order dialogue",
+        listening: "Listen to a café order and fill in the order form",
+        homework: "Memorize the customer's lines from the café dialogue. Role-play ordering your favorite drink.",
+        sentenceMiningIds: [33, 69],
+      },
+      {
+        id: 38, title: "Short Story – Tanaka-san's Daily Routine",
+        concept: "Read a full daily routine story. Key vocab: かおをあらう(wash face) はをみがく(brush teeth) かいしゃ(company/workplace) ひるごはん(lunch) ちかく(nearby) ふろにはいる(take a bath) 〜ごろ(around~time). Notice て-form chains throughout!",
+        examples: [
+          {japanese:"かおをあらって、はをみがきます", romaji:"kao wo aratte, ha wo migakimasu", english:"(I) wash my face and brush my teeth"},
+          {japanese:"ごごろくじにうちにかえります", romaji:"gogo rokuji ni uchi ni kaerimasu", english:"I return home at 6PM"},
+          {japanese:"じゅういちじごろにねます", romaji:"juuichiji goro ni nemasu", english:"I sleep around 11 o'clock"},
+        ],
+        reading: "Read the full Tanaka story and create a timeline of their day",
+        writing: "Write your own daily routine story in the same style (8+ sentences)",
+        listening: "Listen to the story and fill in: what time does each activity happen?",
+        homework: "Write your own version of the routine story substituting your own activities and times.",
+        sentenceMiningIds: [41, 42],
+      },
+      {
+        id: 39, title: "Reading Signs, Menus and Labels",
+        concept: "Practical Japanese you'll see everywhere: いりぐち(entrance) でぐち(exit) とめ(stop) きけん(danger) えいぎょうちゅう(open/in business) じゅんびちゅう(closed/preparing). Katakana for foreign loanwords on menus: コーヒー ジュース ケーキ バーガー ピザ. Menu reading + common labels.",
+        examples: [
+          {japanese:"えいぎょうちゅう", romaji:"eigyouchuu", english:"Open (currently in business)"},
+          {japanese:"じゅんびちゅう", romaji:"junbichuu", english:"Closed / Preparing (before opening)"},
+          {japanese:"コーヒー ¥400", romaji:"Koohii", english:"Coffee — 400 yen"},
+        ],
+        reading: "Read a sample Japanese menu and order items totaling under ¥2000",
+        writing: "Create a simple menu for your imaginary café in Japanese",
+        listening: "Hear announcements in Japanese (train, store) and extract key information",
+        homework: "Find 10 Japanese signs/labels online and write their meaning. Include entry/exit signs.",
+        sentenceMiningIds: [66, 68],
+      },
+      {
+        id: 40, title: "Dialogue – Making Plans",
+        concept: "A casual dialogue between two friends making weekend plans. Key vocab: ひま(free time/not busy) ねえ(hey — casual conversation starter) いっしょに(together) 〜をみにいかない?(want to go see~? — casual invitation) いいね(sounds good!) あう(to meet) たのしみにしてる(looking forward to it).",
+        examples: [
+          {japanese:"こんしゅうのどようびにひまですか", romaji:"konshuu no doyoubi ni hima desu ka", english:"Are you free this Saturday?"},
+          {japanese:"いっしょにえいがをみにいかない？", romaji:"issho ni eiga wo mi ni ikanai?", english:"Want to go watch a movie together? (casual)"},
+          {japanese:"えきのまえでごじはどう？", romaji:"eki no mae de goji wa dou?", english:"In front of the station at 5, how about it?"},
+        ],
+        reading: "Read the full making plans dialogue and identify: plan, time, location",
+        writing: "Write your own plans dialogue for an activity you enjoy",
+        listening: "Listen and take notes: what, when, where, and who",
+        homework: "Write a text conversation in Japanese making plans for next weekend (8+ exchanges).",
+        sentenceMiningIds: [77, 87],
+      },
+      {
+        id: 41, title: "Story – A Weekend in Tokyo",
+        concept: "Longer past-tense story with cultural content. Key vocab: でんしゃにのる(ride train) 〜えきでおりる(get off at ~ station) まず(first of all) せんそうじ(Senso-ji temple — Asakusa) かみなりもん(Kaminarimon gate) やきとり(grilled chicken skewers) あきはばら(Akihabara) グッズ(goods/merchandise) たくさん(a lot/many).",
+        examples: [
+          {japanese:"でんしゃにのって、あさくさえきでおりました", romaji:"densha ni notte, Asakusa-eki de orimashita", english:"(I) rode the train and got off at Asakusa station"},
+          {japanese:"まず、せんそうじをみました", romaji:"mazu, Sensoji wo mimashita", english:"First, I visited Senso-ji"},
+          {japanese:"たのしい一日でした！", romaji:"tanoshii ichinichi deshita!", english:"It was a fun day!"},
+        ],
+        reading: "Read the full Tokyo story and answer 5 comprehension questions",
+        writing: "Write your own day-trip story using past tense (10+ sentences)",
+        listening: "Listen to the story and mark each location on a simple map",
+        homework: "Write a story about a real or imagined outing using past tense, て-form chains, and conjunctions.",
+        sentenceMiningIds: [93, 94],
+      },
+      {
+        id: 42, title: "Final Review and Course Celebration",
+        concept: "Review of ALL key patterns from the full 12-week course: Hiragana (46 characters) ✓ Particles (は/が/を/に/で/と/へ) ✓ です/ます forms ✓ Negative forms ✓ Past tense ✓ て-form ✓ たい-form ✓ 200+ vocabulary ✓. Reflection: なにをまなびましたか？ にほんごのりょこうはまだつづきます。あきらめないでがんばってください！おめでとうございます！",
+        examples: [
+          {japanese:"にほんごはむずかしいですが、たのしいです", romaji:"Nihongo wa muzukashii desu ga, tanoshii desu", english:"Japanese is difficult, but it's fun"},
+          {japanese:"すこしずつじょうずになっています", romaji:"sukoshi zutsu jouzu ni natte imasu", english:"I am getting better little by little"},
+          {japanese:"おめでとうございます！", romaji:"Omedetou gozaimasu!", english:"Congratulations!"},
+        ],
+        reading: "Read your first lesson again — see how far you've come!",
+        writing: "Write a reflection: what did you learn? what was hardest? what's next?",
+        listening: "Listen to a native Japanese speaker and identify as many words as you can",
+        homework: "おめでとう！🎉 Write 10 sentences that show off everything you've learned. You did it!",
+        sentenceMiningIds: [99, 100],
+      },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────────────────────────
+// STORAGE
+// ─────────────────────────────────────────────────────────────
+const LS_KEY = 'enidAcademy';
+
+function loadData() {
+  try {
+    return JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+  } catch { return {}; }
+}
+
+function saveData(data) {
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+}
+
+function getJapanese() {
+  const data = loadData();
+  if (!data.subjects) data.subjects = {};
+  if (!data.subjects.japanese) {
+    data.subjects.japanese = {
+      completedLessons: [],
+      currentLesson: 1,
+      totalLessons: 42,
+      unit: "Unit 1 – Writing System"
+    };
+    saveData(data);
+  }
+  // Ensure totalLessons is always 42 (update if legacy 46 exists)
+  if (data.subjects.japanese.totalLessons !== 42) {
+    data.subjects.japanese.totalLessons = 42;
+    saveData(data);
+  }
+  return data.subjects.japanese;
+}
+
+function saveJapanese(jpData) {
+  const data = loadData();
+  if (!data.subjects) data.subjects = {};
+  data.subjects.japanese = jpData;
+  saveData(data);
+}
+
+// ─────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────
+function getSentenceById(id) {
+  return SENTENCE_BANK.find(s => s.id === id);
+}
+
+function getSentenceOfDay() {
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const idx = seed % SENTENCE_BANK.length;
+  return SENTENCE_BANK[idx];
+}
+
+function getLessonById(id) {
+  for (const unit of UNITS) {
+    for (const lesson of unit.lessons) {
+      if (lesson.id === id) return { lesson, unit };
+    }
+  }
+  return null;
+}
+
+function getAdjacentLessons(lessonId) {
+  const allLessons = UNITS.flatMap(u => u.lessons);
+  const idx = allLessons.findIndex(l => l.id === lessonId);
+  return {
+    prev: idx > 0 ? allLessons[idx - 1].id : null,
+    next: idx < allLessons.length - 1 ? allLessons[idx + 1].id : null,
+  };
+}
+
+function getLessonStatus(lessonId, jp) {
+  if (jp.completedLessons.includes(lessonId)) return 'complete';
+  if (lessonId === jp.currentLesson) return 'current';
+  if (lessonId <= jp.currentLesson) return 'current'; // allow access to past unlocked
+  return 'locked';
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function spawnConfetti() {
+  const wrap = document.getElementById('confetti-wrap');
+  const colors = ['#E84EA0','#A855F7','#6EE7B7','#F59E0B','#60C8F5','#fff'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left: ${Math.random() * 100}%;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      width: ${6 + Math.random() * 8}px;
+      height: ${6 + Math.random() * 8}px;
+      border-radius: ${Math.random() > .5 ? '50%' : '2px'};
+      animation-duration: ${1.2 + Math.random() * 1.2}s;
+      animation-delay: ${Math.random() * .5}s;
+    `;
+    wrap.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// PROGRESS BAR
+// ─────────────────────────────────────────────────────────────
+function updateProgressBar() {
+  const jp = getJapanese();
+  const pct = Math.round((jp.completedLessons.length / 42) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `${jp.completedLessons.length} / 42 lessons`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// COURSE VIEW
+// ─────────────────────────────────────────────────────────────
+function renderCourseView() {
+  const jp = getJapanese();
+
+  // Sentence of the day
+  const s = getSentenceOfDay();
+  document.getElementById('sotdJapanese').textContent = s.japanese;
+  document.getElementById('sotdRomaji').textContent = s.romaji;
+  document.getElementById('sotdEnglish').textContent = s.english;
+  document.getElementById('sotdUnit').textContent = s.unit;
+
+  // Units
+  const container = document.getElementById('unitsContainer');
+  container.innerHTML = '';
+
+  UNITS.forEach(unit => {
+    const completedInUnit = unit.lessons.filter(l => jp.completedLessons.includes(l.id)).length;
+    const total = unit.lessons.length;
+    const allComplete = completedInUnit === total;
+    const hasCurrentLesson = unit.lessons.some(l => l.id === jp.currentLesson);
+
+    // Determine if this unit should start open
+    const shouldOpen = hasCurrentLesson;
+
+    const section = document.createElement('div');
+    section.className = 'unit-section';
+    section.id = `unit-section-${unit.id}`;
+
+    const header = document.createElement('div');
+    header.className = 'unit-header' + (shouldOpen ? ' open' : '');
+    header.innerHTML = `
+      <div style="flex:1">
+        <div class="unit-name">${unit.title}</div>
+        <div class="unit-weeks">${unit.weeks}</div>
+      </div>
+      <span class="unit-fraction ${allComplete ? 'complete' : ''}">${completedInUnit}/${total}</span>
+      <span class="unit-arrow">▶</span>
+    `;
+    header.addEventListener('click', () => toggleUnit(unit.id));
+
+    const lessonsDiv = document.createElement('div');
+    lessonsDiv.className = 'unit-lessons' + (shouldOpen ? ' open' : '');
+    lessonsDiv.id = `unit-lessons-${unit.id}`;
+
+    unit.lessons.forEach(lesson => {
+      const status = getLessonStatus(lesson.id, jp);
+      const isLocked = status === 'locked';
+      const row = document.createElement('div');
+      row.className = `lesson-row${isLocked ? ' locked' : ''}`;
+      if (!isLocked) {
+        row.addEventListener('click', () => showLesson(lesson.id));
+      }
+      row.innerHTML = `
+        <div class="lesson-num ${status}">${status === 'complete' ? '✓' : lesson.id}</div>
+        <div class="lesson-title">${lesson.title}</div>
+        <div class="lesson-arrow">→</div>
+      `;
+      lessonsDiv.appendChild(row);
+    });
+
+    section.appendChild(header);
+    section.appendChild(lessonsDiv);
+    container.appendChild(section);
+  });
+
+  updateProgressBar();
+}
+
+function toggleUnit(unitId) {
+  const header = document.querySelector(`.unit-header`);
+  // find the specific header
+  const section = document.getElementById(`unit-section-${unitId}`);
+  const h = section.querySelector('.unit-header');
+  const l = document.getElementById(`unit-lessons-${unitId}`);
+  h.classList.toggle('open');
+  l.classList.toggle('open');
+}
+
+// ─────────────────────────────────────────────────────────────
+// LESSON VIEW
+// ─────────────────────────────────────────────────────────────
+let currentLessonId = null;
+
+function renderLessonView(lessonId) {
+  const jp = getJapanese();
+  const found = getLessonById(lessonId);
+  if (!found) return;
+
+  const { lesson, unit } = found;
+  const isComplete = jp.completedLessons.includes(lessonId);
+  const { prev, next } = getAdjacentLessons(lessonId);
+
+  // Mining sentences
+  const miningSentences = (lesson.sentenceMiningIds || [])
+    .map(id => getSentenceById(id))
+    .filter(Boolean);
+
+  const exRows = lesson.examples.map(e => `
+    <tr>
+      <td class="ex-japanese">${e.japanese}</td>
+      <td class="ex-romaji">${e.romaji}</td>
+      <td class="ex-english">${e.english}</td>
+    </tr>
+  `).join('');
+
+  const miningHTML = miningSentences.map(s => `
+    <div class="mining-sentence">
+      <div class="mining-japanese">${s.japanese}</div>
+      <div class="mining-romaji">${s.romaji}</div>
+      <div class="mining-english">${s.english}</div>
+      <span class="mining-unit-tag">${s.unit}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('lessonContent').innerHTML = `
+    <div class="lesson-hero">
+      <span class="lesson-unit-badge">${unit.title}</span>
+      <div class="lesson-hero-title">Lesson ${lesson.id}: ${lesson.title}</div>
+    </div>
+
+    <div class="lesson-section">
+      <div class="lesson-section-card">
+        <div class="ls-header">📖 Concept</div>
+        <div class="ls-body"><p>${lesson.concept}</p></div>
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <div class="lesson-section-card">
+        <div class="ls-header">💬 Examples</div>
+        <table class="ex-table">
+          <thead><tr><th>Japanese</th><th>Romaji</th><th>English</th></tr></thead>
+          <tbody>${exRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <div class="lesson-section-card">
+        <div class="ls-header">📚 Reading Practice</div>
+        <div class="ls-body"><p>${lesson.reading}</p></div>
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <div class="lesson-section-card">
+        <div class="ls-header">✍️ Writing Practice</div>
+        <div class="ls-body"><p>${lesson.writing}</p></div>
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <div class="lesson-section-card">
+        <div class="ls-header">👂 Listening Practice</div>
+        <div class="ls-body"><p>${lesson.listening}</p></div>
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <div class="lesson-section-card">
+        <div class="ls-header">⛏️ Sentence Mining</div>
+        ${miningHTML}
+      </div>
+    </div>
+
+    <div class="lesson-section">
+      <div class="lesson-section-card">
+        <div class="ls-header">📝 Homework</div>
+        <div class="ls-body"><p>${lesson.homework}</p></div>
+      </div>
+    </div>
+
+    <button class="btn-mark-complete" id="btnMarkComplete"
+      onclick="markLessonComplete(${lessonId})"
+      ${isComplete ? 'disabled' : ''}>
+      ${isComplete ? '✓ Lesson Complete!' : '✓ Mark Lesson Complete'}
+    </button>
+
+    <div class="lesson-nav">
+      <button class="btn-lesson-nav"
+        onclick="showLesson(${prev})"
+        ${prev === null ? 'disabled' : ''}>
+        ← Prev
+      </button>
+      <button class="btn-lesson-nav next"
+        onclick="showLesson(${next})"
+        ${next === null ? 'disabled' : ''}>
+        Next →
+      </button>
+    </div>
+  `;
+}
+
+function markLessonComplete(lessonId) {
+  const jp = getJapanese();
+  if (jp.completedLessons.includes(lessonId)) return;
+
+  jp.completedLessons.push(lessonId);
+
+  // Advance currentLesson to next uncompleted
+  const allLessons = UNITS.flatMap(u => u.lessons);
+  const nextUncompleted = allLessons.find(l => !jp.completedLessons.includes(l.id));
+  if (nextUncompleted) {
+    jp.currentLesson = nextUncompleted.id;
+    // Update unit name
+    for (const unit of UNITS) {
+      if (unit.lessons.some(l => l.id === nextUncompleted.id)) {
+        jp.unit = unit.title;
+        break;
+      }
+    }
+  }
+
+  saveJapanese(jp);
+
+  // Update button
+  const btn = document.getElementById('btnMarkComplete');
+  if (btn) {
+    btn.textContent = '✓ Lesson Complete!';
+    btn.disabled = true;
+  }
+
+  updateProgressBar();
+  spawnConfetti();
+
+  if (jp.completedLessons.length === 42) {
+    showToast('🎉 おめでとうございます！Course complete!');
+  } else {
+    showToast('✓ Lesson complete! がんばって！');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// VIEW SWITCHING
+// ─────────────────────────────────────────────────────────────
+function showCourse() {
+  document.getElementById('courseView').style.display = 'block';
+  document.getElementById('lessonView').style.display = 'none';
+  renderCourseView();
+  // Scroll to current lesson's unit
+  const jp = getJapanese();
+  const currentId = jp.currentLesson;
+  for (const unit of UNITS) {
+    if (unit.lessons.some(l => l.id === currentId)) {
+      const section = document.getElementById(`unit-section-${unit.id}`);
+      if (section) {
+        setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      }
+      break;
+    }
+  }
+}
+
+function showLesson(lessonId) {
+  if (lessonId === null || lessonId === undefined) return;
+  const jp = getJapanese();
+  const status = getLessonStatus(lessonId, jp);
+  if (status === 'locked') {
+    showToast('🔒 Complete earlier lessons first!');
+    return;
+  }
+  currentLessonId = lessonId;
+  document.getElementById('courseView').style.display = 'none';
+  document.getElementById('lessonView').style.display = 'block';
+  renderLessonView(lessonId);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────
+function init() {
+  getJapanese(); // ensure initialized
+  showCourse();
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.classList.add('hidden');
+    document.getElementById('app').style.display = 'block';
+  }, 350);
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
