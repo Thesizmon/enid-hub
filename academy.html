@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Enid Academy 🎓🐺</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:   #E84EA0;
+      --purple: #A855F7;
+      --mint:   #6EE7B7;
+      --amber:  #F59E0B;
+      --sky:    #60C8F5;
+      --cream:  #FFFBF7;
+      --glass:  rgba(255,255,255,0.76);
+      --border: rgba(168,85,247,0.13);
+      --text:   #2D1B4E;
+      --sub:    #7C6F9B;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: #FDF4EE;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 10%,  rgba(232,78,160,.11) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 15%,  rgba(168,85,247,.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(96,200,245,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 15% 80%,  rgba(110,231,183,.09) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 35% at 85% 85%,  rgba(245,158,11,.07) 0%, transparent 50%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    /* ── Loader ──────────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      background: #FDF4EE;
+      transition: opacity .4s, visibility .4s;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-wrap { text-align: center; position: relative; }
+    .loader-wolf { font-size: 3rem; animation: loaderPulse 1.2s ease-in-out infinite; }
+    @keyframes loaderPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+    /* ── App shell ───────────────────────────────────────── */
+    #app { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; }
+
+    /* ── Header ──────────────────────────────────────────── */
+    .app-header { margin-bottom: 24px; }
+    .header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .header-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1.15;
+    }
+    .header-sub { font-size: .82rem; color: var(--sub); margin-top: 2px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      padding: 5px 12px; border-radius: 20px; text-decoration: none;
+      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      color: var(--sub); transition: background .15s; white-space: nowrap;
+    }
+    .back-btn:hover { background: rgba(168,85,247,.18); }
+    .header-nav { padding: 7px 0 0; display: flex; gap: 7px; flex-wrap: wrap; }
+    .header-nav-link {
+      font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+      padding: 4px 12px; border-radius: 20px; text-decoration: none;
+      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      color: var(--sub); transition: background .15s; white-space: nowrap;
+    }
+    .header-nav-link:hover { background: rgba(168,85,247,.18); }
+    .header-nav-link.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+    }
+
+    /* ── Section header ──────────────────────────────────── */
+    .section-title {
+      font-size: 1.05rem; font-weight: 700; color: var(--text);
+      margin: 28px 0 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-title .pill {
+      font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+      padding: 2px 10px; border-radius: 20px;
+      background: rgba(168,85,247,.1); color: var(--purple);
+    }
+
+    /* ── Subject grid ────────────────────────────────────── */
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── Subject card ────────────────────────────────────── */
+    .subject-card {
+      background: var(--glass);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 20px 20px 18px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+      transition: transform .18s, box-shadow .18s;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .subject-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(168,85,247,.12);
+    }
+
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .card-icon { font-size: 1.8rem; line-height: 1; }
+    .card-badge {
+      font-size: .65rem; font-weight: 700; letter-spacing: .05em;
+      padding: 3px 9px; border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .card-name {
+      font-size: 1.05rem; font-weight: 700; color: var(--text);
+      margin-top: 4px;
+    }
+    .card-unit {
+      font-size: .78rem; color: var(--sub);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .card-unit::before { content: '📖'; font-size: .8rem; }
+
+    /* Progress bar */
+    .progress-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .progress-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .75rem; font-weight: 600; color: var(--sub);
+    }
+    .progress-track {
+      height: 7px; background: rgba(168,85,247,.1);
+      border-radius: 99px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 99px;
+      transition: width .4s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    /* Complete button */
+    .btn-complete {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; padding: 10px 16px; border-radius: 12px; border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+      letter-spacing: .02em;
+    }
+    .btn-complete:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+    .btn-complete:active { transform: scale(.97); }
+    .btn-complete:disabled {
+      opacity: .55; cursor: not-allowed;
+      transform: none !important; box-shadow: none !important;
+    }
+
+    /* Unit complete state */
+    .unit-complete-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: .75rem; font-weight: 700;
+      padding: 6px 12px; border-radius: 10px; width: 100%;
+      justify-content: center;
+      background: rgba(110,231,183,.18);
+      color: #059669;
+      border: 1.5px solid rgba(110,231,183,.4);
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--text); color: #fff;
+      font-size: .82rem; font-weight: 600;
+      padding: 10px 20px; border-radius: 99px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 100; white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(45,27,78,.25);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Footer */
+    .page-footer {
+      text-align: center; font-size: .72rem; color: var(--sub);
+      padding-top: 40px; opacity: .7;
+    }
+
+    /* Subject-specific accent colors */
+    .accent-bible   { --accent: #F59E0B; --accent-soft: rgba(245,158,11,.12); }
+    .accent-history { --accent: #E84EA0; --accent-soft: rgba(232,78,160,.12); }
+    .accent-japanese{ --accent: #A855F7; --accent-soft: rgba(168,85,247,.12); }
+    .accent-yoga    { --accent: #6EE7B7; --accent-soft: rgba(110,231,183,.12); }
+    .accent-pilates { --accent: #60C8F5; --accent-soft: rgba(96,200,245,.12); }
+
+    .subject-card.accent-bible   { border-color: rgba(245,158,11,.22); }
+    .subject-card.accent-history { border-color: rgba(232,78,160,.22); }
+    .subject-card.accent-japanese{ border-color: rgba(168,85,247,.22); }
+    .subject-card.accent-yoga    { border-color: rgba(110,231,183,.22); }
+    .subject-card.accent-pilates { border-color: rgba(96,200,245,.22); }
+  </style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-wrap">
+    <div class="loader-wolf">🎓</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <div class="header-title">Enid Academy 🎓🐺</div>
+        <div class="header-sub">your personal learning dashboard ✨</div>
+      </div>
+      <a href="index.html" class="back-btn">← Home</a>
+    </div>
+    <nav class="header-nav">
+      <a href="date-items.html" class="header-nav-link">📅 Schedule</a>
+      <a href="finance.html"    class="header-nav-link">💰 Finance</a>
+      <a href="journal.html"    class="header-nav-link">📓 Journal</a>
+      <a href="books.html"      class="header-nav-link">📚 Books</a>
+      <a href="movies.html"     class="header-nav-link">📽️ Movies</a>
+      <a href="analytics.html"  class="header-nav-link">📊 Analytics</a>
+      <a href="badges.html"     class="header-nav-link">🏆 Badges</a>
+      <a href="cards.html"      class="header-nav-link">🃏 Cards</a>
+      <a href="academy.html"    class="header-nav-link active">🎓 Academy</a>
+    </nav>
+  </header>
+
+  <div class="section-title">
+    Current Studies <span class="pill" id="subjectCountPill">5 subjects</span>
+  </div>
+
+  <div class="subject-grid" id="subjectGrid"></div>
+
+  <div class="page-footer">keep learning, keep growing 🐺💜 every lesson is a step forward ✨</div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── Data config ─────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'enidAcademy';
+
+const SUBJECT_META = [
+  {
+    id:      'bible',
+    name:    'Bible Study',
+    icon:    '✝️',
+    accent:  'accent-bible',
+    badge:   { bg: 'rgba(245,158,11,.15)', color: '#B45309', label: 'Faith' },
+    btnGrad: 'linear-gradient(135deg,#F59E0B,#EF6C00)',
+    fillGrad:'linear-gradient(90deg,#F59E0B,#FBBF24)',
+  },
+  {
+    id:      'usHistory',
+    name:    'US History',
+    icon:    '🇺🇸',
+    accent:  'accent-history',
+    badge:   { bg: 'rgba(232,78,160,.15)', color: '#9D1768', label: 'History' },
+    btnGrad: 'linear-gradient(135deg,#E84EA0,#A855F7)',
+    fillGrad:'linear-gradient(90deg,#E84EA0,#F472B6)',
+  },
+  {
+    id:      'japanese',
+    name:    'Japanese Language',
+    icon:    '🇯🇵',
+    accent:  'accent-japanese',
+    badge:   { bg: 'rgba(168,85,247,.15)', color: '#7E22CE', label: 'Language' },
+    btnGrad: 'linear-gradient(135deg,#A855F7,#7C3AED)',
+    fillGrad:'linear-gradient(90deg,#A855F7,#C084FC)',
+  },
+  {
+    id:      'yoga',
+    name:    'Yoga',
+    icon:    '🧘',
+    accent:  'accent-yoga',
+    badge:   { bg: 'rgba(110,231,183,.2)', color: '#065F46', label: 'Wellness' },
+    btnGrad: 'linear-gradient(135deg,#34D399,#059669)',
+    fillGrad:'linear-gradient(90deg,#34D399,#6EE7B7)',
+  },
+  {
+    id:      'pilates',
+    name:    'Pilates',
+    icon:    '🏋️',
+    accent:  'accent-pilates',
+    badge:   { bg: 'rgba(96,200,245,.18)', color: '#0369A1', label: 'Wellness' },
+    btnGrad: 'linear-gradient(135deg,#60C8F5,#3B82F6)',
+    fillGrad:'linear-gradient(90deg,#60C8F5,#93C5FD)',
+  },
+];
+
+const DEFAULT_DATA = {
+  subjects: {
+    bible:     { unit: 'Foundations',     lesson: 1, totalLessons: 10 },
+    usHistory: { unit: 'Colonial America', lesson: 1, totalLessons: 8  },
+    japanese:  { unit: 'Hiragana',         lesson: 1, totalLessons: 46 },
+    yoga:      { unit: 'Foundations',      lesson: 1, totalLessons: 12 },
+    pilates:   { unit: 'Core Stability',   lesson: 1, totalLessons: 10 },
+  }
+};
+
+// ── Storage ──────────────────────────────────────────────────────────────────
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return structuredClone(DEFAULT_DATA);
+    const parsed = JSON.parse(raw);
+    // Merge in any missing subjects from defaults (forward-compat)
+    for (const id of Object.keys(DEFAULT_DATA.subjects)) {
+      if (!parsed.subjects[id]) parsed.subjects[id] = structuredClone(DEFAULT_DATA.subjects[id]);
+    }
+    return parsed;
+  } catch { return structuredClone(DEFAULT_DATA); }
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// ── Toast ────────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function renderCard(meta, subject) {
+  const pct    = Math.min(100, Math.round(((subject.lesson - 1) / subject.totalLessons) * 100));
+  const done   = subject.lesson > subject.totalLessons;
+  const card   = document.createElement('div');
+  card.className = `subject-card ${meta.accent}`;
+  card.id = `card-${meta.id}`;
+
+  card.innerHTML = `
+    <div class="card-top">
+      <span class="card-icon">${meta.icon}</span>
+      <span class="card-badge" style="background:${meta.badge.bg};color:${meta.badge.color}">${meta.badge.label}</span>
+    </div>
+    <div>
+      <div class="card-name">${meta.name}</div>
+      <div class="card-unit">${subject.unit}</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Lesson ${Math.min(subject.lesson, subject.totalLessons)} of ${subject.totalLessons}</span>
+        <span>${pct}%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="fill-${meta.id}"
+          style="width:${pct}%;background:${meta.fillGrad}"></div>
+      </div>
+    </div>
+    <div id="btn-wrap-${meta.id}">
+      ${done
+        ? `<div class="unit-complete-badge">✅ Unit complete! Update the unit to continue.</div>`
+        : `<button class="btn-complete" id="btn-${meta.id}"
+              style="background:${meta.btnGrad};color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1)"
+              onclick="markComplete('${meta.id}')">
+              ✓ Mark Lesson ${subject.lesson} Complete
+           </button>`
+      }
+    </div>
+  `;
+  return card;
+}
+
+function renderAll() {
+  const data = loadData();
+  const grid = document.getElementById('subjectGrid');
+  grid.innerHTML = '';
+  for (const meta of SUBJECT_META) {
+    const subject = data.subjects[meta.id];
+    grid.appendChild(renderCard(meta, subject));
+  }
+}
+
+// ── Mark complete ────────────────────────────────────────────────────────────
+function markComplete(subjectId) {
+  const data    = loadData();
+  const subject = data.subjects[subjectId];
+  if (!subject) return;
+
+  subject.lesson = Math.min(subject.lesson + 1, subject.totalLessons + 1);
+  saveData(data);
+
+  const meta  = SUBJECT_META.find(m => m.id === subjectId);
+  const done  = subject.lesson > subject.totalLessons;
+  const pct   = Math.min(100, Math.round(((subject.lesson - 1) / subject.totalLessons) * 100));
+
+  // Animate progress bar
+  const fill = document.getElementById(`fill-${subjectId}`);
+  if (fill) fill.style.width = pct + '%';
+
+  // Update progress label
+  const card = document.getElementById(`card-${subjectId}`);
+  if (card) {
+    const label = card.querySelector('.progress-label');
+    if (label) {
+      label.innerHTML = `<span>Lesson ${Math.min(subject.lesson, subject.totalLessons)} of ${subject.totalLessons}</span><span>${pct}%</span>`;
+    }
+  }
+
+  // Swap button
+  const btnWrap = document.getElementById(`btn-wrap-${subjectId}`);
+  if (btnWrap) {
+    if (done) {
+      btnWrap.innerHTML = `<div class="unit-complete-badge">✅ Unit complete! Update the unit to continue.</div>`;
+      showToast(`🎉 ${meta.name} unit complete!! Amazing work 💜`);
+    } else {
+      btnWrap.innerHTML = `<button class="btn-complete" id="btn-${subjectId}"
+        style="background:${meta.btnGrad};color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1)"
+        onclick="markComplete('${subjectId}')">
+        ✓ Mark Lesson ${subject.lesson} Complete
+      </button>`;
+      showToast(`✅ ${meta.name} lesson ${subject.lesson - 1} done! 🐺`);
+    }
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+  const app    = document.getElementById('app');
+  const loader = document.getElementById('loader');
+  app.style.display    = 'block';
+  loader.classList.add('hidden');
+});
+</script>
+</body>
+</html>
