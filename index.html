@@ -2342,9 +2342,11 @@ function _renderStatusPanel(s, loading) {
         <div class="ns-status-row">${dotG}<span>Mode: <span class="ns-mode-chip ${modeClass}">${modeLabel}</span></span></div>
       </div>
       ${s.pushEndpoint ? `<div style="font-size:.64rem;color:rgba(124,111,155,.5);margin-top:8px;word-break:break-all">Endpoint: ${s.pushEndpoint}</div>` : ''}
-      ${s.pushSubscribed
-        ? `<button class="ns-test-btn" id="nsTestBtn" onclick="sendTestNotification()">🔔 Send Test Notification</button>`
-        : ''}
+      ${s.pushSubscribed ? `
+        <button class="ns-test-btn" id="nsTestBtn" onclick="sendTestNotification()">🔔 Send Test Notification</button>
+        <button class="ns-test-btn" id="nsScheduleTestBtn" onclick="scheduleTestNotification()"
+          style="background:linear-gradient(135deg,#7C3AED,#A855F7);margin-top:6px">⏰ Schedule test in 20 min</button>
+      ` : ''}
       <button class="ns-repair-btn" id="nsRepairBtn" onclick="repairNotifications()">🔧 Re-check &amp; Repair Notifications</button>
     </div>`;
 }
@@ -2400,6 +2402,44 @@ async function sendTestNotification() {
     console.warn('🐺 sendTestNotification fetch failed:', e);
   } finally {
     if (btn) { btn.disabled = false; btn.innerHTML = '🔔 Send Test Notification'; }
+  }
+}
+
+// Schedule a test push via a one-time pg_cron job created server-side.
+// The job fires at now()+20min, sends the push, then unschedules itself.
+async function scheduleTestNotification() {
+  const DELAY = 20;
+  const btn = document.getElementById('nsScheduleTestBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '📡 Scheduling…'; }
+
+  const fireAt = new Date(Date.now() + DELAY * 60 * 1000);
+  const timeStr = fireAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/rpc/schedule_test_push`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` },
+      body: JSON.stringify({
+        p_delay_minutes: DELAY,
+        p_title:         'Scheduled test arrived!! 🐺🔥',
+        p_body_text:     `This was scheduled ${DELAY} minutes ago!! Web Push works even with the app fully closed 💜✨`,
+        p_func_url:      `${SUPA_URL}/functions/v1/send-push-notifications`,
+        p_apikey:        SUPA_KEY,
+      }),
+    });
+
+    if (res.ok) {
+      showToast(`Test scheduled!! Close the app — notification arrives around ${timeStr} 🐺💜`);
+    } else {
+      const err = await res.json().catch(() => ({}));
+      console.warn('🐺 scheduleTestNotification error:', err);
+      showToast('Failed to schedule test 😔 Check console for details');
+    }
+  } catch(e) {
+    showToast('Network error 😔 Are you online?');
+    console.warn('🐺 scheduleTestNotification fetch failed:', e);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '⏰ Schedule test in 20 min'; }
   }
 }
 
