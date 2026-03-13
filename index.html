@@ -791,6 +791,24 @@
     .ns-day-cb input:checked+span{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border-color:transparent}
     .ns-save-btn{width:100%;padding:9px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .2s}
     .ns-save-btn:hover{opacity:.88;transform:translateY(-1px)}
+    /* ── Notification status panel ──────────────────────────────────────── */
+    .ns-status-panel{background:rgba(248,244,255,.7);border:1.5px solid rgba(168,85,247,.15);border-radius:14px;padding:14px 16px;margin-bottom:18px}
+    .ns-status-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(124,111,155,.55);margin-bottom:10px}
+    .ns-status-grid{display:flex;flex-direction:column;gap:7px}
+    .ns-status-row{display:flex;align-items:center;gap:9px;font-size:.78rem;color:var(--text)}
+    .ns-status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .nsd-green{background:#10B981;box-shadow:0 0 6px rgba(16,185,129,.45)}
+    .nsd-yellow{background:#F59E0B;box-shadow:0 0 6px rgba(245,158,11,.45)}
+    .nsd-red{background:#EF4444;box-shadow:0 0 6px rgba(239,68,68,.4)}
+    .nsd-grey{background:rgba(124,111,155,.35)}
+    .ns-mode-chip{display:inline-block;font-size:.64rem;font-weight:700;padding:2px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+    .ns-mode-push{background:rgba(16,185,129,.15);color:#059669;border:1px solid rgba(16,185,129,.3)}
+    .ns-mode-local{background:rgba(245,158,11,.15);color:#B45309;border:1px solid rgba(245,158,11,.3)}
+    .ns-mode-none{background:rgba(239,68,68,.12);color:#B91C1C;border:1px solid rgba(239,68,68,.25)}
+    .ns-repair-btn{width:100%;margin-top:12px;padding:9px 14px;border-radius:11px;border:1.5px solid rgba(232,78,160,.35);background:rgba(232,78,160,.06);color:var(--pink);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:7px}
+    .ns-repair-btn:hover{background:rgba(232,78,160,.12);border-color:var(--pink)}
+    .ns-repair-btn:disabled{opacity:.5;cursor:not-allowed}
+    .ns-status-loading{text-align:center;padding:10px;font-size:.78rem;color:var(--sub)}
   </style>
   <!-- PWA -->
   <meta name="theme-color" content="#E84EA0">
@@ -2058,13 +2076,24 @@ async function storePushSubscription(sub) {
 }
 
 // ── Notification permission banner ────────────────────────────────────────────
-const NOTIF_DISMISSED_KEY = 'enid_hub_notif_dismissed';
+const NOTIF_DISMISSED_KEY     = 'enid_hub_notif_dismissed';
+const NOTIF_DISMISSED_TS_KEY  = 'enid_hub_notif_dismissed_ts';  // timestamp so we can re-show after 3 days
 
 function checkNotifBanner() {
   if (!('Notification' in window)) return;
   if (Notification.permission === 'granted') { scheduleNotifications(); return; }
   if (Notification.permission === 'denied') return;
-  if (localStorage.getItem(NOTIF_DISMISSED_KEY)) return;
+
+  // If user dismissed before but permission is STILL 'default' (never actually granted),
+  // re-show the banner after 3 days so they have another chance on a new device/browser.
+  const dismissedTs = parseInt(localStorage.getItem(NOTIF_DISMISSED_TS_KEY) || '0', 10);
+  const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+  if (localStorage.getItem(NOTIF_DISMISSED_KEY)) {
+    if (Date.now() - dismissedTs < threeDaysMs) return;  // still in cooldown
+    // Cooldown expired — clear dismissed state and re-show
+    localStorage.removeItem(NOTIF_DISMISSED_KEY);
+    localStorage.removeItem(NOTIF_DISMISSED_TS_KEY);
+  }
   setTimeout(() => { document.getElementById('notifBanner').style.display = 'block'; }, 3000);
 }
 
@@ -2081,6 +2110,7 @@ async function requestNotifPermission() {
 function dismissNotifBanner() {
   document.getElementById('notifBanner').style.display = 'none';
   localStorage.setItem(NOTIF_DISMISSED_KEY, '1');
+  localStorage.setItem(NOTIF_DISMISSED_TS_KEY, String(Date.now()));
 }
 
 function showToast(msg) {
@@ -2248,16 +2278,150 @@ function fireNotification(notif) {
   }
 }
 
+// ── Notification real-state checker ───────────────────────────────────────────
+// Returns a plain object describing ACTUAL browser state — no guesses.
+async function checkRealNotifState() {
+  const s = {
+    apiSupported:    'Notification' in window,
+    pushSupported:   'PushManager' in window,
+    permission:      'Notification' in window ? Notification.permission : 'unsupported',
+    swRegistered:    false,
+    swActive:        false,
+    pushSubscribed:  false,
+    pushEndpoint:    null,
+  };
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.getRegistration('/enid-hub/');
+      s.swRegistered = !!reg;
+      s.swActive     = !!(reg && reg.active);
+      if (reg && 'pushManager' in reg) {
+        const sub = await reg.pushManager.getSubscription();
+        s.pushSubscribed = !!sub;
+        if (sub) s.pushEndpoint = sub.endpoint.slice(0, 48) + '…';
+      }
+    } catch(e) { console.warn('🐺 checkRealNotifState error:', e); }
+  }
+  return s;
+}
+
+function _renderStatusPanel(s, loading) {
+  if (loading || !s) return `<div class="ns-status-panel"><div class="ns-status-loading">Checking notification status… 🔍</div></div>`;
+
+  const dot  = ok => `<span class="ns-status-dot ${ok ? 'nsd-green' : 'nsd-red'}"></span>`;
+  const dotY = `<span class="ns-status-dot nsd-yellow"></span>`;
+  const dotG = `<span class="ns-status-dot nsd-grey"></span>`;
+
+  const permOk  = s.permission === 'granted';
+  const permDot = s.permission === 'granted' ? 'nsd-green' : s.permission === 'denied' ? 'nsd-red' : 'nsd-yellow';
+  const permLabel = { granted:'granted ✓', denied:'denied — blocked in browser settings', default:'not yet granted', unsupported:'not supported' }[s.permission] || s.permission;
+
+  // Determine mode
+  let modeLabel, modeClass;
+  if (permOk && s.swRegistered && s.pushSubscribed) {
+    modeLabel = 'Real Web Push'; modeClass = 'ns-mode-push';
+  } else if (permOk && s.swRegistered) {
+    modeLabel = 'Local only (tab must stay open)'; modeClass = 'ns-mode-local';
+  } else if (permOk) {
+    modeLabel = 'Local only — SW not registered'; modeClass = 'ns-mode-local';
+  } else {
+    modeLabel = 'Notifications off'; modeClass = 'ns-mode-none';
+  }
+
+  return `
+    <div class="ns-status-panel">
+      <div class="ns-status-title">🔎 Notification System Status</div>
+      <div class="ns-status-grid">
+        <div class="ns-status-row"><span class="ns-status-dot ${permDot}"></span><span>Permission: <b>${permLabel}</b></span></div>
+        <div class="ns-status-row">${dot(s.swRegistered)}<span>Service Worker: <b>${s.swRegistered ? (s.swActive ? 'registered & active' : 'registered, not yet active') : 'NOT registered'}</b></span></div>
+        <div class="ns-status-row">${dot(s.pushSubscribed)}<span>Push subscription: <b>${s.pushSubscribed ? 'exists ✓' : 'NONE — no real push'}</b></span></div>
+        <div class="ns-status-row">${dot(s.pushSupported)}<span>Push API: <b>${s.pushSupported ? 'supported' : 'not supported in this browser'}</b></span></div>
+        <div class="ns-status-row">${dotG}<span>Mode: <span class="ns-mode-chip ${modeClass}">${modeLabel}</span></span></div>
+      </div>
+      ${s.pushEndpoint ? `<div style="font-size:.64rem;color:rgba(124,111,155,.5);margin-top:8px;word-break:break-all">Endpoint: ${s.pushEndpoint}</div>` : ''}
+      <button class="ns-repair-btn" id="nsRepairBtn" onclick="repairNotifications()">🔧 Re-check &amp; Repair Notifications</button>
+    </div>`;
+}
+
 // ── Notification settings modal ───────────────────────────────────────────────
-function openNotifSettings() {
+async function openNotifSettings() {
   if (!('Notification' in window)) { showToast('Notifications not supported in this browser 😔'); return; }
   if (Notification.permission === 'denied') {
-    showToast('Notifications blocked! Tap the lock icon → Notifications → Allow 💜');
+    showToast('Notifications blocked!! Tap the lock icon → Site settings → Notifications → Allow 💜');
     return;
   }
-  if (Notification.permission === 'default') { requestNotifPermission(); return; }
-  renderNotifModal();
+  if (Notification.permission === 'default') {
+    // Permission never granted — prompt now
+    await requestNotifPermission();
+    return;
+  }
+  // Show modal immediately with loading status, then update once real state is known
+  renderNotifModal(null);  // null = still loading
   document.getElementById('notifSettingsOverlay').style.display = 'flex';
+  const status = await checkRealNotifState();
+  renderNotifModal(status);
+}
+
+// Attempt to (re)establish the full notification stack:
+// permission → service worker → push subscription → store endpoint
+async function repairNotifications() {
+  const btn = document.getElementById('nsRepairBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '🔄 Repairing…'; }
+
+  // 1. Check/request permission
+  if (Notification.permission === 'default') {
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') {
+      showToast('Permission not granted 😔 Notifications won\'t work without it');
+      if (btn) { btn.disabled = false; btn.innerHTML = '🔧 Re-check &amp; Repair Notifications'; }
+      return;
+    }
+  }
+  if (Notification.permission !== 'granted') {
+    showToast('Notifications blocked in browser settings 🔒 Tap the lock icon → Allow');
+    if (btn) { btn.disabled = false; btn.innerHTML = '🔧 Re-check &amp; Repair Notifications'; }
+    return;
+  }
+
+  // 2. Re-register service worker if needed
+  if (!swRegistration) {
+    try {
+      swRegistration = await navigator.serviceWorker.register('sw.js', { scope: '/enid-hub/' });
+      console.log('🐺 SW re-registered during repair');
+    } catch(e) {
+      console.warn('🐺 SW re-register failed:', e);
+      showToast('Service worker failed to register 😔 Try reloading the app');
+      if (btn) { btn.disabled = false; btn.innerHTML = '🔧 Re-check &amp; Repair Notifications'; }
+      return;
+    }
+  }
+
+  // 3. Wait for SW to be active (may need a moment on first install)
+  if (swRegistration.installing || swRegistration.waiting) {
+    await new Promise(resolve => {
+      const sw = swRegistration.installing || swRegistration.waiting;
+      sw.addEventListener('statechange', function handler() {
+        if (this.state === 'activated') { sw.removeEventListener('statechange', handler); resolve(); }
+      });
+      setTimeout(resolve, 4000);  // fallback timeout
+    });
+  }
+
+  // 4. Ensure push subscription exists
+  const sub = await ensurePushSubscription();
+
+  // 5. Re-start local scheduler
+  scheduleNotifications();
+
+  // 6. Refresh status panel
+  const status = await checkRealNotifState();
+  renderNotifModal(status);
+
+  if (sub) {
+    showToast('Notifications repaired!! Real Web Push is active 🐺🔥💜');
+  } else {
+    showToast('Local notifications active!! Push subscription pending — try again if needed 💜');
+  }
 }
 
 function closeNotifSettings() {
@@ -2266,9 +2430,13 @@ function closeNotifSettings() {
   document.querySelectorAll('.ns-chevron').forEach(el => el.style.transform = '');
 }
 
-function renderNotifModal() {
+// status = null means "still loading"; status = object = real state result
+function renderNotifModal(status) {
+  // Always render the status panel first (loading state or real state)
+  const statusHtml = _renderStatusPanel(status, status === null);
+
   if (!NOTIF_SCHEDULE.length) {
-    document.getElementById('nsBody').innerHTML =
+    document.getElementById('nsBody').innerHTML = statusHtml +
       `<div style="text-align:center;padding:32px 20px;font-family:'Playfair Display',serif;color:var(--sub)">No schedule loaded 🐺<br><small>Seed the notifications table in Supabase!</small></div>`;
     return;
   }
@@ -2315,7 +2483,7 @@ function renderNotifModal() {
     });
     html += `</div>`;
   });
-  document.getElementById('nsBody').innerHTML = html;
+  document.getElementById('nsBody').innerHTML = statusHtml + html;
 }
 
 function toggleNotifEditor(id) {
@@ -2354,7 +2522,9 @@ async function saveNotifRow(id) {
   const ok = await saveNotification({ ...notif });
   if (ok) {
     showToast('Notification saved!! 💜🐺');
-    renderNotifModal();
+    // Re-render with live status so the panel stays accurate after a save
+    const status = await checkRealNotifState();
+    renderNotifModal(status);
     if (Notification.permission === 'granted') scheduleNotifications();
   } else {
     showToast('Save failed 😔 Check your connection');
