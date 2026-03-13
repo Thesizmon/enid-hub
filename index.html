@@ -2069,12 +2069,17 @@ async function storePushSubscription(sub) {
     user_agent: navigator.userAgent.slice(0, 255),
   };
   try {
-    await fetch(SUPA_URL + '/rest/v1/push_subscriptions', {
+    const res = await fetch(SUPA_URL + '/rest/v1/push_subscriptions', {
       method:  'POST',
-      headers: Object.assign({}, SB_HEADERS, { 'Prefer': 'resolution=merge-duplicates' }),
+      headers: Object.assign({}, SB_HEADS, { 'Prefer': 'resolution=merge-duplicates' }), // was SB_HEADERS (typo)
       body:    JSON.stringify(payload),
     });
-    console.log('🐺 Push subscription stored in Supabase');
+    if (res.ok) {
+      console.log('🐺 Push subscription stored in Supabase');
+    } else {
+      const body = await res.text().catch(() => '');
+      console.warn('🐺 storePushSubscription HTTP', res.status, body);
+    }
   } catch(e) { console.warn('🐺 storePushSubscription failed:', e); }
 }
 

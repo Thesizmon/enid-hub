@@ -248,16 +248,17 @@ async function sendWebPush(
 }
 
 // ── Main handler ──────────────────────────────────────────────────────────────
+const CORS = {
+  "Access-Control-Allow-Origin":  "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+const JSON_CORS = { "Content-Type": "application/json", ...CORS };
+
+const json = (data: unknown, status = 200) =>
+  new Response(JSON.stringify(data), { status, headers: JSON_CORS });
+
 Deno.serve(async (req: Request) => {
-  // CORS preflight
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-      },
-    });
-  }
+  if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
 
   // ── Read env ───────────────────────────────────────────────────────────────
   const VAPID_PUBLIC_KEY  = Deno.env.get("VAPID_PUBLIC_KEY")!;
@@ -266,7 +267,7 @@ Deno.serve(async (req: Request) => {
   const SUPABASE_SVCKEY   = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
   if (!VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
-    return new Response(JSON.stringify({ error: "VAPID keys not configured" }), { status: 500 });
+    return json({ error: "VAPID keys not configured" }, 500);
   }
 
   // ── Parse request body ─────────────────────────────────────────────────────
@@ -275,16 +276,11 @@ Deno.serve(async (req: Request) => {
 
   let notif: NotifPayload;
   if (body.title && body.body) {
-    // Direct payload
     notif = { title: body.title, body: body.body, tag: body.tag, url: body.url };
   } else if (body.type && MESSAGE_BANKS[body.type]) {
-    // Pick from message bank by type
     notif = pickMessage(MESSAGE_BANKS[body.type]);
   } else {
-    return new Response(
-      JSON.stringify({ error: 'Body must have { "type": "morning"|"afterwork"|"evening"|"weekend" } or { "title", "body" }' }),
-      { status: 400 },
-    );
+    return json({ error: 'Body must have { "type": "morning"|"afterwork"|"evening"|"weekend" } or { "title", "body" }' }, 400);
   }
   notif.url ??= "/enid-hub/";
 
@@ -295,34 +291,22 @@ Deno.serve(async (req: Request) => {
     .select("endpoint, p256dh, auth")
     .eq("user_id", "ENID");
 
-  if (subErr) {
-    return new Response(JSON.stringify({ error: subErr.message }), { status: 500 });
-  }
-  if (!subs || subs.length === 0) {
-    return new Response(JSON.stringify({ ok: true, sent: 0, message: "No subscriptions found" }), { status: 200 });
-  }
-
-  // ── Load VAPID signing key ─────────────────────────────────────────────────
-  const signingKey = await getVAPIDSigningKey(VAPID_PRIVATE_KEY, VAPID_PUBLIC_KEY);
+  if (subErr)                        return json({ error: subErr.message }, 500);
+  if (!subs || subs.length === 0)    return json({ ok: true, sent: 0, message: "No subscriptions found" });
 
   // ── Send to all subscriptions ──────────────────────────────────────────────
+  const signingKey = await getVAPIDSigningKey(VAPID_PRIVATE_KEY, VAPID_PUBLIC_KEY);
   const expiredEndpoints: string[] = [];
   const results = await Promise.allSettled(
     (subs as PushSub[]).map(async (sub) => {
       const result = await sendWebPush(sub, notif, VAPID_PUBLIC_KEY, signingKey);
-      if (result.error === "subscription_expired") {
-        expiredEndpoints.push(sub.endpoint);
-      }
+      if (result.error === "subscription_expired") expiredEndpoints.push(sub.endpoint);
       return { endpoint: sub.endpoint, ...result };
     }),
   );
 
-  // ── Clean up expired subscriptions ────────────────────────────────────────
   if (expiredEndpoints.length > 0) {
-    await supabase
-      .from("push_subscriptions")
-      .delete()
-      .in("endpoint", expiredEndpoints);
+    await supabase.from("push_subscriptions").delete().in("endpoint", expiredEndpoints);
   }
 
   const sent    = results.filter((r) => r.status === "fulfilled" && (r.value as { ok: boolean }).ok).length;
@@ -330,9 +314,5 @@ Deno.serve(async (req: Request) => {
   const expired = expiredEndpoints.length;
 
   console.log(`🐺 Push sent: ${sent} ok, ${failed} failed, ${expired} expired/cleaned`);
-
-  return new Response(
-    JSON.stringify({ ok: true, sent, failed, expired, total: subs.length, notif }),
-    { status: 200, headers: { "Content-Type": "application/json" } },
-  );
+  return json({ ok: true, sent, failed, expired, total: subs.length, notif });
 });
