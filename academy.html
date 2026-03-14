@@ -339,9 +339,22 @@ function loadData() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return structuredClone(DEFAULT_DATA);
     const parsed = JSON.parse(raw);
-    // Merge in any missing subjects from defaults (forward-compat)
+    if (!parsed.subjects) parsed.subjects = {};
     for (const id of Object.keys(DEFAULT_DATA.subjects)) {
-      if (!parsed.subjects[id]) parsed.subjects[id] = structuredClone(DEFAULT_DATA.subjects[id]);
+      const def = DEFAULT_DATA.subjects[id];
+      if (!parsed.subjects[id]) {
+        // Missing subject — seed from defaults
+        parsed.subjects[id] = structuredClone(def);
+      } else {
+        // Subject exists — enforce canonical totalLessons.
+        // If the stored value differs the data is stale/corrupted; reset it.
+        if (parsed.subjects[id].totalLessons !== def.totalLessons) {
+          parsed.subjects[id] = structuredClone(def);
+        }
+        // Cap lesson to valid range (lesson-pointer should never exceed total + 1)
+        const max = def.totalLessons + 1;
+        if (parsed.subjects[id].lesson > max) parsed.subjects[id].lesson = max;
+      }
     }
     return parsed;
   } catch { return structuredClone(DEFAULT_DATA); }
