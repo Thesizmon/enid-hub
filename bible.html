@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Bible Study ✝️ — Enid Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:   #E84EA0;
+      --purple: #A855F7;
+      --mint:   #6EE7B7;
+      --amber:  #F59E0B;
+      --amber2: #EF6C00;
+      --sky:    #60C8F5;
+      --cream:  #FFFBF7;
+      --glass:  rgba(255,255,255,0.76);
+      --border: rgba(168,85,247,0.13);
+      --gold-border: rgba(245,158,11,0.22);
+      --text:   #2D1B4E;
+      --sub:    #7C6F9B;
+      --gold-grad: linear-gradient(135deg,#F59E0B,#EF6C00);
+      --gold-fill: linear-gradient(90deg,#F59E0B,#FBBF24);
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: #FDF4EE;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 10%,  rgba(245,158,11,.10) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 15%,  rgba(239,108,0,.07) 0%,  transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(232,78,160,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 15% 80%,  rgba(168,85,247,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 35% at 85% 85%,  rgba(245,158,11,.06) 0%, transparent 50%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    /* ── Loader ──────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      background: #FDF4EE;
+      transition: opacity .4s, visibility .4s;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-wolf {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      animation: loaderPulse 1.2s ease-in-out infinite;
+    }
+    .loader-wolf img { width: 72px; height: 72px; object-fit: contain; }
+    .loader-wolf span {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem; font-weight: 700; color: var(--amber);
+      letter-spacing: .02em;
+    }
+    @keyframes loaderPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+    /* ── App shell ───────────────────────────────────── */
+    #app { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; padding: 20px 16px 80px; }
+
+    /* ── Header ──────────────────────────────────────── */
+    .app-header { margin-bottom: 24px; }
+    .header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .header-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem; font-weight: 700;
+      background: var(--gold-grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1.15;
+    }
+    .header-sub { font-size: .82rem; color: var(--sub); margin-top: 2px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      padding: 5px 12px; border-radius: 20px; text-decoration: none;
+      background: rgba(245,158,11,.1); border: 1px solid var(--gold-border);
+      color: var(--sub); transition: background .15s; white-space: nowrap;
+    }
+    .back-btn:hover { background: rgba(245,158,11,.2); }
+    .header-nav { padding: 7px 0 0; display: flex; gap: 7px; flex-wrap: wrap; }
+    .header-nav-link {
+      font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+      padding: 4px 12px; border-radius: 20px; text-decoration: none;
+      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      color: var(--sub); transition: background .15s; white-space: nowrap;
+    }
+    .header-nav-link:hover { background: rgba(168,85,247,.18); }
+    .header-nav-link.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+    }
+
+    /* ── Glass card ──────────────────────────────────── */
+    .glass-card {
+      background: var(--glass);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 18px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 2px 18px rgba(245,158,11,.07);
+    }
+
+    /* ── Course view ─────────────────────────────────── */
+    .course-hero {
+      background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(239,108,0,.08));
+      border: 1.5px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 20px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .hero-icon { font-size: 2.4rem; line-height: 1; }
+    .hero-badge {
+      font-size: .65rem; font-weight: 700; letter-spacing: .05em;
+      padding: 4px 10px; border-radius: 20px;
+      background: rgba(245,158,11,.18); color: #92400E;
+      white-space: nowrap;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--text);
+      line-height: 1.25;
+    }
+    .hero-desc {
+      font-size: .8rem; color: var(--sub); line-height: 1.55;
+    }
+    .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero-tag {
+      font-size: .7rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+      background: rgba(245,158,11,.12); color: #92400E;
+      border: 1px solid rgba(245,158,11,.2);
+    }
+    .hero-progress { display: flex; flex-direction: column; gap: 6px; }
+    .hero-progress-label {
+      display: flex; justify-content: space-between;
+      font-size: .75rem; font-weight: 600; color: var(--sub);
+    }
+    .progress-track {
+      height: 8px; background: rgba(245,158,11,.12);
+      border-radius: 99px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 99px;
+      background: var(--gold-fill);
+      transition: width .4s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    /* ── Unit list ───────────────────────────────────── */
+    .units-list { display: flex; flex-direction: column; gap: 10px; }
+    .unit-section-title {
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+    }
+    .unit-section-title .pill {
+      font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+      padding: 2px 10px; border-radius: 20px;
+      background: rgba(245,158,11,.12); color: #92400E;
+    }
+
+    /* Unit card / accordion */
+    .unit-card {
+      background: var(--glass);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: box-shadow .18s;
+    }
+    .unit-card:hover { box-shadow: 0 4px 20px rgba(245,158,11,.10); }
+
+    .unit-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 18px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .unit-number {
+      font-size: .65rem; font-weight: 700; letter-spacing: .06em;
+      padding: 3px 9px; border-radius: 20px;
+      background: rgba(245,158,11,.15); color: #92400E;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .unit-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .unit-title-group { flex: 1; min-width: 0; }
+    .unit-title {
+      font-size: .95rem; font-weight: 700; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .unit-subtitle { font-size: .75rem; color: var(--sub); margin-top: 1px; }
+    .unit-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .unit-count { font-size: .72rem; color: var(--sub); font-weight: 600; }
+    .unit-progress-mini {
+      width: 50px; height: 5px;
+      background: rgba(245,158,11,.12); border-radius: 99px; overflow: hidden;
+    }
+    .unit-progress-mini-fill {
+      height: 100%; border-radius: 99px; background: var(--gold-fill);
+      transition: width .4s ease;
+    }
+    .unit-chevron {
+      font-size: .75rem; color: var(--sub);
+      transition: transform .2s ease; flex-shrink: 0;
+    }
+    .unit-card.open .unit-chevron { transform: rotate(180deg); }
+
+    /* Lesson list (inside accordion) */
+    .lesson-list {
+      display: none;
+      border-top: 1px solid rgba(245,158,11,.12);
+      padding: 6px 0;
+    }
+    .unit-card.open .lesson-list { display: block; }
+
+    .lesson-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .lesson-row:hover { background: rgba(245,158,11,.05); }
+    .lesson-row:active { background: rgba(245,158,11,.10); }
+
+    .lesson-check {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid rgba(245,158,11,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; transition: background .15s, border-color .15s;
+    }
+    .lesson-check.done {
+      background: var(--amber); border-color: var(--amber); color: #fff;
+    }
+    .lesson-num { font-size: .68rem; font-weight: 700; color: var(--sub); flex-shrink: 0; min-width: 24px; }
+    .lesson-title-text { font-size: .88rem; font-weight: 600; color: var(--text); flex: 1; }
+    .lesson-duration { font-size: .68rem; color: var(--sub); flex-shrink: 0; }
+    .lesson-arrow { font-size: .72rem; color: var(--sub); flex-shrink: 0; opacity: .6; }
+
+    /* ── Lesson view ─────────────────────────────────── */
+    #lessonView { display: none; }
+
+    .lesson-breadcrumb {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .72rem; color: var(--sub); margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .breadcrumb-sep { opacity: .4; }
+    .breadcrumb-link {
+      cursor: pointer; text-decoration: none; color: var(--sub);
+      transition: color .12s;
+    }
+    .breadcrumb-link:hover { color: var(--amber); }
+    .breadcrumb-current { font-weight: 700; color: var(--text); }
+
+    .lesson-card {
+      background: var(--glass);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 2px 18px rgba(245,158,11,.07);
+      margin-bottom: 14px;
+    }
+
+    .lesson-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .lesson-unit-tag {
+      font-size: .65rem; font-weight: 700; letter-spacing: .05em;
+      padding: 3px 10px; border-radius: 20px;
+      background: rgba(245,158,11,.15); color: #92400E; white-space: nowrap;
+    }
+    .lesson-duration-tag {
+      font-size: .65rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+      background: rgba(168,85,247,.08); color: var(--sub);
+      white-space: nowrap;
+    }
+    .lesson-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--text); line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .lesson-objective {
+      font-size: .82rem; color: var(--sub);
+      line-height: 1.55;
+      padding: 10px 14px;
+      background: rgba(245,158,11,.07);
+      border-left: 3px solid var(--amber);
+      border-radius: 0 10px 10px 0;
+    }
+
+    /* Section cards */
+    .lesson-sections { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+
+    .section-intro {
+      font-size: .88rem; line-height: 1.65; color: var(--text);
+    }
+
+    .section-scripture {
+      background: linear-gradient(135deg, rgba(245,158,11,.09), rgba(239,108,0,.06));
+      border: 1.5px solid rgba(245,158,11,.25);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .scripture-ref {
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      color: #92400E; margin-bottom: 8px;
+    }
+    .scripture-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: .92rem; line-height: 1.65;
+      color: var(--text);
+    }
+    .scripture-version {
+      font-size: .65rem; font-weight: 700; letter-spacing: .07em;
+      color: var(--sub); margin-top: 8px; text-align: right;
+    }
+
+    .section-teaching {
+      background: var(--glass);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .teaching-head {
+      font-size: .88rem; font-weight: 700; color: var(--amber2);
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .teaching-head::before { content: '📖'; font-size: .9rem; }
+    .section-teaching p { font-size: .88rem; line-height: 1.65; color: var(--text); }
+
+    .section-catechism {
+      background: linear-gradient(135deg, rgba(168,85,247,.07), rgba(232,78,160,.05));
+      border: 1.5px solid rgba(168,85,247,.18);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .catechism-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--purple); margin-bottom: 8px;
+    }
+    .section-catechism p { font-size: .88rem; line-height: 1.65; color: var(--text); }
+    .catechism-ref {
+      font-size: .68rem; font-weight: 700; color: var(--sub);
+      margin-top: 8px; font-style: italic;
+    }
+
+    .section-reflection {
+      background: linear-gradient(135deg, rgba(110,231,183,.09), rgba(96,200,245,.06));
+      border: 1.5px solid rgba(110,231,183,.25);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .reflection-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      color: #065F46; margin-bottom: 10px;
+    }
+    .reflection-list {
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+    }
+    .reflection-list li {
+      font-size: .88rem; line-height: 1.55; color: var(--text);
+      padding-left: 22px; position: relative;
+    }
+    .reflection-list li::before {
+      content: counter(item);
+      counter-increment: item;
+      position: absolute; left: 0;
+      font-size: .72rem; font-weight: 700;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(110,231,183,.3); color: #065F46;
+      display: flex; align-items: center; justify-content: center;
+      top: 1px;
+    }
+    .reflection-list { counter-reset: item; }
+
+    .section-prayer {
+      background: linear-gradient(135deg, rgba(232,78,160,.07), rgba(168,85,247,.06));
+      border: 1.5px solid rgba(232,78,160,.18);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .prayer-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--pink); margin-bottom: 8px;
+    }
+    .prayer-text {
+      font-size: .88rem; line-height: 1.7; color: var(--text);
+      font-style: italic;
+    }
+
+    .section-generic {
+      font-size: .88rem; line-height: 1.65; color: var(--sub);
+      padding: 14px 16px;
+      background: rgba(168,85,247,.04);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    /* Lesson navigation footer */
+    .lesson-nav-footer {
+      display: flex; gap: 10px; align-items: center;
+      margin-top: 6px;
+    }
+    .btn-nav {
+      flex: 1;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 11px 14px; border-radius: 12px; border: 1.5px solid var(--gold-border);
+      background: var(--glass); color: var(--sub);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      transition: background .15s, border-color .15s, transform .12s;
+      text-align: center;
+    }
+    .btn-nav:hover { background: rgba(245,158,11,.08); border-color: var(--amber); color: var(--text); }
+    .btn-nav:active { transform: scale(.97); }
+    .btn-nav:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+    .btn-nav.primary {
+      background: var(--gold-grad); color: #fff;
+      border-color: transparent;
+      box-shadow: 0 2px 12px rgba(245,158,11,.25);
+    }
+    .btn-nav.primary:hover { box-shadow: 0 4px 18px rgba(245,158,11,.35); background: linear-gradient(135deg,#FBBF24,#F59E0B); }
+
+    .btn-complete-full {
+      width: 100%;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 20px; border-radius: 14px; border: none;
+      background: var(--gold-grad); color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; font-weight: 700; cursor: pointer; letter-spacing: .02em;
+      box-shadow: 0 2px 14px rgba(245,158,11,.28);
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+      margin-top: 6px;
+    }
+    .btn-complete-full:hover { transform: translateY(-1px); box-shadow: 0 5px 20px rgba(245,158,11,.38); }
+    .btn-complete-full:active { transform: scale(.97); }
+    .btn-complete-full:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+    .already-done-badge {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px; border-radius: 14px; width: 100%; margin-top: 6px;
+      background: rgba(110,231,183,.15);
+      color: #059669; font-size: .82rem; font-weight: 700;
+      border: 1.5px solid rgba(110,231,183,.35);
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--text); color: #fff;
+      font-size: .82rem; font-weight: 600;
+      padding: 10px 20px; border-radius: 99px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 100; white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(45,27,78,.25);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Confetti canvas */
+    #confettiCanvas {
+      position: fixed; inset: 0; z-index: 200;
+      pointer-events: none; display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .unit-title { font-size: .88rem; }
+      .lesson-title { font-size: 1.15rem; }
+      .hero-title { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-wolf">
+    <img src="nails.png" alt="loading">
+    <span>Bible Study</span>
+  </div>
+</div>
+
+<canvas id="confettiCanvas"></canvas>
+<div id="toast"></div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <div class="header-title">Bible Study ✝️</div>
+        <div class="header-sub" id="headerSub">God's Story of Salvation · LCMS · ESV</div>
+      </div>
+      <a href="academy.html" class="back-btn">← Academy</a>
+    </div>
+    <nav class="header-nav">
+      <a href="date-items.html" class="header-nav-link">📅 Schedule</a>
+      <a href="finance.html"    class="header-nav-link">💰 Finance</a>
+      <a href="journal.html"    class="header-nav-link">📓 Journal</a>
+      <a href="books.html"      class="header-nav-link">📚 Books</a>
+      <a href="movies.html"     class="header-nav-link">📽️ Movies</a>
+      <a href="analytics.html"  class="header-nav-link">📊 Analytics</a>
+      <a href="badges.html"     class="header-nav-link">🏆 Badges</a>
+      <a href="academy.html"    class="header-nav-link active">🎓 Academy</a>
+    </nav>
+  </header>
+
+  <!-- ── Course view ── -->
+  <div id="courseView">
+    <!-- Hero / overall progress -->
+    <div class="course-hero">
+      <div class="hero-top">
+        <span class="hero-icon">✝️</span>
+        <span class="hero-badge">Faith · LCMS · ESV</span>
+      </div>
+      <div class="hero-title">The Bible: God's Story of Salvation</div>
+      <div class="hero-meta">
+        <span class="hero-tag">8 units</span>
+        <span class="hero-tag">64 lessons</span>
+        <span class="hero-tag">~25 min / lesson</span>
+      </div>
+      <div class="hero-progress">
+        <div class="hero-progress-label">
+          <span id="heroProgressText">0 of 64 lessons complete</span>
+          <span id="heroProgressPct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="heroProgressFill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="unit-section-title">
+      Units <span class="pill" id="unitsPill">8 units</span>
+    </div>
+
+    <div class="units-list" id="unitsList">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+
+  <!-- ── Lesson view ── -->
+  <div id="lessonView">
+    <div class="lesson-breadcrumb" id="lessonBreadcrumb"></div>
+    <div id="lessonContent"></div>
+    <div class="lesson-nav-footer" id="lessonNavFooter"></div>
+  </div>
+</div>
+
+<script>
+// ── Config ──────────────────────────────────────────────────────────────────
+const STORAGE_KEY      = 'enidAcademy';
+const BIBLE_COMP_KEY   = 'enidBibleCompletions'; // "unitId:lessonId" → true
+const COURSE_BASE      = 'academy/courses/bible-course';
+
+// ── State ───────────────────────────────────────────────────────────────────
+let courseData  = null;
+let unitsData   = [];
+let unitCache   = {};          // unitId (number) → lessons array
+let completions = {};          // "unitId:lessonId" → true
+let currentLesson = null;      // { unitId, lessonId }
+let expandedUnit  = null;      // currently open unit id
+
+// ── Storage ─────────────────────────────────────────────────────────────────
+function loadCompletions() {
+  try {
+    const raw = localStorage.getItem(BIBLE_COMP_KEY);
+    completions = raw ? JSON.parse(raw) : {};
+  } catch { completions = {}; }
+}
+
+function saveCompletions() {
+  localStorage.setItem(BIBLE_COMP_KEY, JSON.stringify(completions));
+}
+
+function isComplete(unitId, lessonId) {
+  return !!completions[`${unitId}:${lessonId}`];
+}
+
+function setComplete(unitId, lessonId) {
+  completions[`${unitId}:${lessonId}`] = true;
+  saveCompletions();
+  syncAcademyProgress();
+}
+
+function getUnitCompletedCount(unitId) {
+  const unit = unitsData.find(u => u.id === unitId);
+  if (!unit) return 0;
+  let n = 0;
+  for (let i = 1; i <= unit.lessonCount; i++) {
+    if (isComplete(unitId, i)) n++;
+  }
+  return n;
+}
+
+function getTotalCompletedCount() {
+  let n = 0;
+  for (const unit of unitsData) {
+    n += getUnitCompletedCount(unit.id);
+  }
+  return n;
+}
+
+function syncAcademyProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const data = raw ? JSON.parse(raw) : { subjects: {} };
+    if (!data.subjects) data.subjects = {};
+    const completed = getTotalCompletedCount();
+    // Find what unit the user is currently on
+    let currentUnit = unitsData[0];
+    for (const unit of unitsData) {
+      const done = getUnitCompletedCount(unit.id);
+      if (done < unit.lessonCount) { currentUnit = unit; break; }
+    }
+    data.subjects.bible = {
+      unit:         `Unit ${currentUnit.id} — ${currentUnit.title}`,
+      lesson:       completed + 1,
+      totalLessons: 64
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) { console.warn('syncAcademyProgress error:', e); }
+}
+
+// ── Toast ────────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ── Confetti ─────────────────────────────────────────────────────────────────
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const COLORS = ['#F59E0B','#EF6C00','#E84EA0','#A855F7','#6EE7B7','#FBBF24'];
+  const pieces = Array.from({ length: 90 }, () => ({
+    x: Math.random() * canvas.width,
+    y: -10 - Math.random() * 40,
+    r: 4 + Math.random() * 5,
+    d: 2 + Math.random() * 3,
+    angle: Math.random() * 360,
+    spin:  (Math.random() - .5) * 6,
+    color: COLORS[Math.floor(Math.random() * COLORS.length)]
+  }));
+
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const p of pieces) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+      ctx.restore();
+      p.y += p.d;
+      p.x += Math.sin(frame * .02 + pieces.indexOf(p)) * .8;
+      p.angle += p.spin;
+    }
+    frame++;
+    if (frame < 150) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display = 'none'; }
+  }
+  draw();
+}
+
+// ── Fetch helpers ─────────────────────────────────────────────────────────────
+async function fetchJSON(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
+  return res.json();
+}
+
+async function loadUnit(unitId) {
+  if (unitCache[unitId]) return unitCache[unitId];
+  const num = String(unitId).padStart(2, '0');
+  const lessons = await fetchJSON(`${COURSE_BASE}/lessons/unit-${num}.json`);
+  unitCache[unitId] = lessons;
+  return lessons;
+}
+
+// ── Navigation ───────────────────────────────────────────────────────────────
+function showCourseView() {
+  document.getElementById('courseView').style.display  = '';
+  document.getElementById('lessonView').style.display  = 'none';
+  currentLesson = null;
+  updateHeroProgress();
+  // Refresh open unit's lesson checkmarks if any
+  if (expandedUnit) renderLessonRows(expandedUnit);
+  updateUnitProgress();
+}
+
+function showLessonView() {
+  document.getElementById('courseView').style.display  = 'none';
+  document.getElementById('lessonView').style.display  = '';
+}
+
+// ── Hero progress ─────────────────────────────────────────────────────────────
+function updateHeroProgress() {
+  const completed = getTotalCompletedCount();
+  const total     = courseData ? courseData.totalLessons : 64;
+  const pct       = Math.round((completed / total) * 100);
+  document.getElementById('heroProgressText').textContent = `${completed} of ${total} lessons complete`;
+  document.getElementById('heroProgressPct').textContent  = `${pct}%`;
+  document.getElementById('heroProgressFill').style.width = `${pct}%`;
+}
+
+// ── Unit progress ─────────────────────────────────────────────────────────────
+function updateUnitProgress() {
+  for (const unit of unitsData) {
+    const done  = getUnitCompletedCount(unit.id);
+    const total = unit.lessonCount;
+    const pct   = Math.round((done / total) * 100);
+    const bar   = document.getElementById(`unit-mini-fill-${unit.id}`);
+    const cnt   = document.getElementById(`unit-count-${unit.id}`);
+    if (bar) bar.style.width = `${pct}%`;
+    if (cnt) cnt.textContent = `${done}/${total}`;
+  }
+}
+
+// ── Course view render ────────────────────────────────────────────────────────
+function renderCourseView() {
+  updateHeroProgress();
+  const list = document.getElementById('unitsList');
+  list.innerHTML = '';
+
+  for (const unit of unitsData) {
+    const done  = getUnitCompletedCount(unit.id);
+    const total = unit.lessonCount;
+    const pct   = Math.round((done / total) * 100);
+
+    const card = document.createElement('div');
+    card.className = 'unit-card';
+    card.id = `unit-card-${unit.id}`;
+
+    card.innerHTML = `
+      <div class="unit-header" onclick="toggleUnit(${unit.id})">
+        <span class="unit-number">Unit ${unit.number}</span>
+        <span class="unit-icon">${unit.icon}</span>
+        <div class="unit-title-group">
+          <div class="unit-title">${unit.title}</div>
+          <div class="unit-subtitle">${unit.subtitle}</div>
+        </div>
+        <div class="unit-meta">
+          <span class="unit-count" id="unit-count-${unit.id}">${done}/${total}</span>
+          <div class="unit-progress-mini">
+            <div class="unit-progress-mini-fill" id="unit-mini-fill-${unit.id}" style="width:${pct}%"></div>
+          </div>
+        </div>
+        <span class="unit-chevron">▾</span>
+      </div>
+      <div class="lesson-list" id="lesson-list-${unit.id}">
+        <div style="padding:14px 18px;font-size:.8rem;color:var(--sub)">Loading lessons…</div>
+      </div>
+    `;
+    list.appendChild(card);
+  }
+}
+
+// ── Toggle unit accordion ─────────────────────────────────────────────────────
+async function toggleUnit(unitId) {
+  const card = document.getElementById(`unit-card-${unitId}`);
+  const isOpen = card.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.unit-card.open').forEach(c => c.classList.remove('open'));
+  expandedUnit = null;
+
+  if (!isOpen) {
+    card.classList.add('open');
+    expandedUnit = unitId;
+    // Load lessons if not cached
+    const listEl = document.getElementById(`lesson-list-${unitId}`);
+    try {
+      const lessons = await loadUnit(unitId);
+      renderLessonRows(unitId, listEl, lessons);
+    } catch (e) {
+      listEl.innerHTML = `<div style="padding:14px 18px;font-size:.8rem;color:#EF4444">Failed to load lessons. Check your connection.</div>`;
+    }
+  }
+}
+
+function renderLessonRows(unitId, listEl, lessons) {
+  if (!listEl) listEl = document.getElementById(`lesson-list-${unitId}`);
+  if (!lessons) lessons = unitCache[unitId];
+  if (!lessons) return;
+
+  listEl.innerHTML = '';
+  for (const lesson of lessons) {
+    const done = isComplete(unitId, lesson.id);
+    const row  = document.createElement('div');
+    row.className = 'lesson-row';
+    row.innerHTML = `
+      <div class="lesson-check ${done ? 'done' : ''}" id="check-${unitId}-${lesson.id}">
+        ${done ? '✓' : ''}
+      </div>
+      <span class="lesson-num">${lesson.globalIndex}</span>
+      <span class="lesson-title-text">${lesson.title}</span>
+      <span class="lesson-duration">${lesson.estimatedMinutes}m</span>
+      <span class="lesson-arrow">›</span>
+    `;
+    row.addEventListener('click', () => openLesson(unitId, lesson.id));
+    listEl.appendChild(row);
+  }
+}
+
+// ── Open lesson ───────────────────────────────────────────────────────────────
+async function openLesson(unitId, lessonId) {
+  // Ensure unit data is loaded
+  let lessons;
+  try {
+    lessons = await loadUnit(unitId);
+  } catch (e) {
+    showToast('⚠️ Could not load lesson data');
+    return;
+  }
+
+  const lesson = lessons.find(l => l.id === lessonId);
+  if (!lesson) return;
+
+  const unit   = unitsData.find(u => u.id === unitId);
+  currentLesson = { unitId, lessonId };
+
+  showLessonView();
+  renderLesson(lesson, unit);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Render lesson ─────────────────────────────────────────────────────────────
+function renderLesson(lesson, unit) {
+  const done = isComplete(lesson.unitId, lesson.id);
+
+  // Breadcrumb
+  document.getElementById('lessonBreadcrumb').innerHTML = `
+    <span class="breadcrumb-link" onclick="showCourseView()">✝️ Bible Study</span>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-link" onclick="showCourseView(); setTimeout(() => toggleUnit(${unit.id}), 100)">Unit ${unit.number}</span>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">Lesson ${lesson.id}</span>
+  `;
+
+  // Build sections HTML
+  const sectionsHTML = (lesson.sections || []).map(renderSection).join('');
+
+  // Complete button or already-done badge
+  const completeBtnHTML = done
+    ? `<div class="already-done-badge">✅ Lesson complete — well done!</div>`
+    : `<button class="btn-complete-full" id="btnComplete" onclick="markLessonComplete(${lesson.unitId}, ${lesson.id})">
+         ✓ Mark Lesson Complete
+       </button>`;
+
+  document.getElementById('lessonContent').innerHTML = `
+    <div class="lesson-card">
+      <div class="lesson-top">
+        <span class="lesson-unit-tag">Unit ${unit.number} · ${unit.title}</span>
+        <span class="lesson-duration-tag">⏱ ${lesson.estimatedMinutes} min</span>
+      </div>
+      <div class="lesson-title">${lesson.title}</div>
+      ${lesson.objective ? `<div class="lesson-objective">${lesson.objective}</div>` : ''}
+      <div class="lesson-sections">${sectionsHTML}</div>
+    </div>
+    ${completeBtnHTML}
+  `;
+
+  renderLessonNav(lesson);
+}
+
+// ── Section renderer ──────────────────────────────────────────────────────────
+function renderSection(section) {
+  switch (section.type) {
+
+    case 'intro':
+      return `<p class="section-intro">${section.content}</p>`;
+
+    case 'scripture':
+      return `
+        <blockquote class="section-scripture">
+          <div class="scripture-ref">📖 ${escHtml(section.ref)}</div>
+          <p class="scripture-text">"${escHtml(section.text)}"</p>
+          <div class="scripture-version">ESV</div>
+        </blockquote>`;
+
+    case 'teaching':
+      return `
+        <div class="section-teaching">
+          <div class="teaching-head">${escHtml(section.heading)}</div>
+          <p>${escHtml(section.content)}</p>
+        </div>`;
+
+    case 'catechism':
+      return `
+        <div class="section-catechism">
+          <div class="catechism-label">✝️ Small Catechism Connection</div>
+          <p>${escHtml(section.content)}</p>
+          ${section.ref ? `<div class="catechism-ref">${escHtml(section.ref)}</div>` : ''}
+        </div>`;
+
+    case 'reflection':
+      return `
+        <div class="section-reflection">
+          <div class="reflection-label">💭 Reflect & Discuss</div>
+          <ol class="reflection-list">
+            ${(section.questions || []).map(q => `<li>${escHtml(q)}</li>`).join('')}
+          </ol>
+        </div>`;
+
+    case 'prayer':
+      return `
+        <div class="section-prayer">
+          <div class="prayer-label">🙏 Prayer</div>
+          <p class="prayer-text">${escHtml(section.content)}</p>
+        </div>`;
+
+    default:
+      return `<div class="section-generic"><p>${escHtml(section.content || '')}</p></div>`;
+  }
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── Prev / Next navigation ────────────────────────────────────────────────────
+function renderLessonNav(lesson) {
+  const { prevUnit, prevLesson, nextUnit, nextLesson } = getAdjacentLessons(lesson.unitId, lesson.id);
+  const footer = document.getElementById('lessonNavFooter');
+  footer.innerHTML = `
+    <button class="btn-nav" ${!prevLesson ? 'disabled' : ''}
+      onclick="${prevLesson ? `openLesson(${prevUnit.id}, ${prevLesson.id})` : ''}">
+      ← Prev
+    </button>
+    <button class="btn-nav" ${!nextLesson ? 'disabled' : ''}
+      onclick="${nextLesson ? `openLesson(${nextUnit.id}, ${nextLesson.id})` : ''}">
+      Next →
+    </button>
+  `;
+}
+
+function getAdjacentLessons(unitId, lessonId) {
+  // Build flat ordered list from cache
+  let flat = [];
+  for (const unit of unitsData) {
+    const lessons = unitCache[unit.id] || [];
+    for (const lesson of lessons) {
+      flat.push({ unit, lesson });
+    }
+  }
+
+  const idx = flat.findIndex(e => e.unit.id === unitId && e.lesson.id === lessonId);
+  const prev = idx > 0 ? flat[idx - 1] : null;
+  const next = idx < flat.length - 1 ? flat[idx + 1] : null;
+
+  return {
+    prevUnit:   prev ? prev.unit   : null,
+    prevLesson: prev ? prev.lesson : null,
+    nextUnit:   next ? next.unit   : null,
+    nextLesson: next ? next.lesson : null,
+  };
+}
+
+// ── Mark complete ─────────────────────────────────────────────────────────────
+function markLessonComplete(unitId, lessonId) {
+  if (isComplete(unitId, lessonId)) return;
+
+  setComplete(unitId, lessonId);
+  launchConfetti();
+
+  const unit   = unitsData.find(u => u.id === unitId);
+  const lessons = unitCache[unitId] || [];
+  const lesson  = lessons.find(l => l.id === lessonId);
+
+  showToast(`✅ Lesson ${lesson ? lesson.globalIndex : ''} complete! 🐺✝️`);
+
+  // Swap button to done badge
+  const wrap = document.getElementById('btnComplete');
+  if (wrap) {
+    wrap.outerHTML = `<div class="already-done-badge">✅ Lesson complete — well done!</div>`;
+  }
+
+  // Refresh unit mini-progress on course view (it's hidden but keep in sync)
+  updateHeroProgress();
+  updateUnitProgress();
+
+  // Auto-advance to next after brief delay
+  setTimeout(() => {
+    const { nextUnit, nextLesson } = getAdjacentLessons(unitId, lessonId);
+    if (nextLesson) {
+      openLesson(nextUnit.id, nextLesson.id);
+    } else {
+      showToast('🎉 Course complete! You finished the Bible study! 🐺✝️💜');
+      showCourseView();
+    }
+  }, 1600);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  loadCompletions();
+
+  try {
+    [courseData, unitsData] = await Promise.all([
+      fetchJSON(`${COURSE_BASE}/course.json`),
+      fetchJSON(`${COURSE_BASE}/units.json`),
+    ]);
+  } catch (e) {
+    console.error('Failed to load course metadata:', e);
+    document.getElementById('loader').classList.add('hidden');
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('unitsList').innerHTML =
+      `<div class="glass-card" style="color:#EF4444;font-size:.88rem">
+         ⚠️ Could not load course data. Make sure the <code>academy/</code> files are deployed.
+       </div>`;
+    return;
+  }
+
+  renderCourseView();
+
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('loader').classList.add('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

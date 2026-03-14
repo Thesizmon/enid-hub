@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1, "unitId": 2, "globalIndex": 9,
+    "title": "God's Call to Abraham",
+    "objective": "See how God initiates His redemptive plan by calling one man out of paganism to be the father of His people.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Genesis 12:1–2", "text": "Now the LORD said to Abram, 'Go from your country and your kindred and your father's house to the land that I will show you. And I will make of you a great nation, and I will bless you and make your name great, so that you will be a blessing.'" }
+    ]
+  },
+  {
+    "id": 2, "unitId": 2, "globalIndex": 10,
+    "title": "The Promise",
+    "objective": "Understand the threefold promise to Abraham — land, descendants, and blessing to all nations — and how it drives all of Scripture.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Genesis 12:3", "text": "I will bless those who bless you, and him who dishonors you I will curse, and in you all the families of the earth shall be blessed." }
+    ]
+  },
+  {
+    "id": 3, "unitId": 2, "globalIndex": 11,
+    "title": "Covenant & Circumcision",
+    "objective": "Understand the covenant God made with Abraham and the sign of circumcision as God's commitment to His people.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Genesis 17:7", "text": "And I will establish my covenant between me and you and your offspring after you throughout their generations for an everlasting covenant, to be God to you and to your offspring after you." }
+    ]
+  },
+  {
+    "id": 4, "unitId": 2, "globalIndex": 12,
+    "title": "Isaac — Son of Promise",
+    "objective": "See how God keeps His promise through the miraculous birth of Isaac and tests Abraham's faith on Mount Moriah.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Genesis 22:8", "text": "Abraham said, 'God will provide for himself the lamb for a burnt offering, my son.' So they went both of them together." }
+    ]
+  },
+  {
+    "id": 5, "unitId": 2, "globalIndex": 13,
+    "title": "Jacob & the Twelve Tribes",
+    "objective": "Follow the story of Jacob and his twelve sons as God works through flawed people to build His covenant family.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Genesis 32:28", "text": "Then he said, 'Your name shall no longer be called Jacob, but Israel, for you have striven with God and with men, and have prevailed.'" }
+    ]
+  },
+  {
+    "id": 6, "unitId": 2, "globalIndex": 14,
+    "title": "Joseph in Egypt",
+    "objective": "See how God's providence works through suffering, betrayal, and forgiveness to preserve His people.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Genesis 50:20", "text": "As for you, you meant evil against me, but God meant it for good, to bring it about that many people should be kept alive, as they are today." }
+    ]
+  },
+  {
+    "id": 7, "unitId": 2, "globalIndex": 15,
+    "title": "Israel in Slavery",
+    "objective": "See how Israel's suffering in Egypt sets the stage for the great act of redemption God is about to perform.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Exodus 1:12", "text": "But the more they were oppressed, the more they multiplied and the more they spread abroad. And the Egyptians were in dread of the people of Israel." }
+    ]
+  },
+  {
+    "id": 8, "unitId": 2, "globalIndex": 16,
+    "title": "God Hears His People",
+    "objective": "Understand that God is never absent in the suffering of His people — He hears, He sees, and He acts.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "— lesson content coming soon —" },
+      { "type": "scripture", "ref": "Exodus 2:24–25", "text": "And God heard their groaning, and God remembered his covenant with Abraham, with Isaac, and with Jacob. God saw the people of Israel — and God knew." }
+    ]
+  }
+]

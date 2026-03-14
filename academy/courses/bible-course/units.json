@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "number": "01",
+    "icon": "🌍",
+    "title": "Creation & the Fall",
+    "subtitle": "Genesis 1–11",
+    "theme": "God creates all things good; humanity falls into sin and death",
+    "lessonCount": 8
+  },
+  {
+    "id": 2,
+    "number": "02",
+    "icon": "⭐",
+    "title": "The Covenant People",
+    "subtitle": "Genesis 12 – Exodus 1",
+    "theme": "God chooses Abraham and builds a people through His covenant promises",
+    "lessonCount": 8
+  },
+  {
+    "id": 3,
+    "number": "03",
+    "icon": "🔥",
+    "title": "Exodus & the Law",
+    "subtitle": "Exodus 2–40; Leviticus; Numbers; Deuteronomy",
+    "theme": "God delivers His people from slavery and gives them His Law",
+    "lessonCount": 8
+  },
+  {
+    "id": 4,
+    "number": "04",
+    "icon": "🏰",
+    "title": "Conquest & Kingdom",
+    "subtitle": "Joshua; Judges; Ruth; 1–2 Samuel; 1 Kings 1–11",
+    "theme": "God brings His people into the land and raises up kings",
+    "lessonCount": 8
+  },
+  {
+    "id": 5,
+    "number": "05",
+    "icon": "📜",
+    "title": "Division, Exile & the Prophets",
+    "subtitle": "1 Kings 12 – 2 Kings; Isaiah; Jeremiah; Ezekiel; Minor Prophets",
+    "theme": "Israel's unfaithfulness leads to exile; God promises restoration",
+    "lessonCount": 8
+  },
+  {
+    "id": 6,
+    "number": "06",
+    "icon": "✨",
+    "title": "The Life of Jesus",
+    "subtitle": "Matthew; Mark; Luke; John",
+    "theme": "God takes on human flesh; the kingdom of God arrives in Christ",
+    "lessonCount": 8
+  },
+  {
+    "id": 7,
+    "number": "07",
+    "icon": "✝️",
+    "title": "The Cross & Resurrection",
+    "subtitle": "The Passion Narratives; Acts 1–2",
+    "theme": "Christ suffers, dies, rises, and pours out the Holy Spirit",
+    "lessonCount": 8
+  },
+  {
+    "id": 8,
+    "number": "08",
+    "icon": "🕊️",
+    "title": "The Church & the New Creation",
+    "subtitle": "Acts; Epistles; Revelation",
+    "theme": "The Spirit-led Church carries the Gospel to the ends of the earth",
+    "lessonCount": 8
+  }
+]

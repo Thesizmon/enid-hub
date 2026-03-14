@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "unitId": 1,
+    "globalIndex": 1,
+    "title": "The Big Story of the Bible",
+    "objective": "Understand that the Bible tells one unified story of creation, sin, salvation, and restoration through Jesus Christ.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"The Bible is not a random collection of stories. It tells one unified story about God, humanity, sin, and salvation through Jesus Christ. From the beginning, God created a good world. Humanity fell into sin, but God promised a Savior. The rest of Scripture shows how God kept that promise in Christ and how He will one day make all things new."},
+      {"type":"scripture","ref":"Genesis 1:1","text":"In the beginning, God created the heavens and the earth."},
+      {"type":"scripture","ref":"Genesis 3:15","text":"I will put enmity between you and the woman, and between your offspring and her offspring; he shall bruise your head, and you shall bruise his heel."},
+      {"type":"scripture","ref":"John 20:31","text":"But these are written so that you may believe that Jesus is the Christ, the Son of God, and that by believing you may have life in his name."},
+      {"type":"teaching","heading":"One Story, One Savior","content":"The Bible begins with creation, moves through humanity's fall into sin, and then unfolds God's plan of redemption. Abraham, Moses, David, the prophets, the apostles, and the Church all belong to one great story. That story centers on Jesus Christ. He is the promised Savior who fulfills the Old Testament and brings forgiveness, life, and salvation."},
+      {"type":"catechism","content":"I believe that Jesus Christ, true God, begotten of the Father from eternity, and also true man, born of the virgin Mary, is my Lord.","ref":"Small Catechism — Apostles' Creed, Second Article"},
+      {"type":"reflection","questions":["Why is it helpful to read the Bible as one unified story?","What problem enters the world after creation?","Why is Jesus the center of the Bible's message?"]},
+      {"type":"prayer","content":"Lord Jesus, open my eyes to see You at the center of Your Word. Help me trust Your promise and rejoice in Your salvation. Amen."}
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 1,
+    "globalIndex": 2,
+    "title": "What the Bible Is",
+    "objective": "Learn what the Bible is and why Christians call it Holy Scripture.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Christians call the Bible Holy Scripture because it is God's Word written through human authors. It is different from every other book because it reveals God's will and His plan of salvation."},
+      {"type":"scripture","ref":"2 Timothy 3:16-17","text":"All Scripture is breathed out by God and profitable for teaching, for reproof, for correction, and for training in righteousness."},
+      {"type":"scripture","ref":"2 Peter 1:21","text":"For no prophecy was ever produced by the will of man, but men spoke from God as they were carried along by the Holy Spirit."},
+      {"type":"teaching","heading":"God Speaks Through Scripture","content":"Although many human authors wrote the Bible, Christians confess that God Himself is the true author. The Holy Spirit guided the writers so that what they wrote is truly God's Word."},
+      {"type":"catechism","content":"The Word of God shall establish articles of faith and no one else, not even an angel.","ref":"Luther — Smalcald Articles"},
+      {"type":"reflection","questions":["Why is the Bible different from other books?","What does it mean that Scripture is inspired by God?","Why can Christians trust what the Bible teaches?"]},
+      {"type":"prayer","content":"Heavenly Father, thank You for giving us Your Word. Help me read it faithfully and trust Your promises. Amen."}
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 1,
+    "globalIndex": 3,
+    "title": "How the Bible Is Organized",
+    "objective": "Understand the structure of the Old Testament and New Testament.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"The Bible is a library of many books written over centuries. These books together form one unified Scripture."},
+      {"type":"scripture","ref":"Luke 24:27","text":"Beginning with Moses and all the Prophets, he interpreted to them in all the Scriptures the things concerning himself."},
+      {"type":"teaching","heading":"Old and New Testaments","content":"The Old Testament prepares the way for the coming Savior. The New Testament reveals Jesus Christ and the spread of the Gospel."},
+      {"type":"catechism","content":"The Scriptures testify of Christ.","ref":"Small Catechism teaching summary"},
+      {"type":"reflection","questions":["How many main sections does the Bible have?","What does the Old Testament prepare for?","What does the New Testament reveal?"]},
+      {"type":"prayer","content":"Lord, help me understand the message of the Old and New Testaments and see Christ in all Scripture. Amen."}
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 1,
+    "globalIndex": 4,
+    "title": "Law and Gospel",
+    "objective": "Learn the Lutheran distinction between Law and Gospel.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"One of the most important ways to read the Bible is by recognizing the difference between Law and Gospel."},
+      {"type":"scripture","ref":"Romans 3:23","text":"For all have sinned and fall short of the glory of God."},
+      {"type":"scripture","ref":"Romans 6:23","text":"The wages of sin is death, but the free gift of God is eternal life in Christ Jesus our Lord."},
+      {"type":"teaching","heading":"Two Words of God","content":"The Law shows us our sin and our need for salvation. The Gospel announces the good news that Jesus has saved us."},
+      {"type":"catechism","content":"The Gospel is the promise of forgiveness of sins through Christ.","ref":"Small Catechism"},
+      {"type":"reflection","questions":["What does the Law show us?","What does the Gospel promise us?","Why do we need both?"]},
+      {"type":"prayer","content":"Lord Jesus, thank You for forgiving my sins through the Gospel. Help me trust Your promise. Amen."}
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 1,
+    "globalIndex": 5,
+    "title": "Why Christians Read the Bible",
+    "objective": "Understand why Scripture is central to the Christian life.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Christians read the Bible because it is God's Word and because it teaches us about salvation through Jesus Christ."},
+      {"type":"scripture","ref":"Psalm 119:105","text":"Your word is a lamp to my feet and a light to my path."},
+      {"type":"teaching","heading":"Guidance from God","content":"Through Scripture God teaches, corrects, and strengthens His people in faith."},
+      {"type":"catechism","content":"We should fear and love God so that we gladly hear and learn His Word.","ref":"Small Catechism — Third Commandment"},
+      {"type":"reflection","questions":["Why is reading Scripture important?","How does God's Word guide believers?","What happens when we neglect God's Word?"]},
+      {"type":"prayer","content":"Lord, give me a love for Your Word and help me grow in faith through it. Amen."}
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 1,
+    "globalIndex": 6,
+    "title": "The Authority of Scripture",
+    "objective": "Recognize that the Bible is the highest authority for Christian teaching.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Christians believe the Bible is the final authority for doctrine and faith."},
+      {"type":"scripture","ref":"Isaiah 40:8","text":"The grass withers, the flower fades, but the word of our God will stand forever."},
+      {"type":"teaching","heading":"God's Word Stands Forever","content":"Because the Bible is God's Word, it remains true and trustworthy in every generation."},
+      {"type":"catechism","content":"Scripture alone is the source and norm for doctrine.","ref":"Lutheran Confessions summary"},
+      {"type":"reflection","questions":["Why can Christians trust Scripture?","What does it mean that God's Word stands forever?","How should we respond to God's authority?"]},
+      {"type":"prayer","content":"God, help me trust Your Word as the truth and guide for my life. Amen."}
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 1,
+    "globalIndex": 7,
+    "title": "Christ at the Center of Scripture",
+    "objective": "See that the whole Bible ultimately points to Jesus Christ.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Although the Bible contains many stories and teachings, its central message is Jesus Christ."},
+      {"type":"scripture","ref":"John 5:39","text":"You search the Scriptures because you think that in them you have eternal life; and it is they that bear witness about me."},
+      {"type":"teaching","heading":"All Scripture Testifies of Christ","content":"From the promises in Genesis to the fulfillment in the Gospels, the Bible continually points to Jesus as the Savior."},
+      {"type":"catechism","content":"Jesus Christ is the center of the Christian faith.","ref":"Small Catechism teaching"},
+      {"type":"reflection","questions":["Why is Jesus the center of Scripture?","How do Old Testament promises point to Him?","How do the Gospels reveal Him?"]},
+      {"type":"prayer","content":"Lord Jesus, help me see You clearly whenever I read Your Word. Amen."}
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 1,
+    "globalIndex": 8,
+    "title": "Preparing to Study the Bible",
+    "objective": "Learn practical habits for reading and studying Scripture faithfully.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Before studying Scripture deeply, it helps to approach God's Word with humility, prayer, and attention."},
+      {"type":"scripture","ref":"Psalm 119:18","text":"Open my eyes, that I may behold wondrous things out of your law."},
+      {"type":"teaching","heading":"Approaching Scripture Faithfully","content":"Christians read the Bible prayerfully, seeking the guidance of the Holy Spirit and the teaching of the Church."},
+      {"type":"catechism","content":"We pray that God would give us His Holy Spirit so that we may believe His Word.","ref":"Small Catechism — explanation of the Third Article"},
+      {"type":"reflection","questions":["Why should we pray before reading Scripture?","What habits help someone study the Bible well?","How does the Holy Spirit help us understand God's Word?"]},
+      {"type":"prayer","content":"Holy Spirit, guide my mind and heart as I study the Bible. Help me understand and believe Your Word. Amen."}
+    ]
+  }
+]

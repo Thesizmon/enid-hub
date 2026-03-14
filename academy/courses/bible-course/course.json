@@ -1,0 +1,13 @@
+{
+  "id": "bible",
+  "name": "The Bible: God's Story of Salvation",
+  "icon": "✝️",
+  "tradition": "LCMS",
+  "translation": "ESV",
+  "totalUnits": 8,
+  "totalLessons": 64,
+  "lessonMinutes": 25,
+  "description": "A comprehensive walk through the entire Bible — from Creation to New Creation — through the lens of Lutheran (LCMS) theology. Each lesson is rooted in the ESV text and shaped by the Small Catechism, exploring how every part of Scripture points to Christ and His saving work.",
+  "accent": "#F59E0B",
+  "accentSoft": "rgba(245,158,11,0.12)"
+}
