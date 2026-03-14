@@ -1541,12 +1541,24 @@ function getJapanese() {
     };
     saveData(data);
   }
-  // Ensure totalLessons is always 42 (update if legacy 46 exists)
-  if (data.subjects.japanese.totalLessons !== 42) {
-    data.subjects.japanese.totalLessons = 42;
-    saveData(data);
+  const jp = data.subjects.japanese;
+  let dirty = false;
+  // Migrate old academy schema: lesson → currentLesson
+  if (!Array.isArray(jp.completedLessons)) {
+    jp.completedLessons = [];
+    dirty = true;
   }
-  return data.subjects.japanese;
+  if (jp.currentLesson === undefined) {
+    jp.currentLesson = jp.lesson || 1;
+    dirty = true;
+  }
+  // Ensure totalLessons is always 42 (update if legacy 46 exists)
+  if (jp.totalLessons !== 42) {
+    jp.totalLessons = 42;
+    dirty = true;
+  }
+  if (dirty) saveData(data);
+  return jp;
 }
 
 function saveJapanese(jpData) {
