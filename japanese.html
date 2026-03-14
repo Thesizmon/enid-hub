@@ -58,7 +58,9 @@
       transition: opacity .4s, visibility .4s;
     }
     #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-    .loader-wolf { font-size: 3rem; animation: loaderPulse 1.2s ease-in-out infinite; }
+    .loader-wolf { display:flex; flex-direction:column; align-items:center; gap:14px; animation: loaderPulse 1.2s ease-in-out infinite; }
+    .loader-wolf img { width:72px; height:72px; object-fit:contain; }
+    .loader-wolf span { font-family:'Dancing Script',cursive; font-size:2.2rem; font-weight:700; color:#E84EA0; letter-spacing:.02em; }
     @keyframes loaderPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
 
     /* App shell */
@@ -448,7 +450,10 @@
 <!-- Loader -->
 <div id="loader">
   <div style="text-align:center">
-    <div class="loader-wolf">🇯🇵</div>
+    <div class="loader-wolf">
+      <img src="nails.png" alt="loading">
+      <span>Japanese Language</span>
+    </div>
   </div>
 </div>
 
