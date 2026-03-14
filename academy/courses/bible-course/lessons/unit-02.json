@@ -1,82 +1,135 @@
 [
   {
-    "id": 1, "unitId": 2, "globalIndex": 9,
-    "title": "God's Call to Abraham",
-    "objective": "See how God initiates His redemptive plan by calling one man out of paganism to be the father of His people.",
+    "id": 1,
+    "unitId": 2,
+    "globalIndex": 9,
+    "title": "God Creates the World",
+    "objective": "Understand that God created the world and everything in it by His Word.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Genesis 12:1–2", "text": "Now the LORD said to Abram, 'Go from your country and your kindred and your father's house to the land that I will show you. And I will make of you a great nation, and I will bless you and make your name great, so that you will be a blessing.'" }
+      {"type":"intro","content":"The Bible begins with the story of creation. God created the heavens and the earth by His powerful Word. Everything He made was good and reflected His wisdom and order."},
+      {"type":"scripture","ref":"Genesis 1:1","text":"In the beginning, God created the heavens and the earth."},
+      {"type":"scripture","ref":"Genesis 1:31","text":"And God saw everything that he had made, and behold, it was very good."},
+      {"type":"teaching","heading":"Creation by God's Word","content":"God did not struggle to create the world. He simply spoke, and creation came into existence. This shows God's power and authority over everything that exists."},
+      {"type":"catechism","content":"I believe that God has made me and all creatures.","ref":"Small Catechism — First Article"},
+      {"type":"reflection","questions":["What does Genesis teach about how the world began?","Why is it important that God created everything?","What does it mean that creation was 'very good'?"]},
+      {"type":"prayer","content":"Creator God, thank You for the world You made and for the life You have given us. Amen."}
     ]
   },
   {
-    "id": 2, "unitId": 2, "globalIndex": 10,
-    "title": "The Promise",
-    "objective": "Understand the threefold promise to Abraham — land, descendants, and blessing to all nations — and how it drives all of Scripture.",
+    "id": 2,
+    "unitId": 2,
+    "globalIndex": 10,
+    "title": "Humanity Created in God's Image",
+    "objective": "Learn what it means that humans are created in the image of God.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Genesis 12:3", "text": "I will bless those who bless you, and him who dishonors you I will curse, and in you all the families of the earth shall be blessed." }
+      {"type":"intro","content":"Among all creatures, human beings have a unique place in God's creation. God created humanity in His image and gave them responsibility over the earth."},
+      {"type":"scripture","ref":"Genesis 1:27","text":"So God created man in his own image, in the image of God he created him; male and female he created them."},
+      {"type":"scripture","ref":"Genesis 2:7","text":"Then the Lord God formed the man of dust from the ground and breathed into his nostrils the breath of life."},
+      {"type":"teaching","heading":"The Image of God","content":"Being made in the image of God means that humans were created to live in righteousness, knowledge, and holiness. Humanity was designed to live in perfect relationship with God."},
+      {"type":"catechism","content":"God created human beings to know Him, love Him, and live according to His will.","ref":"Catechetical teaching summary"},
+      {"type":"reflection","questions":["What does it mean that humans are created in God's image?","How are humans different from other creatures?","Why is every human life valuable?"]},
+      {"type":"prayer","content":"Lord, thank You for creating us in Your image and giving us life. Amen."}
     ]
   },
   {
-    "id": 3, "unitId": 2, "globalIndex": 11,
-    "title": "Covenant & Circumcision",
-    "objective": "Understand the covenant God made with Abraham and the sign of circumcision as God's commitment to His people.",
+    "id": 3,
+    "unitId": 2,
+    "globalIndex": 11,
+    "title": "The Garden of Eden",
+    "objective": "Understand the harmony between God and humanity before sin entered the world.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Genesis 17:7", "text": "And I will establish my covenant between me and you and your offspring after you throughout their generations for an everlasting covenant, to be God to you and to your offspring after you." }
+      {"type":"intro","content":"God placed the first humans in a beautiful garden called Eden. In this place they lived in perfect peace with God and creation."},
+      {"type":"scripture","ref":"Genesis 2:15","text":"The Lord God took the man and put him in the garden of Eden to work it and keep it."},
+      {"type":"scripture","ref":"Genesis 2:16-17","text":"And the Lord God commanded the man, saying, 'You may surely eat of every tree of the garden, but of the tree of the knowledge of good and evil you shall not eat.'"},
+      {"type":"teaching","heading":"Life with God","content":"Before sin, humanity lived in perfect fellowship with God. They trusted Him, obeyed Him, and enjoyed His creation."},
+      {"type":"catechism","content":"God originally created humanity without sin and in perfect harmony with Him.","ref":"Lutheran teaching summary"},
+      {"type":"reflection","questions":["What was life like in the Garden of Eden?","Why did God give Adam a command?","What does this teach about trusting God?"]},
+      {"type":"prayer","content":"Lord, help us trust Your wisdom and live according to Your will. Amen."}
     ]
   },
   {
-    "id": 4, "unitId": 2, "globalIndex": 12,
-    "title": "Isaac — Son of Promise",
-    "objective": "See how God keeps His promise through the miraculous birth of Isaac and tests Abraham's faith on Mount Moriah.",
+    "id": 4,
+    "unitId": 2,
+    "globalIndex": 12,
+    "title": "The Fall into Sin",
+    "objective": "Learn how sin entered the world through Adam and Eve.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Genesis 22:8", "text": "Abraham said, 'God will provide for himself the lamb for a burnt offering, my son.' So they went both of them together." }
+      {"type":"intro","content":"Sin entered the world when Adam and Eve disobeyed God's command. Their choice brought suffering, death, and separation from God."},
+      {"type":"scripture","ref":"Genesis 3:6","text":"So when the woman saw that the tree was good for food... she took of its fruit and ate."},
+      {"type":"scripture","ref":"Romans 5:12","text":"Therefore, just as sin came into the world through one man, and death through sin."},
+      {"type":"teaching","heading":"The First Sin","content":"Adam and Eve chose to trust their own judgment instead of God's Word. This act of disobedience brought sin into the world."},
+      {"type":"catechism","content":"Through the fall into sin, all humanity became sinful by nature.","ref":"Small Catechism teaching summary"},
+      {"type":"reflection","questions":["What caused the fall into sin?","How did sin change the world?","Why do all people need salvation?"]},
+      {"type":"prayer","content":"Merciful God, forgive our sins and help us trust Your Word. Amen."}
     ]
   },
   {
-    "id": 5, "unitId": 2, "globalIndex": 13,
-    "title": "Jacob & the Twelve Tribes",
-    "objective": "Follow the story of Jacob and his twelve sons as God works through flawed people to build His covenant family.",
+    "id": 5,
+    "unitId": 2,
+    "globalIndex": 13,
+    "title": "God's Promise of a Savior",
+    "objective": "Recognize God's first promise of redemption after the fall.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Genesis 32:28", "text": "Then he said, 'Your name shall no longer be called Jacob, but Israel, for you have striven with God and with men, and have prevailed.'" }
+      {"type":"intro","content":"Even after humanity sinned, God did not abandon His creation. Instead, He promised a Savior who would defeat evil."},
+      {"type":"scripture","ref":"Genesis 3:15","text":"He shall bruise your head, and you shall bruise his heel."},
+      {"type":"teaching","heading":"The First Gospel Promise","content":"Genesis 3:15 is often called the 'first Gospel.' It promises that a descendant of the woman will defeat the serpent and destroy the power of sin."},
+      {"type":"catechism","content":"The Gospel promises forgiveness of sins through Christ.","ref":"Small Catechism"},
+      {"type":"reflection","questions":["Why is Genesis 3:15 important?","Who fulfills this promise?","What does this teach about God's mercy?"]},
+      {"type":"prayer","content":"Thank You, God, for promising a Savior even after sin entered the world. Amen."}
     ]
   },
   {
-    "id": 6, "unitId": 2, "globalIndex": 14,
-    "title": "Joseph in Egypt",
-    "objective": "See how God's providence works through suffering, betrayal, and forgiveness to preserve His people.",
+    "id": 6,
+    "unitId": 2,
+    "globalIndex": 14,
+    "title": "Cain and Abel",
+    "objective": "Understand the consequences of sin through the story of Cain and Abel.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Genesis 50:20", "text": "As for you, you meant evil against me, but God meant it for good, to bring it about that many people should be kept alive, as they are today." }
+      {"type":"intro","content":"After the fall, sin continued to affect human relationships. The story of Cain and Abel shows how jealousy and anger can lead to terrible consequences."},
+      {"type":"scripture","ref":"Genesis 4:8","text":"Cain rose up against his brother Abel and killed him."},
+      {"type":"teaching","heading":"Sin Spreads","content":"The story of Cain and Abel shows how sin spreads through humanity and damages relationships."},
+      {"type":"catechism","content":"The Fifth Commandment teaches us to protect life.","ref":"Small Catechism — Fifth Commandment"},
+      {"type":"reflection","questions":["What caused Cain's anger?","What does this story teach about sin?","How does God respond to sin?"]},
+      {"type":"prayer","content":"Lord, guard our hearts from anger and hatred. Teach us to love one another. Amen."}
     ]
   },
   {
-    "id": 7, "unitId": 2, "globalIndex": 15,
-    "title": "Israel in Slavery",
-    "objective": "See how Israel's suffering in Egypt sets the stage for the great act of redemption God is about to perform.",
+    "id": 7,
+    "unitId": 2,
+    "globalIndex": 15,
+    "title": "The Flood and God's Judgment",
+    "objective": "Learn about God's judgment on sin and His mercy in preserving Noah.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Exodus 1:12", "text": "But the more they were oppressed, the more they multiplied and the more they spread abroad. And the Egyptians were in dread of the people of Israel." }
+      {"type":"intro","content":"As humanity grew more sinful, God judged the world with a great flood but saved Noah and his family."},
+      {"type":"scripture","ref":"Genesis 6:5","text":"The Lord saw that the wickedness of man was great in the earth."},
+      {"type":"scripture","ref":"Genesis 7:23","text":"Only Noah was left, and those who were with him in the ark."},
+      {"type":"teaching","heading":"Judgment and Mercy","content":"The flood shows that God takes sin seriously. Yet it also shows His mercy, because He preserved Noah and continued His plan of salvation."},
+      {"type":"catechism","content":"God punishes sin but also shows mercy to His people.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why did God send the flood?","How did God show mercy to Noah?","What does this teach about God's justice?"]},
+      {"type":"prayer","content":"Lord, thank You for Your mercy and patience with sinners. Amen."}
     ]
   },
   {
-    "id": 8, "unitId": 2, "globalIndex": 16,
-    "title": "God Hears His People",
-    "objective": "Understand that God is never absent in the suffering of His people — He hears, He sees, and He acts.",
+    "id": 8,
+    "unitId": 2,
+    "globalIndex": 16,
+    "title": "God's Covenant with Noah",
+    "objective": "Understand the covenant God made with Noah after the flood.",
     "estimatedMinutes": 25,
     "sections": [
-      { "type": "intro", "content": "— lesson content coming soon —" },
-      { "type": "scripture", "ref": "Exodus 2:24–25", "text": "And God heard their groaning, and God remembered his covenant with Abraham, with Isaac, and with Jacob. God saw the people of Israel — and God knew." }
+      {"type":"intro","content":"After the flood, God made a covenant with Noah promising never to destroy the earth again by flood."},
+      {"type":"scripture","ref":"Genesis 9:13","text":"I have set my bow in the cloud, and it shall be a sign of the covenant between me and the earth."},
+      {"type":"teaching","heading":"The Rainbow Covenant","content":"The rainbow reminds humanity that God keeps His promises and continues to care for His creation."},
+      {"type":"catechism","content":"God remains faithful to His promises.","ref":"Catechetical teaching"},
+      {"type":"reflection","questions":["What promise did God make to Noah?","Why is the rainbow important?","How does this show God's faithfulness?"]},
+      {"type":"prayer","content":"Faithful God, thank You for keeping Your promises and caring for Your creation. Amen."}
     ]
   }
 ]
