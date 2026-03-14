@@ -351,6 +351,96 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(168,85,247,.2); border-radius: 99px; }
+
+    /* ── Audio play button ─────────────────────────────────────────── */
+    .play-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer;
+      background: rgba(168,85,247,.12); color: var(--purple); font-size: .85rem;
+      transition: background .15s, transform .1s; flex-shrink: 0; vertical-align: middle;
+    }
+    .play-btn:hover { background: rgba(168,85,247,.22); transform: scale(1.1); }
+    .play-btn:active { transform: scale(.92); }
+    .play-btn.speaking { background: var(--purple); color: #fff; }
+
+    /* ── Character grid ────────────────────────────────────────────── */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 10px; margin-top: 12px;
+    }
+    .char-card {
+      background: rgba(168,85,247,.06); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 8px; text-align: center;
+      cursor: pointer; transition: transform .15s, box-shadow .15s;
+    }
+    .char-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(168,85,247,.15); }
+    .char-big {
+      font-size: 2.6rem; line-height: 1.1; display: block;
+      color: var(--purple); font-family: 'DM Sans', sans-serif;
+    }
+    .char-romaji { font-size: .7rem; font-weight: 700; color: var(--pink); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; }
+    .char-strokes { font-size: .63rem; color: var(--sub); margin-top: 2px; }
+    .char-example { font-size: .68rem; color: var(--sub); margin-top: 5px; line-height: 1.3; }
+
+    /* ── Interactive listening exercise ────────────────────────────── */
+    .listen-exercise {
+      background: rgba(96,200,245,.07); border: 1px solid rgba(96,200,245,.22);
+      border-radius: 14px; padding: 16px;
+    }
+    .listen-prompt { font-size: .83rem; font-weight: 600; color: var(--sub); margin-bottom: 12px; }
+    .listen-play-area { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .btn-listen-play {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 50px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, #60C8F5, var(--purple));
+      color: #fff; font-family: 'DM Sans', sans-serif;
+      font-size: .83rem; font-weight: 700;
+      box-shadow: 0 2px 10px rgba(96,200,245,.3);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-listen-play:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(96,200,245,.4); }
+    .btn-listen-play:active { transform: scale(.95); }
+    .listen-options { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .listen-option {
+      padding: 12px 16px; border-radius: 12px; border: 2px solid var(--border);
+      background: var(--glass); cursor: pointer;
+      font-size: 1.5rem; color: var(--text);
+      transition: all .15s; text-align: center; min-width: 58px;
+      line-height: 1.1;
+    }
+    .listen-option small { display: block; font-size: .62rem; color: var(--sub); font-weight: 400; font-family: 'DM Sans',sans-serif; }
+    .listen-option:hover:not(:disabled) { border-color: var(--purple); background: rgba(168,85,247,.08); }
+    .listen-option.correct  { border-color: #22c55e; background: rgba(34,197,94,.1); }
+    .listen-option.incorrect{ border-color: #ef4444; background: rgba(239,68,68,.1); }
+    .listen-option:disabled { cursor: default; }
+    .listen-feedback { font-size: .82rem; font-weight: 600; min-height: 18px; margin-bottom: 6px; }
+    .listen-feedback.ok  { color: #15803d; }
+    .listen-feedback.bad { color: #b91c1c; }
+    .listen-score { font-size: .73rem; color: var(--sub); }
+    .listen-next-btn {
+      display: none; margin-top: 8px; padding: 7px 18px; border-radius: 10px;
+      border: none; cursor: pointer; background: var(--purple); color: #fff;
+      font-family: 'DM Sans',sans-serif; font-size: .78rem; font-weight: 700;
+    }
+
+    /* ── Homework card ─────────────────────────────────────────────── */
+    .homework-card {
+      background: rgba(245,158,11,.07); border: 1px solid rgba(245,158,11,.25);
+      border-radius: 14px; padding: 14px 16px;
+    }
+    .homework-card p { font-size: .88rem; line-height: 1.65; }
+
+    /* ── Example table tweaks ──────────────────────────────────────── */
+    .ex-jp-wrap { display: inline-flex; align-items: center; gap: 8px; }
+    .ex-table td { vertical-align: middle; }
+
+    /* ── Mining card tweaks ────────────────────────────────────────── */
+    .mining-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .mining-top .mining-japanese { flex: 1; }
+
+    /* ── SOTD play row ─────────────────────────────────────────────── */
+    .sotd-play-row { display: flex; align-items: center; gap: 10px; }
   </style>
 </head>
 <body>
@@ -412,9 +502,12 @@
         🌸 Sentence of the Day
         <span class="sotd-unit-tag" id="sotdUnit"></span>
       </div>
-      <div class="sotd-japanese" id="sotdJapanese"></div>
-      <div class="sotd-romaji"   id="sotdRomaji"></div>
-      <div class="sotd-english"  id="sotdEnglish"></div>
+      <div class="sotd-play-row">
+        <div id="sotdJapanese" class="sotd-japanese"></div>
+        <button class="play-btn" id="sotdPlayBtn" onclick="playJapanese(document.getElementById('sotdJapanese').textContent)" title="Play audio">🔊</button>
+      </div>
+      <div id="sotdRomaji"   class="sotd-romaji"></div>
+      <div id="sotdEnglish"  class="sotd-english"></div>
     </div>
 
     <!-- Units -->
@@ -567,6 +660,13 @@ const UNITS = [
         listening: "Listen and repeat: あ い う え お — match each sound to its character",
         homework: "Write all 5 vowels 5× each. Notice the difference between hiragana and katakana forms.",
         sentenceMiningIds: [1, 2],
+        chars: [
+          { character:'あ', romaji:'a',   strokeCount:3, exampleWord:'あさ',   exampleMeaning:'morning' },
+          { character:'い', romaji:'i',   strokeCount:2, exampleWord:'いぬ',   exampleMeaning:'dog' },
+          { character:'う', romaji:'u',   strokeCount:2, exampleWord:'うみ',   exampleMeaning:'sea' },
+          { character:'え', romaji:'e',   strokeCount:2, exampleWord:'えき',   exampleMeaning:'station' },
+          { character:'お', romaji:'o',   strokeCount:3, exampleWord:'おかし', exampleMeaning:'sweets' },
+        ],
       },
       {
         id: 2, title: "Hiragana – The Five Vowels",
@@ -583,6 +683,13 @@ const UNITS = [
         listening: "Hear and identify: which vowel is being spoken?",
         homework: "Write each vowel 10× paying attention to stroke order.",
         sentenceMiningIds: [13, 14],
+        chars: [
+          { character:'あ', romaji:'a',   strokeCount:3, exampleWord:'あい',   exampleMeaning:'love' },
+          { character:'い', romaji:'i',   strokeCount:2, exampleWord:'いえ',   exampleMeaning:'house' },
+          { character:'う', romaji:'u',   strokeCount:2, exampleWord:'うえ',   exampleMeaning:'above' },
+          { character:'え', romaji:'e',   strokeCount:2, exampleWord:'えき',   exampleMeaning:'station' },
+          { character:'お', romaji:'o',   strokeCount:3, exampleWord:'おかあさん', exampleMeaning:'mother' },
+        ],
       },
       {
         id: 3, title: "Hiragana – K and S Rows",
@@ -599,6 +706,18 @@ const UNITS = [
         listening: "Distinguish: ka/ki/ku/ke/ko and sa/shi/su/se/so in spoken words",
         homework: "Write all K and S row characters 5× each. Remember: し = shi!",
         sentenceMiningIds: [16, 31],
+        chars: [
+          { character:'か', romaji:'ka',  strokeCount:3, exampleWord:'かさ',   exampleMeaning:'umbrella' },
+          { character:'き', romaji:'ki',  strokeCount:4, exampleWord:'きって', exampleMeaning:'stamp' },
+          { character:'く', romaji:'ku',  strokeCount:1, exampleWord:'くに',   exampleMeaning:'country' },
+          { character:'け', romaji:'ke',  strokeCount:3, exampleWord:'けむり', exampleMeaning:'smoke' },
+          { character:'こ', romaji:'ko',  strokeCount:2, exampleWord:'こころ', exampleMeaning:'heart' },
+          { character:'さ', romaji:'sa',  strokeCount:3, exampleWord:'さくら', exampleMeaning:'cherry blossom' },
+          { character:'し', romaji:'shi', strokeCount:1, exampleWord:'しごと', exampleMeaning:'work' },
+          { character:'す', romaji:'su',  strokeCount:2, exampleWord:'すし',   exampleMeaning:'sushi' },
+          { character:'せ', romaji:'se',  strokeCount:3, exampleWord:'せかい', exampleMeaning:'world' },
+          { character:'そ', romaji:'so',  strokeCount:2, exampleWord:'そら',   exampleMeaning:'sky' },
+        ],
       },
       {
         id: 4, title: "Hiragana – T and N Rows",
@@ -615,6 +734,18 @@ const UNITS = [
         listening: "Listen and write: is it 'ta', 'chi', 'tsu', 'te', or 'to'?",
         homework: "Write ち and つ 10× each to master their special pronunciation. All T and N row 5× each.",
         sentenceMiningIds: [11, 34],
+        chars: [
+          { character:'た', romaji:'ta',  strokeCount:4, exampleWord:'たべもの', exampleMeaning:'food' },
+          { character:'ち', romaji:'chi', strokeCount:2, exampleWord:'ちかてつ', exampleMeaning:'subway' },
+          { character:'つ', romaji:'tsu', strokeCount:1, exampleWord:'つき',   exampleMeaning:'moon' },
+          { character:'て', romaji:'te',  strokeCount:2, exampleWord:'てがみ', exampleMeaning:'letter' },
+          { character:'と', romaji:'to',  strokeCount:2, exampleWord:'とけい', exampleMeaning:'clock' },
+          { character:'な', romaji:'na',  strokeCount:4, exampleWord:'なまえ', exampleMeaning:'name' },
+          { character:'に', romaji:'ni',  strokeCount:3, exampleWord:'にほん', exampleMeaning:'Japan' },
+          { character:'ぬ', romaji:'nu',  strokeCount:2, exampleWord:'ぬの',   exampleMeaning:'cloth' },
+          { character:'ね', romaji:'ne',  strokeCount:2, exampleWord:'ねこ',   exampleMeaning:'cat' },
+          { character:'の', romaji:'no',  strokeCount:1, exampleWord:'のみもの', exampleMeaning:'drinks' },
+        ],
       },
       {
         id: 5, title: "Hiragana – H and M Rows",
@@ -631,6 +762,18 @@ const UNITS = [
         listening: "Identify H and M row sounds in spoken Japanese words",
         homework: "Write all H and M row 5× each. Memorize: は = wa as particle, へ = e as particle.",
         sentenceMiningIds: [40, 38],
+        chars: [
+          { character:'は', romaji:'ha',  strokeCount:3, exampleWord:'はな',   exampleMeaning:'flower' },
+          { character:'ひ', romaji:'hi',  strokeCount:1, exampleWord:'ひと',   exampleMeaning:'person' },
+          { character:'ふ', romaji:'fu',  strokeCount:4, exampleWord:'ふじさん', exampleMeaning:'Mt. Fuji' },
+          { character:'へ', romaji:'he',  strokeCount:1, exampleWord:'へや',   exampleMeaning:'room' },
+          { character:'ほ', romaji:'ho',  strokeCount:4, exampleWord:'ほん',   exampleMeaning:'book' },
+          { character:'ま', romaji:'ma',  strokeCount:3, exampleWord:'まち',   exampleMeaning:'town' },
+          { character:'み', romaji:'mi',  strokeCount:2, exampleWord:'みず',   exampleMeaning:'water' },
+          { character:'む', romaji:'mu',  strokeCount:3, exampleWord:'むし',   exampleMeaning:'insect' },
+          { character:'め', romaji:'me',  strokeCount:2, exampleWord:'めだか', exampleMeaning:'killifish' },
+          { character:'も', romaji:'mo',  strokeCount:3, exampleWord:'もも',   exampleMeaning:'peach' },
+        ],
       },
       {
         id: 6, title: "Hiragana – Y, R, W Rows and ん",
@@ -647,6 +790,19 @@ const UNITS = [
         listening: "Hear the difference between Japanese r and English r/l",
         homework: "Write the complete hiragana chart from memory (46 characters). Check your work!",
         sentenceMiningIds: [15, 18],
+        chars: [
+          { character:'や', romaji:'ya',  strokeCount:2, exampleWord:'やま',   exampleMeaning:'mountain' },
+          { character:'ゆ', romaji:'yu',  strokeCount:2, exampleWord:'ゆき',   exampleMeaning:'snow' },
+          { character:'よ', romaji:'yo',  strokeCount:2, exampleWord:'よる',   exampleMeaning:'night' },
+          { character:'ら', romaji:'ra',  strokeCount:2, exampleWord:'らーめん', exampleMeaning:'ramen' },
+          { character:'り', romaji:'ri',  strokeCount:2, exampleWord:'りんご', exampleMeaning:'apple' },
+          { character:'る', romaji:'ru',  strokeCount:2, exampleWord:'るすばん', exampleMeaning:'house-sitting' },
+          { character:'れ', romaji:'re',  strokeCount:2, exampleWord:'れきし', exampleMeaning:'history' },
+          { character:'ろ', romaji:'ro',  strokeCount:1, exampleWord:'ろく',   exampleMeaning:'six' },
+          { character:'わ', romaji:'wa',  strokeCount:2, exampleWord:'わたし', exampleMeaning:'I/me' },
+          { character:'を', romaji:'wo',  strokeCount:3, exampleWord:'(particle)', exampleMeaning:'object marker' },
+          { character:'ん', romaji:'n',   strokeCount:1, exampleWord:'にほんご', exampleMeaning:'Japanese lang.' },
+        ],
       },
       {
         id: 7, title: "Dakuten, Combo Characters & Full Review",
@@ -663,6 +819,18 @@ const UNITS = [
         listening: "Distinguish voiced vs unvoiced: か vs が、さ vs ざ etc.",
         homework: "Read 10 random hiragana words from a list without looking at the chart. Time yourself.",
         sentenceMiningIds: [7, 8],
+        chars: [
+          { character:'が', romaji:'ga',  strokeCount:4, exampleWord:'がっこう', exampleMeaning:'school' },
+          { character:'ぎ', romaji:'gi',  strokeCount:5, exampleWord:'ぎんこう', exampleMeaning:'bank' },
+          { character:'ぐ', romaji:'gu',  strokeCount:2, exampleWord:'ぐあい',  exampleMeaning:'condition' },
+          { character:'ざ', romaji:'za',  strokeCount:4, exampleWord:'ざっし',  exampleMeaning:'magazine' },
+          { character:'じ', romaji:'ji',  strokeCount:2, exampleWord:'じかん',  exampleMeaning:'time' },
+          { character:'だ', romaji:'da',  strokeCount:5, exampleWord:'だいがく', exampleMeaning:'university' },
+          { character:'ば', romaji:'ba',  strokeCount:4, exampleWord:'ばしょ',  exampleMeaning:'place' },
+          { character:'び', romaji:'bi',  strokeCount:2, exampleWord:'びょういん', exampleMeaning:'hospital' },
+          { character:'ぱ', romaji:'pa',  strokeCount:4, exampleWord:'ぱーてぃー', exampleMeaning:'party' },
+          { character:'ぴ', romaji:'pi',  strokeCount:2, exampleWord:'ぴあの',  exampleMeaning:'piano' },
+        ],
       },
     ]
   },
@@ -1196,6 +1364,157 @@ const UNITS = [
 ];
 
 // ─────────────────────────────────────────────────────────────
+// AUDIO SYSTEM
+// ─────────────────────────────────────────────────────────────
+function playJapanese(text, audioUrl = null) {
+  if (audioUrl) {
+    try { new Audio(audioUrl).play(); return; } catch(e) { /* fallback */ }
+  }
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP';
+  utt.rate = 0.82;
+  utt.pitch = 1.0;
+  window.speechSynthesis.speak(utt);
+}
+
+// ─────────────────────────────────────────────────────────────
+// CHARACTER GRID
+// ─────────────────────────────────────────────────────────────
+function renderCharGrid(chars) {
+  if (!chars || !chars.length) return '';
+  return `<div class="char-grid">` + chars.map(c => `
+    <div class="char-card" onclick="playJapanese('${c.character}')">
+      <span class="char-big">${c.character}</span>
+      <div class="char-romaji">${c.romaji}</div>
+      <div class="char-strokes">${c.strokeCount} stroke${c.strokeCount !== 1 ? 's' : ''}</div>
+      ${c.exampleWord ? `<div class="char-example">${c.exampleWord}<br><span style="font-size:.63rem">${c.exampleMeaning}</span></div>` : ''}
+    </div>
+  `).join('') + `</div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// INTERACTIVE LISTENING EXERCISE
+// ─────────────────────────────────────────────────────────────
+let listenState = { qIdx:0, score:0, total:0, questions:[], answered:false, lessonId:null };
+
+function buildListeningQuestions(lesson) {
+  if (lesson.chars && lesson.chars.length >= 3) {
+    // Hiragana lessons: character recognition game
+    const pool = [...lesson.chars];
+    const count = Math.min(4, pool.length);
+    const targets = pool.sort(() => Math.random() - .5).slice(0, count);
+    return targets.map(target => {
+      const distractors = lesson.chars
+        .filter(c => c.character !== target.character)
+        .sort(() => Math.random() - .5).slice(0, 2);
+      const opts = [...distractors, target].sort(() => Math.random() - .5);
+      return {
+        playText: target.character,
+        options: opts,
+        correctIdx: opts.findIndex(o => o.character === target.character),
+        isMultiChoice: true,
+      };
+    });
+  }
+  // Other lessons: listen-and-repeat with examples
+  return (lesson.examples || []).slice(0, 3).map(e => ({
+    playText: e.japanese,
+    prompt: e.english,
+    isMultiChoice: false,
+  }));
+}
+
+function initListenExercise(lessonId) {
+  const found = getLessonById(lessonId);
+  if (!found) return;
+  const questions = buildListeningQuestions(found.lesson);
+  listenState = { qIdx:0, score:0, total:questions.length, questions, answered:false, lessonId };
+  renderListenQ();
+}
+
+function renderListenQ() {
+  const el = document.getElementById('listenExercise');
+  if (!el) return;
+  const { qIdx, score, total, questions, lessonId } = listenState;
+
+  if (qIdx >= total) {
+    const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+    el.innerHTML = `
+      <div style="text-align:center;padding:16px 8px">
+        <div style="font-size:2.2rem;margin-bottom:6px">${pct >= 75 ? '🎉' : '🎯'}</div>
+        <div style="font-weight:700;font-size:1rem;color:var(--purple)">Exercise Complete!</div>
+        <div style="font-size:.85rem;color:var(--sub);margin-top:4px">Score: ${score} / ${total} (${pct}%)</div>
+        <button class="listen-next-btn" style="display:inline-block;margin-top:12px" onclick="initListenExercise(${lessonId})">↩ Try Again</button>
+      </div>`;
+    return;
+  }
+
+  const q = questions[qIdx];
+  if (!q.isMultiChoice) {
+    // Open-ended: listen and repeat
+    el.innerHTML = `
+      <div class="listen-prompt">Listen & repeat aloud 🗣️</div>
+      <div class="listen-play-area">
+        <button class="btn-listen-play" onclick="playJapanese('${q.playText.replace(/'/g, "\\'")}')">🔊 Play</button>
+        <span style="font-size:.8rem;color:var(--sub)">${q.prompt || ''}</span>
+      </div>
+      <div class="listen-score">${qIdx + 1} / ${total} — say it out loud, then continue</div>
+      <button class="listen-next-btn" style="display:inline-block;margin-top:10px"
+        onclick="listenState.qIdx++;renderListenQ()">
+        ${qIdx + 1 < total ? 'Next →' : 'Finish ✓'}
+      </button>`;
+    return;
+  }
+
+  // Multiple choice
+  const optBtns = q.options.map((o, i) => `
+    <button class="listen-option" id="lopt${i}"
+      onclick="checkListenOpt(${i})">
+      ${o.character}
+      <small>${o.romaji}</small>
+    </button>`).join('');
+
+  el.innerHTML = `
+    <div class="listen-prompt">👂 Which character did you hear?</div>
+    <div class="listen-play-area">
+      <button class="btn-listen-play" onclick="playJapanese('${q.playText}')">🔊 Play</button>
+      <span style="font-size:.8rem;color:var(--sub)">Click play, then choose</span>
+    </div>
+    <div class="listen-options">${optBtns}</div>
+    <div class="listen-feedback" id="listenFb"></div>
+    <div class="listen-score">Question ${qIdx + 1} of ${total} · Score: ${score} / ${qIdx || '–'}</div>
+    <button class="listen-next-btn" id="listenNextBtn"
+      onclick="listenState.qIdx++;listenState.answered=false;renderListenQ()">Next →</button>`;
+}
+
+function checkListenOpt(selectedIdx) {
+  if (listenState.answered) return;
+  listenState.answered = true;
+  const { qIdx, questions } = listenState;
+  const q = questions[qIdx];
+  const correct = selectedIdx === q.correctIdx;
+  if (correct) listenState.score++;
+
+  document.querySelectorAll('.listen-option').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correctIdx) btn.classList.add('correct');
+    else if (i === selectedIdx) btn.classList.add('incorrect');
+  });
+
+  const fb = document.getElementById('listenFb');
+  if (fb) {
+    fb.textContent = correct
+      ? '✓ Correct! よくできました！'
+      : `✗ It was ${q.options[q.correctIdx].character} (${q.options[q.correctIdx].romaji})`;
+    fb.className = 'listen-feedback ' + (correct ? 'ok' : 'bad');
+  }
+  const nb = document.getElementById('listenNextBtn');
+  if (nb) nb.style.display = 'inline-block';
+}
+
+// ─────────────────────────────────────────────────────────────
 // STORAGE
 // ─────────────────────────────────────────────────────────────
 const LS_KEY = 'enidAcademy';
@@ -1409,27 +1728,47 @@ function renderLessonView(lessonId) {
   const isComplete = jp.completedLessons.includes(lessonId);
   const { prev, next } = getAdjacentLessons(lessonId);
 
-  // Mining sentences
-  const miningSentences = (lesson.sentenceMiningIds || [])
-    .map(id => getSentenceById(id))
-    .filter(Boolean);
-
+  // Examples with play buttons
   const exRows = lesson.examples.map(e => `
     <tr>
-      <td class="ex-japanese">${e.japanese}</td>
+      <td class="ex-japanese">
+        <span class="ex-jp-wrap">
+          ${e.japanese}
+          <button class="play-btn" onclick="playJapanese('${e.japanese.replace(/'/g,"\\'")}') " title="Play">🔊</button>
+        </span>
+      </td>
       <td class="ex-romaji">${e.romaji}</td>
       <td class="ex-english">${e.english}</td>
     </tr>
   `).join('');
 
+  // Sentence mining with play buttons
+  const miningSentences = (lesson.sentenceMiningIds || [])
+    .map(id => getSentenceById(id)).filter(Boolean);
   const miningHTML = miningSentences.map(s => `
     <div class="mining-sentence">
-      <div class="mining-japanese">${s.japanese}</div>
+      <div class="mining-top">
+        <div class="mining-japanese">${s.japanese}</div>
+        <button class="play-btn" onclick="playJapanese('${s.japanese.replace(/'/g,"\\'")}') " title="Play">🔊</button>
+      </div>
       <div class="mining-romaji">${s.romaji}</div>
       <div class="mining-english">${s.english}</div>
       <span class="mining-unit-tag">${s.unit}</span>
     </div>
   `).join('');
+
+  // Writing practice: char cards if available, else text
+  const writingHTML = lesson.chars
+    ? `<p style="font-size:.83rem;color:var(--sub);margin-bottom:4px">Click any card to hear the pronunciation 🔊</p>${renderCharGrid(lesson.chars)}`
+    : `<p>${lesson.writing}</p>`;
+
+  // Listening: interactive if chars or examples available, else text
+  const listeningInnerHTML = `
+    <div class="listen-exercise" id="listenExercise">
+      <div style="text-align:center;padding:8px">
+        <button class="btn-listen-play" onclick="initListenExercise(${lessonId})">▶ Start Exercise</button>
+      </div>
+    </div>`;
 
   document.getElementById('lessonContent').innerHTML = `
     <div class="lesson-hero">
@@ -1464,14 +1803,14 @@ function renderLessonView(lessonId) {
     <div class="lesson-section">
       <div class="lesson-section-card">
         <div class="ls-header">✍️ Writing Practice</div>
-        <div class="ls-body"><p>${lesson.writing}</p></div>
+        <div class="ls-body">${writingHTML}</div>
       </div>
     </div>
 
     <div class="lesson-section">
       <div class="lesson-section-card">
         <div class="ls-header">👂 Listening Practice</div>
-        <div class="ls-body"><p>${lesson.listening}</p></div>
+        ${listeningInnerHTML}
       </div>
     </div>
 
@@ -1485,7 +1824,7 @@ function renderLessonView(lessonId) {
     <div class="lesson-section">
       <div class="lesson-section-card">
         <div class="ls-header">📝 Homework</div>
-        <div class="ls-body"><p>${lesson.homework}</p></div>
+        <div class="homework-card"><p>${lesson.homework}</p></div>
       </div>
     </div>
 
