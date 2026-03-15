@@ -1,10 +1,138 @@
 [
-  { "id": 1, "unitId": 7, "globalIndex": 49, "title": "Gethsemane — The Cup", "objective": "Enter the garden with Jesus and see the full weight of what He is about to bear for the sin of the world.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Mark 14:36", "text": "And he said, 'Abba, Father, all things are possible for you. Remove this cup from me. Yet not what I will, but what you will.'" } ] },
-  { "id": 2, "unitId": 7, "globalIndex": 50, "title": "The Trials of Jesus", "objective": "See Jesus stand before Pilate and Herod and understand how His condemnation is the justice that sets us free.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "John 18:37", "text": "Then Pilate said to him, 'So you are a king?' Jesus answered, 'You say that I am a king. For this purpose I was born and for this purpose I have come into the world — to bear witness to the truth.'" } ] },
-  { "id": 3, "unitId": 7, "globalIndex": 51, "title": "The Crucifixion", "objective": "Stand at the foot of the cross and see what the love of God looks like when it meets the full weight of sin.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Romans 5:8", "text": "But God shows his love for us in that while we were still sinners, Christ died for us." } ] },
-  { "id": 4, "unitId": 7, "globalIndex": 52, "title": "It Is Finished", "objective": "Hear Christ's final words from the cross and understand the completed, sufficient, once-for-all atonement He accomplished.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "John 19:30", "text": "When Jesus had received the sour wine, he said, 'It is finished,' and he bowed his head and gave up his spirit." } ] },
-  { "id": 5, "unitId": 7, "globalIndex": 53, "title": "The Resurrection", "objective": "Encounter the empty tomb and the risen Christ — the event that changes everything for every believer for all time.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Corinthians 15:20", "text": "But in fact Christ has been raised from the dead, the firstfruits of those who have fallen asleep." } ] },
-  { "id": 6, "unitId": 7, "globalIndex": 54, "title": "The Great Commission", "objective": "Receive Christ's command to make disciples of all nations and understand the authority behind it.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Matthew 28:19–20", "text": "Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, teaching them to observe all that I have commanded you. And behold, I am with you always, to the end of the age." } ] },
-  { "id": 7, "unitId": 7, "globalIndex": 55, "title": "The Ascension", "objective": "See Jesus take His place at the right hand of the Father as the risen and reigning King of the universe.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Acts 1:11", "text": "Men of Galilee, why do you stand looking into heaven? This Jesus, who was taken up from you into heaven, will come in the same way as you saw him go into heaven." } ] },
-  { "id": 8, "unitId": 7, "globalIndex": 56, "title": "Pentecost — The Spirit Poured Out", "objective": "Witness the birth of the Church as the Holy Spirit falls on the disciples and the mission of God goes global.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Acts 2:4", "text": "And they were all filled with the Holy Spirit and began to speak in other tongues as the Spirit gave them utterance." } ] }
+  {
+    "id": 1,
+    "unitId": 7,
+    "globalIndex": 49,
+    "title": "The Birth of Jesus",
+    "objective": "Understand that Jesus was born as the promised Savior and true Son of God.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After centuries of waiting, the promised Messiah was born. Jesus came into the world to save sinners and fulfill God's promises."},
+      {"type":"scripture","ref":"Luke 2:11","text":"For unto you is born this day in the city of David a Savior, who is Christ the Lord."},
+      {"type":"scripture","ref":"Matthew 1:23","text":"Behold, the virgin shall conceive and bear a son, and they shall call his name Immanuel."},
+      {"type":"teaching","heading":"The Promised Savior Arrives","content":"Jesus was not just another teacher or prophet. He is the Christ, the promised Savior foretold by the prophets. His birth marks the fulfillment of God's long-promised plan of redemption."},
+      {"type":"catechism","content":"I believe that Jesus Christ, true God, begotten of the Father from eternity, and also true man, born of the virgin Mary, is my Lord.","ref":"Small Catechism — Apostles' Creed, Second Article"},
+      {"type":"reflection","questions":["Why is the birth of Jesus such an important moment in history?","What does the name Immanuel mean?","How does Jesus' birth fulfill God's promises?"]},
+      {"type":"prayer","content":"Lord Jesus, thank You for coming into the world to save sinners. Help us rejoice in Your birth and trust in Your saving love. Amen."}
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 7,
+    "globalIndex": 50,
+    "title": "John the Baptist",
+    "objective": "Learn how John the Baptist prepared the way for Jesus.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Before Jesus began His public ministry, God sent John the Baptist to prepare the people through preaching repentance and pointing them to Christ."},
+      {"type":"scripture","ref":"John 1:29","text":"Behold, the Lamb of God, who takes away the sin of the world!"},
+      {"type":"scripture","ref":"Luke 3:4","text":"The voice of one crying in the wilderness: 'Prepare the way of the Lord.'"},
+      {"type":"teaching","heading":"Preparing the Way","content":"John's role was to call people to repentance and direct their attention to Jesus. He was the forerunner promised by the prophets, preparing hearts to receive the Savior."},
+      {"type":"catechism","content":"Repentance is sorrow over sin and faith in the promise of forgiveness through Christ.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why did God send John the Baptist before Jesus?","What message did John preach?","Why is repentance still important today?"]},
+      {"type":"prayer","content":"Lord, prepare our hearts through Your Word and lead us to repentance and faith in Jesus. Amen."}
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 7,
+    "globalIndex": 51,
+    "title": "Jesus Is Baptized",
+    "objective": "Understand the significance of Jesus' baptism and the revelation of the Holy Trinity.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Jesus came to John to be baptized, not because He had sinned, but to fulfill all righteousness and begin His public ministry."},
+      {"type":"scripture","ref":"Matthew 3:17","text":"This is my beloved Son, with whom I am well pleased."},
+      {"type":"scripture","ref":"Matthew 3:16","text":"And when Jesus was baptized... he saw the Spirit of God descending like a dove."},
+      {"type":"teaching","heading":"The Father's Beloved Son","content":"At Jesus' baptism, the Father spoke, the Son stood in the water, and the Holy Spirit descended like a dove. This event reveals the Holy Trinity and shows Jesus as the chosen Savior."},
+      {"type":"catechism","content":"Baptism works forgiveness of sins, rescues from death and the devil, and gives eternal salvation to all who believe this.","ref":"Small Catechism — Holy Baptism"},
+      {"type":"reflection","questions":["Why was Jesus baptized if He had no sin?","What does this event reveal about who Jesus is?","How does Jesus' baptism relate to our own baptism?"]},
+      {"type":"prayer","content":"Heavenly Father, thank You for revealing Jesus as Your beloved Son and for blessing us through Baptism. Amen."}
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 7,
+    "globalIndex": 52,
+    "title": "Jesus Teaches the Kingdom",
+    "objective": "Learn about Jesus' teaching on the kingdom of God and life under His rule.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Jesus traveled through towns and villages preaching the good news of the kingdom of God. He called people to faith, repentance, and a new life in Him."},
+      {"type":"scripture","ref":"Mark 1:15","text":"The time is fulfilled, and the kingdom of God is at hand; repent and believe in the gospel."},
+      {"type":"scripture","ref":"Matthew 5:3","text":"Blessed are the poor in spirit, for theirs is the kingdom of heaven."},
+      {"type":"teaching","heading":"The Kingdom of God","content":"Jesus taught that God's kingdom had come near in His own person and work. His teaching revealed what life looks like under God's reign: faith, humility, mercy, and trust in the Father."},
+      {"type":"catechism","content":"The kingdom of God comes when our heavenly Father gives us His Holy Spirit, so that by His grace we believe His holy Word and lead godly lives.","ref":"Small Catechism — Second Petition"},
+      {"type":"reflection","questions":["What does Jesus mean by the kingdom of God?","Why does Jesus call people to repent and believe?","How does Jesus' teaching shape Christian life?"]},
+      {"type":"prayer","content":"Lord Jesus, bring Your kingdom among us and teach us to live as Your faithful people. Amen."}
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 7,
+    "globalIndex": 53,
+    "title": "The Miracles of Jesus",
+    "objective": "Recognize that Jesus' miracles reveal His authority, compassion, and divine identity.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Jesus healed the sick, calmed storms, cast out demons, and even raised the dead. His miracles were signs that revealed who He is."},
+      {"type":"scripture","ref":"John 20:30-31","text":"Now Jesus did many other signs... but these are written so that you may believe that Jesus is the Christ, the Son of God."},
+      {"type":"scripture","ref":"Mark 4:39","text":"And he awoke and rebuked the wind and said to the sea, 'Peace! Be still!'"},
+      {"type":"teaching","heading":"Signs of the Messiah","content":"Jesus' miracles were not just displays of power. They showed His compassion for suffering people and revealed Him as the Son of God with authority over sickness, nature, evil, and death."},
+      {"type":"catechism","content":"Jesus Christ has redeemed me, a lost and condemned person... not with gold or silver, but with His holy, precious blood.","ref":"Small Catechism — Apostles' Creed, Second Article"},
+      {"type":"reflection","questions":["Why did Jesus perform miracles?","What do the miracles reveal about His identity?","How do these signs strengthen faith?"]},
+      {"type":"prayer","content":"Lord Jesus, thank You for showing mercy and power. Strengthen our faith as we trust in You. Amen."}
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 7,
+    "globalIndex": 54,
+    "title": "The Last Supper",
+    "objective": "Understand how Jesus instituted the Lord's Supper for His Church.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"On the night before He was crucified, Jesus shared a final meal with His disciples and gave them His true body and blood under bread and wine."},
+      {"type":"scripture","ref":"Luke 22:19","text":"This is my body, which is given for you. Do this in remembrance of me."},
+      {"type":"scripture","ref":"Luke 22:20","text":"This cup that is poured out for you is the new covenant in my blood."},
+      {"type":"teaching","heading":"A Gift for the Church","content":"In the Lord's Supper, Jesus gives His body and blood for the forgiveness of sins. This meal is not merely symbolic; it is His gracious gift to strengthen faith and comfort believers."},
+      {"type":"catechism","content":"It is the true body and blood of our Lord Jesus Christ under the bread and wine, instituted by Christ Himself for us Christians to eat and to drink.","ref":"Small Catechism — Sacrament of the Altar"},
+      {"type":"reflection","questions":["What did Jesus give His disciples at the Last Supper?","Why is the Lord's Supper important for Christians?","What promise does Jesus attach to this meal?"]},
+      {"type":"prayer","content":"Lord Jesus, thank You for giving Your body and blood for our forgiveness. Keep us in faith through Your holy gifts. Amen."}
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 7,
+    "globalIndex": 55,
+    "title": "The Crucifixion of Jesus",
+    "objective": "Understand that Jesus died on the cross for the sins of the world.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Jesus was condemned, mocked, and nailed to a cross. There He suffered and died to take away the sins of the world."},
+      {"type":"scripture","ref":"Isaiah 53:5","text":"He was pierced for our transgressions; he was crushed for our iniquities."},
+      {"type":"scripture","ref":"John 19:30","text":"When Jesus had received the sour wine, he said, 'It is finished,' and he bowed his head and gave up his spirit."},
+      {"type":"teaching","heading":"The Sacrifice for Sin","content":"Jesus' death was not an accident or defeat. He willingly gave His life as the atoning sacrifice for sinners. At the cross, God's justice and mercy meet in the salvation of the world."},
+      {"type":"catechism","content":"He has redeemed me... purchased and won me from all sins, from death, and from the power of the devil.","ref":"Small Catechism — Apostles' Creed, Second Article"},
+      {"type":"reflection","questions":["Why did Jesus have to die?","What does the cross reveal about sin?","What does the cross reveal about God's love?"]},
+      {"type":"prayer","content":"Lord Jesus, thank You for dying for my sins. Teach me to trust in Your cross alone for salvation. Amen."}
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 7,
+    "globalIndex": 56,
+    "title": "The Resurrection of Jesus",
+    "objective": "Rejoice that Jesus rose from the dead and won victory over sin and death.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"On the third day after His death, Jesus rose from the dead. The tomb was empty, and His disciples saw Him alive."},
+      {"type":"scripture","ref":"Matthew 28:6","text":"He is not here, for he has risen, as he said."},
+      {"type":"scripture","ref":"1 Corinthians 15:20","text":"But in fact Christ has been raised from the dead, the firstfruits of those who have fallen asleep."},
+      {"type":"teaching","heading":"Christ Is Risen","content":"The resurrection is the center of Christian hope. Because Jesus lives, sin and death do not have the final word. His victory assures believers of forgiveness, life, and the resurrection of the body."},
+      {"type":"catechism","content":"On the Last Day He will raise me and all the dead, and give eternal life to me and all believers in Christ.","ref":"Small Catechism — Apostles' Creed, Third Article"},
+      {"type":"reflection","questions":["Why is the resurrection essential to the Christian faith?","What does Jesus' resurrection mean for believers?","How does the empty tomb give hope in the face of death?"]},
+      {"type":"prayer","content":"Risen Lord Jesus, thank You for conquering death and giving us eternal hope. Keep us in the joy of Your resurrection. Amen."}
+    ]
+  }
 ]

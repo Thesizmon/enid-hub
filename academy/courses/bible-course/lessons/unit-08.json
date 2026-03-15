@@ -1,10 +1,138 @@
 [
-  { "id": 1, "unitId": 8, "globalIndex": 57, "title": "The Early Church", "objective": "See the Spirit-empowered community of believers in Acts as a model for the Church's life and witness.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Acts 2:42", "text": "And they devoted themselves to the apostles' teaching and the fellowship, to the breaking of bread and the prayers." } ] },
-  { "id": 2, "unitId": 8, "globalIndex": 58, "title": "Justification by Grace Through Faith", "objective": "Grasp the heart of the Lutheran Reformation: we are declared righteous before God by grace alone through faith alone in Christ alone.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Ephesians 2:8–9", "text": "For by grace you have been saved through faith. And this is not your own doing; it is the gift of God, not a result of works, so that no one may boast." } ] },
-  { "id": 3, "unitId": 8, "globalIndex": 59, "title": "Baptism & the New Birth", "objective": "Understand Baptism as a means of grace through which God works new birth, forgiveness, and adoption.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Titus 3:5", "text": "He saved us, not because of works done by us in righteousness, but according to his own mercy, by the washing of regeneration and renewing of the Holy Spirit..." } ] },
-  { "id": 4, "unitId": 8, "globalIndex": 60, "title": "The Lord's Supper — Communion", "objective": "Receive the gift of Christ's true body and blood in, with, and under the bread and wine for the forgiveness of sins.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Corinthians 11:26", "text": "For as often as you eat this bread and drink the cup, you proclaim the Lord's death until he comes." } ] },
-  { "id": 5, "unitId": 8, "globalIndex": 61, "title": "The Body of Christ", "objective": "See the Church as Christ's own body — diverse in gifts, united in one Lord, one faith, one Baptism.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Corinthians 12:27", "text": "Now you are the body of Christ and individually members of it." } ] },
-  { "id": 6, "unitId": 8, "globalIndex": 62, "title": "Suffering & Hope", "objective": "Understand how the Christian faces suffering with hope, knowing that present suffering cannot compare to the glory to come.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Romans 8:18", "text": "For I consider that the sufferings of this present time are not worth comparing with the glory that is to be revealed to us." } ] },
-  { "id": 7, "unitId": 8, "globalIndex": 63, "title": "The Return of Christ", "objective": "Look forward in confident hope to Christ's return in glory to judge the living and the dead and make all things new.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Thessalonians 4:16–17", "text": "For the Lord himself will descend from heaven with a cry of command, with the voice of an archangel, and with the sound of the trumpet of God. And the dead in Christ will rise first. Then we who are alive, who are left, will be caught up together with them in the clouds to meet the Lord in the air, and so we will always be with the Lord." } ] },
-  { "id": 8, "unitId": 8, "globalIndex": 64, "title": "The New Jerusalem", "objective": "Behold the vision of the New Creation — God dwelling with His people forever — as the destination of all of Scripture's story.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Revelation 21:3–4", "text": "And I heard a loud voice from the throne saying, 'Behold, the dwelling place of God is with man. He will dwell with them, and they will be his people, and God himself will be with them as their God. He will wipe away every tear from their eyes, and death shall be no more, neither shall there be mourning, nor crying, nor pain anymore, for the former things have passed away.'" } ] }
+  {
+    "id": 1,
+    "unitId": 8,
+    "globalIndex": 57,
+    "title": "The Holy Spirit Comes at Pentecost",
+    "objective": "Understand how the Holy Spirit was poured out on the Church at Pentecost.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After Jesus ascended into heaven, the Holy Spirit came upon the apostles at Pentecost and empowered them to proclaim the Gospel."},
+      {"type":"scripture","ref":"Acts 2:4","text":"And they were all filled with the Holy Spirit and began to speak in other tongues."},
+      {"type":"scripture","ref":"Acts 2:38","text":"Repent and be baptized every one of you in the name of Jesus Christ for the forgiveness of your sins."},
+      {"type":"teaching","heading":"The Spirit and the Church","content":"Pentecost marks the public beginning of the Church's mission. The Holy Spirit works through preaching and Baptism to bring people to faith in Jesus Christ."},
+      {"type":"catechism","content":"I believe that I cannot by my own reason or strength believe in Jesus Christ, my Lord, or come to Him; but the Holy Spirit has called me by the Gospel.","ref":"Small Catechism — Apostles' Creed, Third Article"},
+      {"type":"reflection","questions":["What happened at Pentecost?","Why is the coming of the Holy Spirit so important?","How does the Holy Spirit still work through the Church today?"]},
+      {"type":"prayer","content":"Holy Spirit, create faith in our hearts through the Gospel and strengthen Your Church. Amen."}
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 8,
+    "globalIndex": 58,
+    "title": "The Early Church",
+    "objective": "Learn how the first Christians lived together in faith, worship, and fellowship.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After Pentecost, the first Christians gathered around the apostles' teaching, fellowship, prayer, and the breaking of bread."},
+      {"type":"scripture","ref":"Acts 2:42","text":"And they devoted themselves to the apostles' teaching and the fellowship, to the breaking of bread and the prayers."},
+      {"type":"scripture","ref":"Acts 2:47","text":"And the Lord added to their number day by day those who were being saved."},
+      {"type":"teaching","heading":"Life Together in Christ","content":"The Church is not just a building or organization. It is the people of God gathered around His Word and Sacraments. The early Church shows what Christian community looks like under the Gospel."},
+      {"type":"catechism","content":"The Holy Spirit calls, gathers, enlightens, and sanctifies the whole Christian Church on earth.","ref":"Small Catechism — Apostles' Creed, Third Article"},
+      {"type":"reflection","questions":["What practices shaped the life of the early Church?","Why are Word and Sacrament central to the Church?","What can Christians today learn from Acts 2?"]},
+      {"type":"prayer","content":"Lord, gather us around Your Word, strengthen our fellowship, and keep us faithful in Your Church. Amen."}
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 8,
+    "globalIndex": 59,
+    "title": "Saul Becomes Paul",
+    "objective": "Understand how Jesus called Saul and transformed him into the apostle Paul.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Saul once persecuted Christians, but the risen Jesus appeared to him and changed his life forever."},
+      {"type":"scripture","ref":"Acts 9:5","text":"I am Jesus, whom you are persecuting."},
+      {"type":"scripture","ref":"Acts 9:15","text":"He is a chosen instrument of mine to carry my name before the Gentiles."},
+      {"type":"teaching","heading":"Grace That Changes Lives","content":"Paul's conversion shows that salvation is entirely God's work. Jesus called even His enemy into faith and service, showing that no sinner is beyond His mercy."},
+      {"type":"catechism","content":"The Holy Spirit calls by the Gospel and creates faith where there was unbelief.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Who was Saul before meeting Jesus?","What does Paul's conversion teach about grace?","How does God still change lives through the Gospel?"]},
+      {"type":"prayer","content":"Lord Jesus, thank You for Your mercy toward sinners. Turn our hearts to You and use us for Your service. Amen."}
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 8,
+    "globalIndex": 60,
+    "title": "Paul's Missionary Journeys",
+    "objective": "See how the Gospel spread through the preaching of Paul and his companions.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Paul traveled through many cities preaching Christ, planting churches, and encouraging believers."},
+      {"type":"scripture","ref":"Romans 1:16","text":"For I am not ashamed of the gospel, for it is the power of God for salvation to everyone who believes."},
+      {"type":"scripture","ref":"Acts 13:47","text":"I have made you a light for the Gentiles, that you may bring salvation to the ends of the earth."},
+      {"type":"teaching","heading":"The Gospel Goes to the Nations","content":"The Christian faith was never meant for one people alone. Through Paul's journeys, God spread the message of Christ to Jews and Gentiles alike, building His Church in many places."},
+      {"type":"catechism","content":"The Gospel is the power of God for salvation for all who believe.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why did Paul travel so much?","What challenges did he face?","Why is it important that the Gospel goes to all nations?"]},
+      {"type":"prayer","content":"Lord, bless the spread of Your Gospel throughout the world and make us bold in confessing Christ. Amen."}
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 8,
+    "globalIndex": 61,
+    "title": "The Letters of the Apostles",
+    "objective": "Learn how the apostles taught and encouraged the Church through their letters.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"The New Testament letters were written to teach believers, correct errors, and strengthen the Church in faith and love."},
+      {"type":"scripture","ref":"2 Timothy 1:13","text":"Follow the pattern of the sound words that you have heard from me."},
+      {"type":"scripture","ref":"Ephesians 2:8-9","text":"For by grace you have been saved through faith. And this is not your own doing; it is the gift of God."},
+      {"type":"teaching","heading":"Teaching the Church","content":"The apostolic letters explain the meaning of Christ's saving work and help Christians live in faithfulness. They emphasize grace, faith, love, unity, and holy living."},
+      {"type":"catechism","content":"We are saved by grace alone through faith in Christ alone.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why did the apostles write letters to the Church?","What truths do these letters teach?","Why does doctrine matter for Christian life?"]},
+      {"type":"prayer","content":"Lord, keep Your Church grounded in the truth of Your Word and the comfort of Your grace. Amen."}
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 8,
+    "globalIndex": 62,
+    "title": "Christian Life and Vocation",
+    "objective": "Understand how Christians live by faith and serve their neighbors in daily life.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Christians are saved by grace, yet faith bears fruit in love, good works, and faithful service in daily life."},
+      {"type":"scripture","ref":"Galatians 5:22-23","text":"But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control."},
+      {"type":"scripture","ref":"Colossians 3:17","text":"And whatever you do, in word or deed, do everything in the name of the Lord Jesus."},
+      {"type":"teaching","heading":"Faith Active in Love","content":"Good works do not earn salvation, but they do flow from faith. Christians serve God by serving their neighbors in family life, work, friendship, and every calling where God has placed them."},
+      {"type":"catechism","content":"We should fear and love God so that we serve our neighbor in love according to His commandments.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["How is Christian living different from trying to earn salvation?","What is vocation?","How can faith shape everyday life?"]},
+      {"type":"prayer","content":"Lord, let our faith bear fruit in love and teach us to serve our neighbors with joy. Amen."}
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 8,
+    "globalIndex": 63,
+    "title": "The Book of Revelation",
+    "objective": "Recognize Revelation as a message of comfort and victory for the Church in Christ.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"The book of Revelation uses powerful images and visions to show that Jesus Christ reigns and that His people will share in His victory."},
+      {"type":"scripture","ref":"Revelation 1:17-18","text":"Fear not, I am the first and the last, and the living one. I died, and behold I am alive forevermore."},
+      {"type":"scripture","ref":"Revelation 5:12","text":"Worthy is the Lamb who was slain, to receive power and wealth and wisdom and might and honor and glory and blessing!"},
+      {"type":"teaching","heading":"Victory in the Lamb","content":"Revelation is not meant to terrify believers but to strengthen them. It proclaims that Christ, the Lamb who was slain, has already won the victory. The Church can endure suffering in hope because Jesus reigns."},
+      {"type":"catechism","content":"Christ will come again in glory to judge both the living and the dead.","ref":"Small Catechism — Apostles' Creed, Second Article"},
+      {"type":"reflection","questions":["Who stands at the center of Revelation?","Why is this book meant to comfort believers?","How does Christ's victory strengthen the Church?"]},
+      {"type":"prayer","content":"Lord Jesus, keep us faithful in hope as we wait for Your coming and rest in Your victory. Amen."}
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 8,
+    "globalIndex": 64,
+    "title": "The New Creation",
+    "objective": "Rejoice in God's promise of a new heaven and a new earth where His people will live with Him forever.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"The Bible ends with a glorious promise: God will make all things new. Sin, death, sorrow, and pain will be gone, and God's people will live with Him forever."},
+      {"type":"scripture","ref":"Revelation 21:4","text":"He will wipe away every tear from their eyes, and death shall be no more."},
+      {"type":"scripture","ref":"Revelation 21:5","text":"Behold, I am making all things new."},
+      {"type":"teaching","heading":"The Hope of Eternal Life","content":"The story of Scripture ends where it was always headed: not with defeat, but with restoration. In the new creation, God's people will enjoy His presence forever. This is the final fulfillment of His saving plan in Christ."},
+      {"type":"catechism","content":"On the Last Day He will raise me and all the dead, and give eternal life to me and all believers in Christ.","ref":"Small Catechism — Apostles' Creed, Third Article"},
+      {"type":"reflection","questions":["What will be different in the new creation?","Why is this the perfect ending to the Bible's story?","How does this promise give hope today?"]},
+      {"type":"prayer","content":"Lord, keep us steadfast in faith until the day You make all things new. Amen."}
+    ]
+  }
 ]
