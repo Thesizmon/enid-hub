@@ -5,27 +5,26 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Bible Study ✝️ — Enid Academy</title>
+  <title>U.S. History 🇺🇸 — Enid Academy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --pink:   #E84EA0;
+      --navy:   #1B4F8A;
+      --navy2:  #1E40AF;
+      --red:    #B91C1C;
       --purple: #A855F7;
       --mint:   #6EE7B7;
-      --amber:  #F59E0B;
-      --amber2: #EF6C00;
-      --sky:    #60C8F5;
       --cream:  #FFFBF7;
       --glass:  rgba(255,255,255,0.76);
-      --border: rgba(168,85,247,0.13);
-      --gold-border: rgba(245,158,11,0.22);
-      --text:   #2D1B4E;
-      --sub:    #7C6F9B;
-      --gold-grad: linear-gradient(135deg,#F59E0B,#EF6C00);
-      --gold-fill: linear-gradient(90deg,#F59E0B,#FBBF24);
+      --border: rgba(27,79,138,0.14);
+      --navy-border: rgba(27,79,138,0.22);
+      --text:   #1A1F36;
+      --sub:    #5A6A8A;
+      --navy-grad: linear-gradient(135deg,#1B4F8A,#1E40AF);
+      --navy-fill: linear-gradient(90deg,#1B4F8A,#3B82F6);
     }
 
     html, body { height: 100%; }
@@ -34,23 +33,23 @@
       font-family: 'DM Sans', sans-serif;
       color: var(--text);
       min-height: 100vh;
-      background: #FDF4EE;
+      background: #F0F4FA;
     }
 
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 80% 60% at 10% 10%,  rgba(245,158,11,.10) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 90% 15%,  rgba(239,108,0,.07) 0%,  transparent 55%),
-        radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(232,78,160,.06) 0%, transparent 60%),
-        radial-gradient(ellipse 55% 45% at 15% 80%,  rgba(168,85,247,.07) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 35% at 85% 85%,  rgba(245,158,11,.06) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 60% at 10% 10%,  rgba(27,79,138,.10) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 15%,  rgba(185,28,28,.06) 0%,  transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(59,130,246,.05) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 15% 80%,  rgba(27,79,138,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 35% at 85% 85%,  rgba(185,28,28,.05) 0%, transparent 50%);
     }
 
     body::after {
       content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .038;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .03;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
     }
 
@@ -58,7 +57,7 @@
     #loader {
       position: fixed; inset: 0; z-index: 999;
       display: flex; align-items: center; justify-content: center;
-      background: #FDF4EE;
+      background: #F0F4FA;
       transition: opacity .4s, visibility .4s;
     }
     #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -69,7 +68,7 @@
     .loader-wolf img { width: 72px; height: 72px; object-fit: contain; }
     .loader-wolf span {
       font-family: 'Dancing Script', cursive;
-      font-size: 2.2rem; font-weight: 700; color: var(--amber);
+      font-size: 2.2rem; font-weight: 700; color: var(--navy);
       letter-spacing: .02em;
     }
     @keyframes loaderPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
@@ -83,7 +82,7 @@
     .header-title {
       font-family: 'Dancing Script', cursive;
       font-size: 2rem; font-weight: 700;
-      background: var(--gold-grad);
+      background: var(--navy-grad);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; line-height: 1.15;
     }
@@ -92,38 +91,38 @@
       display: inline-flex; align-items: center; gap: 5px;
       font-size: .72rem; font-weight: 700; letter-spacing: .04em;
       padding: 5px 12px; border-radius: 20px; text-decoration: none;
-      background: rgba(245,158,11,.1); border: 1px solid var(--gold-border);
+      background: rgba(27,79,138,.1); border: 1px solid var(--navy-border);
       color: var(--sub); transition: background .15s; white-space: nowrap;
     }
-    .back-btn:hover { background: rgba(245,158,11,.2); }
+    .back-btn:hover { background: rgba(27,79,138,.2); }
     .header-nav { padding: 7px 0 0; display: flex; gap: 7px; flex-wrap: wrap; }
     .header-nav-link {
       font-size: .72rem; font-weight: 700; letter-spacing: .03em;
       padding: 4px 12px; border-radius: 20px; text-decoration: none;
-      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      background: rgba(27,79,138,.08); border: 1px solid var(--border);
       color: var(--sub); transition: background .15s; white-space: nowrap;
     }
-    .header-nav-link:hover { background: rgba(168,85,247,.18); }
+    .header-nav-link:hover { background: rgba(27,79,138,.18); }
     .header-nav-link.active {
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      background: var(--navy-grad);
       color: #fff; border-color: transparent;
     }
 
     /* ── Glass card ──────────────────────────────────── */
     .glass-card {
       background: var(--glass);
-      border: 1.5px solid var(--gold-border);
+      border: 1.5px solid var(--navy-border);
       border-radius: 18px;
       padding: 20px;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 2px 18px rgba(245,158,11,.07);
+      box-shadow: 0 2px 18px rgba(27,79,138,.07);
     }
 
     /* ── Course view ─────────────────────────────────── */
     .course-hero {
-      background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(239,108,0,.08));
-      border: 1.5px solid var(--gold-border);
+      background: linear-gradient(135deg, rgba(27,79,138,.12), rgba(185,28,28,.07));
+      border: 1.5px solid var(--navy-border);
       border-radius: 20px;
       padding: 24px 20px;
       margin-bottom: 20px;
@@ -134,7 +133,7 @@
     .hero-badge {
       font-size: .65rem; font-weight: 700; letter-spacing: .05em;
       padding: 4px 10px; border-radius: 20px;
-      background: rgba(245,158,11,.18); color: #92400E;
+      background: rgba(27,79,138,.15); color: #1E3A5F;
       white-space: nowrap;
     }
     .hero-title {
@@ -142,15 +141,13 @@
       font-size: 1.3rem; font-weight: 700; color: var(--text);
       line-height: 1.25;
     }
-    .hero-desc {
-      font-size: .8rem; color: var(--sub); line-height: 1.55;
-    }
+    .hero-desc { font-size: .8rem; color: var(--sub); line-height: 1.55; }
     .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; }
     .hero-tag {
       font-size: .7rem; font-weight: 600;
       padding: 3px 10px; border-radius: 20px;
-      background: rgba(245,158,11,.12); color: #92400E;
-      border: 1px solid rgba(245,158,11,.2);
+      background: rgba(27,79,138,.1); color: #1E3A5F;
+      border: 1px solid rgba(27,79,138,.18);
     }
     .hero-progress { display: flex; flex-direction: column; gap: 6px; }
     .hero-progress-label {
@@ -158,12 +155,12 @@
       font-size: .75rem; font-weight: 600; color: var(--sub);
     }
     .progress-track {
-      height: 8px; background: rgba(245,158,11,.12);
+      height: 8px; background: rgba(27,79,138,.1);
       border-radius: 99px; overflow: hidden;
     }
     .progress-fill {
       height: 100%; border-radius: 99px;
-      background: var(--gold-fill);
+      background: var(--navy-fill);
       transition: width .4s cubic-bezier(.34,1.56,.64,1);
     }
 
@@ -176,32 +173,29 @@
     .unit-section-title .pill {
       font-size: .68rem; font-weight: 700; letter-spacing: .04em;
       padding: 2px 10px; border-radius: 20px;
-      background: rgba(245,158,11,.12); color: #92400E;
+      background: rgba(27,79,138,.1); color: #1E3A5F;
     }
 
-    /* Unit card / accordion */
     .unit-card {
       background: var(--glass);
-      border: 1.5px solid var(--gold-border);
+      border: 1.5px solid var(--navy-border);
       border-radius: 16px;
       overflow: hidden;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       transition: box-shadow .18s;
     }
-    .unit-card:hover { box-shadow: 0 4px 20px rgba(245,158,11,.10); }
+    .unit-card:hover { box-shadow: 0 4px 20px rgba(27,79,138,.10); }
 
     .unit-header {
       display: flex; align-items: center; gap: 12px;
       padding: 16px 18px;
-      cursor: pointer;
-      user-select: none;
-      -webkit-user-select: none;
+      cursor: pointer; user-select: none; -webkit-user-select: none;
     }
     .unit-number {
       font-size: .65rem; font-weight: 700; letter-spacing: .06em;
       padding: 3px 9px; border-radius: 20px;
-      background: rgba(245,158,11,.15); color: #92400E;
+      background: rgba(27,79,138,.13); color: #1E3A5F;
       white-space: nowrap; flex-shrink: 0;
     }
     .unit-icon { font-size: 1.3rem; flex-shrink: 0; }
@@ -215,10 +209,10 @@
     .unit-count { font-size: .72rem; color: var(--sub); font-weight: 600; }
     .unit-progress-mini {
       width: 50px; height: 5px;
-      background: rgba(245,158,11,.12); border-radius: 99px; overflow: hidden;
+      background: rgba(27,79,138,.1); border-radius: 99px; overflow: hidden;
     }
     .unit-progress-mini-fill {
-      height: 100%; border-radius: 99px; background: var(--gold-fill);
+      height: 100%; border-radius: 99px; background: var(--navy-fill);
       transition: width .4s ease;
     }
     .unit-chevron {
@@ -227,32 +221,27 @@
     }
     .unit-card.open .unit-chevron { transform: rotate(180deg); }
 
-    /* Lesson list (inside accordion) */
     .lesson-list {
       display: none;
-      border-top: 1px solid rgba(245,158,11,.12);
+      border-top: 1px solid rgba(27,79,138,.1);
       padding: 6px 0;
     }
     .unit-card.open .lesson-list { display: block; }
 
     .lesson-row {
       display: flex; align-items: center; gap: 10px;
-      padding: 10px 18px;
-      cursor: pointer;
-      transition: background .12s;
+      padding: 10px 18px; cursor: pointer; transition: background .12s;
     }
-    .lesson-row:hover { background: rgba(245,158,11,.05); }
-    .lesson-row:active { background: rgba(245,158,11,.10); }
+    .lesson-row:hover { background: rgba(27,79,138,.05); }
+    .lesson-row:active { background: rgba(27,79,138,.10); }
 
     .lesson-check {
       width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
-      border: 2px solid rgba(245,158,11,.4);
+      border: 2px solid rgba(27,79,138,.35);
       display: flex; align-items: center; justify-content: center;
       font-size: .7rem; transition: background .15s, border-color .15s;
     }
-    .lesson-check.done {
-      background: var(--amber); border-color: var(--amber); color: #fff;
-    }
+    .lesson-check.done { background: var(--navy); border-color: var(--navy); color: #fff; }
     .lesson-num { font-size: .68rem; font-weight: 700; color: var(--sub); flex-shrink: 0; min-width: 24px; }
     .lesson-title-text { font-size: .88rem; font-weight: 600; color: var(--text); flex: 1; }
     .lesson-duration { font-size: .68rem; color: var(--sub); flex-shrink: 0; }
@@ -267,21 +256,18 @@
       flex-wrap: wrap;
     }
     .breadcrumb-sep { opacity: .4; }
-    .breadcrumb-link {
-      cursor: pointer; text-decoration: none; color: var(--sub);
-      transition: color .12s;
-    }
-    .breadcrumb-link:hover { color: var(--amber); }
+    .breadcrumb-link { cursor: pointer; text-decoration: none; color: var(--sub); transition: color .12s; }
+    .breadcrumb-link:hover { color: var(--navy); }
     .breadcrumb-current { font-weight: 700; color: var(--text); }
 
     .lesson-card {
       background: var(--glass);
-      border: 1.5px solid var(--gold-border);
+      border: 1.5px solid var(--navy-border);
       border-radius: 20px;
       padding: 24px 20px;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 2px 18px rgba(245,158,11,.07);
+      box-shadow: 0 2px 18px rgba(27,79,138,.07);
       margin-bottom: 14px;
     }
 
@@ -289,176 +275,179 @@
     .lesson-unit-tag {
       font-size: .65rem; font-weight: 700; letter-spacing: .05em;
       padding: 3px 10px; border-radius: 20px;
-      background: rgba(245,158,11,.15); color: #92400E; white-space: nowrap;
+      background: rgba(27,79,138,.13); color: #1E3A5F; white-space: nowrap;
     }
     .lesson-duration-tag {
       font-size: .65rem; font-weight: 600;
       padding: 3px 10px; border-radius: 20px;
-      background: rgba(168,85,247,.08); color: var(--sub);
+      background: rgba(27,79,138,.08); color: var(--sub);
       white-space: nowrap;
     }
     .lesson-title {
       font-family: 'Playfair Display', serif;
       font-size: 1.35rem; font-weight: 700;
-      color: var(--text); line-height: 1.25;
-      margin-bottom: 8px;
+      color: var(--text); line-height: 1.25; margin-bottom: 8px;
     }
     .lesson-objective {
-      font-size: .82rem; color: var(--sub);
-      line-height: 1.55;
+      font-size: .82rem; color: var(--sub); line-height: 1.55;
       padding: 10px 14px;
-      background: rgba(245,158,11,.07);
-      border-left: 3px solid var(--amber);
+      background: rgba(27,79,138,.07);
+      border-left: 3px solid var(--navy);
       border-radius: 0 10px 10px 0;
     }
 
-    /* Section cards */
+    /* ── Section cards ───────────────────────────────── */
     .lesson-sections { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
 
-    .section-intro {
-      font-size: .88rem; line-height: 1.65; color: var(--text);
-    }
+    .section-intro { font-size: .88rem; line-height: 1.65; color: var(--text); }
 
+    /* scripture — kept for any crossover Bible content */
     .section-scripture {
-      background: linear-gradient(135deg, rgba(245,158,11,.09), rgba(239,108,0,.06));
-      border: 1.5px solid rgba(245,158,11,.25);
-      border-radius: 14px;
-      padding: 16px 18px;
+      background: linear-gradient(135deg, rgba(27,79,138,.09), rgba(185,28,28,.06));
+      border: 1.5px solid rgba(27,79,138,.22);
+      border-radius: 14px; padding: 16px 18px;
     }
-    .scripture-ref {
-      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
-      color: #92400E; margin-bottom: 8px;
-    }
-    .scripture-text {
-      font-family: 'Playfair Display', serif;
-      font-style: italic; font-size: .92rem; line-height: 1.65;
-      color: var(--text);
-    }
-    .scripture-version {
-      font-size: .65rem; font-weight: 700; letter-spacing: .07em;
-      color: var(--sub); margin-top: 8px; text-align: right;
-    }
+    .scripture-ref { font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: #1E3A5F; margin-bottom: 8px; }
+    .scripture-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: .92rem; line-height: 1.65; color: var(--text); }
+    .scripture-version { font-size: .65rem; font-weight: 700; letter-spacing: .07em; color: var(--sub); margin-top: 8px; text-align: right; }
 
+    /* source — primary source document */
+    .section-source {
+      background: linear-gradient(135deg, rgba(27,79,138,.09), rgba(185,28,28,.06));
+      border: 1.5px solid rgba(27,79,138,.22);
+      border-radius: 14px; padding: 16px 18px;
+    }
+    .source-label { font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: #1E3A5F; margin-bottom: 8px; }
+    .source-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: .92rem; line-height: 1.65; color: var(--text); }
+    .source-attr { font-size: .68rem; font-weight: 700; color: var(--sub); margin-top: 8px; text-align: right; font-style: italic; }
+
+    /* teaching */
     .section-teaching {
       background: var(--glass);
       border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 18px;
+      border-radius: 14px; padding: 16px 18px;
     }
     .teaching-head {
-      font-size: .88rem; font-weight: 700; color: var(--amber2);
+      font-size: .88rem; font-weight: 700; color: var(--navy2);
       margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
     }
     .teaching-head::before { content: '📖'; font-size: .9rem; }
     .section-teaching p { font-size: .88rem; line-height: 1.65; color: var(--text); }
 
+    /* timeline */
+    .section-timeline {
+      background: var(--glass);
+      border: 1.5px solid rgba(27,79,138,.2);
+      border-radius: 14px; padding: 16px 18px;
+    }
+    .timeline-label { font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: var(--navy); margin-bottom: 10px; }
+    .timeline-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .timeline-item { display: flex; gap: 12px; align-items: flex-start; }
+    .timeline-date {
+      font-size: .72rem; font-weight: 700; color: #fff;
+      background: var(--navy); border-radius: 6px;
+      padding: 2px 8px; flex-shrink: 0; white-space: nowrap;
+      margin-top: 2px;
+    }
+    .timeline-desc { font-size: .88rem; line-height: 1.55; color: var(--text); }
+
+    /* catechism — kept for crossover */
     .section-catechism {
       background: linear-gradient(135deg, rgba(168,85,247,.07), rgba(232,78,160,.05));
       border: 1.5px solid rgba(168,85,247,.18);
-      border-radius: 14px;
-      padding: 16px 18px;
+      border-radius: 14px; padding: 16px 18px;
     }
-    .catechism-label {
-      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
-      color: var(--purple); margin-bottom: 8px;
-    }
+    .catechism-label { font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: #6D28D9; margin-bottom: 8px; }
     .section-catechism p { font-size: .88rem; line-height: 1.65; color: var(--text); }
-    .catechism-ref {
-      font-size: .68rem; font-weight: 700; color: var(--sub);
-      margin-top: 8px; font-style: italic;
-    }
+    .catechism-ref { font-size: .68rem; font-weight: 700; color: var(--sub); margin-top: 8px; font-style: italic; }
 
+    /* reflection */
     .section-reflection {
       background: linear-gradient(135deg, rgba(110,231,183,.09), rgba(96,200,245,.06));
       border: 1.5px solid rgba(110,231,183,.25);
-      border-radius: 14px;
-      padding: 16px 18px;
+      border-radius: 14px; padding: 16px 18px;
     }
-    .reflection-label {
-      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
-      color: #065F46; margin-bottom: 10px;
-    }
-    .reflection-list {
-      list-style: none; display: flex; flex-direction: column; gap: 8px;
-    }
+    .reflection-label { font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: #065F46; margin-bottom: 10px; }
+    .reflection-list { list-style: none; display: flex; flex-direction: column; gap: 8px; counter-reset: item; }
     .reflection-list li {
       font-size: .88rem; line-height: 1.55; color: var(--text);
       padding-left: 22px; position: relative;
     }
     .reflection-list li::before {
-      content: counter(item);
-      counter-increment: item;
+      content: counter(item); counter-increment: item;
       position: absolute; left: 0;
       font-size: .72rem; font-weight: 700;
       width: 18px; height: 18px; border-radius: 50%;
       background: rgba(110,231,183,.3); color: #065F46;
-      display: flex; align-items: center; justify-content: center;
-      top: 1px;
+      display: flex; align-items: center; justify-content: center; top: 1px;
     }
-    .reflection-list { counter-reset: item; }
 
+    /* review */
+    .section-review {
+      background: linear-gradient(135deg, rgba(27,79,138,.08), rgba(59,130,246,.06));
+      border: 1.5px solid rgba(27,79,138,.2);
+      border-radius: 14px; padding: 16px 18px;
+    }
+    .review-label { font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: var(--navy); margin-bottom: 8px; }
+    .review-content { font-size: .88rem; line-height: 1.65; color: var(--text); }
+    .review-points { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+    .review-points li {
+      font-size: .85rem; line-height: 1.5; color: var(--text);
+      padding-left: 20px; position: relative;
+    }
+    .review-points li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--navy); font-weight: 700; font-size: .8rem;
+    }
+
+    /* prayer */
     .section-prayer {
       background: linear-gradient(135deg, rgba(232,78,160,.07), rgba(168,85,247,.06));
       border: 1.5px solid rgba(232,78,160,.18);
-      border-radius: 14px;
-      padding: 16px 18px;
+      border-radius: 14px; padding: 16px 18px;
     }
-    .prayer-label {
-      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
-      color: var(--pink); margin-bottom: 8px;
-    }
-    .prayer-text {
-      font-size: .88rem; line-height: 1.7; color: var(--text);
-      font-style: italic;
-    }
+    .prayer-label { font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: #E84EA0; margin-bottom: 8px; }
+    .prayer-text { font-size: .88rem; line-height: 1.7; color: var(--text); font-style: italic; }
 
     .section-generic {
       font-size: .88rem; line-height: 1.65; color: var(--sub);
       padding: 14px 16px;
-      background: rgba(168,85,247,.04);
+      background: rgba(27,79,138,.04);
       border-radius: 12px;
       border: 1px solid var(--border);
     }
 
-    /* Lesson navigation footer */
-    .lesson-nav-footer {
-      display: flex; gap: 10px; align-items: center;
-      margin-top: 6px;
-    }
+    /* ── Lesson nav footer ───────────────────────────── */
+    .lesson-nav-footer { display: flex; gap: 10px; align-items: center; margin-top: 6px; }
     .btn-nav {
       flex: 1;
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 11px 14px; border-radius: 12px; border: 1.5px solid var(--gold-border);
+      padding: 11px 14px; border-radius: 12px; border: 1.5px solid var(--navy-border);
       background: var(--glass); color: var(--sub);
       font-family: 'DM Sans', sans-serif;
       font-size: .82rem; font-weight: 700; cursor: pointer;
       transition: background .15s, border-color .15s, transform .12s;
       text-align: center;
     }
-    .btn-nav:hover { background: rgba(245,158,11,.08); border-color: var(--amber); color: var(--text); }
+    .btn-nav:hover { background: rgba(27,79,138,.08); border-color: var(--navy); color: var(--text); }
     .btn-nav:active { transform: scale(.97); }
     .btn-nav:disabled { opacity: .35; cursor: not-allowed; transform: none; }
-    .btn-nav.primary {
-      background: var(--gold-grad); color: #fff;
-      border-color: transparent;
-      box-shadow: 0 2px 12px rgba(245,158,11,.25);
-    }
-    .btn-nav.primary:hover { box-shadow: 0 4px 18px rgba(245,158,11,.35); background: linear-gradient(135deg,#FBBF24,#F59E0B); }
 
     .btn-complete-full {
       width: 100%;
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 13px 20px; border-radius: 14px; border: none;
-      background: var(--gold-grad); color: #fff;
+      background: var(--navy-grad); color: #fff;
       font-family: 'DM Sans', sans-serif;
       font-size: .9rem; font-weight: 700; cursor: pointer; letter-spacing: .02em;
-      box-shadow: 0 2px 14px rgba(245,158,11,.28);
+      box-shadow: 0 2px 14px rgba(27,79,138,.28);
       transition: transform .15s, box-shadow .15s, opacity .15s;
       margin-top: 6px;
     }
-    .btn-complete-full:hover { transform: translateY(-1px); box-shadow: 0 5px 20px rgba(245,158,11,.38); }
+    .btn-complete-full:hover { transform: translateY(-1px); box-shadow: 0 5px 20px rgba(27,79,138,.38); }
     .btn-complete-full:active { transform: scale(.97); }
     .btn-complete-full:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+
     .already-done-badge {
       display: flex; align-items: center; justify-content: center; gap: 6px;
       padding: 12px; border-radius: 14px; width: 100%; margin-top: 6px;
@@ -467,7 +456,7 @@
       border: 1.5px solid rgba(110,231,183,.35);
     }
 
-    /* Toast */
+    /* ── Toast ───────────────────────────────────────── */
     #toast {
       position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
       background: var(--text); color: #fff;
@@ -476,17 +465,12 @@
       opacity: 0; pointer-events: none;
       transition: opacity .25s, transform .25s;
       z-index: 100; white-space: nowrap;
-      box-shadow: 0 4px 18px rgba(45,27,78,.25);
+      box-shadow: 0 4px 18px rgba(26,31,54,.25);
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* Confetti canvas */
-    #confettiCanvas {
-      position: fixed; inset: 0; z-index: 200;
-      pointer-events: none; display: none;
-    }
+    #confettiCanvas { position: fixed; inset: 0; z-index: 200; pointer-events: none; display: none; }
 
-    /* Responsive */
     @media (max-width: 480px) {
       .unit-title { font-size: .88rem; }
       .lesson-title { font-size: 1.15rem; }
@@ -496,24 +480,22 @@
 </head>
 <body>
 
-<!-- Loader -->
 <div id="loader">
   <div class="loader-wolf">
     <img src="nails.png" alt="loading">
-    <span>Bible Study</span>
+    <span>U.S. History</span>
   </div>
 </div>
 
 <canvas id="confettiCanvas"></canvas>
 <div id="toast"></div>
 
-<!-- APP -->
 <div id="app" style="display:none">
   <header class="app-header">
     <div class="header-row">
       <div>
-        <div class="header-title">Bible Study ✝️</div>
-        <div class="header-sub" id="headerSub">God's Story of Salvation · LCMS · ESV</div>
+        <div class="header-title">U.S. History 🇺🇸</div>
+        <div class="header-sub" id="headerSub">The American Story · 8 Units · 64 Lessons</div>
       </div>
       <a href="academy.html" class="back-btn">← Academy</a>
     </div>
@@ -531,13 +513,12 @@
 
   <!-- ── Course view ── -->
   <div id="courseView">
-    <!-- Hero / overall progress -->
     <div class="course-hero">
       <div class="hero-top">
-        <span class="hero-icon">✝️</span>
-        <span class="hero-badge">Faith · LCMS · ESV</span>
+        <span class="hero-icon">🇺🇸</span>
+        <span class="hero-badge">History · American Survey</span>
       </div>
-      <div class="hero-title">The Bible: God's Story of Salvation</div>
+      <div class="hero-title">U.S. History: The American Story</div>
       <div class="hero-meta">
         <span class="hero-tag">8 units</span>
         <span class="hero-tag">64 lessons</span>
@@ -558,9 +539,7 @@
       Units <span class="pill" id="unitsPill">8 units</span>
     </div>
 
-    <div class="units-list" id="unitsList">
-      <!-- rendered by JS -->
-    </div>
+    <div class="units-list" id="unitsList"></div>
   </div>
 
   <!-- ── Lesson view ── -->
@@ -572,29 +551,29 @@
 </div>
 
 <script>
-// ── Config ──────────────────────────────────────────────────────────────────
-const STORAGE_KEY      = 'enidAcademy';
-const BIBLE_COMP_KEY   = 'enidBibleCompletions'; // "unitId:lessonId" → true
-const COURSE_BASE      = 'academy/courses/bible-course';
+// ── Config ───────────────────────────────────────────────────────────────────
+const STORAGE_KEY    = 'enidAcademy';
+const HIST_COMP_KEY  = 'enidHistoryCompletions';
+const COURSE_BASE    = 'academy/courses/us-history-course';
 
-// ── State ───────────────────────────────────────────────────────────────────
-let courseData  = null;
-let unitsData   = [];
-let unitCache   = {};          // unitId (number) → lessons array
-let completions = {};          // "unitId:lessonId" → true
-let currentLesson = null;      // { unitId, lessonId }
-let expandedUnit  = null;      // currently open unit id
+// ── State ────────────────────────────────────────────────────────────────────
+let courseData    = null;
+let unitsData     = [];
+let unitCache     = {};
+let completions   = {};
+let currentLesson = null;
+let expandedUnit  = null;
 
-// ── Storage ─────────────────────────────────────────────────────────────────
+// ── Storage ──────────────────────────────────────────────────────────────────
 function loadCompletions() {
   try {
-    const raw = localStorage.getItem(BIBLE_COMP_KEY);
+    const raw = localStorage.getItem(HIST_COMP_KEY);
     completions = raw ? JSON.parse(raw) : {};
   } catch { completions = {}; }
 }
 
 function saveCompletions() {
-  localStorage.setItem(BIBLE_COMP_KEY, JSON.stringify(completions));
+  localStorage.setItem(HIST_COMP_KEY, JSON.stringify(completions));
 }
 
 function isComplete(unitId, lessonId) {
@@ -619,25 +598,21 @@ function getUnitCompletedCount(unitId) {
 
 function getTotalCompletedCount() {
   let n = 0;
-  for (const unit of unitsData) {
-    n += getUnitCompletedCount(unit.id);
-  }
+  for (const unit of unitsData) n += getUnitCompletedCount(unit.id);
   return n;
 }
 
 function syncAcademyProgress() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw  = localStorage.getItem(STORAGE_KEY);
     const data = raw ? JSON.parse(raw) : { subjects: {} };
     if (!data.subjects) data.subjects = {};
     const completed = getTotalCompletedCount();
-    // Find what unit the user is currently on
     let currentUnit = unitsData[0];
     for (const unit of unitsData) {
-      const done = getUnitCompletedCount(unit.id);
-      if (done < unit.lessonCount) { currentUnit = unit; break; }
+      if (getUnitCompletedCount(unit.id) < unit.lessonCount) { currentUnit = unit; break; }
     }
-    data.subjects.bible = {
+    data.subjects.usHistory = {
       unit:         `Unit ${currentUnit.id} — ${currentUnit.title}`,
       lesson:       completed + 1,
       totalLessons: 64
@@ -663,18 +638,16 @@ function launchConfetti() {
   const ctx = canvas.getContext('2d');
   canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
-
-  const COLORS = ['#F59E0B','#EF6C00','#E84EA0','#A855F7','#6EE7B7','#FBBF24'];
+  const COLORS = ['#1B4F8A','#3B82F6','#B91C1C','#EF4444','#F59E0B','#FBBF24','#fff'];
   const pieces = Array.from({ length: 90 }, () => ({
     x: Math.random() * canvas.width,
     y: -10 - Math.random() * 40,
     r: 4 + Math.random() * 5,
     d: 2 + Math.random() * 3,
     angle: Math.random() * 360,
-    spin:  (Math.random() - .5) * 6,
+    spin: (Math.random() - .5) * 6,
     color: COLORS[Math.floor(Math.random() * COLORS.length)]
   }));
-
   let frame = 0;
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -691,7 +664,7 @@ function launchConfetti() {
     }
     frame++;
     if (frame < 150) requestAnimationFrame(draw);
-    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display = 'none'; }
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
   }
   draw();
 }
@@ -705,19 +678,18 @@ async function fetchJSON(path) {
 
 async function loadUnit(unitId) {
   if (unitCache[unitId]) return unitCache[unitId];
-  const num = String(unitId).padStart(2, '0');
+  const num     = String(unitId).padStart(2, '0');
   const lessons = await fetchJSON(`${COURSE_BASE}/lessons/unit-${num}.json`);
   unitCache[unitId] = lessons;
   return lessons;
 }
 
-// ── Navigation ───────────────────────────────────────────────────────────────
+// ── Navigation ────────────────────────────────────────────────────────────────
 function showCourseView() {
   document.getElementById('courseView').style.display  = '';
   document.getElementById('lessonView').style.display  = 'none';
   currentLesson = null;
   updateHeroProgress();
-  // Refresh open unit's lesson checkmarks if any
   if (expandedUnit) renderLessonRows(expandedUnit);
   updateUnitProgress();
 }
@@ -727,7 +699,7 @@ function showLessonView() {
   document.getElementById('lessonView').style.display  = 'block';
 }
 
-// ── Hero progress ─────────────────────────────────────────────────────────────
+// ── Progress ──────────────────────────────────────────────────────────────────
 function updateHeroProgress() {
   const completed = getTotalCompletedCount();
   const total     = courseData ? courseData.totalLessons : 64;
@@ -737,7 +709,6 @@ function updateHeroProgress() {
   document.getElementById('heroProgressFill').style.width = `${pct}%`;
 }
 
-// ── Unit progress ─────────────────────────────────────────────────────────────
 function updateUnitProgress() {
   for (const unit of unitsData) {
     const done  = getUnitCompletedCount(unit.id);
@@ -750,21 +721,18 @@ function updateUnitProgress() {
   }
 }
 
-// ── Course view render ────────────────────────────────────────────────────────
+// ── Course view render ─────────────────────────────────────────────────────────
 function renderCourseView() {
   updateHeroProgress();
   const list = document.getElementById('unitsList');
   list.innerHTML = '';
-
   for (const unit of unitsData) {
     const done  = getUnitCompletedCount(unit.id);
     const total = unit.lessonCount;
     const pct   = Math.round((done / total) * 100);
-
-    const card = document.createElement('div');
+    const card  = document.createElement('div');
     card.className = 'unit-card';
     card.id = `unit-card-${unit.id}`;
-
     card.innerHTML = `
       <div class="unit-header" onclick="toggleUnit(${unit.id})">
         <span class="unit-number">Unit ${unit.number}</span>
@@ -789,19 +757,15 @@ function renderCourseView() {
   }
 }
 
-// ── Toggle unit accordion ─────────────────────────────────────────────────────
+// ── Toggle unit accordion ──────────────────────────────────────────────────────
 async function toggleUnit(unitId) {
-  const card = document.getElementById(`unit-card-${unitId}`);
+  const card   = document.getElementById(`unit-card-${unitId}`);
   const isOpen = card.classList.contains('open');
-
-  // Close all
   document.querySelectorAll('.unit-card.open').forEach(c => c.classList.remove('open'));
   expandedUnit = null;
-
   if (!isOpen) {
     card.classList.add('open');
     expandedUnit = unitId;
-    // Load lessons if not cached
     const listEl = document.getElementById(`lesson-list-${unitId}`);
     try {
       const lessons = await loadUnit(unitId);
@@ -813,10 +777,9 @@ async function toggleUnit(unitId) {
 }
 
 function renderLessonRows(unitId, listEl, lessons) {
-  if (!listEl) listEl = document.getElementById(`lesson-list-${unitId}`);
-  if (!lessons) lessons = unitCache[unitId];
-  if (!lessons) return;
-
+  if (!listEl)   listEl  = document.getElementById(`lesson-list-${unitId}`);
+  if (!lessons)  lessons = unitCache[unitId];
+  if (!lessons)  return;
   listEl.innerHTML = '';
   for (const lesson of lessons) {
     const done = isComplete(unitId, lesson.id);
@@ -838,7 +801,6 @@ function renderLessonRows(unitId, listEl, lessons) {
 
 // ── Open lesson ───────────────────────────────────────────────────────────────
 async function openLesson(unitId, lessonId) {
-  // Ensure unit data is loaded
   let lessons;
   try {
     lessons = await loadUnit(unitId);
@@ -846,13 +808,10 @@ async function openLesson(unitId, lessonId) {
     showToast('⚠️ Could not load lesson data');
     return;
   }
-
   const lesson = lessons.find(l => l.id === lessonId);
   if (!lesson) return;
-
-  const unit   = unitsData.find(u => u.id === unitId);
+  const unit    = unitsData.find(u => u.id === unitId);
   currentLesson = { unitId, lessonId };
-
   showLessonView();
   renderLesson(lesson, unit);
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -862,21 +821,17 @@ async function openLesson(unitId, lessonId) {
 function renderLesson(lesson, unit) {
   const done = isComplete(lesson.unitId, lesson.id);
 
-  // Breadcrumb
   document.getElementById('lessonBreadcrumb').innerHTML = `
-    <span class="breadcrumb-link" onclick="showCourseView()">✝️ Bible Study</span>
+    <span class="breadcrumb-link" onclick="showCourseView()">🇺🇸 U.S. History</span>
     <span class="breadcrumb-sep">›</span>
     <span class="breadcrumb-link" onclick="showCourseView(); setTimeout(() => toggleUnit(${unit.id}), 100)">Unit ${unit.number}</span>
     <span class="breadcrumb-sep">›</span>
     <span class="breadcrumb-current">Lesson ${lesson.id}</span>
   `;
 
-  // Build sections HTML
-  const sectionsHTML = (lesson.sections || []).map(renderSection).join('');
-
-  // Complete button or already-done badge
+  const sectionsHTML   = (lesson.sections || []).map(renderSection).join('');
   const completeBtnHTML = done
-    ? `<div class="already-done-badge">✅ Lesson complete — well done!</div>`
+    ? `<div class="already-done-badge">✅ Lesson complete — great work!</div>`
     : `<button class="btn-complete-full" id="btnComplete" onclick="markLessonComplete(${lesson.unitId}, ${lesson.id})">
          ✓ Mark Lesson Complete
        </button>`;
@@ -912,37 +867,6 @@ function renderSection(section) {
           <div class="scripture-version">ESV</div>
         </blockquote>`;
 
-    case 'teaching':
-      return `
-        <div class="section-teaching">
-          <div class="teaching-head">${escHtml(section.heading)}</div>
-          <p>${escHtml(section.content)}</p>
-        </div>`;
-
-    case 'catechism':
-      return `
-        <div class="section-catechism">
-          <div class="catechism-label">✝️ Small Catechism Connection</div>
-          <p>${escHtml(section.content)}</p>
-          ${section.ref ? `<div class="catechism-ref">${escHtml(section.ref)}</div>` : ''}
-        </div>`;
-
-    case 'reflection':
-      return `
-        <div class="section-reflection">
-          <div class="reflection-label">💭 Reflect & Discuss</div>
-          <ol class="reflection-list">
-            ${(section.questions || []).map(q => `<li>${escHtml(q)}</li>`).join('')}
-          </ol>
-        </div>`;
-
-    case 'prayer':
-      return `
-        <div class="section-prayer">
-          <div class="prayer-label">🙏 Prayer</div>
-          <p class="prayer-text">${escHtml(section.content)}</p>
-        </div>`;
-
     case 'source':
       return `
         <blockquote class="section-source">
@@ -950,6 +874,13 @@ function renderSection(section) {
           <p class="source-text">"${escHtml(section.text || section.content || '')}"</p>
           ${section.ref ? `<div class="source-attr">— ${escHtml(section.ref)}</div>` : ''}
         </blockquote>`;
+
+    case 'teaching':
+      return `
+        <div class="section-teaching">
+          <div class="teaching-head">${escHtml(section.heading)}</div>
+          <p>${escHtml(section.content)}</p>
+        </div>`;
 
     case 'timeline': {
       const _tlItems = section.events
@@ -975,6 +906,23 @@ function renderSection(section) {
         </div>`;
     }
 
+    case 'catechism':
+      return `
+        <div class="section-catechism">
+          <div class="catechism-label">✝️ Catechism Connection</div>
+          <p>${escHtml(section.content)}</p>
+          ${section.ref ? `<div class="catechism-ref">${escHtml(section.ref)}</div>` : ''}
+        </div>`;
+
+    case 'reflection':
+      return `
+        <div class="section-reflection">
+          <div class="reflection-label">💭 Think About It</div>
+          <ol class="reflection-list">
+            ${(section.questions || []).map(q => `<li>${escHtml(q)}</li>`).join('')}
+          </ol>
+        </div>`;
+
     case 'review':
       return `
         <div class="section-review">
@@ -985,6 +933,13 @@ function renderSection(section) {
             : ''}
         </div>`;
 
+    case 'prayer':
+      return `
+        <div class="section-prayer">
+          <div class="prayer-label">🙏 Prayer</div>
+          <p class="prayer-text">${escHtml(section.content)}</p>
+        </div>`;
+
     default:
       return `<div class="section-generic"><p>${escHtml(section.content || '')}</p></div>`;
   }
@@ -993,10 +948,8 @@ function renderSection(section) {
 function escHtml(str) {
   if (!str) return '';
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // ── Prev / Next navigation ────────────────────────────────────────────────────
@@ -1016,57 +969,37 @@ function renderLessonNav(lesson) {
 }
 
 function getAdjacentLessons(unitId, lessonId) {
-  // Build flat ordered list from cache
   let flat = [];
   for (const unit of unitsData) {
-    const lessons = unitCache[unit.id] || [];
-    for (const lesson of lessons) {
-      flat.push({ unit, lesson });
-    }
+    for (const lesson of (unitCache[unit.id] || [])) flat.push({ unit, lesson });
   }
-
-  const idx = flat.findIndex(e => e.unit.id === unitId && e.lesson.id === lessonId);
-  const prev = idx > 0 ? flat[idx - 1] : null;
+  const idx  = flat.findIndex(e => e.unit.id === unitId && e.lesson.id === lessonId);
+  const prev = idx > 0               ? flat[idx - 1] : null;
   const next = idx < flat.length - 1 ? flat[idx + 1] : null;
-
   return {
-    prevUnit:   prev ? prev.unit   : null,
-    prevLesson: prev ? prev.lesson : null,
-    nextUnit:   next ? next.unit   : null,
-    nextLesson: next ? next.lesson : null,
+    prevUnit: prev ? prev.unit : null, prevLesson: prev ? prev.lesson : null,
+    nextUnit: next ? next.unit : null, nextLesson: next ? next.lesson : null,
   };
 }
 
 // ── Mark complete ─────────────────────────────────────────────────────────────
 function markLessonComplete(unitId, lessonId) {
   if (isComplete(unitId, lessonId)) return;
-
   setComplete(unitId, lessonId);
   launchConfetti();
-
-  const unit   = unitsData.find(u => u.id === unitId);
   const lessons = unitCache[unitId] || [];
   const lesson  = lessons.find(l => l.id === lessonId);
-
-  showToast(`✅ Lesson ${lesson ? lesson.globalIndex : ''} complete! 🐺✝️`);
-
-  // Swap button to done badge
+  showToast(`✅ Lesson ${lesson ? lesson.globalIndex : ''} complete! 🇺🇸`);
   const wrap = document.getElementById('btnComplete');
-  if (wrap) {
-    wrap.outerHTML = `<div class="already-done-badge">✅ Lesson complete — well done!</div>`;
-  }
-
-  // Refresh unit mini-progress on course view (it's hidden but keep in sync)
+  if (wrap) wrap.outerHTML = `<div class="already-done-badge">✅ Lesson complete — great work!</div>`;
   updateHeroProgress();
   updateUnitProgress();
-
-  // Auto-advance to next after brief delay
   setTimeout(() => {
     const { nextUnit, nextLesson } = getAdjacentLessons(unitId, lessonId);
     if (nextLesson) {
       openLesson(nextUnit.id, nextLesson.id);
     } else {
-      showToast('🎉 Course complete! You finished the Bible study! 🐺✝️💜');
+      showToast('🎉 Course complete! You finished U.S. History! 🇺🇸🐺💜');
       showCourseView();
     }
   }, 1600);
@@ -1075,7 +1008,6 @@ function markLessonComplete(unitId, lessonId) {
 // ── Init ──────────────────────────────────────────────────────────────────────
 async function init() {
   loadCompletions();
-
   try {
     [courseData, unitsData] = await Promise.all([
       fetchJSON(`${COURSE_BASE}/course.json`),
@@ -1091,9 +1023,7 @@ async function init() {
        </div>`;
     return;
   }
-
   renderCourseView();
-
   document.getElementById('app').style.display = 'block';
   document.getElementById('loader').classList.add('hidden');
 }

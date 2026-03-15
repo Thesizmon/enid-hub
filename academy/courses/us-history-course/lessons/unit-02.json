@@ -1,0 +1,131 @@
+[
+  {
+    "id": 1,
+    "unitId": 2,
+    "globalIndex": 9,
+    "title": "The French and Indian War",
+    "objective": "Understand how the French and Indian War changed relations between Britain and the colonies.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "The French and Indian War was part of a larger global conflict between Britain and France. It reshaped North America and left Britain with heavy debt, which affected the colonies." },
+      { "type": "source", "ref": "Historical summary", "text": "Britain won the war, but victory came at great financial cost." },
+      { "type": "teaching", "heading": "A War with Lasting Consequences", "content": "The war increased British control in North America but also raised tensions. Britain expected the colonies to help pay for the war, while many colonists felt they were being treated unfairly. This conflict helped set the stage for the American Revolution." },
+      { "type": "timeline", "content": ["1754 — French and Indian War begins", "1763 — Britain wins the war", "After 1763 — Britain looks for ways to raise revenue from the colonies"] },
+      { "type": "reflection", "questions": ["Why was the French and Indian War important?", "How did Britain's victory create new problems?", "Why did this war help lead to revolution?"] },
+      { "type": "review", "content": "The French and Indian War gave Britain more power in North America but also more debt. That debt helped trigger later conflict with the colonies." }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 2,
+    "globalIndex": 10,
+    "title": "Taxes and Colonial Resistance",
+    "objective": "Explain why new British taxes angered many colonists and led to organized resistance.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "After the French and Indian War, Britain imposed new taxes on the colonies. Many colonists objected, especially because they had no direct representation in Parliament." },
+      { "type": "source", "ref": "Colonial slogan", "text": "No taxation without representation." },
+      { "type": "teaching", "heading": "Power, Taxes, and Representation", "content": "Acts such as the Stamp Act and Townshend Acts convinced many colonists that Britain was overreaching. The issue was not only money. It was also about political power, rights, and whether colonists could be governed without their consent." },
+      { "type": "timeline", "content": ["1764 — Sugar Act", "1765 — Stamp Act", "1767 — Townshend Acts", "1760s–1770s — Colonial protests grow stronger"] },
+      { "type": "reflection", "questions": ["Why did colonists resist British taxes?", "What does 'no taxation without representation' mean?", "Why was this about more than just money?"] },
+      { "type": "review", "content": "Colonial resistance grew because many people believed Britain was violating their rights. Taxation became a symbol of a deeper political conflict." }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 2,
+    "globalIndex": 11,
+    "title": "The Boston Massacre and Tea Party",
+    "objective": "Describe two major events that increased conflict between Britain and the colonies.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Tension between colonists and British authorities grew more dramatic in the 1770s. Events in Boston became major turning points." },
+      { "type": "source", "ref": "Boston Massacre, 1770", "text": "The shooting of colonists by British soldiers became a powerful symbol in patriot propaganda." },
+      { "type": "source", "ref": "Boston Tea Party, 1773", "text": "Colonists dumped British tea into Boston Harbor in protest against taxation and imperial control." },
+      { "type": "teaching", "heading": "Symbols of Resistance", "content": "The Boston Massacre and Boston Tea Party were powerful political moments. Patriots used them to rally support against British rule. Britain responded harshly, increasing colonial anger instead of calming it." },
+      { "type": "timeline", "content": ["1770 — Boston Massacre", "1773 — Boston Tea Party", "1774 — Britain punishes Massachusetts with the Coercive Acts"] },
+      { "type": "reflection", "questions": ["Why did these events become so important?", "How did each side view what happened in Boston?", "Why do symbols and stories matter in politics?"] },
+      { "type": "review", "content": "The Boston Massacre and Tea Party deepened colonial resistance and pushed Britain and the colonies closer to open conflict." }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 2,
+    "globalIndex": 12,
+    "title": "The First Continental Congress",
+    "objective": "Understand why colonial leaders met together and what they hoped to accomplish.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "As British punishment increased, colonial leaders met in 1774 to coordinate a response. This meeting became the First Continental Congress." },
+      { "type": "source", "ref": "Continental Congress purpose", "text": "Delegates gathered to discuss colonial rights and decide how to respond to British policy." },
+      { "type": "teaching", "heading": "A Shared Colonial Response", "content": "The First Continental Congress showed that the colonies were beginning to act together. Although not all delegates wanted independence yet, they did want to defend what they believed were their rights as English subjects." },
+      { "type": "timeline", "content": ["1774 — First Continental Congress meets in Philadelphia", "Delegates agree to economic pressure against Britain", "Colonial unity begins to grow"] },
+      { "type": "reflection", "questions": ["Why did colonial leaders meet in Congress?", "Did all delegates want independence at this point?", "Why was colonial unity so important?"] },
+      { "type": "review", "content": "The First Continental Congress was a major step toward colonial unity. It showed that the colonies were beginning to act together politically." }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 2,
+    "globalIndex": 13,
+    "title": "The Declaration of Independence",
+    "objective": "Learn why the colonies declared independence and what ideas the Declaration expressed.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "In 1776, colonial leaders formally declared independence from Britain. The Declaration of Independence explained their reasons and expressed powerful ideas about rights and government." },
+      { "type": "source", "ref": "Declaration of Independence, 1776", "text": "We hold these truths to be self-evident, that all men are created equal..." },
+      { "type": "teaching", "heading": "Rights and Revolution", "content": "The Declaration argued that governments exist to protect rights and that people may alter or abolish governments that become destructive. It announced to the world that the colonies now considered themselves free and independent states." },
+      { "type": "timeline", "content": ["June 1776 — Congress debates independence", "July 4, 1776 — Declaration adopted", "The colonies officially become independent states"] },
+      { "type": "reflection", "questions": ["Why did the colonies issue the Declaration of Independence?", "What political ideas appear in the document?", "Why is the Declaration still important today?"] },
+      { "type": "review", "content": "The Declaration of Independence announced a break from Britain and set out key ideas about rights, equality, and government." }
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 2,
+    "globalIndex": 14,
+    "title": "The Revolutionary War",
+    "objective": "Understand how the war for independence began and what challenges the Americans faced.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "The Revolutionary War began with fighting between colonial militias and British soldiers. The war was long, difficult, and uncertain." },
+      { "type": "source", "ref": "Lexington and Concord, 1775", "text": "The first battles of the Revolution turned political conflict into open war." },
+      { "type": "teaching", "heading": "A Hard War for Independence", "content": "The Americans faced a powerful empire with a trained army and navy. They struggled with shortages, training, and morale. Still, leadership, persistence, geography, and foreign help eventually helped them survive." },
+      { "type": "timeline", "content": ["1775 — Battles of Lexington and Concord", "1775 — Second Continental Congress organizes war effort", "1776 onward — War spreads across the colonies"] },
+      { "type": "reflection", "questions": ["Why was the Revolutionary War difficult for the colonists to win?", "What advantages did Britain have?", "What strengths helped the American side endure?"] },
+      { "type": "review", "content": "The Revolutionary War began with uncertainty and hardship. American independence was far from guaranteed in the early years." }
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 2,
+    "globalIndex": 15,
+    "title": "Victory and Independence",
+    "objective": "Explain how the United States won independence from Britain.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Against difficult odds, the Americans won the Revolutionary War and secured independence from Britain." },
+      { "type": "source", "ref": "Treaty of Paris, 1783", "text": "The treaty formally recognized the independence of the United States." },
+      { "type": "teaching", "heading": "Winning the War", "content": "Key victories, especially at Saratoga and Yorktown, changed the course of the war. Foreign support from France also proved crucial. In 1783, the Treaty of Paris ended the war and recognized the new nation." },
+      { "type": "timeline", "content": ["1777 — American victory at Saratoga", "1781 — British surrender at Yorktown", "1783 — Treaty of Paris signed"] },
+      { "type": "reflection", "questions": ["Why was Saratoga important?", "How did France help the American cause?", "What did the Treaty of Paris accomplish?"] },
+      { "type": "review", "content": "American independence was secured through military persistence, important victories, and foreign support, especially from France." }
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 2,
+    "globalIndex": 16,
+    "title": "The Articles of Confederation",
+    "objective": "Understand the first national government of the United States and why it struggled.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "After independence, the new United States adopted the Articles of Confederation, creating a weak national government with limited powers." },
+      { "type": "source", "ref": "Articles of Confederation framework", "text": "The national government had no president, no national court system, and little power to tax or regulate commerce." },
+      { "type": "teaching", "heading": "A Government Too Weak", "content": "The Articles reflected fear of strong central authority, but they made national problem-solving difficult. Economic weakness, interstate disputes, and events like Shays' Rebellion convinced many leaders that a stronger Constitution was needed." },
+      { "type": "timeline", "content": ["1781 — Articles of Confederation take effect", "1780s — Weak national government struggles", "1786–1787 — Shays' Rebellion highlights serious problems"] },
+      { "type": "reflection", "questions": ["Why did Americans create a weak central government under the Articles?", "What were the biggest weaknesses of the Articles?", "Why did many leaders begin calling for change?"] },
+      { "type": "review", "content": "The Articles of Confederation created the first national government, but its weaknesses led directly to the Constitutional Convention." }
+    ]
+  }
+]

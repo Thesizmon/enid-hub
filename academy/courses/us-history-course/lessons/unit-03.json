@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "unitId": 3,
+    "globalIndex": 17,
+    "title": "The Constitutional Convention",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 3,
+    "globalIndex": 18,
+    "title": "The Federalist Papers",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 3,
+    "globalIndex": 19,
+    "title": "Ratification and the Bill of Rights",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 3,
+    "globalIndex": 20,
+    "title": "Washington and the First Presidency",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 3,
+    "globalIndex": 21,
+    "title": "Hamilton and Jefferson",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 3,
+    "globalIndex": 22,
+    "title": "The Adams Administration",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 3,
+    "globalIndex": 23,
+    "title": "Jefferson and the Louisiana Purchase",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 3,
+    "globalIndex": 24,
+    "title": "The War of 1812",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  }
+]

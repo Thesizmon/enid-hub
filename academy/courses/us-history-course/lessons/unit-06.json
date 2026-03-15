@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "unitId": 6,
+    "globalIndex": 41,
+    "title": "The Transcontinental Railroad",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 6,
+    "globalIndex": 42,
+    "title": "The Rise of Industry",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 6,
+    "globalIndex": 43,
+    "title": "Captains of Industry",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 6,
+    "globalIndex": 44,
+    "title": "Immigration and Urbanization",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 6,
+    "globalIndex": 45,
+    "title": "Labor Movements",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 6,
+    "globalIndex": 46,
+    "title": "The Farmers Movement",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 6,
+    "globalIndex": 47,
+    "title": "The Gilded Age",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 6,
+    "globalIndex": 48,
+    "title": "American Imperialism",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  }
+]

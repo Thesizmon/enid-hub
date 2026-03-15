@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "unitId": 7,
+    "globalIndex": 49,
+    "title": "The Progressive Movement",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 7,
+    "globalIndex": 50,
+    "title": "Theodore Roosevelt",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 7,
+    "globalIndex": 51,
+    "title": "Wilson and World War I",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 7,
+    "globalIndex": 52,
+    "title": "The Roaring Twenties",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 7,
+    "globalIndex": 53,
+    "title": "The Great Depression",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 7,
+    "globalIndex": 54,
+    "title": "The New Deal",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 7,
+    "globalIndex": 55,
+    "title": "The Road to World War II",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 7,
+    "globalIndex": 56,
+    "title": "World War II",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  }
+]

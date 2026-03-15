@@ -1,0 +1,11 @@
+{
+  "id": "us-history",
+  "title": "U.S. History: The American Story",
+  "subtitle": "From the colonial era to the modern United States",
+  "icon": "🇺🇸",
+  "totalUnits": 8,
+  "totalLessons": 64,
+  "estimatedMinutes": 25,
+  "tradition": "Classical American History",
+  "description": "A comprehensive survey of United States history from the first settlements through the modern era. Each lesson examines key events, documents, people, and ideas that shaped the American story."
+}

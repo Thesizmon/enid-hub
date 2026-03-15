@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "unitId": 5,
+    "globalIndex": 33,
+    "title": "The Road to Secession",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 5,
+    "globalIndex": 34,
+    "title": "The Confederacy and the Union",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 5,
+    "globalIndex": 35,
+    "title": "The First Years of War",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 5,
+    "globalIndex": 36,
+    "title": "The Emancipation Proclamation",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 5,
+    "globalIndex": 37,
+    "title": "Major Battles of the Civil War",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 5,
+    "globalIndex": 38,
+    "title": "The Home Front",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 5,
+    "globalIndex": 39,
+    "title": "The End of the War",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 5,
+    "globalIndex": 40,
+    "title": "Reconstruction",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  }
+]

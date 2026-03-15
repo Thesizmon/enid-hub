@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "unitId": 4,
+    "globalIndex": 25,
+    "title": "The Era of Good Feelings",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 4,
+    "globalIndex": 26,
+    "title": "Jacksonian Democracy",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 4,
+    "globalIndex": 27,
+    "title": "Westward Expansion",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 4,
+    "globalIndex": 28,
+    "title": "The Oregon Trail",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 4,
+    "globalIndex": 29,
+    "title": "The Abolition Movement",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 4,
+    "globalIndex": 30,
+    "title": "The Womens Rights Movement",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 4,
+    "globalIndex": 31,
+    "title": "Texas and the Mexican-American War",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 4,
+    "globalIndex": 32,
+    "title": "Growing Sectional Conflict",
+    "objective": "— objective coming soon —",
+    "estimatedMinutes": 25,
+    "sections": [
+      {
+        "type": "intro",
+        "content": "— lesson content coming soon —"
+      }
+    ]
+  }
+]

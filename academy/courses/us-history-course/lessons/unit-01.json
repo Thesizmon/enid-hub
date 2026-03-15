@@ -1,0 +1,130 @@
+[
+  {
+    "id": 1,
+    "unitId": 1,
+    "globalIndex": 1,
+    "title": "The First Peoples of North America",
+    "objective": "Understand that Indigenous peoples lived across North America long before European colonization, building diverse societies and cultures.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Long before the United States existed, North America was home to many Indigenous nations. These peoples developed rich cultures, governments, trade networks, farming systems, spiritual traditions, and ways of life adapted to their environments." },
+      { "type": "source", "ref": "General historical understanding", "text": "Indigenous peoples were not one single group. They were many nations with distinct languages, customs, and political systems." },
+      { "type": "teaching", "heading": "A Continent of Many Nations", "content": "North America was filled with diverse Indigenous societies. Some were nomadic, while others built large settlements. Some relied heavily on farming, while others hunted, fished, or traded. Understanding U.S. history begins with recognizing that the land already had long-established peoples and cultures before Europeans arrived." },
+      { "type": "timeline", "content": ["Thousands of years before 1492 — Indigenous peoples live throughout North America", "Long before European arrival — Distinct nations, trade routes, and cultural regions develop", "Before colonization — Indigenous societies shape the continent's history"] },
+      { "type": "reflection", "questions": ["Why is it important to begin U.S. history with Indigenous peoples?", "What does it mean to say North America was already inhabited before Europeans arrived?", "Why should we avoid treating Indigenous peoples as one single culture?"] },
+      { "type": "review", "content": "North America had many thriving Indigenous nations long before Europeans arrived. These peoples were the first societies of the continent and are essential to understanding American history." }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 1,
+    "globalIndex": 2,
+    "title": "Early Civilizations and Cultures",
+    "objective": "Learn that Indigenous societies across North America and the Americas developed complex cultures, agriculture, cities, and systems of government.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Indigenous societies were not simple or undeveloped. Across the Americas, people built cities, practiced agriculture, created trade networks, and formed advanced political and religious systems." },
+      { "type": "source", "ref": "Archaeological and historical record", "text": "Civilizations such as the Maya, Aztec, and Inca developed in the Americas, while many North American peoples also built organized societies with deep cultural traditions." },
+      { "type": "teaching", "heading": "Complex Societies Before Colonization", "content": "When people study early American history, they should understand that the Americas already contained advanced societies. In North America, different nations organized life in ways shaped by geography and tradition. In other parts of the Americas, major civilizations developed cities, writing systems, monumental architecture, and strong governments." },
+      { "type": "timeline", "content": ["Before 1500 — Indigenous societies thrive across North and South America", "Pre-Columbian era — Major civilizations develop in Mesoamerica and South America", "Before European arrival — Diverse cultures and systems already shape the hemisphere"] },
+      { "type": "reflection", "questions": ["Why is it inaccurate to think the Americas were empty or undeveloped before Europeans arrived?", "What are some signs of a complex society?", "How does this lesson change the way we understand the beginning of American history?"] },
+      { "type": "review", "content": "Before colonization, the Americas contained many organized and complex societies. This helps correct the false idea that history here only began with Europe." }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 1,
+    "globalIndex": 3,
+    "title": "European Exploration Begins",
+    "objective": "Understand why European nations began exploring the Atlantic world and how these voyages changed global history.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "In the late 1400s and early 1500s, European kingdoms began exploring ocean routes in search of trade, wealth, territory, and influence. These voyages connected continents in new ways and had enormous consequences." },
+      { "type": "source", "ref": "Christopher Columbus, 1493 letter", "text": "Accounts from early explorers often emphasized land, wealth, and opportunity, while overlooking or misrepresenting the people already living there." },
+      { "type": "teaching", "heading": "Motives for Exploration", "content": "European exploration was driven by a mix of motives: economic ambition, competition between kingdoms, interest in new trade routes, and a desire for power. These expeditions led to colonization, cultural exchange, conflict, disease, forced labor, and lasting transformation across the Atlantic world." },
+      { "type": "timeline", "content": ["Late 1400s — European kingdoms expand ocean exploration", "1492 — Columbus reaches the Americas", "1500s — Spain, France, England, and others increase exploration and colonization"] },
+      { "type": "reflection", "questions": ["Why did European nations begin exploring new ocean routes?", "How did exploration affect the peoples already living in the Americas?", "Why is exploration both an economic and human story?"] },
+      { "type": "review", "content": "European exploration was motivated by wealth, trade, and power. It reshaped world history but also brought conflict and suffering to Indigenous peoples." }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 1,
+    "globalIndex": 4,
+    "title": "Spain, France, and England in North America",
+    "objective": "Compare how Spain, France, and England approached exploration and colonization in North America.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Different European powers entered North America with different goals, methods, and settlement patterns. Spain, France, and England all sought land and influence, but they often acted in different ways." },
+      { "type": "source", "ref": "General colonial patterns", "text": "Spain often focused on conquest and empire, France on trade and alliances, and England on settlement and permanent colonies." },
+      { "type": "teaching", "heading": "Different Colonial Models", "content": "Spanish colonization often centered on conquest, missions, and imperial control. French activity often focused on trade, especially the fur trade, and relationships with Indigenous groups. English colonization usually emphasized larger settlement colonies, farming communities, and permanent migration. These differences shaped the future map and culture of North America." },
+      { "type": "timeline", "content": ["1500s — Spain establishes major influence in parts of the Americas", "1500s–1600s — France expands trade networks in North America", "1600s — England begins building permanent colonies along the Atlantic coast"] },
+      { "type": "reflection", "questions": ["How did Spain, France, and England differ in their goals?", "Why do different colonial patterns matter for later history?", "How might Indigenous peoples have experienced these empires differently?"] },
+      { "type": "review", "content": "Spain, France, and England all wanted power and land, but they pursued colonization in different ways. Those differences had lasting effects on North American history." }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 1,
+    "globalIndex": 5,
+    "title": "The Founding of Jamestown",
+    "objective": "Learn why Jamestown was founded and why it struggled in its early years.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Jamestown, founded in 1607, became the first permanent English settlement in North America. Its early years were filled with hardship, conflict, and uncertainty." },
+      { "type": "source", "ref": "John Smith account", "text": "Early Jamestown settlers faced hunger, disease, poor planning, and dependence on both luck and local support." },
+      { "type": "teaching", "heading": "A Fragile Beginning", "content": "Jamestown was established by the Virginia Company in hopes of profit. But many settlers were unprepared for survival. Disease, starvation, and strained relations with the Powhatan Confederacy nearly destroyed the colony. Over time, tobacco helped make the colony economically successful, but Jamestown's survival came at a high human cost." },
+      { "type": "timeline", "content": ["1607 — Jamestown founded", "1609–1610 — The 'Starving Time' devastates the colony", "1610s onward — Tobacco begins transforming Virginia's economy"] },
+      { "type": "reflection", "questions": ["Why was Jamestown founded?", "What made early life there so difficult?", "How did tobacco change the colony?"] },
+      { "type": "review", "content": "Jamestown was the first permanent English colony, but it nearly failed. Its survival depended on adaptation, labor, and later tobacco profits." }
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 1,
+    "globalIndex": 6,
+    "title": "The Pilgrims and Plymouth",
+    "objective": "Understand why the Pilgrims settled at Plymouth and how religion shaped early colonial life.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "In 1620, a group of English Separatists known as Pilgrims crossed the Atlantic seeking religious freedom and a new life. They founded Plymouth Colony in New England." },
+      { "type": "source", "ref": "Mayflower Compact, 1620", "text": "We... covenant and combine ourselves together into a civil body politic." },
+      { "type": "teaching", "heading": "Faith and Community", "content": "The Pilgrims wanted to live according to their religious convictions. Their colony was shaped by faith, mutual dependence, and self-government. The Mayflower Compact is often remembered as an early example of cooperative political agreement among colonists." },
+      { "type": "timeline", "content": ["1620 — Pilgrims arrive on the Mayflower", "1620 — Mayflower Compact signed", "1620s — Plymouth begins developing as a small colony"] },
+      { "type": "reflection", "questions": ["Why did the Pilgrims leave England?", "What was the purpose of the Mayflower Compact?", "How did religion shape life in Plymouth?"] },
+      { "type": "review", "content": "The Pilgrims founded Plymouth for religious reasons, and their community reflected both faith and self-government." }
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 1,
+    "globalIndex": 7,
+    "title": "The Thirteen Colonies",
+    "objective": "Identify the major regions of the thirteen colonies and understand their differences.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Over time, England established thirteen colonies along the Atlantic coast. These colonies developed in different ways depending on geography, religion, labor systems, and economics." },
+      { "type": "source", "ref": "Regional colonial patterns", "text": "The New England, Middle, and Southern colonies shared English roots, but they grew into distinct regions." },
+      { "type": "teaching", "heading": "Three Colonial Regions", "content": "New England colonies often emphasized small towns, trade, and religious communities. The Middle Colonies became known for diversity and farming. The Southern Colonies relied more heavily on plantation agriculture and enslaved labor. These regional differences shaped colonial society and later American development." },
+      { "type": "timeline", "content": ["1607–1730s — England establishes thirteen colonies", "By the 1700s — Regional differences become more distinct", "Before independence — Colonies share some common identity but remain very different"] },
+      { "type": "reflection", "questions": ["What were the three major colonial regions?", "How did geography affect colonial life?", "Why do regional differences matter later in U.S. history?"] },
+      { "type": "review", "content": "The thirteen colonies were not identical. Regional differences in economy, labor, religion, and geography shaped later American history." }
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 1,
+    "globalIndex": 8,
+    "title": "Colonial Life and Society",
+    "objective": "Describe daily life in the colonies and recognize the roles of labor, religion, trade, and inequality.",
+    "estimatedMinutes": 25,
+    "sections": [
+      { "type": "intro", "content": "Colonial life included farming, trade, religion, family life, community rules, and growing economic differences. Not all colonists experienced life in the same way." },
+      { "type": "source", "ref": "General colonial experience", "text": "Colonial society included farmers, merchants, artisans, indentured servants, enslaved people, women, children, and political leaders." },
+      { "type": "teaching", "heading": "A Complex Society", "content": "Colonial life could be shaped by region, class, race, gender, and labor status. While some colonists owned land and gained wealth, others lived under strict limits or coercion. Trade connected the colonies to the wider Atlantic world, including systems of slavery and empire." },
+      { "type": "timeline", "content": ["1600s–1700s — Colonial societies grow and diversify", "1700s — Trade networks expand across the Atlantic", "Before the Revolution — Distinct colonial identities continue to form"] },
+      { "type": "reflection", "questions": ["What kinds of people made up colonial society?", "Why is it important to remember that colonial life was not the same for everyone?", "How did trade and labor shape daily life?"] },
+      { "type": "review", "content": "Colonial society was complex and unequal. To understand early America, we need to look at both opportunity and hardship in colonial life." }
+    ]
+  }
+]

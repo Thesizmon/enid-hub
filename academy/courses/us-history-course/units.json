@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "number": "01",
+    "icon": "⛵",
+    "title": "Colonial America",
+    "subtitle": "1607–1763",
+    "theme": "European settlement, colonial life, and the roots of American identity",
+    "lessonCount": 8
+  },
+  {
+    "id": 2,
+    "number": "02",
+    "icon": "🔔",
+    "title": "Revolution & Independence",
+    "subtitle": "1763–1789",
+    "theme": "The road to independence, the Revolution, and the founding of a new nation",
+    "lessonCount": 8
+  },
+  {
+    "id": 3,
+    "number": "03",
+    "icon": "📜",
+    "title": "The New Republic",
+    "subtitle": "1789–1828",
+    "theme": "Building the constitutional government and defining American democracy",
+    "lessonCount": 8
+  },
+  {
+    "id": 4,
+    "number": "04",
+    "icon": "🌄",
+    "title": "Manifest Destiny & Reform",
+    "subtitle": "1828–1860",
+    "theme": "Westward expansion, the reform movement, and growing tensions over slavery",
+    "lessonCount": 8
+  },
+  {
+    "id": 5,
+    "number": "05",
+    "icon": "⚔️",
+    "title": "Civil War & Reconstruction",
+    "subtitle": "1860–1877",
+    "theme": "The nation divided, the war for union, and the challenge of rebuilding",
+    "lessonCount": 8
+  },
+  {
+    "id": 6,
+    "number": "06",
+    "icon": "🏭",
+    "title": "Industrialization & the Gilded Age",
+    "subtitle": "1877–1900",
+    "theme": "The rise of industry, immigration, urbanization, and the Gilded Age",
+    "lessonCount": 8
+  },
+  {
+    "id": 7,
+    "number": "07",
+    "icon": "🌐",
+    "title": "Progressive Era to World War II",
+    "subtitle": "1900–1945",
+    "theme": "Reform movements, global wars, the Great Depression, and American power",
+    "lessonCount": 8
+  },
+  {
+    "id": 8,
+    "number": "08",
+    "icon": "🚀",
+    "title": "Cold War to Modern America",
+    "subtitle": "1945–Present",
+    "theme": "The Cold War, civil rights, cultural change, and America in the modern world",
+    "lessonCount": 8
+  }
+]
