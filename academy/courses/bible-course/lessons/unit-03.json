@@ -1,10 +1,130 @@
 [
-  { "id": 1, "unitId": 3, "globalIndex": 17, "title": "Moses — Called & Sent", "objective": "See how God calls a reluctant Moses at the burning bush and commissions him to lead Israel out of slavery.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Exodus 3:14", "text": "God said to Moses, 'I AM WHO I AM.' And he said, 'Say this to the people of Israel: \"I AM has sent me to you.\"'" } ] },
-  { "id": 2, "unitId": 3, "globalIndex": 18, "title": "The Passover", "objective": "Understand the Passover as God's decisive act of deliverance and as a foreshadowing of Christ, our Passover Lamb.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Exodus 12:13", "text": "The blood shall be a sign for you, on the houses where you are. And when I see the blood, I will pass over you, and no plague will befall you to destroy you, when I strike the land of Egypt." } ] },
-  { "id": 3, "unitId": 3, "globalIndex": 19, "title": "Crossing the Red Sea", "objective": "See God's power over creation as He opens the sea for Israel and closes it on Pharaoh's army.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Exodus 14:14", "text": "The LORD will fight for you, and you have only to be silent." } ] },
-  { "id": 4, "unitId": 3, "globalIndex": 20, "title": "Wilderness Journey", "objective": "Follow Israel through the wilderness — grumbling, manna, water from the rock — and see God's patient provision.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Exodus 16:4", "text": "Then the LORD said to Moses, 'Behold, I am about to rain bread from heaven for you, and the people shall go out and gather a day's portion every day, that I may test them, whether they will walk in my law or not.'" } ] },
-  { "id": 5, "unitId": 3, "globalIndex": 21, "title": "The Ten Commandments", "objective": "Study the Ten Commandments as God's revelation of His holy will and as a mirror showing humanity's need for a Savior.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Exodus 20:2–3", "text": "I am the LORD your God, who brought you out of the land of Egypt, out of the house of slavery. You shall have no other gods before me." } ] },
-  { "id": 6, "unitId": 3, "globalIndex": 22, "title": "The Tabernacle", "objective": "Understand the Tabernacle as God's dwelling place among His people and as a picture of Christ's incarnation.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Exodus 25:8", "text": "And let them make me a sanctuary, that I may dwell in their midst." } ] },
-  { "id": 7, "unitId": 3, "globalIndex": 23, "title": "The Sacrificial System", "objective": "Understand the levitical sacrifices as temporary, God-given provisions pointing forward to Christ's once-for-all sacrifice.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Leviticus 17:11", "text": "For the life of the flesh is in the blood, and I have given it for you on the altar to make atonement for your souls, for it is the blood that makes atonement by the life." } ] },
-  { "id": 8, "unitId": 3, "globalIndex": 24, "title": "The Holiness of God", "objective": "Encounter God's absolute holiness and understand what it means for sinful people to approach a holy God.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Leviticus 19:2", "text": "Speak to all the congregation of the people of Israel and say to them, You shall be holy, for I the LORD your God am holy." } ] }
+  {
+    "id": 1,
+    "unitId": 3,
+    "globalIndex": 17,
+    "title": "The Call of Abraham",
+    "objective": "Understand God's promise to Abraham and the beginning of the covenant people.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God called Abram to leave his homeland and follow Him. Through Abram, God promised to bless all nations."},
+      {"type":"scripture","ref":"Genesis 12:2","text":"I will make of you a great nation, and I will bless you."},
+      {"type":"teaching","heading":"God's Covenant Promise","content":"God promised Abraham land, descendants, and blessing. This promise ultimately points to Christ."},
+      {"type":"catechism","content":"God keeps His promises across generations.","ref":"Catechetical teaching summary"},
+      {"type":"reflection","questions":["Why did God call Abraham?","What promises did God make?","How does this point toward Jesus?"]},
+      {"type":"prayer","content":"Lord, strengthen our faith like Abraham's. Amen."}
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 3,
+    "globalIndex": 18,
+    "title": "Abraham's Faith",
+    "objective": "Learn how Abraham trusted God even when the promise seemed impossible.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Abraham believed God's promise even when it seemed impossible."},
+      {"type":"scripture","ref":"Genesis 15:6","text":"And he believed the Lord, and he counted it to him as righteousness."},
+      {"type":"teaching","heading":"Faith and Promise","content":"Faith means trusting God's promise even when circumstances seem uncertain."},
+      {"type":"catechism","content":"Faith trusts in God's promise of grace.","ref":"Small Catechism teaching"},
+      {"type":"reflection","questions":["What does Abraham's faith teach us?","Why is faith important?","How do we trust God today?"]},
+      {"type":"prayer","content":"Lord, help us trust Your promises. Amen."}
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 3,
+    "globalIndex": 19,
+    "title": "Isaac the Promised Son",
+    "objective": "Understand how God fulfilled His promise through Isaac.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God fulfilled His promise by giving Abraham and Sarah a son named Isaac."},
+      {"type":"scripture","ref":"Genesis 21:1-2","text":"The Lord visited Sarah as he had said."},
+      {"type":"teaching","heading":"God Keeps His Word","content":"Isaac's birth shows that God always keeps His promises."},
+      {"type":"catechism","content":"God's promises never fail.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why was Isaac's birth important?","What promise did it fulfill?","What does it teach about God's faithfulness?"]},
+      {"type":"prayer","content":"Faithful God, thank You for keeping Your promises. Amen."}
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 3,
+    "globalIndex": 20,
+    "title": "Abraham and Isaac",
+    "objective": "See how Abraham's obedience points toward God's sacrifice of His Son.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God tested Abraham by asking him to sacrifice Isaac."},
+      {"type":"scripture","ref":"Genesis 22:12","text":"Now I know that you fear God."},
+      {"type":"teaching","heading":"A Picture of Christ","content":"God ultimately provided a substitute sacrifice, pointing forward to Jesus."},
+      {"type":"catechism","content":"Christ is the Lamb of God who takes away the sin of the world.","ref":"John 1:29"},
+      {"type":"reflection","questions":["Why did God test Abraham?","What does the substitute sacrifice represent?","How does this story foreshadow Christ?"]},
+      {"type":"prayer","content":"Lord, thank You for providing the true sacrifice for our sins. Amen."}
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 3,
+    "globalIndex": 21,
+    "title": "Jacob and Esau",
+    "objective": "Understand God's covenant continuing through Jacob.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Jacob and Esau were twin brothers, but God chose Jacob to continue the covenant promise."},
+      {"type":"scripture","ref":"Genesis 25:23","text":"The older shall serve the younger."},
+      {"type":"teaching","heading":"God's Sovereign Choice","content":"God works through imperfect people to fulfill His promises."},
+      {"type":"catechism","content":"God's grace works even through human weakness.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why was Jacob chosen?","What does this teach about God's plan?","How does God use imperfect people?"]},
+      {"type":"prayer","content":"Lord, guide us according to Your will. Amen."}
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 3,
+    "globalIndex": 22,
+    "title": "Jacob's Dream",
+    "objective": "Learn about God's promise reaffirmed to Jacob.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Jacob dreamed of a ladder reaching to heaven, reminding him of God's presence."},
+      {"type":"scripture","ref":"Genesis 28:15","text":"Behold, I am with you and will keep you wherever you go."},
+      {"type":"teaching","heading":"God Is With His People","content":"God reassured Jacob that His covenant promise would continue."},
+      {"type":"catechism","content":"God promises to be with His people.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["What did Jacob see in the dream?","What promise did God make?","How does God guide us today?"]},
+      {"type":"prayer","content":"God, remind us that You are always with us. Amen."}
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 3,
+    "globalIndex": 23,
+    "title": "Joseph Sold Into Egypt",
+    "objective": "Understand how jealousy led Joseph's brothers to betray him.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Joseph's brothers became jealous and sold him into slavery."},
+      {"type":"scripture","ref":"Genesis 37:28","text":"They drew Joseph up and lifted him out of the pit and sold him."},
+      {"type":"teaching","heading":"Sin and Betrayal","content":"Even painful events can be used by God to accomplish His purposes."},
+      {"type":"catechism","content":"God can bring good even out of evil.","ref":"Romans 8:28 summary"},
+      {"type":"reflection","questions":["Why were Joseph's brothers jealous?","What happened to Joseph?","How can God work through hardship?"]},
+      {"type":"prayer","content":"Lord, help us trust You even during hardship. Amen."}
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 3,
+    "globalIndex": 24,
+    "title": "Joseph Forgives His Brothers",
+    "objective": "See how God's plan worked through Joseph to preserve His people.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Joseph rose to power in Egypt and later forgave his brothers."},
+      {"type":"scripture","ref":"Genesis 50:20","text":"You meant evil against me, but God meant it for good."},
+      {"type":"teaching","heading":"God's Providence","content":"God used Joseph's suffering to save many lives."},
+      {"type":"catechism","content":"God's providence guides history.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["How did Joseph forgive his brothers?","What does this teach about God's plan?","Why is forgiveness important?"]},
+      {"type":"prayer","content":"Lord, help us forgive others as You forgive us. Amen."}
+    ]
+  }
 ]

@@ -1,10 +1,122 @@
 [
-  { "id": 1, "unitId": 4, "globalIndex": 25, "title": "Entering the Promised Land", "objective": "See God fulfill His promise to Abraham as Israel crosses the Jordan and begins to take the land.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Joshua 1:9", "text": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go." } ] },
-  { "id": 2, "unitId": 4, "globalIndex": 26, "title": "Joshua's Faithful Leadership", "objective": "Study Joshua as a model of faith and obedience, and see how God honors His Word.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Joshua 24:15", "text": "But as for me and my house, we will serve the LORD." } ] },
-  { "id": 3, "unitId": 4, "globalIndex": 27, "title": "Judges — A Cycle of Failure", "objective": "Recognize the sin-judgment-cry-deliverance cycle in Judges as a picture of humanity's constant need for a rescuer.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Judges 2:16", "text": "Then the LORD raised up judges, who saved them out of the hand of those who plundered them." } ] },
-  { "id": 4, "unitId": 4, "globalIndex": 28, "title": "Ruth — A Story of Faithfulness", "objective": "Discover in Ruth a picture of covenant loyalty (hesed), redemption, and the inclusion of the nations in God's family.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Ruth 1:16", "text": "But Ruth said, 'Do not urge me to leave you or to return from following you. For where you go I will go, and where you lodge I will lodge. Your people shall be my people, and your God my God.'" } ] },
-  { "id": 5, "unitId": 4, "globalIndex": 29, "title": "Samuel & the Demand for a King", "objective": "Understand Israel's rejection of God as King and God's grace in still working through flawed human institutions.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Samuel 8:7", "text": "And the LORD said to Samuel, 'Obey the voice of the people in all that they say to you, for they have not rejected you, but they have rejected me from being king over them.'" } ] },
-  { "id": 6, "unitId": 4, "globalIndex": 30, "title": "Saul — The People's King", "objective": "See how Saul's tragic reign reveals that no merely human king can save God's people.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Samuel 15:22", "text": "And Samuel said, 'Has the LORD as great delight in burnt offerings and sacrifices, as in obeying the voice of the LORD? Behold, to obey is better than sacrifice, and to listen than the fat of rams.'" } ] },
-  { "id": 7, "unitId": 4, "globalIndex": 31, "title": "David — A Man After God's Heart", "objective": "Study David as the greatest king of Israel and as a type of Christ, the Son of David who will reign forever.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "2 Samuel 7:12–13", "text": "When your days are fulfilled and you lie down with your fathers, I will raise up your offspring after you, who shall come from your body, and I will establish his kingdom. He shall build a house for my name, and I will establish the throne of his kingdom forever." } ] },
-  { "id": 8, "unitId": 4, "globalIndex": 32, "title": "Solomon & the Temple", "objective": "See the glory of Solomon's reign and temple, and understand why even Israel's greatest king cannot bring final peace.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Kings 8:27", "text": "But will God indeed dwell on the earth? Behold, heaven and the highest heaven cannot contain you; how much less this house that I have built!" } ] }
+  {
+    "id": 1,
+    "unitId": 4,
+    "globalIndex": 25,
+    "title": "Israel in Egypt",
+    "objective": "Understand how the Israelites became slaves in Egypt.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After Joseph's time, the Israelites became enslaved in Egypt."},
+      {"type":"scripture","ref":"Exodus 1:11","text":"They ruthlessly made the people of Israel work as slaves."},
+      {"type":"teaching","heading":"God Hears His People","content":"Even in suffering, God hears the cries of His people."},
+      {"type":"reflection","questions":["Why were the Israelites enslaved?","How does God respond to suffering?","What hope did Israel have?"]},
+      {"type":"prayer","content":"Lord, hear the cries of those who suffer. Amen."}
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 4,
+    "globalIndex": 26,
+    "title": "The Birth of Moses",
+    "objective": "Learn how God preserved Moses.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Moses was saved from Pharaoh's decree to kill Hebrew children."},
+      {"type":"scripture","ref":"Exodus 2:10","text":"She named him Moses."},
+      {"type":"teaching","heading":"God's Protection","content":"God preserved Moses for a future purpose."},
+      {"type":"reflection","questions":["Why was Moses hidden?","How did God protect him?","What does this teach about God's plan?"]},
+      {"type":"prayer","content":"God, thank You for guiding history according to Your will. Amen."}
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 4,
+    "globalIndex": 27,
+    "title": "The Burning Bush",
+    "objective": "Understand God's call to Moses.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God spoke to Moses through a burning bush."},
+      {"type":"scripture","ref":"Exodus 3:14","text":"I AM WHO I AM."},
+      {"type":"teaching","heading":"God Reveals His Name","content":"God revealed His divine name and called Moses to lead Israel."},
+      {"type":"reflection","questions":["Why did God call Moses?","What does God's name reveal?","How does God call people today?"]},
+      {"type":"prayer","content":"Lord, help us respond faithfully when You call. Amen."}
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 4,
+    "globalIndex": 28,
+    "title": "The Ten Plagues",
+    "objective": "See how God demonstrated His power over Egypt.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God sent plagues to show His power and deliver Israel."},
+      {"type":"scripture","ref":"Exodus 7:5","text":"The Egyptians shall know that I am the Lord."},
+      {"type":"teaching","heading":"God's Power","content":"The plagues showed that the Lord alone is God."},
+      {"type":"reflection","questions":["Why did God send plagues?","What did they show about God?","How did Pharaoh respond?"]},
+      {"type":"prayer","content":"Almighty God, show us Your power and mercy. Amen."}
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 4,
+    "globalIndex": 29,
+    "title": "The Passover",
+    "objective": "Understand the meaning of the Passover.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God instructed Israel to sacrifice a lamb and mark their doors."},
+      {"type":"scripture","ref":"Exodus 12:13","text":"When I see the blood, I will pass over you."},
+      {"type":"teaching","heading":"The Passover Lamb","content":"The Passover points forward to Jesus, the Lamb of God."},
+      {"type":"reflection","questions":["Why was the lamb sacrificed?","What did the blood represent?","How does this point to Christ?"]},
+      {"type":"prayer","content":"Thank You, Lord, for the sacrifice of Christ. Amen."}
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 4,
+    "globalIndex": 30,
+    "title": "Crossing the Red Sea",
+    "objective": "Learn how God delivered Israel.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God parted the Red Sea so Israel could escape Egypt."},
+      {"type":"scripture","ref":"Exodus 14:21","text":"The Lord drove the sea back by a strong east wind."},
+      {"type":"teaching","heading":"Deliverance","content":"God powerfully rescued His people."},
+      {"type":"reflection","questions":["How did God deliver Israel?","Why is this event important?","What does it show about God's power?"]},
+      {"type":"prayer","content":"Lord, deliver us from sin and danger. Amen."}
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 4,
+    "globalIndex": 31,
+    "title": "The Ten Commandments",
+    "objective": "Understand God's Law given at Sinai.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God gave His commandments to guide His people."},
+      {"type":"scripture","ref":"Exodus 20:1-3","text":"You shall have no other gods before me."},
+      {"type":"teaching","heading":"God's Law","content":"The commandments show God's will and reveal our sin."},
+      {"type":"reflection","questions":["Why did God give the commandments?","What do they teach us?","Why do we need forgiveness?"]},
+      {"type":"prayer","content":"Lord, help us follow Your commandments. Amen."}
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 4,
+    "globalIndex": 32,
+    "title": "The Tabernacle",
+    "objective": "Learn about God's presence among His people.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"God instructed Israel to build the Tabernacle."},
+      {"type":"scripture","ref":"Exodus 25:8","text":"Let them make me a sanctuary."},
+      {"type":"teaching","heading":"God Dwells With His People","content":"The Tabernacle showed that God desired to dwell with His people."},
+      {"type":"reflection","questions":["Why did God command the Tabernacle?","What did it represent?","How does God dwell with believers today?"]},
+      {"type":"prayer","content":"Lord, thank You for dwelling with Your people. Amen."}
+    ]
+  }
 ]
