@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playlist — Enid Academy</title>
+<style>
+  :root {
+    --bg: radial-gradient(ellipse at 60% 40%, #F0E8FF 0%, #FFE8F4 50%, #EAF0FF 100%);
+    --card: #FFFBF7;
+    --card-r: 28px;
+    --stage-bg: linear-gradient(175deg, #F4EEFF 0%, #FFF4FA 55%, #EEF4FF 100%);
+    --accent: #E84EA0;
+    --accent2: #C090F0;
+    --title: #1A1630;
+    --sub: #B0A0C8;
+    --body-text: #5A4E72;
+    --border: rgba(200, 130, 200, 0.12);
+    --tag-bg: linear-gradient(135deg, #FCCEE8 0%, #D8CCFF 50%, #CCE0FF 100%);
+    --tag-color: #6840A0;
+    --shadow: 0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 40px rgba(200,100,180,0.15), 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-sm: 0 2px 12px rgba(200,100,180,0.1), 0 1px 3px rgba(0,0,0,0.04);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    padding-bottom: 100px;
+  }
+
+  /* ─── PAGE NAV ───────────────────────────── */
+  .page-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 8px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sub);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: var(--accent); }
+  .back-btn::before { content: "←"; font-size: 15px; }
+
+  /* ─── WORKOUT HEADER ─────────────────────── */
+  .workout-header-card {
+    background: linear-gradient(145deg, #F4EEFF 0%, #FFF0F8 60%, #EEF0FF 100%);
+    border-radius: var(--card-r);
+    box-shadow: var(--shadow);
+    padding: 24px 24px 20px;
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 4px auto 16px;
+    border: 1.5px solid rgba(200,130,200,0.1);
+  }
+  .workout-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .workout-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--title);
+    letter-spacing: -0.6px;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  .workout-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .meta-chip {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+  }
+  .chip-pink { background: rgba(232,78,160,0.1); color: var(--accent); }
+  .chip-purple { background: rgba(192,144,240,0.12); color: #8050B8; }
+  .chip-blue { background: rgba(140,160,240,0.12); color: #5060A8; }
+  .chip-green { background: rgba(80,180,120,0.12); color: #3A8050; }
+  .chip-orange { background: rgba(240,160,100,0.12); color: #905020; }
+
+  /* Progress */
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: 0.3px; }
+  .progress-pct { font-size: 11px; font-weight: 800; color: var(--tag-color); }
+  .progress-track {
+    height: 8px;
+    background: rgba(200,150,220,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+  .progress-dots {
+    display: flex;
+    gap: 0;
+    margin-top: 6px;
+    justify-content: space-between;
+  }
+  .progress-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(200,150,220,0.2);
+    transition: background 0.3s;
+  }
+  .progress-dot.done { background: var(--accent); }
+  .progress-dot.current { background: var(--accent); opacity: 0.5; transform: scale(1.2); }
+
+  /* ─── SECTION LABEL ──────────────────────── */
+  .list-label {
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto 10px;
+    padding: 0 4px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ─── EXERCISE ROW ───────────────────────── */
+  .exercise-row {
+    background: var(--card);
+    border-radius: 22px;
+    box-shadow: var(--shadow-sm);
+    padding: 16px 18px;
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .exercise-row:hover { border-color: rgba(232,78,160,0.2); box-shadow: var(--shadow); }
+  .exercise-row.done { opacity: 0.65; }
+
+  .ex-thumb {
+    width: 64px; height: 42px;
+    border-radius: 10px;
+    background: var(--stage-bg);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(200,130,200,0.1);
+    position: relative;
+  }
+  .ex-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    mix-blend-mode: multiply;
+  }
+  .ex-thumb-emoji { font-size: 20px; opacity: 0.5; }
+
+  .ex-info { flex: 1; min-width: 0; }
+  .ex-name {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--title);
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ex-meta { font-size: 11.5px; color: var(--sub); margin-top: 2px; font-weight: 500; }
+
+  .status-badge {
+    font-size: 10.5px; font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 16px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .status-done { background: rgba(100,200,150,0.12); color: #3A9060; }
+  .status-current { background: linear-gradient(135deg, #FCCEE8, #E0C8FF); color: #7040A8; }
+  .status-upcoming { background: rgba(200,150,220,0.1); color: var(--sub); }
+
+  /* ─── ACTIVE CARD (EXPANDED) ─────────────── */
+  .active-card {
+    background: var(--card);
+    border-radius: var(--card-r);
+    box-shadow: var(--shadow);
+    padding: 20px 22px;
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto 10px;
+    border: 1.5px solid rgba(232,78,160,0.2);
+  }
+  .active-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .active-label {
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  .active-name {
+    font-size: 19px; font-weight: 800;
+    color: var(--title); letter-spacing: -0.3px;
+  }
+  .active-sub { font-size: 11px; color: var(--sub); margin-top: 2px; font-weight: 500; }
+  .muscle-tag {
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    font-size: 11px; font-weight: 700;
+    padding: 5px 13px;
+    border-radius: 20px; white-space: nowrap;
+  }
+
+  /* Stage animation */
+  .stage-thumb {
+    background: var(--stage-bg);
+    border-radius: 16px;
+    border: 1.5px solid rgba(200,130,200,0.1);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .stage-thumb.is-static { cursor: default; }
+  .stage-thumb:not(.is-static):active { transform: scale(0.995); }
+  .stage-frames {
+    position: relative; width: 100%;
+    aspect-ratio: 3 / 2;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stage-frame {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.45s ease-in-out;
+  }
+  .stage-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 4px 16px rgba(180,100,180,0.12));
+  }
+  .stage-frame.hidden { opacity: 0; pointer-events: none; }
+  .stage-frame.visible { opacity: 1; }
+  .stage-pose-label {
+    position: absolute; bottom: 10px; left: 14px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    color: #C090D8;
+    background: rgba(255,255,255,0.7); backdrop-filter: blur(6px);
+    padding: 3px 9px; border-radius: 10px; pointer-events: none;
+  }
+  .stage-click-hint {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 9.5px; font-weight: 600; letter-spacing: 0.5px;
+    color: #D0B0E8; pointer-events: none;
+  }
+  .stage-dots {
+    position: absolute; bottom: 10px; right: 14px;
+    display: flex; gap: 6px; pointer-events: none;
+  }
+  .stage-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(200,150,220,0.3);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .stage-dot.active { background: var(--accent); transform: scale(1.3); }
+  .stage-progress-track {
+    height: 2px;
+    background: rgba(200,150,220,0.15);
+    border-radius: 1px;
+    margin: 0 2px 14px;
+    overflow: hidden;
+  }
+  .stage-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 1px; width: 0%;
+    transition: width 0.06s linear;
+  }
+
+  .active-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .rep-info { font-size: 13px; color: #9888B8; }
+  .rep-info b { color: var(--accent); font-size: 17px; font-weight: 800; }
+  .detail-link {
+    font-size: 12px; font-weight: 700; color: var(--tag-color);
+    text-decoration: none; padding: 5px 12px;
+    border-radius: 14px; border: 1px solid rgba(200,150,220,0.25);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .detail-link:hover { border-color: var(--accent2); color: var(--accent); }
+
+  /* ─── BOTTOM CTA ─────────────────────────── */
+  .cta-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 16px 20px;
+    background: linear-gradient(to top, rgba(255,248,255,0.98) 60%, transparent);
+    backdrop-filter: blur(10px);
+    display: flex; justify-content: center;
+  }
+  .cta-inner { display: flex; gap: 10px; width: 520px; max-width: calc(100vw - 32px); }
+  .btn-primary {
+    flex: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border: none; border-radius: 20px;
+    padding: 14px 20px; font-size: 14px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(232,78,160,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,78,160,0.4); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    background: var(--card); color: var(--tag-color);
+    border: 1.5px solid rgba(200,150,220,0.3);
+    border-radius: 20px; padding: 14px 18px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s, border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent2); transform: translateY(-1px); }
+</style>
+</head>
+<body>
+<script src="exercises.js"></script>
+
+<nav class="page-nav">
+  <a href="home.html" class="back-btn">Enid Academy</a>
+</nav>
+
+<div id="workout-header"></div>
+<div class="list-label">Exercises</div>
+<div id="exercise-list"></div>
+
+<div class="cta-bar">
+  <div class="cta-inner">
+    <button class="btn-secondary" id="btn-rest">⏸ Rest</button>
+    <button class="btn-primary" id="btn-start">▶ Begin Playlist</button>
+  </div>
+</div>
+
+<script>
+// Animation state for the active card
+let plCurrent = 0, plLastSwap = performance.now();
+let plInterval = 2500;
+let plIsAnimated = false;
+let activeExId = null;
+
+function plShowFrame(idx) {
+  const f0 = document.getElementById('pl-frame-0');
+  const f1 = document.getElementById('pl-frame-1');
+  const d0 = document.getElementById('pl-dot-0');
+  const d1 = document.getElementById('pl-dot-1');
+  const lbl = document.getElementById('pl-pose-label');
+  const activeEx = activeExId ? EXERCISES[activeExId] : null;
+  if (!f0) return;
+  f0.className = 'stage-frame ' + (idx === 0 ? 'visible' : 'hidden');
+  if (f1) f1.className = 'stage-frame ' + (idx === 1 ? 'visible' : 'hidden');
+  if (d0) d0.className = 'stage-dot' + (idx === 0 ? ' active' : '');
+  if (d1) d1.className = 'stage-dot' + (idx === 1 ? ' active' : '');
+  if (lbl && activeEx) lbl.textContent = idx === 0 ? (activeEx.labelA || 'Start') : (activeEx.labelB || 'End');
+  plCurrent = idx;
+}
+
+function plTick(now) {
+  if (plIsAnimated) {
+    const pct = Math.min((now - plLastSwap) / plInterval * 100, 100);
+    const fill = document.getElementById('pl-progress-fill');
+    if (fill) fill.style.width = pct + '%';
+    if (now - plLastSwap >= plInterval) {
+      plShowFrame((plCurrent + 1) % 2);
+      plLastSwap = now;
+    }
+  }
+  requestAnimationFrame(plTick);
+}
+
+function repString(ex) {
+  const parts = [];
+  if (ex.sets) parts.push('<b>' + ex.sets + '</b> sets');
+  if (ex.reps) parts.push('<b>' + ex.reps + '</b> reps');
+  if (ex.hold) parts.push('<b>' + ex.hold + '</b> hold');
+  return parts.join(' · ');
+}
+
+function getCategoryEmoji(cat) {
+  const map = { Foundations: '🌱', 'Core Activation': '🔥', Stability: '⚖️', Strength: '💪', Cooldown: '🌙' };
+  return map[cat] || '🧘';
+}
+
+function render(pl) {
+  document.title = pl.title + ' — Enid Academy';
+  const exercises = pl.exercises.map(id => EXERCISES[id]).filter(Boolean);
+
+  // Determine active index (first exercise for now; could be persisted)
+  const activeIdx = 0;
+  activeExId = exercises[activeIdx] ? exercises[activeIdx].id : null;
+
+  // ── Workout header ────────────────────────────────────────
+  const chipColors = ['chip-pink', 'chip-purple', 'chip-blue', 'chip-green', 'chip-orange'];
+  document.getElementById('workout-header').innerHTML = `
+    <div class="workout-header-card">
+      <div class="workout-eyebrow">${pl.emoji} Enid Academy · Pilates</div>
+      <div class="workout-title">${pl.title}</div>
+      <div class="workout-meta">
+        <span class="meta-chip chip-pink">⏱️ ${pl.duration}</span>
+        <span class="meta-chip chip-purple">🔥 ${exercises.length} exercises</span>
+        <span class="meta-chip chip-blue">⭐ ${pl.level}</span>
+        <span class="meta-chip chip-pink">🎯 ${pl.focus}</span>
+      </div>
+      <div>
+        <div class="progress-header">
+          <span class="progress-label">Overall Progress</span>
+          <span class="progress-pct">0 of ${exercises.length} done</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-dots">
+          ${exercises.map((_, i) => `<div class="progress-dot${i === 0 ? ' current' : ''}"></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  // ── Exercise list ─────────────────────────────────────────
+  const container = document.getElementById('exercise-list');
+  exercises.forEach((ex, i) => {
+    if (i === activeIdx) {
+      // Active expanded card
+      plIsAnimated = ex.type === 'animated' && ex.frameB;
+      if (ex.interval) plInterval = ex.interval;
+      activeExId = ex.id;
+
+      const card = document.createElement('div');
+      card.className = 'active-card';
+      card.innerHTML = `
+        <div class="active-card-header">
+          <div>
+            <div class="active-label">▶ Current Exercise</div>
+            <div class="active-name">${ex.title}</div>
+            <div class="active-sub">${ex.subtitle}</div>
+          </div>
+          <div class="muscle-tag">${ex.muscleTag}</div>
+        </div>
+        <div class="stage-thumb${plIsAnimated ? '' : ' is-static'}" id="pl-stage">
+          <div class="stage-frames">
+            <div class="stage-frame visible" id="pl-frame-0">
+              <img src="${ex.frameA}" alt="${ex.title}" draggable="false"/>
+            </div>
+            ${plIsAnimated ? `
+            <div class="stage-frame hidden" id="pl-frame-1">
+              <img src="${ex.frameB}" alt="${ex.title}" draggable="false"/>
+            </div>` : ''}
+          </div>
+          <div class="stage-pose-label" id="pl-pose-label">${ex.labelA || ''}</div>
+          ${plIsAnimated ? `<div class="stage-click-hint">tap to toggle ✦</div>` : ''}
+          ${plIsAnimated ? `
+          <div class="stage-dots">
+            <div class="stage-dot active" id="pl-dot-0"></div>
+            <div class="stage-dot" id="pl-dot-1"></div>
+          </div>` : ''}
+        </div>
+        ${plIsAnimated ? `<div class="stage-progress-track"><div class="stage-progress-fill" id="pl-progress-fill"></div></div>` : ''}
+        <div class="active-footer">
+          <div class="rep-info">${repString(ex)}</div>
+          <a href="exercise.html?id=${ex.id}&playlist=${pl.id}&index=${i}" class="detail-link">View Details →</a>
+        </div>
+      `;
+      container.appendChild(card);
+
+      // Click to toggle
+      if (plIsAnimated) {
+        card.querySelector('#pl-stage').addEventListener('click', () => {
+          plShowFrame((plCurrent + 1) % 2);
+          plLastSwap = performance.now();
+        });
+      }
+    } else {
+      // Row card
+      const row = document.createElement('a');
+      row.href = 'exercise.html?id=' + ex.id + '&playlist=' + pl.id + '&index=' + i;
+      row.className = 'exercise-row' + (i < activeIdx ? ' done' : '');
+      const meta = [];
+      if (ex.sets) meta.push(ex.sets + ' sets');
+      if (ex.reps) meta.push(ex.reps + ' reps');
+      meta.push(ex.category);
+      const statusClass = i < activeIdx ? 'status-done' : 'status-upcoming';
+      const statusText = i < activeIdx ? '✓ Done' : 'Upcoming';
+      row.innerHTML = `
+        <div class="ex-thumb">
+          <img src="${ex.frameA}" alt="${ex.title}" onerror="this.parentNode.innerHTML='<span class=\\'ex-thumb-emoji\\'>${getCategoryEmoji(ex.category)}</span>'"/>
+        </div>
+        <div class="ex-info">
+          <div class="ex-name">${ex.title}</div>
+          <div class="ex-meta">${meta.join(' · ')}</div>
+        </div>
+        <span class="status-badge ${statusClass}">${statusText}</span>
+      `;
+      container.appendChild(row);
+    }
+  });
+
+  // ── CTA button ────────────────────────────────────────────
+  const firstEx = exercises[0];
+  if (firstEx) {
+    document.getElementById('btn-start').textContent = '▶ Begin Playlist';
+    document.getElementById('btn-start').onclick = () => {
+      window.location.href = 'exercise.html?id=' + firstEx.id + '&playlist=' + pl.id + '&index=0';
+    };
+  }
+}
+
+// ── Boot ──────────────────────────────────────────────────────
+const plId = urlParam('id') || 'foundations';
+const pl = getPlaylist(plId);
+if (pl) {
+  render(pl);
+} else {
+  document.getElementById('exercise-list').innerHTML = '<p style="text-align:center;color:var(--sub);padding:40px">Playlist not found.</p>';
+}
+
+requestAnimationFrame(plTick);
+</script>
+</body>
+</html>

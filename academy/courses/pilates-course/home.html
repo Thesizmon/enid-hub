@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enid Academy — Pilates</title>
+<style>
+  :root {
+    --bg: radial-gradient(ellipse at 60% 40%, #F0E8FF 0%, #FFE8F4 50%, #EAF0FF 100%);
+    --card: #FFFBF7;
+    --card-r: 28px;
+    --accent: #E84EA0;
+    --accent2: #C090F0;
+    --title: #1A1630;
+    --sub: #B0A0C8;
+    --body-text: #5A4E72;
+    --border: rgba(200, 130, 200, 0.12);
+    --tag-bg: linear-gradient(135deg, #FCCEE8 0%, #D8CCFF 50%, #CCE0FF 100%);
+    --tag-color: #6840A0;
+    --shadow: 0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 40px rgba(200,100,180,0.15), 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-sm: 0 2px 12px rgba(200,100,180,0.1), 0 1px 3px rgba(0,0,0,0.04);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    padding-bottom: 40px;
+  }
+
+  /* ─── HERO HEADER ────────────────────────── */
+  .hero {
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto;
+    padding: 28px 0 20px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--title);
+    letter-spacing: -0.8px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .hero-sub {
+    font-size: 13.5px;
+    color: var(--sub);
+    font-weight: 500;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .hero-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(175deg, #F4EEFF 0%, #FFF4FA 55%, #EEF4FF 100%);
+    border: 2px solid rgba(200,130,200,0.15);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-avatar img {
+    width: 160%;
+    height: 160%;
+    object-fit: cover;
+    object-position: center top;
+    mix-blend-mode: multiply;
+    margin-top: 20px;
+  }
+  .hero-chips {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-chip {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+  }
+  .hero-chip-pink { background: rgba(232,78,160,0.1); color: var(--accent); }
+  .hero-chip-purple { background: rgba(192,144,240,0.12); color: #8050B8; }
+  .hero-chip-blue { background: rgba(140,160,240,0.12); color: #5060A8; }
+
+  /* ─── SECTION LABEL ──────────────────────── */
+  .section-label {
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 16px auto 12px;
+    padding: 0 4px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ─── PLAYLIST CARD ──────────────────────── */
+  .playlist-card {
+    background: var(--card);
+    border-radius: var(--card-r);
+    box-shadow: var(--shadow);
+    padding: 20px 22px;
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+  .playlist-card:hover {
+    border-color: rgba(232,78,160,0.2);
+    box-shadow: var(--shadow), 0 0 0 3px rgba(232,78,160,0.05);
+    transform: translateY(-1px);
+  }
+  .playlist-card:active { transform: scale(0.99); }
+
+  .playlist-emoji {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: var(--tag-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .playlist-info { flex: 1; min-width: 0; }
+  .playlist-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--title);
+    letter-spacing: -0.2px;
+    margin-bottom: 2px;
+  }
+  .playlist-subtitle {
+    font-size: 12px;
+    color: var(--sub);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .playlist-meta {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 12px;
+    letter-spacing: 0.2px;
+  }
+  .pill-pink { background: rgba(232,78,160,0.1); color: var(--accent); }
+  .pill-purple { background: rgba(192,144,240,0.12); color: #8050B8; }
+  .pill-blue { background: rgba(140,160,240,0.12); color: #5060A8; }
+  .pill-green { background: rgba(80,180,120,0.12); color: #3A8050; }
+  .pill-orange { background: rgba(240,160,100,0.12); color: #905020; }
+
+  .playlist-arrow {
+    font-size: 18px;
+    color: var(--sub);
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .playlist-card:hover .playlist-arrow { color: var(--accent); transform: translateX(3px); }
+
+  /* ─── BOTTOM DIVIDER ─────────────────────── */
+  .bottom-note {
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 24px auto 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--sub);
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+<script src="exercises.js"></script>
+
+<!-- Hero Header -->
+<div class="hero">
+  <div class="hero-avatar">
+    <img src="Full Body Avatar.png" alt="Enid Trainer" draggable="false"/>
+  </div>
+  <div class="hero-eyebrow">🐺 Enid Academy</div>
+  <div class="hero-title">Beginner Pilates</div>
+  <div class="hero-sub">5 guided playlists · 14 exercises · Start anytime</div>
+  <div class="hero-chips">
+    <span class="hero-chip hero-chip-pink">🎯 Pilates</span>
+    <span class="hero-chip hero-chip-purple">⭐ Beginner</span>
+    <span class="hero-chip hero-chip-blue">🌸 Feel-Good Movement</span>
+  </div>
+</div>
+
+<div class="section-label">Your Playlists</div>
+<div id="playlist-list"></div>
+
+<div class="bottom-note">Tap any playlist to begin 💜</div>
+
+<script>
+const PILL_COLORS = ['pill-pink', 'pill-purple', 'pill-blue', 'pill-green', 'pill-orange'];
+
+function renderPlaylists() {
+  const container = document.getElementById('playlist-list');
+  Object.values(PLAYLISTS).forEach((pl, i) => {
+    const exList = pl.exercises.map(id => EXERCISES[id]).filter(Boolean);
+    const card = document.createElement('a');
+    card.href = 'playlist.html?id=' + pl.id;
+    card.className = 'playlist-card';
+    card.innerHTML = `
+      <div class="playlist-emoji">${pl.emoji}</div>
+      <div class="playlist-info">
+        <div class="playlist-title">${pl.title}</div>
+        <div class="playlist-subtitle">${pl.subtitle}</div>
+        <div class="playlist-meta">
+          <span class="meta-pill ${PILL_COLORS[i % PILL_COLORS.length]}">${pl.duration}</span>
+          <span class="meta-pill pill-purple">${exList.length} exercises</span>
+          <span class="meta-pill pill-blue">${pl.level}</span>
+        </div>
+      </div>
+      <div class="playlist-arrow">›</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+renderPlaylists();
+</script>
+</body>
+</html>

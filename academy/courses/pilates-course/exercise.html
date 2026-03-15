@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercise — Enid Academy</title>
+<style>
+  :root {
+    --bg: radial-gradient(ellipse at 60% 40%, #F0E8FF 0%, #FFE8F4 50%, #EAF0FF 100%);
+    --card: #FFFBF7;
+    --card-r: 28px;
+    --stage-bg: linear-gradient(175deg, #F4EEFF 0%, #FFF4FA 55%, #EEF4FF 100%);
+    --accent: #E84EA0;
+    --accent2: #C090F0;
+    --title: #1A1630;
+    --sub: #B0A0C8;
+    --body-text: #5A4E72;
+    --border: rgba(200, 130, 200, 0.12);
+    --tag-bg: linear-gradient(135deg, #FCCEE8 0%, #D8CCFF 50%, #CCE0FF 100%);
+    --tag-color: #6840A0;
+    --shadow: 0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 40px rgba(200,100,180,0.15), 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-sm: 0 2px 12px rgba(200,100,180,0.1), 0 1px 3px rgba(0,0,0,0.04);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    padding-bottom: 40px;
+  }
+
+  /* ─── NAV ────────────────────────────────── */
+  .page-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 8px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sub);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: var(--accent); }
+  .back-btn::before { content: "←"; font-size: 15px; }
+  .step-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--tag-color);
+    background: var(--tag-bg);
+    padding: 4px 11px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ─── CARD ───────────────────────────────── */
+  .card {
+    background: var(--card);
+    border-radius: var(--card-r);
+    box-shadow: var(--shadow);
+    padding: 24px 24px 20px;
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto 16px;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .exercise-title {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--title);
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+  }
+  .exercise-sub {
+    font-size: 11.5px;
+    color: var(--sub);
+    margin-top: 3px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .muscle-tag {
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 13px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 10px;
+  }
+
+  /* ─── STAGE ──────────────────────────────── */
+  .stage {
+    background: var(--stage-bg);
+    border-radius: 20px;
+    border: 1.5px solid rgba(200, 130, 200, 0.1);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+  .stage.static-pose { cursor: default; }
+  .stage:not(.static-pose):active { transform: scale(0.995); }
+  .frames {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .frame {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.45s ease-in-out;
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 4px 16px rgba(180, 100, 180, 0.12));
+  }
+  .frame.hidden { opacity: 0; pointer-events: none; }
+  .frame.visible { opacity: 1; }
+  .pose-label {
+    position: absolute;
+    bottom: 10px;
+    left: 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #C090D8;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(6px);
+    padding: 3px 9px;
+    border-radius: 10px;
+    pointer-events: none;
+  }
+  .click-hint {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #D0B0E8;
+    pointer-events: none;
+  }
+  .dots {
+    position: absolute;
+    bottom: 10px;
+    right: 14px;
+    display: flex;
+    gap: 6px;
+    pointer-events: none;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(200, 150, 220, 0.3);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .dot.active { background: var(--accent); transform: scale(1.3); }
+  .progress-track {
+    height: 2px;
+    background: rgba(200, 150, 220, 0.15);
+    border-radius: 1px;
+    margin: 0 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 1px;
+    width: 0%;
+    transition: width 0.06s linear;
+  }
+
+  /* ─── CARD FOOTER ────────────────────────── */
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .rep-info { font-size: 13px; color: #9888B8; }
+  .rep-info b { color: var(--accent); font-size: 17px; font-weight: 800; }
+  .controls { display: flex; align-items: center; gap: 10px; }
+  .toggle-btn {
+    background: linear-gradient(135deg, #F8C8E8, #E0C8FF);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7040A8;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(200,100,200,0.15);
+  }
+  .toggle-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(200,100,200,0.25); }
+  .toggle-btn:active { transform: scale(0.96); }
+  .speed-btn {
+    background: none;
+    border: 1.5px solid rgba(200,150,220,0.3);
+    border-radius: 16px;
+    padding: 5px 11px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--sub);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .speed-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── SECTION CARDS ──────────────────────── */
+  .section-card { padding: 22px 24px; }
+  .section-title {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .about-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--body-text);
+    margin-bottom: 16px;
+  }
+  .benefit-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .chip-pink { background: rgba(232,78,160,0.1); color: var(--accent); }
+  .chip-purple { background: rgba(192,144,240,0.12); color: #8050B8; }
+  .chip-blue { background: rgba(140,160,240,0.12); color: #5060A8; }
+
+  .steps-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .step-item { display: flex; gap: 14px; align-items: flex-start; }
+  .step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .step-text { font-size: 13.5px; color: var(--body-text); line-height: 1.55; padding-top: 3px; }
+
+  .cues-list { display: flex; flex-direction: column; gap: 10px; }
+  .cue-item {
+    background: linear-gradient(135deg, rgba(244,238,255,0.8), rgba(255,244,250,0.8));
+    border: 1px solid rgba(200,150,220,0.15);
+    border-radius: 14px;
+    padding: 11px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cue-icon { font-size: 16px; flex-shrink: 0; }
+  .cue-text { font-size: 13px; color: var(--body-text); font-style: italic; line-height: 1.4; }
+
+  .muscle-group { margin-bottom: 14px; }
+  .muscle-group:last-child { margin-bottom: 0; }
+  .muscle-group-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--sub); margin-bottom: 8px;
+  }
+  .muscle-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .muscle-chip-primary {
+    background: linear-gradient(135deg, #FCCEE8, #F0B8DC);
+    color: #A03070; font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 20px;
+  }
+  .muscle-chip-secondary {
+    background: rgba(192,144,240,0.1);
+    border: 1px solid rgba(192,144,240,0.2);
+    color: #7050A0; font-size: 12px; font-weight: 600;
+    padding: 5px 13px; border-radius: 20px;
+  }
+
+  /* ─── CTA BAR ────────────────────────────── */
+  .cta-bar {
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+  }
+  .btn-primary {
+    flex: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border: none;
+    border-radius: 20px; padding: 14px 20px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(232,78,160,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,78,160,0.4); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    background: var(--card); color: var(--tag-color);
+    border: 1.5px solid rgba(200,150,220,0.3);
+    border-radius: 20px; padding: 14px 18px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s, border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent2); transform: translateY(-1px); }
+
+  /* ─── LOADING ────────────────────────────── */
+  #loader {
+    width: 520px; max-width: calc(100vw - 32px);
+    margin: 60px auto; text-align: center;
+    color: var(--sub); font-size: 14px; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<script src="exercises.js"></script>
+
+<!-- Nav (populated by JS) -->
+<nav class="page-nav">
+  <a id="back-btn" href="home.html" class="back-btn">Enid Academy</a>
+  <span id="step-badge" class="step-badge" style="display:none"></span>
+</nav>
+
+<div id="loader">Loading exercise…</div>
+
+<!-- Hero card (populated by JS) -->
+<div id="hero-card" class="card" style="display:none; margin-top:0">
+  <div class="card-header">
+    <div>
+      <div class="exercise-title" id="ex-title"></div>
+      <div class="exercise-sub" id="ex-sub"></div>
+    </div>
+    <div class="muscle-tag" id="ex-tag"></div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="frames">
+      <div class="frame visible" id="frame-0"><img id="img-0" src="" alt="" draggable="false"/></div>
+      <div class="frame hidden"  id="frame-1"><img id="img-1" src="" alt="" draggable="false"/></div>
+    </div>
+    <div class="pose-label" id="pose-label"></div>
+    <div class="click-hint" id="click-hint" style="display:none">tap to toggle ✦</div>
+    <div class="dots" id="dots" style="display:none">
+      <div class="dot active" id="dot-0"></div>
+      <div class="dot" id="dot-1"></div>
+    </div>
+  </div>
+
+  <div class="progress-track" id="progress-track" style="display:none">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  <div class="card-footer">
+    <div class="rep-info" id="rep-info"></div>
+    <div class="controls" id="controls" style="display:none">
+      <button class="speed-btn" id="speed-btn">2s interval</button>
+      <button class="toggle-btn" id="pause-btn">⏸ Pause</button>
+    </div>
+  </div>
+</div>
+
+<!-- About -->
+<div id="about-card" class="card section-card" style="display:none">
+  <div class="section-title">About This Exercise</div>
+  <p class="about-text" id="about-text"></p>
+  <div class="benefit-chips" id="benefit-chips"></div>
+</div>
+
+<!-- How To -->
+<div id="howto-card" class="card section-card" style="display:none">
+  <div class="section-title">How To Do It</div>
+  <ol class="steps-list" id="steps-list"></ol>
+</div>
+
+<!-- Cues -->
+<div id="cues-card" class="card section-card" style="display:none">
+  <div class="section-title">Coaching Cues</div>
+  <div class="cues-list" id="cues-list"></div>
+</div>
+
+<!-- Muscles -->
+<div id="muscles-card" class="card section-card" style="display:none">
+  <div class="section-title">Muscles Worked</div>
+  <div class="muscle-group">
+    <div class="muscle-group-label">Primary</div>
+    <div class="muscle-chips" id="primary-muscles"></div>
+  </div>
+  <div class="muscle-group">
+    <div class="muscle-group-label">Secondary</div>
+    <div class="muscle-chips" id="secondary-muscles"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-bar" id="cta-bar" style="display:none">
+  <button class="btn-primary" id="cta-start">▶ Start Exercise</button>
+  <button class="btn-secondary" id="cta-playlist">← Back to Playlist</button>
+</div>
+
+<script>
+// ── Animation state ───────────────────────────────────────────
+const SPEEDS = [1500, 2500, 4000];
+const SPEED_LABELS = ['1.5s', '2.5s', '4s'];
+let current = 0, speedIdx = 1, paused = false, lastSwap = performance.now();
+let isAnimated = false;
+let ex = null;
+
+function showFrame(idx) {
+  document.getElementById('frame-0').className = 'frame ' + (idx === 0 ? 'visible' : 'hidden');
+  document.getElementById('frame-1').className = 'frame ' + (idx === 1 ? 'visible' : 'hidden');
+  document.getElementById('dot-0').className   = 'dot' + (idx === 0 ? ' active' : '');
+  document.getElementById('dot-1').className   = 'dot' + (idx === 1 ? ' active' : '');
+  document.getElementById('pose-label').textContent = idx === 0
+    ? (ex.labelA || 'Start Position')
+    : (ex.labelB || 'End Position');
+  current = idx;
+}
+
+function tick(now) {
+  if (isAnimated && !paused) {
+    const interval = SPEEDS[speedIdx];
+    const pct = Math.min((now - lastSwap) / interval * 100, 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    if (now - lastSwap >= interval) { showFrame((current + 1) % 2); lastSwap = now; }
+  }
+  requestAnimationFrame(tick);
+}
+
+// ── Render ─────────────────────────────────────────────────────
+function render(ex, playlistId, exerciseIndex, playlistLen) {
+  document.title = ex.title + ' — Enid Academy';
+  document.getElementById('loader').style.display = 'none';
+
+  // nav
+  if (playlistId) {
+    const pl = getPlaylist(playlistId);
+    const backBtn = document.getElementById('back-btn');
+    backBtn.href = 'playlist.html?id=' + playlistId;
+    backBtn.textContent = pl ? pl.title : 'Playlist';
+    if (playlistLen > 1 && exerciseIndex !== null) {
+      const badge = document.getElementById('step-badge');
+      badge.style.display = '';
+      badge.textContent = 'Exercise ' + (exerciseIndex + 1) + ' of ' + playlistLen;
+    }
+  }
+
+  // hero card
+  document.getElementById('ex-title').textContent = ex.title;
+  document.getElementById('ex-sub').textContent = ex.subtitle;
+  document.getElementById('ex-tag').textContent = ex.muscleTag;
+
+  const img0 = document.getElementById('img-0');
+  const img1 = document.getElementById('img-1');
+  img0.src = encodeURIComponent(ex.frameA).replace(/%20/g, '%20');
+  img0.src = ex.frameA;
+  img0.alt = ex.title + ' — ' + (ex.labelA || 'Pose');
+
+  isAnimated = ex.type === 'animated' && ex.frameB;
+
+  if (isAnimated) {
+    img1.src = ex.frameB;
+    img1.alt = ex.title + ' — ' + (ex.labelB || 'End');
+    document.getElementById('pose-label').textContent = ex.labelA || 'Start Position';
+    document.getElementById('click-hint').style.display = '';
+    document.getElementById('dots').style.display = '';
+    document.getElementById('progress-track').style.display = '';
+    document.getElementById('controls').style.display = '';
+    document.getElementById('stage').classList.remove('static-pose');
+    if (ex.interval) speedIdx = SPEEDS.indexOf(ex.interval) !== -1 ? SPEEDS.indexOf(ex.interval) : 1;
+    document.getElementById('speed-btn').textContent = SPEED_LABELS[speedIdx] + ' interval';
+  } else {
+    document.getElementById('pose-label').textContent = ex.labelA || '';
+    document.getElementById('stage').classList.add('static-pose');
+  }
+
+  // rep info
+  const parts = [];
+  if (ex.sets)  parts.push('<b>' + ex.sets  + '</b> sets');
+  if (ex.reps)  parts.push('<b>' + ex.reps  + '</b> reps');
+  if (ex.hold)  parts.push('<b>' + ex.hold  + '</b> hold');
+  document.getElementById('rep-info').innerHTML = parts.join(' · ');
+
+  // show hero
+  document.getElementById('hero-card').style.display = '';
+
+  // about
+  document.getElementById('about-text').textContent = ex.about;
+  const chips = [ex.muscleTag, ex.category, ex.primaryMuscles[0]].filter(Boolean);
+  const chipColors = ['chip-pink', 'chip-purple', 'chip-blue'];
+  document.getElementById('benefit-chips').innerHTML = chips.map((c, i) =>
+    '<span class="chip ' + chipColors[i % 3] + '">' + c + '</span>'
+  ).join('');
+  document.getElementById('about-card').style.display = '';
+
+  // steps
+  if (ex.steps && ex.steps.length) {
+    document.getElementById('steps-list').innerHTML = ex.steps.map((s, i) =>
+      '<li class="step-item"><span class="step-num">' + (i + 1) + '</span><span class="step-text">' + s + '</span></li>'
+    ).join('');
+    document.getElementById('howto-card').style.display = '';
+  }
+
+  // cues
+  if (ex.cues && ex.cues.length) {
+    document.getElementById('cues-list').innerHTML = ex.cues.map(c =>
+      '<div class="cue-item"><span class="cue-icon">' + c.icon + '</span><span class="cue-text">' + c.text + '</span></div>'
+    ).join('');
+    document.getElementById('cues-card').style.display = '';
+  }
+
+  // muscles
+  if (ex.primaryMuscles) {
+    document.getElementById('primary-muscles').innerHTML = ex.primaryMuscles.map(m =>
+      '<span class="muscle-chip-primary">' + m + '</span>'
+    ).join('');
+    document.getElementById('secondary-muscles').innerHTML = (ex.secondaryMuscles || []).map(m =>
+      '<span class="muscle-chip-secondary">' + m + '</span>'
+    ).join('');
+    document.getElementById('muscles-card').style.display = '';
+  }
+
+  // CTA
+  const ctaBar = document.getElementById('cta-bar');
+  ctaBar.style.display = '';
+  if (playlistId) {
+    const plLen = getPlaylist(playlistId) ? getPlaylist(playlistId).exercises.length : 0;
+    const nextIdx = exerciseIndex !== null ? exerciseIndex + 1 : null;
+    const cta = document.getElementById('cta-start');
+    if (nextIdx !== null && nextIdx < plLen) {
+      const nextId = getPlaylist(playlistId).exercises[nextIdx];
+      cta.textContent = '▶ Next Exercise';
+      cta.onclick = () => { window.location.href = 'exercise.html?id=' + nextId + '&playlist=' + playlistId + '&index=' + nextIdx; };
+    } else {
+      cta.textContent = '✓ Complete';
+      cta.onclick = () => { window.location.href = 'playlist.html?id=' + playlistId; };
+    }
+    document.getElementById('cta-playlist').textContent = '← Back to Playlist';
+    document.getElementById('cta-playlist').onclick = () => { window.location.href = 'playlist.html?id=' + playlistId; };
+  } else {
+    document.getElementById('cta-start').textContent = '▶ Start Exercise';
+    document.getElementById('cta-playlist').textContent = '← Academy Home';
+    document.getElementById('cta-playlist').onclick = () => { window.location.href = 'home.html'; };
+  }
+}
+
+// ── Event listeners ───────────────────────────────────────────
+document.getElementById('stage').addEventListener('click', () => {
+  if (!isAnimated) return;
+  showFrame((current + 1) % 2);
+  lastSwap = performance.now();
+});
+
+document.getElementById('pause-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  paused = !paused;
+  document.getElementById('pause-btn').textContent = paused ? '▶ Resume' : '⏸ Pause';
+  if (!paused) lastSwap = performance.now();
+});
+
+document.getElementById('speed-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  speedIdx = (speedIdx + 1) % SPEEDS.length;
+  document.getElementById('speed-btn').textContent = SPEED_LABELS[speedIdx] + ' interval';
+  lastSwap = performance.now();
+});
+
+// ── Boot ──────────────────────────────────────────────────────
+const exId       = urlParam('id') || 'glute-bridge';
+const playlistId = urlParam('playlist');
+const exIndex    = urlParam('index') !== null ? parseInt(urlParam('index')) : null;
+const pl         = playlistId ? getPlaylist(playlistId) : null;
+const plLen      = pl ? pl.exercises.length : 0;
+
+ex = getExercise(exId);
+if (ex) {
+  render(ex, playlistId, exIndex, plLen);
+} else {
+  document.getElementById('loader').textContent = 'Exercise not found.';
+}
+
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

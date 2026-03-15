@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/simon/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/36149a14-438c-442a-89f5-7f4ec37909cd/b2d9ee44-73d5-43be-a91f-f82defa2c68a/skills/docx/**)",
+      "Bash(pandoc --track-changes=all \"C:/Users/simon/Downloads/Untitled document.docx\" -o output.md)",
+      "Bash(python scripts/office/unpack.py \"C:/Users/simon/Downloads/Untitled document.docx\" unpacked/)",
+      "Bash(py --version)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "Bash(node -e \"require\\(''''http-server''''\\)\")",
+      "Bash('C:/Program Files/nodejs/npm.cmd' list -g --depth=0)",
+      "Bash(ls \"C:\\\\Users\\\\simon\\\\Downloads\\\\Pastel Trainer\"/*.png)",
+      "Bash(ls \"C:/Users/simon/Downloads/Pastel Trainer/\"*.png)",
+      "WebFetch(domain:thesizmon.github.io)",
+      "Bash(gh repo:*)",
+      "Bash(gh api:*)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\simon\\\\Downloads\\\\enid-hub-local\\\\academy\\\\courses\\\\pilates-course\")",
+      "Bash(cp -r \"C:\\\\Users\\\\simon\\\\Downloads\\\\Pastel Trainer\"/. \"C:\\\\Users\\\\simon\\\\Downloads\\\\enid-hub-local\\\\academy\\\\courses\\\\pilates-course/\")"
+    ]
+  }
+}
