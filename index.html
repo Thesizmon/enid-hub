@@ -812,6 +812,120 @@
     .ns-test-btn:hover{opacity:.88;transform:translateY(-1px)}
     .ns-test-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
     .ns-status-loading{text-align:center;padding:10px;font-size:.78rem;color:var(--sub)}
+
+    /* ── DISCIPLINE MODE ────────────────────────────────────────────── */
+
+    /* Routine status bar */
+    .dm-status-bar {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding: 10px 16px; background: rgba(255,255,255,.7);
+      border-bottom: 1px solid rgba(168,85,247,.12);
+      backdrop-filter: blur(8px);
+    }
+    .dm-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px; border-radius: 999px; font-size: .7rem;
+      font-weight: 700; font-family: 'DM Sans', sans-serif;
+      border: 1.5px solid transparent; cursor: default; white-space: nowrap;
+      transition: all .2s;
+    }
+    .dm-chip.scheduled   { background: rgba(148,163,184,.1); color: #64748B; border-color: rgba(148,163,184,.3); }
+    .dm-chip.triggered   { background: rgba(245,158,11,.12); color: #D97706; border-color: rgba(245,158,11,.3); animation: dmPulse 1.4s ease-in-out infinite; }
+    .dm-chip.escalating  { background: rgba(239,68,68,.12); color: #DC2626; border-color: rgba(239,68,68,.3); animation: dmPulse .8s ease-in-out infinite; }
+    .dm-chip.started     { background: rgba(168,85,247,.12); color: #7C3AED; border-color: rgba(168,85,247,.3); }
+    .dm-chip.in_progress { background: rgba(168,85,247,.18); color: #6D28D9; border-color: rgba(168,85,247,.4); animation: dmPulse 2s ease-in-out infinite; }
+    .dm-chip.done        { background: rgba(16,185,129,.12); color: #059669; border-color: rgba(16,185,129,.3); }
+    .dm-chip.skipped     { background: rgba(148,163,184,.07); color: #94A3B8; border-color: rgba(148,163,184,.2); text-decoration: line-through; opacity: .7; }
+    .dm-chip.overridden  { background: rgba(245,158,11,.08); color: #B45309; border-color: rgba(245,158,11,.2); }
+    .dm-chip.failed      { background: rgba(239,68,68,.08); color: #B91C1C; border-color: rgba(239,68,68,.2); }
+
+    @keyframes dmPulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+
+    /* Lunch panel */
+    .dm-lunch-panel {
+      margin: 10px 16px; padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(232,78,160,.08));
+      border: 1.5px solid rgba(245,158,11,.3); border-radius: 16px;
+    }
+    .dm-lunch-title  { font-family:'Playfair Display',serif; font-size:.95rem; font-weight:700; color:#92400E; margin-bottom:4px; }
+    .dm-lunch-meta   { font-size:.72rem; color:#B45309; margin-bottom:10px; }
+    .dm-lunch-times  { display:flex; gap:8px; flex-wrap:wrap; }
+    .dm-lunch-btn {
+      padding: 7px 14px; border-radius: 999px; border: none;
+      background: linear-gradient(135deg,#F59E0B,#FBBF24); color: #fff;
+      font-size: .75rem; font-weight: 700; cursor: pointer;
+      font-family: 'DM Sans',sans-serif; box-shadow: 0 2px 8px rgba(245,158,11,.3);
+    }
+    .dm-lunch-btn.custom { background: linear-gradient(135deg,#E84EA0,#A855F7); box-shadow: 0 2px 8px rgba(232,78,160,.3); }
+
+    /* Active lunch display */
+    .dm-lunch-active {
+      display: flex; justify-content: space-between; align-items: center;
+      margin: 10px 16px; padding: 12px 16px;
+      background: linear-gradient(135deg,rgba(245,158,11,.1),rgba(232,78,160,.06));
+      border: 1.5px solid rgba(245,158,11,.25); border-radius: 14px;
+    }
+    .dm-lunch-active-info { font-size:.75rem; color:#92400E; }
+    .dm-lunch-active-time { font-family:'DM Mono',monospace; font-size:.85rem; font-weight:700; color:#B45309; }
+    .dm-lunch-end-btn {
+      padding:6px 12px; border-radius:999px; border:none;
+      background:rgba(245,158,11,.2); color:#92400E; font-size:.72rem;
+      font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif;
+    }
+
+    /* Points badge */
+    .dm-points-badge {
+      position: fixed; bottom: 24px; right: 16px; z-index: 350;
+      background: linear-gradient(135deg,#E84EA0,#A855F7);
+      color: #fff; border-radius: 999px; padding: 8px 14px;
+      font-size: .78rem; font-weight: 700; font-family: 'DM Sans',sans-serif;
+      box-shadow: 0 4px 16px rgba(232,78,160,.4); display: none;
+      cursor: pointer; transition: transform .2s;
+    }
+    .dm-points-badge:hover { transform: scale(1.06); }
+
+    /* Discipline overlay — Stage 4 / full-screen lock */
+    .dm-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: linear-gradient(160deg,#1A0A2E 0%,#2D1454 40%,#4A0E38 100%);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 32px 24px;
+      animation: dmOverlayIn .35s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes dmOverlayIn { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+    .dm-overlay-wolf   { font-size: 4rem; margin-bottom: 12px; animation: dmPulse 1.8s ease-in-out infinite; }
+    .dm-overlay-title  { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:#fff; text-align:center; margin-bottom:8px; }
+    .dm-overlay-sub    { font-size:.85rem; color:rgba(255,255,255,.7); text-align:center; margin-bottom:28px; max-width:300px; line-height:1.5; }
+    .dm-overlay-start  {
+      width: 100%; max-width: 280px; padding: 18px;
+      background: linear-gradient(135deg,#E84EA0,#A855F7);
+      color: #fff; border: none; border-radius: 16px;
+      font-size: 1.1rem; font-weight: 700; cursor: pointer;
+      font-family: 'DM Sans',sans-serif;
+      box-shadow: 0 8px 32px rgba(232,78,160,.5);
+      margin-bottom: 16px; animation: dmOverlayPulse 2s ease-in-out infinite;
+    }
+    @keyframes dmOverlayPulse { 0%,100%{box-shadow:0 8px 32px rgba(232,78,160,.5)} 50%{box-shadow:0 8px 48px rgba(232,78,160,.8)} }
+    .dm-overlay-override {
+      background: none; border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.4); border-radius: 999px;
+      padding: 8px 20px; font-size: .7rem; cursor: pointer;
+      font-family: 'DM Sans',sans-serif; margin-top: 8px;
+    }
+    .dm-overlay-override:hover { color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.4); }
+
+    /* Reward toast (bigger, center-screen) */
+    .dm-reward-toast {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(.8);
+      z-index: 450; background: linear-gradient(135deg,#E84EA0,#A855F7);
+      color: #fff; padding: 24px 32px; border-radius: 20px;
+      text-align: center; box-shadow: 0 16px 48px rgba(232,78,160,.5);
+      animation: dmRewardIn .45s cubic-bezier(.34,1.56,.64,1) forwards;
+      pointer-events: none;
+    }
+    @keyframes dmRewardIn { to{transform:translate(-50%,-50%) scale(1); opacity:1} from{transform:translate(-50%,-50%) scale(.7);opacity:0} }
+    .dm-reward-emoji { font-size:2.4rem; margin-bottom:8px; }
+    .dm-reward-text  { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; line-height:1.4; }
   </style>
   <!-- PWA -->
   <meta name="theme-color" content="#E84EA0">
@@ -869,6 +983,30 @@
     </div>
   </header>
 
+  <!-- Discipline Mode status bar — shows today's routine states -->
+  <div class="dm-status-bar" id="dmStatusBar" style="display:none"></div>
+
+  <!-- Lunch panel — shown when user hasn't started lunch yet (weekdays only) -->
+  <div class="dm-lunch-panel" id="dmLunchPanel" style="display:none">
+    <div class="dm-lunch-title">🍽 Start Lunch Break</div>
+    <div class="dm-lunch-meta">Tell Roomie when to resume Afternoon Focus</div>
+    <div class="dm-lunch-times">
+      <button class="dm-lunch-btn" onclick="startLunch('13:00')">🕐 Back 1:00</button>
+      <button class="dm-lunch-btn" onclick="startLunch('13:30')">🕑 Back 1:30</button>
+      <button class="dm-lunch-btn" onclick="startLunch('14:00')">🕑 Back 2:00</button>
+      <button class="dm-lunch-btn custom" onclick="startLunchCustom()">⏰ Custom</button>
+    </div>
+  </div>
+
+  <!-- Active lunch display — shown while lunch is in progress -->
+  <div class="dm-lunch-active" id="dmLunchActive" style="display:none">
+    <div>
+      <div class="dm-lunch-active-info">🍽 Lunch Break Active · started <span id="dmLunchStarted"></span></div>
+      <div class="dm-lunch-active-time">Focus resumes at <span id="dmLunchReturn"></span></div>
+    </div>
+    <button class="dm-lunch-end-btn" onclick="endLunch()">End Early</button>
+  </div>
+
   <div class="day-nav" id="dayNav"></div>
   <main id="sections"></main>
   <div class="page-footer">built with 💜 by your roomie · every routine is a love letter to your future self 🐺✨</div>
@@ -897,6 +1035,19 @@
     </div>
   </div>
 </div>
+
+<!-- Discipline Mode Overlay — Stage 4 / app lock screen -->
+<div class="dm-overlay" id="dmOverlay" style="display:none">
+  <div class="dm-overlay-wolf">🐺</div>
+  <div class="dm-overlay-title" id="dmOverlayTitle">Routine Time!!</div>
+  <div class="dm-overlay-sub" id="dmOverlaySub">Your routine is waiting. Tap Start to get going 💜</div>
+  <button class="dm-overlay-start" id="dmOverlayStart" onclick="dmOverlayStart()">🐾 Start Now!!</button>
+  <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:8px">or</div>
+  <button class="dm-overlay-override" onclick="dmOverlayOverride()">Emergency Override</button>
+</div>
+
+<!-- Discipline Mode points badge -->
+<div class="dm-points-badge" id="dmPointsBadge" onclick="dmShowPointsDetail()">⭐ 0 pts</div>
 
 <!-- Notification permission banner -->
 <div id="notifBanner" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:300;width:calc(100% - 40px);max-width:500px">
@@ -2214,7 +2365,8 @@ function scheduleNotifications() {
 }
 
 function checkSchedule() {
-  if (!NOTIF_SCHEDULE.length) return;
+  // Discipline Mode runs regardless of whether legacy notifications are loaded
+  checkDisciplineSchedule();
 
   const now      = new Date();
   const dow      = now.getDay();
@@ -2670,6 +2822,7 @@ async function init() {
     ]);
     render();
     await buildDayNav();
+    await initDisciplineMode();  // ← Discipline Mode init (after KT shift loaded)
   } catch (err) {
     console.error('Init failed:', err);
     document.getElementById('loader').innerHTML = `
@@ -2703,6 +2856,671 @@ initEmojiBg();
 init();
 registerSW();
 checkNotifBanner();
+
+/* ═════════════════════════════════════════════════════════════════════
+   DISCIPLINE MODE — Behavior Engine 🐺
+   Compels action, escalates when ignored, rewards follow-through.
+   Platform: Android PWA (Chrome). Tab must be open for escalation timers.
+═════════════════════════════════════════════════════════════════════ */
+
+// ── Routine definitions ────────────────────────────────────────────────────
+const DISCIPLINE_ROUTINES = {
+  morning: {
+    label: 'Morning',
+    emoji: '🌞',
+    trigger:  { hour: 8,  minute: 0,  days: [1,2,3,4,5] },
+    escalation: [
+      { delayMin: 5,  stage: 2 },   // 8:05 → persistent
+      { delayMin: 10, stage: 3 },   // 8:10 → full-screen
+      { delayMin: 15, stage: 4 },   // 8:15 → overlay lock
+    ],
+    completionCheck: { delayMin: 35 },  // 8:35 follow-up
+    snoozeMin: 10,
+    checklist: ['out of bed','drink water','yoga/stretch','mindfulness/prayer','breakfast','get ready for work'],
+    notification: { title: '🌞 Morning Sparkle', body: 'Up we go. Start morning routine now.' },
+    completionNotif: { title: '🌸 Morning check-in', body: 'Did we finish the morning routine?' },
+    startReward:  { points: 1, msg: '✨ Good start, boss pup. Morning momentum unlocked.' },
+    doneReward:   { points: 5, msg: '🌟 ONE HUNDO COMPLETE — Morning routine finished.' },
+  },
+  work_am: {
+    label: 'Work AM',
+    emoji: '💼',
+    trigger:  { hour: 8,  minute: 55, days: [1,2,3,4,5] },
+    escalation: [
+      { delayMin: 5,  stage: 2 },
+      { delayMin: 10, stage: 3 },
+      { delayMin: 15, stage: 4 },
+    ],
+    completionCheck: null,  // done = lunch start
+    snoozeMin: 5,
+    notification: { title: '💼 Focus Block', body: 'BBS starts in 5. Enter work mode now.' },
+    startReward:  { points: 1, msg: '✨ Locked in. Work mode active.' },
+    doneReward:   { points: 4, msg: '🌟 Focus Block Complete.' },
+  },
+  lunch: {
+    label: 'Lunch',
+    emoji: '🍽',
+    trigger:  null,   // manual trigger only
+    manualCheck: { hour: 12, minute: 20, days: [1,2,3,4,5] },  // safety nudge if not started
+    snoozeMin: 0,
+    notification: { title: '🍽 Lunch Break', body: "Tell Roomie when afternoon focus should resume." },
+    safetyNotif:  { title: '🌤 Lunch Check', body: "Did you skip lunch today?" },
+    startReward:  { points: 0, msg: '' },
+    doneReward:   { points: 0, msg: '' },
+  },
+  work_pm: {
+    label: 'Afternoon',
+    emoji: '🌤',
+    trigger:  null,   // dynamically scheduled from lunch return time
+    escalation: [
+      { delayMin: 5,  stage: 2 },
+      { delayMin: 10, stage: 3 },
+      { delayMin: 15, stage: 4 },
+    ],
+    completionCheck: null,  // done = evening reset fires
+    snoozeMin: 5,
+    notification: { title: '🌤 Afternoon Reset', body: 'Lunch is wrapping. Re-enter work mode.' },
+    startReward:  { points: 1, msg: '✨ Back in it.' },
+    doneReward:   { points: 5, msg: '🌟 Workday Complete.' },
+  },
+  evening_reset: {
+    label: 'Evening',
+    emoji: '🌆',
+    trigger:  { hour: 17, minute: 15, days: [1,2,3,4,5] },
+    escalation: [
+      { delayMin: 5,  stage: 2 },
+      { delayMin: 10, stage: 3 },
+      { delayMin: 15, stage: 4 },
+    ],
+    completionCheck: { delayMin: 25 },  // 5:40 follow-up
+    snoozeMin: 10,
+    checklist: ['wash face / freshen up','quick tidy','check tonight plan','decide next activity','stretch or breathe'],
+    notification: { title: '🌆 Evening Reset', body: 'Time to reset the day before the night runs away.' },
+    completionNotif: { title: '🌆 Evening check-in', body: 'Did we finish the evening reset?' },
+    startReward:  { points: 1, msg: '✨ Reset started.' },
+    doneReward:   { points: 4, msg: '🌟 Evening Reset Complete.' },
+  },
+  go_home: {
+    label: 'Go Home',
+    emoji: '🌙',
+    trigger:  { hour: 22, minute: 30, days: [0,1,2,3,4,5,6] },  // suppressed on KT nights
+    escalation: [
+      { delayMin: 5,  stage: 2 },
+      { delayMin: 10, stage: 3 },
+      // No stage 4 for go_home — just notification pressure
+    ],
+    snoozeMin: 10,
+    notification: { title: '🌙 Roomie Reminder', body: 'Time to head home and start winding down.' },
+    startReward:  { points: 1, msg: '✨ Travel safe. Wind-down starting soon.' },
+    doneReward:   { points: 0, msg: '' },
+  },
+  wind_down: {
+    label: 'Wind-Down',
+    emoji: '🌙',
+    trigger:  { hour: 22, minute: 45, days: [0,1,2,3,4,5,6] },
+    escalation: [
+      { delayMin: 5,  stage: 2 },
+      { delayMin: 10, stage: 3 },
+      { delayMin: 15, stage: 4 },
+    ],
+    completionCheck: { delayMin: 30 },  // 11:15 PM
+    snoozeMin: 10,
+    checklist: ['skincare','brush teeth','prep bed','set tomorrow intention','put phone down'],
+    notification: { title: '🌙 Wind-Down Start', body: 'Phones down, lights softer, body slower.' },
+    completionNotif: { title: '🌙 Roomie check-in', body: 'Are we ready for sleep?' },
+    startReward:  { points: 1, msg: '✨ Good choice. Night peace started.' },
+    doneReward:   { points: 5, msg: '🌟 Wind-Down Complete.' },
+  },
+};
+
+// ── Engine state ───────────────────────────────────────────────────────────
+let dmRoutineStates   = {};    // routineId → { state, stage, startedAt, doneAt, points }
+let dmEscalationTimers = {};   // routineId → [timeoutId, ...]
+let dmCompletionTimers = {};   // routineId → timeoutId
+let dmPoints          = 0;     // session total
+let dmLunchStartedAt  = null;  // Date or null
+let dmLunchReturnStr  = null;  // 'HH:MM' string or null
+let dmActiveOverlayId = null;  // routineId currently shown in overlay
+let dmLunchSafetyFired = false;
+let dmWorkPMScheduled  = false;
+
+// ── Init discipline mode ───────────────────────────────────────────────────
+async function initDisciplineMode() {
+  await loadDMRoutineStates();
+  renderDMStatusBar();
+  renderDMPointsBadge();
+
+  // Restore lunch if it was active
+  const savedLunch = localStorage.getItem('enid_dm_lunch');
+  if (savedLunch) {
+    try {
+      const { startedAt, returnStr } = JSON.parse(savedLunch);
+      dmLunchStartedAt = new Date(startedAt);
+      dmLunchReturnStr = returnStr;
+      renderLunchActive();
+      scheduleLunchReturnTrigger();
+    } catch(e) {
+      localStorage.removeItem('enid_dm_lunch');
+    }
+  }
+
+  // Restore points from localStorage
+  dmPoints = parseInt(localStorage.getItem('enid_dm_points_today') || '0', 10);
+  renderDMPointsBadge();
+
+  // Listen for SW → app messages (ROUTINE_ACTION, ROUTINE_OPEN)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', onDMSWMessage);
+  }
+
+  // Handle discipline query param (notification click opened app)
+  const params = new URLSearchParams(location.search);
+  const dParam  = params.get('discipline');
+  const aParam  = params.get('action');
+  if (dParam) {
+    if (aParam === 'start' || !aParam) openDisciplineOverlay(dParam);
+    else handleDMAction(dParam, aParam);
+    // Clean URL
+    history.replaceState({}, '', location.pathname);
+  }
+}
+
+// ── Load today's routine states from Supabase ──────────────────────────────
+async function loadDMRoutineStates() {
+  const today = fmtDate(new Date());
+  try {
+    const rows = await sbGet(
+      `routine_states?user_id=eq.${USER_ID}&state_date=eq.${today}&select=routine_id,state,stage,started_at,done_at,points,lunch_return`
+    );
+    rows.forEach(r => {
+      dmRoutineStates[r.routine_id] = {
+        state:     r.state,
+        stage:     r.stage || 0,
+        startedAt: r.started_at ? new Date(r.started_at) : null,
+        doneAt:    r.done_at    ? new Date(r.done_at)    : null,
+        points:    r.points || 0,
+      };
+      if (r.routine_id === 'lunch' && r.lunch_return) {
+        dmLunchReturnStr = r.lunch_return;
+      }
+    });
+  } catch(e) {
+    console.warn('🐺 loadDMRoutineStates failed:', e);
+  }
+}
+
+// ── Save a routine state to Supabase ──────────────────────────────────────
+async function saveDMRoutineState(routineId) {
+  const s = dmRoutineStates[routineId];
+  if (!s) return;
+  const today = fmtDate(new Date());
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/routine_states`, {
+      method:  'POST',
+      headers: {
+        'apikey':        SUPA_KEY,
+        'Authorization': `Bearer ${SUPA_KEY}`,
+        'Content-Type':  'application/json',
+        'Prefer':        'resolution=merge-duplicates,return=minimal',
+      },
+      body: JSON.stringify({
+        user_id:    USER_ID,
+        routine_id: routineId,
+        state_date: today,
+        state:      s.state,
+        stage:      s.stage,
+        started_at: s.startedAt ? s.startedAt.toISOString() : null,
+        done_at:    s.doneAt    ? s.doneAt.toISOString()    : null,
+        points:     s.points,
+        lunch_return: routineId === 'lunch' ? dmLunchReturnStr : null,
+      }),
+    });
+  } catch(e) {
+    console.warn('🐺 saveDMRoutineState failed:', e);
+  }
+}
+
+// ── Log points to Supabase ─────────────────────────────────────────────────
+async function logDMPoints(routineId, action, points) {
+  if (!points) return;
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/discipline_points`, {
+      method:  'POST',
+      headers: {
+        'apikey':        SUPA_KEY,
+        'Authorization': `Bearer ${SUPA_KEY}`,
+        'Content-Type':  'application/json',
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify({ user_id: USER_ID, routine_id: routineId, action, points }),
+    });
+  } catch(e) {}
+}
+
+// ── Discipline schedule check (called from checkSchedule every 30s) ────────
+function checkDisciplineSchedule() {
+  const now  = new Date();
+  const dow  = now.getDay();
+  const h    = now.getHours();
+  const m    = now.getMinutes();
+  const isToday = fmtDate(now) === fmtDate(viewDate);
+  if (!isToday) return;  // only trigger for today
+
+  Object.entries(DISCIPLINE_ROUTINES).forEach(([id, def]) => {
+    if (!def.trigger) return;  // manual-only routines skip here
+    if (!def.trigger.days.includes(dow)) return;
+    if (h !== def.trigger.hour || m !== def.trigger.minute) return;
+
+    // Suppress go_home on KT nights
+    if (id === 'go_home' && ktShiftToday) return;
+
+    const state = dmRoutineStates[id]?.state;
+    if (state && state !== 'scheduled') return;  // already active
+
+    triggerDMRoutine(id);
+  });
+
+  // Lunch safety check — 12:20 PM
+  checkLunchSafety(h, m, dow);
+}
+
+// ── Trigger a routine (Stage 1 notification + start escalation ladder) ─────
+function triggerDMRoutine(routineId) {
+  const def = DISCIPLINE_ROUTINES[routineId];
+  if (!def) return;
+
+  setDMState(routineId, 'triggered', 1);
+  renderDMStatusBar();
+
+  fireDMNotification(routineId, 1, def.notification.title, def.notification.body, 'routine_trigger');
+
+  // Clear any old timers
+  clearDMTimers(routineId);
+
+  // Schedule escalation stages
+  (def.escalation || []).forEach(({ delayMin, stage }) => {
+    const t = setTimeout(() => {
+      const cur = dmRoutineStates[routineId]?.state;
+      if (cur === 'triggered' || cur === 'escalating') {
+        setDMState(routineId, 'escalating', stage);
+        renderDMStatusBar();
+        fireDMNotification(routineId, stage, def.notification.title, def.notification.body, 'routine_trigger');
+        if (stage >= 4) openDisciplineOverlay(routineId);
+      }
+    }, delayMin * 60 * 1000);
+    (dmEscalationTimers[routineId] = dmEscalationTimers[routineId] || []).push(t);
+  });
+}
+
+// ── Start a routine ────────────────────────────────────────────────────────
+function startDMRoutine(routineId) {
+  const def = DISCIPLINE_ROUTINES[routineId];
+  if (!def) return;
+
+  clearDMTimers(routineId);
+  closeDisciplineOverlay();
+  setDMState(routineId, 'started', 0);
+  setDMState(routineId, 'in_progress', 0);
+
+  if (!dmRoutineStates[routineId]) dmRoutineStates[routineId] = { state:'in_progress', stage:0, startedAt:new Date(), doneAt:null, points:0 };
+  dmRoutineStates[routineId].startedAt = new Date();
+
+  const reward = def.startReward;
+  if (reward.points > 0) {
+    awardDMPoints(routineId, 'start', reward.points);
+    showDMReward(reward.msg, reward.points);
+  }
+
+  saveDMRoutineState(routineId);
+  renderDMStatusBar();
+
+  // Schedule completion check if applicable
+  if (def.completionCheck) {
+    const t = setTimeout(() => {
+      const s = dmRoutineStates[routineId]?.state;
+      if (s === 'in_progress' || s === 'started') {
+        fireDMNotification(routineId, 1, def.completionNotif.title, def.completionNotif.body, 'completion_check');
+      }
+    }, def.completionCheck.delayMin * 60 * 1000);
+    dmCompletionTimers[routineId] = t;
+  }
+}
+
+// ── Mark routine Done ──────────────────────────────────────────────────────
+function doneDMRoutine(routineId) {
+  const def = DISCIPLINE_ROUTINES[routineId];
+  if (!def) return;
+
+  clearDMTimers(routineId);
+  clearTimeout(dmCompletionTimers[routineId]);
+
+  if (!dmRoutineStates[routineId]) dmRoutineStates[routineId] = { state:'done', stage:0, startedAt:null, doneAt:new Date(), points:0 };
+  dmRoutineStates[routineId].state  = 'done';
+  dmRoutineStates[routineId].doneAt = new Date();
+
+  const reward = def.doneReward;
+  if (reward.points > 0) {
+    awardDMPoints(routineId, 'done', reward.points);
+    showDMReward(reward.msg, reward.points);
+  }
+
+  saveDMRoutineState(routineId);
+  renderDMStatusBar();
+
+  // Trigger next routine if applicable
+  if (routineId === 'go_home') {
+    // Schedule wind-down 15min after heading home
+    setTimeout(() => triggerDMRoutine('wind_down'), 15 * 60 * 1000);
+  }
+}
+
+// ── Snooze a routine ───────────────────────────────────────────────────────
+function snoozeDMRoutine(routineId) {
+  const def = DISCIPLINE_ROUTINES[routineId];
+  if (!def || !def.snoozeMin) return;
+  clearDMTimers(routineId);
+  setDMState(routineId, 'triggered', 1);
+  renderDMStatusBar();
+  const t = setTimeout(() => triggerDMRoutine(routineId), def.snoozeMin * 60 * 1000);
+  (dmEscalationTimers[routineId] = dmEscalationTimers[routineId] || []).push(t);
+}
+
+// ── Skip a routine ─────────────────────────────────────────────────────────
+function skipDMRoutine(routineId) {
+  clearDMTimers(routineId);
+  clearTimeout(dmCompletionTimers[routineId]);
+  setDMState(routineId, 'skipped', 0);
+  saveDMRoutineState(routineId);
+  renderDMStatusBar();
+}
+
+// ── Abandon (from completion check) ───────────────────────────────────────
+function abandonDMRoutine(routineId) {
+  setDMState(routineId, 'failed', 0);
+  saveDMRoutineState(routineId);
+  renderDMStatusBar();
+}
+
+// ── Still Working — extends completion window 10min ───────────────────────
+function stillWorkingDMRoutine(routineId) {
+  const def = DISCIPLINE_ROUTINES[routineId];
+  if (!def?.completionNotif) return;
+  const t = setTimeout(() => {
+    const s = dmRoutineStates[routineId]?.state;
+    if (s === 'in_progress') {
+      fireDMNotification(routineId, 1, def.completionNotif.title, def.completionNotif.body, 'completion_check');
+    }
+  }, 10 * 60 * 1000);
+  dmCompletionTimers[routineId] = t;
+}
+
+// ── Emergency Override ─────────────────────────────────────────────────────
+function emergencyOverrideDM(routineId) {
+  clearDMTimers(routineId);
+  closeDisciplineOverlay();
+  setDMState(routineId, 'overridden', 0);
+  if (!dmRoutineStates[routineId]) dmRoutineStates[routineId] = { state:'overridden', stage:0, startedAt:null, doneAt:null, points:0 };
+  dmRoutineStates[routineId].overrideReason = 'emergency';
+  saveDMRoutineState(routineId);
+  logDMPoints(routineId, 'override', 0);
+  renderDMStatusBar();
+  showToast('Override logged — no streak credit for this one 💜');
+}
+
+// ── Lunch handlers ─────────────────────────────────────────────────────────
+function startLunch(returnStr) {
+  dmLunchStartedAt = new Date();
+  dmLunchReturnStr = returnStr;
+  setDMState('lunch', 'in_progress', 0);
+  dmRoutineStates['lunch'] = { state:'in_progress', stage:0, startedAt:new Date(), doneAt:null, points:0 };
+
+  localStorage.setItem('enid_dm_lunch', JSON.stringify({ startedAt: dmLunchStartedAt.toISOString(), returnStr }));
+  saveDMRoutineState('lunch');
+
+  // Cancel any ongoing work_am state
+  const wam = dmRoutineStates['work_am'];
+  if (wam && wam.state === 'in_progress') doneDMRoutine('work_am');
+
+  hideLunchPanel();
+  renderLunchActive();
+  scheduleLunchReturnTrigger();
+  renderDMStatusBar();
+  showToast(`🍽 Lunch started!! Focus resumes at ${returnStr} 💜`);
+}
+
+function startLunchCustom() {
+  const t = prompt('Return time? (format HH:MM, 24hr)', '13:00');
+  if (!t || !/^\d{1,2}:\d{2}$/.test(t)) return;
+  const [hh, mm] = t.split(':').map(Number);
+  if (hh < 0 || hh > 23 || mm < 0 || mm > 59) return;
+  startLunch(`${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`);
+}
+
+function endLunch() {
+  dmLunchStartedAt = null;
+  dmLunchReturnStr = null;
+  localStorage.removeItem('enid_dm_lunch');
+  setDMState('lunch', 'done', 0);
+  saveDMRoutineState('lunch');
+  hideLunchActive();
+  renderDMStatusBar();
+  // Trigger work_pm immediately
+  triggerDMRoutine('work_pm');
+}
+
+function scheduleLunchReturnTrigger() {
+  if (!dmLunchReturnStr) return;
+  const [retH, retM] = dmLunchReturnStr.split(':').map(Number);
+
+  // Trigger work_pm at returnTime - 5 minutes
+  const now     = new Date();
+  const retDate = new Date(now);
+  retDate.setHours(retH, retM - 5, 0, 0);
+  const msUntil = retDate - now;
+  if (msUntil > 0) {
+    const t = setTimeout(() => triggerDMRoutine('work_pm'), msUntil);
+    (dmEscalationTimers['work_pm'] = dmEscalationTimers['work_pm'] || []).push(t);
+  } else if (msUntil > -5 * 60 * 1000) {
+    // Within 5 min past return — trigger immediately
+    triggerDMRoutine('work_pm');
+  }
+}
+
+function checkLunchSafety(h, m, dow) {
+  if (![1,2,3,4,5].includes(dow)) return;
+  if (h !== 12 || m !== 20) return;
+  if (dmLunchSafetyFired) return;
+  if (dmLunchStartedAt) return;
+  const def = DISCIPLINE_ROUTINES.lunch;
+  dmLunchSafetyFired = true;
+  fireDMNotification('lunch', 1, def.safetyNotif.title, def.safetyNotif.body, 'routine_trigger');
+}
+
+// ── Lunch panel show/hide ──────────────────────────────────────────────────
+function showLunchPanel() {
+  document.getElementById('dmLunchPanel').style.display = '';
+}
+function hideLunchPanel() {
+  document.getElementById('dmLunchPanel').style.display = 'none';
+}
+function renderLunchActive() {
+  if (!dmLunchStartedAt || !dmLunchReturnStr) return;
+  const el = document.getElementById('dmLunchActive');
+  const s  = document.getElementById('dmLunchStarted');
+  const r  = document.getElementById('dmLunchReturn');
+  if (s) s.textContent = dmLunchStartedAt.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  if (r) r.textContent = dmLunchReturnStr;
+  el.style.display = '';
+  hideLunchPanel();
+}
+function hideLunchActive() {
+  document.getElementById('dmLunchActive').style.display = 'none';
+}
+
+// ── Discipline overlay (Stage 4) ───────────────────────────────────────────
+function openDisciplineOverlay(routineId) {
+  const def = DISCIPLINE_ROUTINES[routineId];
+  if (!def) return;
+  dmActiveOverlayId = routineId;
+
+  document.getElementById('dmOverlayTitle').textContent = `${def.emoji} ${def.label} Routine`;
+  document.getElementById('dmOverlaySub').textContent   = `${def.notification.body} 💜`;
+  document.getElementById('dmOverlay').style.display    = '';
+}
+function closeDisciplineOverlay() {
+  document.getElementById('dmOverlay').style.display = 'none';
+  dmActiveOverlayId = null;
+}
+function dmOverlayStart() {
+  if (dmActiveOverlayId) startDMRoutine(dmActiveOverlayId);
+  closeDisciplineOverlay();
+}
+function dmOverlayOverride() {
+  // Make it harder — require two taps
+  if (!confirm('Emergency override removes streak credit. Are you sure?')) return;
+  emergencyOverrideDM(dmActiveOverlayId || '');
+}
+
+// ── SW → App message handler ───────────────────────────────────────────────
+function onDMSWMessage(event) {
+  const msg = event.data || {};
+  if (msg.type === 'ROUTINE_ACTION') handleDMAction(msg.routineId, msg.action);
+  if (msg.type === 'ROUTINE_OPEN')   openDisciplineOverlay(msg.routineId);
+}
+
+function handleDMAction(routineId, action) {
+  switch (action) {
+    case 'start':        startDMRoutine(routineId);       break;
+    case 'snooze':       snoozeDMRoutine(routineId);      break;
+    case 'skip':         skipDMRoutine(routineId);        break;
+    case 'done':         doneDMRoutine(routineId);        break;
+    case 'still_working': stillWorkingDMRoutine(routineId); break;
+    case 'abandon':      abandonDMRoutine(routineId);     break;
+    case 'ten_more':     stillWorkingDMRoutine(routineId); break;
+    case 'lunch_1':      startLunch('13:00');              break;
+    case 'lunch_130':    startLunch('13:30');              break;
+    case 'lunch_2':      startLunch('14:00');              break;
+  }
+}
+
+// ── Fire a discipline notification ────────────────────────────────────────
+function fireDMNotification(routineId, stage, title, body, subtype) {
+  const tag = `discipline-${routineId}`;
+  if (swRegistration && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({
+      type:      'DISCIPLINE_NOTIFY',
+      routineId,
+      stage,
+      title,
+      body,
+      subtype,
+      tag,
+    });
+  } else {
+    // Fallback: direct browser notification if SW not ready
+    if (Notification.permission === 'granted') {
+      new Notification(title, { body, icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"%3E%3Crect width="192" height="192" rx="40" fill="%23E84EA0"/%3E%3Ctext y="140" x="96" text-anchor="middle" font-size="120"%3E🐺%3C/text%3E%3C/svg%3E', tag });
+    }
+  }
+}
+
+// ── State helpers ──────────────────────────────────────────────────────────
+function setDMState(routineId, state, stage) {
+  if (!dmRoutineStates[routineId]) dmRoutineStates[routineId] = { state, stage, startedAt: null, doneAt: null, points: 0 };
+  dmRoutineStates[routineId].state = state;
+  if (stage !== undefined) dmRoutineStates[routineId].stage = stage;
+}
+
+function clearDMTimers(routineId) {
+  (dmEscalationTimers[routineId] || []).forEach(clearTimeout);
+  dmEscalationTimers[routineId] = [];
+}
+
+// ── Rewards ────────────────────────────────────────────────────────────────
+function awardDMPoints(routineId, action, pts) {
+  dmPoints += pts;
+  if (dmRoutineStates[routineId]) dmRoutineStates[routineId].points += pts;
+  localStorage.setItem('enid_dm_points_today', String(dmPoints));
+  renderDMPointsBadge();
+  logDMPoints(routineId, action, pts);
+}
+
+function showDMReward(msg, pts) {
+  if (!msg) return;
+  const el = document.createElement('div');
+  el.className  = 'dm-reward-toast';
+  el.innerHTML  = `<div class="dm-reward-emoji">⭐</div><div class="dm-reward-text">${msg}<br>+${pts} pt${pts !== 1 ? 's' : ''}</div>`;
+  document.body.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .4s'; setTimeout(() => el.remove(), 400); }, 2800);
+}
+
+function dmShowPointsDetail() {
+  showToast(`⭐ ${dmPoints} discipline points today!! Keep going 💜`);
+}
+
+// ── Render status bar ──────────────────────────────────────────────────────
+function renderDMStatusBar() {
+  const bar = document.getElementById('dmStatusBar');
+  if (!bar) return;
+
+  const today   = new Date();
+  const isToday = fmtDate(today) === fmtDate(viewDate);
+  const dow     = today.getDay();
+  const isWeekday = [1,2,3,4,5].includes(dow);
+
+  // Only show on today view
+  if (!isToday) { bar.style.display = 'none'; return; }
+
+  // Determine visible routines for today
+  const visible = [];
+  Object.entries(DISCIPLINE_ROUTINES).forEach(([id, def]) => {
+    if (id === 'lunch' || id === 'work_pm') { if (isWeekday) visible.push(id); return; }
+    if (!def.trigger) return;
+    if (!def.trigger.days.includes(dow)) return;
+    if (id === 'go_home' && ktShiftToday) return;
+    visible.push(id);
+  });
+
+  if (!visible.length) { bar.style.display = 'none'; return; }
+
+  bar.style.display = '';
+  bar.innerHTML = visible.map(id => {
+    const def   = DISCIPLINE_ROUTINES[id];
+    const s     = dmRoutineStates[id];
+    const state = s?.state || 'scheduled';
+    const stateLabel = {
+      scheduled: '—', triggered: '!', escalating: '!!',
+      started: '▶', in_progress: '⟳', done: '✓',
+      skipped: '⏭', failed: '✗', overridden: '⚠',
+    }[state] || '—';
+    return `<span class="dm-chip ${state}" title="${def.label}: ${state}" onclick="dmChipTapped('${id}')">${def.emoji} ${def.label} ${stateLabel}</span>`;
+  }).join('');
+
+  // Show/hide lunch panel for weekdays when lunch not yet started
+  if (isWeekday) {
+    const lunchState = dmRoutineStates['lunch']?.state;
+    const h = today.getHours();
+    if (!lunchState && h >= 11 && h < 14 && !dmLunchStartedAt) showLunchPanel();
+    else if (lunchState !== 'in_progress') hideLunchPanel();
+  }
+}
+
+function dmChipTapped(routineId) {
+  const s = dmRoutineStates[routineId];
+  if (!s) return;
+  if (s.state === 'triggered' || s.state === 'escalating') openDisciplineOverlay(routineId);
+  else if (s.state === 'in_progress' || s.state === 'started') {
+    if (confirm('Mark this routine as Done?')) doneDMRoutine(routineId);
+  }
+}
+
+function renderDMPointsBadge() {
+  const badge = document.getElementById('dmPointsBadge');
+  if (!badge) return;
+  badge.textContent = `⭐ ${dmPoints} pts`;
+  badge.style.display = dmPoints > 0 ? '' : 'none';
+}
+
 </script>
 </body>
 </html>
