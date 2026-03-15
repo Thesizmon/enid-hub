@@ -1,10 +1,122 @@
 [
-  { "id": 1, "unitId": 6, "globalIndex": 41, "title": "The Incarnation — God With Us", "objective": "Marvel at the mystery of the Incarnation: the eternal Son of God takes on human flesh in the person of Jesus.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "John 1:14", "text": "And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth." } ] },
-  { "id": 2, "unitId": 6, "globalIndex": 42, "title": "The Baptism & Temptation of Jesus", "objective": "See Jesus identified as God's beloved Son at His baptism and victorious over Satan's temptations in the wilderness.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Matthew 3:17", "text": "And behold, a voice from heaven said, 'This is my beloved Son, with whom I am well pleased.'" } ] },
-  { "id": 3, "unitId": 6, "globalIndex": 43, "title": "Jesus Announces the Kingdom", "objective": "Understand what Jesus means by 'the kingdom of God' and why His announcement is the best news in the world.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Mark 1:15", "text": "The time is fulfilled, and the kingdom of God is at hand; repent and believe in the gospel." } ] },
-  { "id": 4, "unitId": 6, "globalIndex": 44, "title": "Miracles & Parables", "objective": "Explore Jesus' miracles as signs of the in-breaking kingdom and His parables as invitations into kingdom life.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Luke 11:20", "text": "But if it is by the finger of God that I cast out demons, then the kingdom of God has come upon you." } ] },
-  { "id": 5, "unitId": 6, "globalIndex": 45, "title": "Jesus Teaches the Law Perfectly", "objective": "See how Jesus does not abolish the Law but fulfills it, living the life of perfect obedience we could not live.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Matthew 5:17", "text": "Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them." } ] },
-  { "id": 6, "unitId": 6, "globalIndex": 46, "title": "The Transfiguration", "objective": "Encounter the glory of Christ revealed on the mountain and understand what it means for His identity and mission.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Luke 9:35", "text": "And a voice came out of the cloud, saying, 'This is my Son, my Chosen One; listen to him!'" } ] },
-  { "id": 7, "unitId": 6, "globalIndex": 47, "title": "Palm Sunday & Holy Week", "objective": "Follow Jesus into Jerusalem as the crowds welcome their King, and see the events that set the cross in motion.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Mark 11:9–10", "text": "And those who went before and those who followed were shouting, 'Hosanna! Blessed is he who comes in the name of the Lord! Blessed is the coming kingdom of our father David! Hosanna in the highest!'" } ] },
-  { "id": 8, "unitId": 6, "globalIndex": 48, "title": "The Last Supper", "objective": "Receive Jesus' gift of His body and blood in the bread and wine and understand the new covenant He is about to seal.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Luke 22:20", "text": "And likewise the cup after they had eaten, saying, 'This cup that is poured out for you is the new covenant in my blood.'" } ] }
+  {
+    "id": 1,
+    "unitId": 6,
+    "globalIndex": 41,
+    "title": "The Kingdom Divides",
+    "objective": "Understand how Israel split into two kingdoms after Solomon.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After Solomon's reign, the kingdom divided into Israel in the north and Judah in the south."},
+      {"type":"scripture","ref":"1 Kings 12:19","text":"So Israel has been in rebellion against the house of David to this day."},
+      {"type":"teaching","heading":"Division and Consequences","content":"The division weakened the nation and led to further spiritual decline."},
+      {"type":"reflection","questions":["Why did the kingdom divide?","What consequences followed?","How did this affect Israel's faith?"]},
+      {"type":"prayer","content":"Lord, help Your people remain united in faith. Amen."}
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 6,
+    "globalIndex": 42,
+    "title": "The Prophet Elijah",
+    "objective": "Learn about Elijah's stand for God's truth.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Elijah boldly proclaimed God's truth during a time of widespread idolatry."},
+      {"type":"scripture","ref":"1 Kings 18:21","text":"How long will you go limping between two different opinions?"},
+      {"type":"teaching","heading":"Faithfulness in Difficult Times","content":"Elijah reminded Israel to return to the Lord alone."},
+      {"type":"reflection","questions":["Why was Elijah important?","What message did he proclaim?","How can believers stand firm today?"]},
+      {"type":"prayer","content":"Lord, give us courage to stand for truth. Amen."}
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 6,
+    "globalIndex": 43,
+    "title": "The Prophet Isaiah",
+    "objective": "Understand Isaiah's message of warning and hope.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Isaiah warned Judah about sin but also spoke powerful promises of a coming Savior."},
+      {"type":"scripture","ref":"Isaiah 9:6","text":"For to us a child is born, to us a son is given."},
+      {"type":"teaching","heading":"The Promise of the Messiah","content":"Isaiah foretold the coming of Jesus centuries before His birth."},
+      {"type":"reflection","questions":["What warnings did Isaiah give?","What hope did he proclaim?","How do these prophecies point to Christ?"]},
+      {"type":"prayer","content":"Lord, thank You for the promises spoken through the prophets. Amen."}
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 6,
+    "globalIndex": 44,
+    "title": "Jeremiah and the New Covenant",
+    "objective": "Learn about Jeremiah's prophecy of a new covenant.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Jeremiah spoke during a time when Judah was heading toward exile."},
+      {"type":"scripture","ref":"Jeremiah 31:33","text":"I will put my law within them, and I will write it on their hearts."},
+      {"type":"teaching","heading":"A New Covenant Promise","content":"Jeremiah foretold a new covenant fulfilled through Jesus."},
+      {"type":"reflection","questions":["What did Jeremiah warn about?","What promise did he give?","How does Jesus fulfill this prophecy?"]},
+      {"type":"prayer","content":"Lord, write Your Word on our hearts. Amen."}
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 6,
+    "globalIndex": 45,
+    "title": "The Fall of Jerusalem",
+    "objective": "Understand the destruction of Jerusalem and the exile.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Because of continued rebellion, Jerusalem was conquered and many people were taken into exile."},
+      {"type":"scripture","ref":"2 Kings 25:9","text":"He burned the house of the Lord."},
+      {"type":"teaching","heading":"Judgment for Sin","content":"The fall of Jerusalem showed the seriousness of rejecting God."},
+      {"type":"reflection","questions":["Why did Jerusalem fall?","What lessons does this teach?","How does God discipline His people?"]},
+      {"type":"prayer","content":"Lord, help us turn away from sin and follow You. Amen."}
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 6,
+    "globalIndex": 46,
+    "title": "Daniel in Babylon",
+    "objective": "Learn about faithfulness during exile.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Daniel remained faithful to God while living in Babylon."},
+      {"type":"scripture","ref":"Daniel 6:10","text":"He got down on his knees three times a day and prayed."},
+      {"type":"teaching","heading":"Faith in a Foreign Land","content":"Daniel's life shows how believers can remain faithful even in difficult environments."},
+      {"type":"reflection","questions":["Why did Daniel continue praying?","What challenges did he face?","How can believers stay faithful today?"]},
+      {"type":"prayer","content":"Lord, strengthen us to remain faithful in every situation. Amen."}
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 6,
+    "globalIndex": 47,
+    "title": "Return from Exile",
+    "objective": "Understand how God restored His people after exile.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Eventually God allowed the people of Judah to return and rebuild Jerusalem."},
+      {"type":"scripture","ref":"Ezra 1:3","text":"Whoever is among you of all his people... let him go up to Jerusalem."},
+      {"type":"teaching","heading":"Restoration","content":"Even after judgment, God remained faithful to His covenant."},
+      {"type":"reflection","questions":["Why were the people allowed to return?","What did they rebuild?","What does this show about God's mercy?"]},
+      {"type":"prayer","content":"Lord, thank You for restoring Your people. Amen."}
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 6,
+    "globalIndex": 48,
+    "title": "Waiting for the Messiah",
+    "objective": "Recognize Israel's hope for the coming Savior.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After returning from exile, God's people waited centuries for the promised Messiah."},
+      {"type":"scripture","ref":"Malachi 4:2","text":"The sun of righteousness shall rise with healing in its wings."},
+      {"type":"teaching","heading":"Hope for Redemption","content":"The prophets reminded Israel that God would send the Savior."},
+      {"type":"reflection","questions":["Why were the people waiting?","What promises kept their hope alive?","How were these fulfilled in Jesus?"]},
+      {"type":"prayer","content":"Lord Jesus, thank You for fulfilling the promises of salvation. Amen."}
+    ]
+  }
 ]

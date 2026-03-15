@@ -1,10 +1,130 @@
 [
-  { "id": 1, "unitId": 5, "globalIndex": 33, "title": "The Kingdom Divided", "objective": "See how Solomon's unfaithfulness tears the kingdom in two and sets the stage for centuries of decline.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Kings 11:11", "text": "Therefore the LORD said to Solomon, 'Since this has been your practice and you have not kept my covenant and my statutes that I have commanded you, I will surely tear the kingdom from you and will give it to your servant.'" } ] },
-  { "id": 2, "unitId": 5, "globalIndex": 34, "title": "Elijah & the Prophets", "objective": "Meet Elijah and see how God sends prophets to call His people back to faithfulness in the darkest of times.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "1 Kings 19:12", "text": "And after the earthquake a fire, but the LORD was not in the fire. And after the fire the sound of a low whisper." } ] },
-  { "id": 3, "unitId": 5, "globalIndex": 35, "title": "Israel's Exile to Assyria", "objective": "See the northern kingdom carried away to Assyria as the consequence of generations of idol worship.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "2 Kings 17:7", "text": "And this occurred because the people of Israel had sinned against the LORD their God, who had brought them up out of the land of Egypt from under the hand of Pharaoh king of Egypt, and had feared other gods..." } ] },
-  { "id": 4, "unitId": 5, "globalIndex": 36, "title": "Judah's Exile to Babylon", "objective": "See the southern kingdom fall to Nebuchadnezzar and understand God's righteousness and mercy in judgment.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Lamentations 3:22–23", "text": "The steadfast love of the LORD never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness." } ] },
-  { "id": 5, "unitId": 5, "globalIndex": 37, "title": "Isaiah — The Suffering Servant", "objective": "Encounter Isaiah's prophecy of the Servant who bears the sins of many — and see how clearly it points to Christ.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Isaiah 53:5", "text": "But he was pierced for our transgressions; he was crushed for our iniquities; upon him was the chastisement that brought us peace, and with his wounds we are healed." } ] },
-  { "id": 6, "unitId": 5, "globalIndex": 38, "title": "Jeremiah — The New Covenant", "objective": "Hear God's promise through Jeremiah of a new covenant written on the heart, fulfilled in Christ.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Jeremiah 31:33", "text": "For this is the covenant that I will make with the house of Israel after those days, declares the LORD: I will put my law within them, and I will write it on their hearts. And I will be their God, and they shall be my people." } ] },
-  { "id": 7, "unitId": 5, "globalIndex": 39, "title": "Ezekiel — The Valley of Dry Bones", "objective": "See God's promise of spiritual resurrection and restoration through Ezekiel's vivid vision.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Ezekiel 37:3–4", "text": "And he said to me, 'Son of man, can these bones live?' And I answered, 'O Lord GOD, you know.' Then he said to me, 'Prophesy over these bones, and say to them, O dry bones, hear the word of the LORD.'" } ] },
-  { "id": 8, "unitId": 5, "globalIndex": 40, "title": "The Return from Exile", "objective": "See God keep His promise as a remnant returns to the land, and understand why even this restoration points forward to something greater.", "estimatedMinutes": 25, "sections": [ { "type": "intro", "content": "— lesson content coming soon —" }, { "type": "scripture", "ref": "Ezra 1:2–3", "text": "Thus says Cyrus king of Persia: The LORD, the God of heaven, has given me all the kingdoms of the earth, and he has charged me to build him a house at Jerusalem, which is in Judah. Whoever is among you of all his people, may his God be with him, and let him go up to Jerusalem..." } ] }
+  {
+    "id": 1,
+    "unitId": 5,
+    "globalIndex": 33,
+    "title": "Entering the Promised Land",
+    "objective": "Understand how God brought Israel into the land He promised to Abraham.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After many years in the wilderness, God led Israel into the land promised to Abraham, Isaac, and Jacob."},
+      {"type":"scripture","ref":"Joshua 1:9","text":"Be strong and courageous. Do not be frightened, and do not be dismayed, for the Lord your God is with you wherever you go."},
+      {"type":"teaching","heading":"God Keeps His Covenant","content":"God faithfully fulfilled His promise by bringing His people into the promised land."},
+      {"type":"catechism","content":"God always keeps the promises He makes to His people.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["What promise did God fulfill by bringing Israel into the land?","Why was courage needed?","How does God guide His people today?"]},
+      {"type":"prayer","content":"Faithful Lord, help us trust Your promises and follow where You lead. Amen."}
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 5,
+    "globalIndex": 34,
+    "title": "The Judges of Israel",
+    "objective": "Learn about the leaders God raised up to guide Israel during troubled times.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"After settling in the land, Israel often turned away from God. During these times God raised up judges to rescue and guide His people."},
+      {"type":"scripture","ref":"Judges 2:18","text":"Whenever the Lord raised up judges for them, the Lord was with the judge."},
+      {"type":"teaching","heading":"Cycles of Sin and Rescue","content":"The book of Judges shows a repeating cycle: Israel sins, suffers oppression, cries out to God, and God sends a deliverer."},
+      {"type":"catechism","content":"God is patient and merciful even when His people fail.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["What pattern appears repeatedly in Judges?","Why did Israel need judges?","What does this show about God's mercy?"]},
+      {"type":"prayer","content":"Merciful God, forgive our failures and guide us back to You. Amen."}
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 5,
+    "globalIndex": 35,
+    "title": "Ruth and God's Faithfulness",
+    "objective": "See how God worked through ordinary lives to preserve His promises.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"The story of Ruth shows God's faithfulness through loyalty, kindness, and redemption."},
+      {"type":"scripture","ref":"Ruth 1:16","text":"Where you go I will go, and where you lodge I will lodge."},
+      {"type":"teaching","heading":"Faithfulness and Redemption","content":"Through Ruth and Boaz, God preserved the family line that would later lead to King David and ultimately to Jesus."},
+      {"type":"catechism","content":"God works through everyday people to accomplish His purposes.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why is Ruth's loyalty significant?","How does this story connect to King David?","What does it teach about God's providence?"]},
+      {"type":"prayer","content":"Lord, help us live faithfully and trust Your plan. Amen."}
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 5,
+    "globalIndex": 36,
+    "title": "Israel Wants a King",
+    "objective": "Understand why Israel asked for a king and how God responded.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Eventually the people of Israel asked for a king like the surrounding nations."},
+      {"type":"scripture","ref":"1 Samuel 8:7","text":"They have not rejected you, but they have rejected me from being king over them."},
+      {"type":"teaching","heading":"Rejecting God's Kingship","content":"Israel desired a human king instead of trusting God fully as their ruler."},
+      {"type":"catechism","content":"God alone is the true King of His people.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why did Israel want a king?","How did God respond?","What does this teach about trusting God?"]},
+      {"type":"prayer","content":"Lord, help us trust You as the true ruler of our lives. Amen."}
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 5,
+    "globalIndex": 37,
+    "title": "King Saul",
+    "objective": "Learn about Israel's first king and the consequences of disobedience.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Saul became Israel's first king, but his disobedience eventually led to his downfall."},
+      {"type":"scripture","ref":"1 Samuel 15:22","text":"To obey is better than sacrifice."},
+      {"type":"teaching","heading":"The Danger of Disobedience","content":"Saul's story reminds us that leadership without obedience to God leads to failure."},
+      {"type":"catechism","content":"God calls His people to trust and obey His Word.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why did Saul lose God's favor?","What lesson does his story teach?","Why is obedience important?"]},
+      {"type":"prayer","content":"Lord, help us obey Your Word faithfully. Amen."}
+    ]
+  },
+  {
+    "id": 6,
+    "unitId": 5,
+    "globalIndex": 38,
+    "title": "David and Goliath",
+    "objective": "Understand how God used David to defeat Goliath.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Young David trusted God to defeat the giant Goliath when no one else would."},
+      {"type":"scripture","ref":"1 Samuel 17:45","text":"I come to you in the name of the Lord of hosts."},
+      {"type":"teaching","heading":"Trust in God's Strength","content":"David's victory reminds us that true strength comes from trusting the Lord."},
+      {"type":"catechism","content":"God gives victory according to His will.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why was David confident?","What does this story teach about faith?","How can we trust God in difficult situations?"]},
+      {"type":"prayer","content":"Lord, help us trust Your strength instead of our own. Amen."}
+    ]
+  },
+  {
+    "id": 7,
+    "unitId": 5,
+    "globalIndex": 39,
+    "title": "King David",
+    "objective": "Learn about David's reign and God's covenant with him.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"David became Israel's greatest king and received a special promise from God."},
+      {"type":"scripture","ref":"2 Samuel 7:16","text":"Your house and your kingdom shall be made sure forever before me."},
+      {"type":"teaching","heading":"The Davidic Covenant","content":"God promised that one of David's descendants would reign forever. This promise points to Jesus."},
+      {"type":"catechism","content":"Jesus is the eternal King from the line of David.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["What promise did God make to David?","How does it point to Jesus?","Why is this covenant important?"]},
+      {"type":"prayer","content":"King Jesus, reign in our hearts forever. Amen."}
+    ]
+  },
+  {
+    "id": 8,
+    "unitId": 5,
+    "globalIndex": 40,
+    "title": "King Solomon and the Temple",
+    "objective": "Understand the building of the Temple and Israel's worship.",
+    "estimatedMinutes": 25,
+    "sections": [
+      {"type":"intro","content":"Solomon built a magnificent temple in Jerusalem as a place for Israel to worship God."},
+      {"type":"scripture","ref":"1 Kings 8:10-11","text":"The glory of the Lord filled the house of the Lord."},
+      {"type":"teaching","heading":"Worship in the Temple","content":"The Temple symbolized God's presence with His people and the central place of worship."},
+      {"type":"catechism","content":"God desires His people to worship Him faithfully.","ref":"Catechetical summary"},
+      {"type":"reflection","questions":["Why was the Temple important?","What did it represent?","How do Christians worship God today?"]},
+      {"type":"prayer","content":"Lord, receive our worship and praise. Amen."}
+    ]
+  }
 ]
