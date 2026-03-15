@@ -218,6 +218,27 @@
     .stat-pos    { color: #22c55e; }
     .stat-neg    { color: #ef4444; }
 
+    /* ── Live balance mode toggle ──────────────────────────────────── */
+    .mode-toggle-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .67rem; font-weight: 700; letter-spacing: .03em;
+      padding: 4px 12px; border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: transparent; color: var(--sub);
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      transition: background .15s, border-color .15s, color .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mode-toggle-btn:hover { background: rgba(168,85,247,.07); border-color: rgba(168,85,247,.25); color: var(--purple); }
+    .mode-toggle-btn.live-active {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      border-color: transparent; color: #fff;
+    }
+    .live-hint {
+      font-size: .7rem; color: var(--sub); margin-top: 4px;
+      font-style: italic; line-height: 1.4;
+    }
+
     /* ── Category sections ─────────────────────────────────────────── */
     .obligations-wrap { padding: 6px 14px 0; display: flex; flex-direction: column; gap: 10px; }
 
@@ -619,8 +640,18 @@ let activePid       = null;
 let obligations     = [];
 let transactions    = [];
 let otherIncomeItems = [];
-let addFormOpen     = false;
+let addFormOpen       = false;
 let addIncomeFormOpen = false;
+let liveMode          = false;
+
+/* ── Live Balance localStorage helpers ───────────────────────────────── */
+const LIVE_BAL_KEY = 'enid_live_balance_v1';
+function getLiveBal(pid) {
+  try { const s = JSON.parse(localStorage.getItem(LIVE_BAL_KEY) || '{}'); return s.hasOwnProperty(pid) ? Number(s[pid]) : 0; } catch { return 0; }
+}
+function setLiveBal(pid, val) {
+  try { const s = JSON.parse(localStorage.getItem(LIVE_BAL_KEY) || '{}'); s[pid] = val; localStorage.setItem(LIVE_BAL_KEY, JSON.stringify(s)); } catch {}
+}
 
 /* ── Other Income localStorage helpers ──────────────────────────────── */
 const OI_KEY = 'enid_other_income_v1';
@@ -681,8 +712,11 @@ async function init() {
       showError('No pay periods found.');
       return;
     }
-    // Default to is_current, fallback to first
-    const cur = periods.find(p => p.is_current) || periods[0];
+    // Default to most recent period that has started (start_date <= today).
+    // Falls back to the last period if all are future (shouldn't happen in practice).
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const started  = periods.filter(p => p.start_date <= todayStr);
+    const cur      = started.length > 0 ? started[started.length - 1] : periods[periods.length - 1];
     activePid = cur.id;
     renderTabs();
     await loadPeriod();
@@ -835,26 +869,7 @@ async function resolveStartBalance(period) {
 
 /* ── Summary card ─────────────────────────────────────────────────────── */
 function renderSummary(period) {
-  const incomeBbs  = Number(period.income_bbs || 0);
-  const incomeKt   = Number(period.income_kt  || 0);
-  const startBal   = period._resolvedStartBal !== undefined
-    ? Number(period._resolvedStartBal)
-    : Number(period.start_balance || 0);
   const otherTotal = otherIncomeItems.reduce((s, i) => s + (Number(i.amount) || 0), 0);
-  const totalIncome = incomeBbs + incomeKt + startBal + otherTotal;
-
-  // Obligations total = active (non-paid-off) items
-  const totalOblig = obligations
-    .filter(o => !o.is_paid_off)
-    .reduce((s, o) => {
-      const eff = (o.is_variable && o.spent_amount !== null && o.spent_amount !== undefined)
-        ? Number(o.spent_amount)
-        : Number(o.amount) || 0;
-      return s + eff;
-    }, 0);
-
-  const leftover = totalIncome - totalOblig;
-
   const otherRow = otherTotal > 0
     ? `<div class="income-row">
          <span class="income-label">💚 Other Income</span>
@@ -862,45 +877,109 @@ function renderSummary(period) {
        </div>`
     : '';
 
+  // Mode toggle button (always visible)
+  const modeBtn = `<button class="mode-toggle-btn${liveMode ? ' live-active' : ''}"
+    onclick="toggleLiveMode()"
+    title="${liveMode ? 'Switch to projected income view' : 'Switch to live current-balance view'}"
+    >${liveMode ? '📊 Projected' : '💳 Live Balance'}</button>`;
+
+  let incomeRowsHtml, totalIncome, totalOblig;
+
+  if (liveMode) {
+    // ── Live Balance mode ──────────────────────────────────────────────
+    // User enters their real bank balance; obligations = only items not yet
+    // cleared from the account (is_cleared = already left the bank, skip those).
+    const liveBal = getLiveBal(activePid);
+    totalIncome = liveBal + otherTotal;
+
+    totalOblig = obligations
+      .filter(o => !o.is_paid_off && !o.is_cleared)
+      .reduce((s, o) => {
+        const eff = (o.is_variable && o.spent_amount !== null && o.spent_amount !== undefined)
+          ? Number(o.spent_amount)
+          : Number(o.amount) || 0;
+        return s + eff;
+      }, 0);
+
+    incomeRowsHtml = `
+      <div class="income-row">
+        <span class="income-label">💳 Current Balance</span>
+        <input class="income-input" type="number" min="0" step="0.01"
+               value="${liveBal.toFixed(2)}"
+               placeholder="0.00"
+               title="Your actual bank balance right now"
+               onblur="saveLiveBalance(this)"
+               onkeydown="if(event.key==='Enter')this.blur()">
+      </div>
+      ${otherRow}
+      <div class="live-hint">Obligations below exclude already-cleared items.</div>`;
+
+  } else {
+    // ── Projection mode (existing behavior — unchanged) ────────────────
+    const incomeBbs = Number(period.income_bbs || 0);
+    const incomeKt  = Number(period.income_kt  || 0);
+    const startBal  = period._resolvedStartBal !== undefined
+      ? Number(period._resolvedStartBal)
+      : Number(period.start_balance || 0);
+    totalIncome = incomeBbs + incomeKt + startBal + otherTotal;
+
+    totalOblig = obligations
+      .filter(o => !o.is_paid_off)
+      .reduce((s, o) => {
+        const eff = (o.is_variable && o.spent_amount !== null && o.spent_amount !== undefined)
+          ? Number(o.spent_amount)
+          : Number(o.amount) || 0;
+        return s + eff;
+      }, 0);
+
+    incomeRowsHtml = `
+      <div class="income-row">
+        <span class="income-label">🏦 Starting Balance</span>
+        <input class="income-input" type="number" min="0" step="0.01"
+               value="${startBal.toFixed(2)}"
+               placeholder="0.00"
+               title="Starting balance for this period"
+               onblur="saveStartBalance(this)"
+               onkeydown="if(event.key==='Enter')this.blur()">
+      </div>
+      <div class="income-row">
+        <span class="income-label">💼 BBS Income</span>
+        <span class="income-val">${fmtMoney(incomeBbs)}</span>
+      </div>
+      <div class="income-row">
+        <span class="income-label">🏪 KT Income</span>
+        <input class="income-input" type="number" min="0" step="0.01"
+               value="${incomeKt.toFixed(2)}"
+               placeholder="0.00"
+               onblur="saveKtIncome(this)"
+               onkeydown="if(event.key==='Enter')this.blur()">
+      </div>
+      ${otherRow}`;
+  }
+
+  const leftover = totalIncome - totalOblig;
+
   document.getElementById('summarySection').innerHTML = `
     <div class="summary-card">
-      <div class="summary-title">Pay Period Overview</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="summary-title" style="margin-bottom:0">${liveMode ? 'Live Balance Snapshot' : 'Pay Period Overview'}</div>
+        ${modeBtn}
+      </div>
       <div class="income-rows">
-        <div class="income-row">
-          <span class="income-label">🏦 Starting Balance</span>
-          <input class="income-input" type="number" min="0" step="0.01"
-                 value="${startBal.toFixed(2)}"
-                 placeholder="0.00"
-                 title="Starting balance for this period"
-                 onblur="saveStartBalance(this)"
-                 onkeydown="if(event.key==='Enter')this.blur()">
-        </div>
-        <div class="income-row">
-          <span class="income-label">💼 BBS Income</span>
-          <span class="income-val">${fmtMoney(incomeBbs)}</span>
-        </div>
-        <div class="income-row">
-          <span class="income-label">🏪 KT Income</span>
-          <input class="income-input" type="number" min="0" step="0.01"
-                 value="${incomeKt.toFixed(2)}"
-                 placeholder="0.00"
-                 onblur="saveKtIncome(this)"
-                 onkeydown="if(event.key==='Enter')this.blur()">
-        </div>
-        ${otherRow}
+        ${incomeRowsHtml}
       </div>
       <div class="summary-divider"></div>
       <div class="summary-stats">
         <div class="stat-block">
-          <div class="stat-label">Total Income</div>
+          <div class="stat-label">${liveMode ? 'Available' : 'Total Income'}</div>
           <div class="stat-val stat-income">${fmtMoney(totalIncome)}</div>
         </div>
         <div class="stat-block">
-          <div class="stat-label">Obligations</div>
+          <div class="stat-label">${liveMode ? 'Remaining' : 'Obligations'}</div>
           <div class="stat-val stat-oblig">${fmtMoney(totalOblig)}</div>
         </div>
         <div class="stat-block">
-          <div class="stat-label">Est. Left</div>
+          <div class="stat-label">${liveMode ? 'Left After' : 'Est. Left'}</div>
           <div class="stat-val ${leftover >= 0 ? 'stat-pos' : 'stat-neg'}">${fmtMoney(leftover)}</div>
         </div>
       </div>
@@ -1134,6 +1213,24 @@ async function saveSpent(id, inputEl) {
 function refreshSummary() {
   const period = periods.find(p => p.id === activePid);
   if (period) renderSummary(period);
+}
+
+/* ── Live Balance mode toggle ─────────────────────────────────────────── */
+function toggleLiveMode() {
+  liveMode = !liveMode;
+  refreshSummary();
+}
+
+/* ── Live Balance editable input ──────────────────────────────────────── */
+function saveLiveBalance(inputEl) {
+  const raw = inputEl.value.trim();
+  const val = raw === '' ? 0 : parseFloat(raw);
+  if (isNaN(val) || val < 0) {
+    inputEl.value = getLiveBal(activePid).toFixed(2);
+    return;
+  }
+  setLiveBal(activePid, val);
+  refreshSummary();
 }
 
 /* ── Floating emoji background ───────────────────────────────────────── */
