@@ -2852,6 +2852,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') hideNotePrompt();
 });
 
+// Discipline Mode is initialized async — guard against checkSchedule firing before DISCIPLINE_ROUTINES is defined
+let dmReady = false;
+
 initEmojiBg();
 init();
 registerSW();
@@ -2986,6 +2989,7 @@ let dmWorkPMScheduled  = false;
 
 // ── Init discipline mode ───────────────────────────────────────────────────
 async function initDisciplineMode() {
+  dmReady = true;  // DISCIPLINE_ROUTINES is now defined — safe to use in checkSchedule
   await loadDMRoutineStates();
   renderDMStatusBar();
   renderDMPointsBadge();
@@ -3099,6 +3103,7 @@ async function logDMPoints(routineId, action, points) {
 
 // ── Discipline schedule check (called from checkSchedule every 30s) ────────
 function checkDisciplineSchedule() {
+  if (!dmReady) return;  // DISCIPLINE_ROUTINES not yet initialized
   const now  = new Date();
   const dow  = now.getDay();
   const h    = now.getHours();
