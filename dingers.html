@@ -551,78 +551,120 @@
     ::-webkit-scrollbar-thumb { background: rgba(168,85,247,.18); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,.3); }
 
-    /* ── AI Daily Pick Section ──────────────────────────────────── */
+    /* ── Dual AI Pick Section ──────────────────────────────────── */
     .ai-pick-section {
       max-width: 1440px; margin: 0 auto; padding: 0 14px 14px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
     }
+    @media(max-width:900px) { .ai-pick-section { grid-template-columns: 1fr; } }
+
     .ai-pick-card {
       background: var(--glass); backdrop-filter: blur(16px);
-      border: 2px solid rgba(232,78,160,.2); border-radius: 22px;
-      overflow: hidden; box-shadow: 0 4px 24px rgba(232,78,160,.1), 0 2px 12px rgba(168,85,247,.08);
-      position: relative;
+      border-radius: 22px; overflow: hidden; position: relative;
     }
-    .ai-pick-card::before {
+    /* 💎 She Knows Ball — icy lavender, composed shimmer */
+    .ai-pick-card.skb {
+      border: 2px solid rgba(139,92,246,.2);
+      box-shadow: 0 4px 24px rgba(139,92,246,.1), 0 2px 12px rgba(99,102,241,.06);
+    }
+    .ai-pick-card.skb::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--amber), var(--pink), var(--purple), var(--sky));
+      background: linear-gradient(90deg, #818CF8, #A78BFA, #C4B5FD, #E0E7FF);
     }
-    .ai-pick-header {
-      background: linear-gradient(135deg, rgba(232,78,160,.06), rgba(168,85,247,.06));
-      padding: 16px 18px 12px; display: flex; justify-content: space-between; align-items: flex-start;
-      border-bottom: 1px solid rgba(232,78,160,.1);
+    .ai-pick-card.skb .ai-pick-header {
+      background: linear-gradient(135deg, rgba(139,92,246,.06), rgba(99,102,241,.04));
+      border-bottom: 1px solid rgba(139,92,246,.1);
     }
-    .ai-pick-title {
-      font-family: 'Dancing Script', cursive; font-size: 1.3rem;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+    .ai-pick-card.skb .ai-pick-title {
+      background: linear-gradient(135deg, #7C3AED, #6366F1, #818CF8);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .ai-pick-date { font-size: .62rem; color: var(--sub); margin-top: 2px; }
+    .ai-pick-card.skb .ai-leg {
+      background: linear-gradient(135deg, rgba(139,92,246,.04), rgba(99,102,241,.03));
+      border-color: rgba(139,92,246,.1);
+    }
+    .ai-pick-card.skb .ai-leg:hover { border-color: rgba(139,92,246,.3); box-shadow: 0 2px 12px rgba(139,92,246,.1); }
+    @keyframes skbShimmer {
+      0%,100% { box-shadow: 0 4px 24px rgba(139,92,246,.1), 0 2px 12px rgba(99,102,241,.06); }
+      50% { box-shadow: 0 4px 30px rgba(139,92,246,.16), 0 2px 16px rgba(99,102,241,.1); }
+    }
+    .ai-pick-card.skb { animation: skbShimmer 4s ease-in-out infinite; }
+
+    /* 🎀 Delusional — hot pink, bouncy sparkle */
+    .ai-pick-card.dbc {
+      border: 2px solid rgba(236,72,153,.22);
+      box-shadow: 0 4px 24px rgba(236,72,153,.12), 0 2px 12px rgba(251,146,60,.06);
+    }
+    .ai-pick-card.dbc::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #F472B6, #EC4899, #FB923C, #FBBF24);
+    }
+    .ai-pick-card.dbc .ai-pick-header {
+      background: linear-gradient(135deg, rgba(236,72,153,.07), rgba(251,146,60,.04));
+      border-bottom: 1px solid rgba(236,72,153,.12);
+    }
+    .ai-pick-card.dbc .ai-pick-title {
+      background: linear-gradient(135deg, #EC4899, #F472B6, #FB923C);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .ai-pick-card.dbc .ai-leg {
+      background: linear-gradient(135deg, rgba(236,72,153,.04), rgba(251,146,60,.03));
+      border-color: rgba(236,72,153,.1);
+    }
+    .ai-pick-card.dbc .ai-leg:hover { border-color: rgba(236,72,153,.3); box-shadow: 0 2px 12px rgba(236,72,153,.1); }
+    @keyframes dbcGlow {
+      0%,100% { box-shadow: 0 4px 24px rgba(236,72,153,.12), 0 2px 12px rgba(251,146,60,.06); }
+      33% { box-shadow: 0 5px 28px rgba(236,72,153,.18), 0 3px 14px rgba(251,146,60,.1); }
+      66% { box-shadow: 0 4px 26px rgba(251,146,60,.14), 0 2px 12px rgba(236,72,153,.08); }
+    }
+    .ai-pick-card.dbc { animation: dbcGlow 3s ease-in-out infinite; }
+
+    /* Shared card inner styles */
+    .ai-pick-header {
+      padding: 14px 16px 10px; display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .ai-pick-title { font-family: 'Dancing Script', cursive; font-size: 1.15rem; }
+    .ai-pick-date { font-size: .6rem; color: var(--sub); margin-top: 2px; }
     .ai-pick-status {
-      font-size: .6rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
-      padding: 3px 10px; border-radius: 10px;
+      font-size: .55rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 10px;
     }
     .ai-pick-status.pending { background: rgba(245,158,11,.12); color: var(--amber); border: 1px solid rgba(245,158,11,.25); }
     .ai-pick-status.won { background: rgba(110,231,183,.12); color: #059669; border: 1px solid rgba(110,231,183,.3); }
     .ai-pick-status.lost { background: rgba(244,63,94,.08); color: var(--hot); border: 1px solid rgba(244,63,94,.2); }
     .ai-pick-status.partial { background: rgba(56,189,248,.1); color: #0284C7; border: 1px solid rgba(56,189,248,.25); }
 
-    .ai-pick-body { padding: 14px 18px; }
-    .ai-pick-legs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 10px; }
-    @media(max-width:800px) { .ai-pick-legs { grid-template-columns: repeat(2, 1fr); } }
+    .ai-pick-body { padding: 12px 14px; }
+    .ai-pick-legs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 8px; }
     @media(max-width:500px) { .ai-pick-legs { grid-template-columns: 1fr; } }
 
     .ai-leg {
-      padding: 10px; border-radius: 14px; text-align: center;
-      background: linear-gradient(135deg, rgba(232,78,160,.04), rgba(168,85,247,.04));
-      border: 1px solid rgba(168,85,247,.1); transition: all .18s;
+      padding: 8px; border-radius: 12px; text-align: center;
+      border: 1px solid; transition: all .18s;
     }
-    .ai-leg:hover { border-color: rgba(232,78,160,.25); box-shadow: 0 2px 10px rgba(232,78,160,.08); }
     .ai-leg-avatar {
-      width: 36px; height: 36px; border-radius: 10px; margin: 0 auto 6px;
-      background: linear-gradient(135deg, rgba(168,85,247,.12), rgba(232,78,160,.12));
-      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      width: 32px; height: 32px; border-radius: 9px; margin: 0 auto 4px;
+      background: linear-gradient(135deg, rgba(168,85,247,.1), rgba(232,78,160,.1));
+      display: flex; align-items: center; justify-content: center; font-size: .9rem;
       overflow: hidden;
     }
-    .ai-leg-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
-    .ai-leg-name { font-size: .75rem; font-weight: 700; }
-    .ai-leg-meta { font-size: .58rem; color: var(--sub); margin-top: 1px; }
-    .ai-leg-odds { font-size: .72rem; font-weight: 800; margin-top: 3px; }
-    .ai-leg-reason { font-size: .52rem; color: var(--text-light); margin-top: 3px; font-style: italic; }
-    .ai-leg-result { font-size: .6rem; font-weight: 800; margin-top: 4px; }
+    .ai-leg-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; }
+    .ai-leg-name { font-size: .7rem; font-weight: 700; }
+    .ai-leg-meta { font-size: .55rem; color: var(--sub); margin-top: 1px; }
+    .ai-leg-odds { font-size: .68rem; font-weight: 800; margin-top: 2px; }
+    .ai-leg-reason { font-size: .5rem; color: var(--text-light); margin-top: 2px; font-style: italic; }
+    .ai-leg-result { font-size: .58rem; font-weight: 800; margin-top: 3px; }
     .ai-leg-result.hit { color: #059669; }
     .ai-leg-result.miss { color: var(--hot); }
 
     .ai-pick-rationale {
-      font-size: .68rem; color: var(--sub); padding: 8px 12px; border-radius: 10px;
-      background: rgba(168,85,247,.04); border: 1px solid rgba(168,85,247,.08);
-      margin-bottom: 10px; line-height: 1.5;
+      font-size: .62rem; color: var(--sub); padding: 6px 10px; border-radius: 10px;
+      background: rgba(168,85,247,.03); border: 1px solid rgba(168,85,247,.06);
+      margin-bottom: 8px; line-height: 1.4;
     }
-    .ai-pick-confidence {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: .65rem; font-weight: 700; color: var(--purple);
-    }
-    .ai-pick-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ai-pick-actions { display: flex; gap: 5px; flex-wrap: wrap; }
     .ai-pick-btn {
-      font-size: .62rem; font-weight: 700; padding: 5px 12px; border-radius: 10px;
+      font-size: .58rem; font-weight: 700; padding: 4px 10px; border-radius: 9px;
       border: 1px solid var(--border); background: rgba(168,85,247,.06);
       color: var(--purple); cursor: pointer; font-family: inherit; transition: all .15s;
     }
@@ -632,27 +674,28 @@
       color: #fff; border-color: transparent;
     }
 
-    /* AI Record / Stats bar */
-    .ai-record { display: flex; gap: 12px; flex-wrap: wrap; padding: 10px 18px; border-top: 1px solid rgba(168,85,247,.08); }
+    /* AI Record bar */
+    .ai-record { display: flex; gap: 10px; flex-wrap: wrap; padding: 8px 14px; border-top: 1px solid rgba(168,85,247,.06); }
     .ai-record-stat { text-align: center; }
-    .ai-record-val { font-size: .82rem; font-weight: 800; color: var(--text); }
-    .ai-record-label { font-size: .48rem; font-weight: 700; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; }
+    .ai-record-val { font-size: .75rem; font-weight: 800; color: var(--text); }
+    .ai-record-label { font-size: .45rem; font-weight: 700; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; }
 
     /* AI History */
     .ai-history-item {
-      display: flex; align-items: center; gap: 10px; padding: 7px 0;
-      border-bottom: 1px solid rgba(168,85,247,.06); cursor: pointer;
-      transition: background .12s; border-radius: 8px; padding: 6px 8px;
+      display: flex; align-items: center; gap: 8px;
+      padding: 5px 6px; border-bottom: 1px solid rgba(168,85,247,.06);
+      cursor: pointer; transition: background .12s; border-radius: 8px;
     }
     .ai-history-item:hover { background: rgba(168,85,247,.05); }
     .ai-history-item:last-child { border-bottom: none; }
-    .ai-history-date { font-size: .65rem; font-weight: 700; color: var(--text); min-width: 55px; }
-    .ai-history-legs { font-size: .58rem; color: var(--sub); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .ai-history-result { font-size: .58rem; font-weight: 800; }
+    .ai-history-type { font-size: .6rem; }
+    .ai-history-date { font-size: .62rem; font-weight: 700; color: var(--text); min-width: 50px; }
+    .ai-history-legs { font-size: .55rem; color: var(--sub); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ai-history-result { font-size: .55rem; font-weight: 800; }
     .ai-history-result.won { color: #059669; }
     .ai-history-result.lost { color: var(--hot); }
     .ai-history-result.pending { color: var(--amber); }
-    .ai-history-hits { font-size: .55rem; color: var(--sub); min-width: 28px; text-align: center; }
+    .ai-history-hits { font-size: .52rem; color: var(--sub); min-width: 25px; text-align: center; }
   </style>
 </head>
 <body>
@@ -741,9 +784,10 @@
       </div>
     </div>
 
-    <!-- Daily AI Dinger Pick -->
+    <!-- Dual Daily AI Picks -->
     <div class="ai-pick-section fade-up" style="animation-delay:.22s">
-      <div class="ai-pick-card" id="aiPickCard"></div>
+      <div class="ai-pick-card skb" id="aiCardSKB"></div>
+      <div class="ai-pick-card dbc" id="aiCardDBC"></div>
     </div>
 
     <!-- AI Pick History -->
@@ -1729,360 +1773,293 @@
     });
 
     // ── Render all ─────────────────────────────────────────────────
-    // ── AI Daily Dinger Pick ─────────────────────────────────────
+    // ── Dual AI Dinger Picks ─────────────────────────────────────
     let aiPicks = []; // loaded from Supabase key 'ai_picks'
+    // Each pick has a .type: 'skb' (She Knows Ball) or 'dbc' (Delusional But Correct)
 
     function todayStr() { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 
-    function getTodayPick() { return aiPicks.find(p => p.date === todayStr()); }
+    function getTodayPick(type) { return aiPicks.find(p => p.date === todayStr() && p.type === type); }
 
-    // ── Recommendation Engine ─────────────────────────────────────
-    function generateDailyPick() {
-      const today = todayStr();
-      // Build candidate pool: all MLB players active today with stats
-      const candidates = mlbPlayers
+    // ── Shared candidate scoring ─────────────────────────────────
+    function buildCandidatePool() {
+      return mlbPlayers
         .filter(p => p.team && activeTeams.has(p.team))
         .map(p => {
-          // Check if we have tracked stats for this player
           const tracked = hitters.find(h => h.mlbId === p.mlbId);
-          const gameInfo = teamGameMap[p.team] || {};
+          const gi = teamGameMap[p.team] || {};
           const odds = getPlayerOdds(p.name);
-
-          // Build a composite score for AI pick ranking
-          let aiScore = 0;
-          const reasons = [];
-
+          let score = 0; const reasons = [];
           if (tracked) {
-            // Season HR power (0-25)
-            const hrPts = Math.min(25, (tracked.seasonHR||0) * 1.5);
-            aiScore += hrPts;
-            if (tracked.seasonHR >= 3) reasons.push(`${tracked.seasonHR} HR this season`);
-
-            // Recent form - L7 (0-30, heavily weighted)
-            const l7Pts = Math.min(30, (tracked.last7HR||0) * 10);
-            aiScore += l7Pts;
-            if (tracked.last7HR >= 2) reasons.push(`${tracked.last7HR} HR in last 7 games`);
-
-            // Recent form - L15 (0-15)
-            const l15Pts = Math.min(15, (tracked.last15HR||0) * 3);
-            aiScore += l15Pts;
-
-            // AB/HR efficiency (0-20)
-            if (tracked.abPerHR > 0) {
-              const abPts = Math.max(0, Math.min(20, (25 - tracked.abPerHR) * 1.5));
-              aiScore += abPts;
-              if (tracked.abPerHR > 0 && tracked.abPerHR <= 15) reasons.push(`${tracked.abPerHR} AB/HR`);
-            }
+            const hr = Math.min(25, (tracked.seasonHR||0)*1.5); score += hr;
+            if (tracked.seasonHR >= 3) reasons.push(`${tracked.seasonHR} HR`);
+            const l7 = Math.min(30, (tracked.last7HR||0)*10); score += l7;
+            if (tracked.last7HR >= 2) reasons.push(`${tracked.last7HR} HR L7`);
+            score += Math.min(15, (tracked.last15HR||0)*3);
+            if (tracked.abPerHR > 0) { score += Math.max(0, Math.min(20, (25-tracked.abPerHR)*1.5)); if (tracked.abPerHR <= 15) reasons.push(`${tracked.abPerHR} AB/HR`); }
           }
-
-          // Odds bonus — shorter odds = books think HR is more likely (0-20)
           if (odds) {
-            const oddsPts = Math.max(0, Math.min(20, (700 - odds.best) / 30));
-            aiScore += oddsPts;
-            if (odds.best <= 350) reasons.push(`Short odds: ${odds.bestDisplay}`);
-            else if (odds.best <= 500) reasons.push(`Odds: ${odds.bestDisplay}`);
+            score += Math.max(0, Math.min(20, (700-odds.best)/30));
+            if (odds.best <= 350) reasons.push(`Short: ${odds.bestDisplay}`);
+            else if (odds.best <= 550) reasons.push(`Odds: ${odds.bestDisplay}`);
           }
-
-          // Penalize players with no data at all
-          if (!tracked && !odds) aiScore -= 10;
-
+          if (!tracked && !odds) score -= 10;
           return {
             mlbId: p.mlbId, name: p.name, team: p.team, pos: p.pos, bats: p.bats,
-            opponent: gameInfo.opponent || '?', time: gameInfo.time || '',
-            pitcher: gameInfo.pitcher || 'TBD', venue: gameInfo.venue || '',
-            odds: odds ? odds.bestDisplay : null,
-            oddsBook: odds ? odds.book : null,
-            aiScore, reasons,
-            seasonHR: tracked?.seasonHR || 0,
-            last7HR: tracked?.last7HR || 0,
-            abPerHR: tracked?.abPerHR || 0,
+            opponent: gi.opponent||'?', time: gi.time||'', pitcher: gi.pitcher||'TBD', venue: gi.venue||'',
+            odds: odds?.bestDisplay||null, oddsBook: odds?.book||null, oddsNum: odds?.best||9999,
+            score, reasons,
+            seasonHR: tracked?.seasonHR||0, last7HR: tracked?.last7HR||0, abPerHR: tracked?.abPerHR||0,
           };
-        })
-        .filter(c => c.aiScore > 0)
-        .sort((a, b) => b.aiScore - a.aiScore);
+        }).filter(c => c.score > 0);
+    }
 
-      // Select top 4, avoiding more than 2 from the same game
-      const selected = [];
-      const gameCount = {}; // track opponent pairs to avoid clustering
-      for (const c of candidates) {
-        if (selected.length >= 4) break;
-        const gameKey = [c.team, c.opponent].sort().join('-');
-        if ((gameCount[gameKey] || 0) >= 2) continue; // max 2 per game
-        selected.push(c);
-        gameCount[gameKey] = (gameCount[gameKey] || 0) + 1;
+    function pickTop4(candidates, excludeNames=[]) {
+      const pool = candidates.filter(c => !excludeNames.includes(c.name)).sort((a,b) => b.score - a.score);
+      const sel = []; const gc = {};
+      for (const c of pool) {
+        if (sel.length >= 4) break;
+        const gk = [c.team,c.opponent].sort().join('-');
+        if ((gc[gk]||0) >= 2) continue;
+        sel.push(c); gc[gk] = (gc[gk]||0)+1;
       }
+      return sel;
+    }
 
-      if (selected.length < 4) return null; // not enough quality candidates
+    // ── 💎 She Knows Ball 4 — best data, composed ────────────────
+    function generateSKB() {
+      const candidates = buildCandidatePool();
+      const sel = pickTop4(candidates);
+      if (sel.length < 4) return null;
+      const avg = sel.reduce((s,c) => s+c.score, 0)/4;
+      return buildPickObj('skb', sel, Math.min(100, Math.round(avg*1.1)),
+        `The 4 strongest HR candidates by data: power, recent form, AB/HR, and odds across ${todayGames.length} games. Max 2 per game.`);
+    }
 
-      // Calculate overall confidence (average of leg scores, normalized 0-100)
-      const avgScore = selected.reduce((s, c) => s + c.aiScore, 0) / 4;
-      const confidence = Math.min(100, Math.round(avgScore * 1.1));
+    // ── 🎀 Delusional (But Correct) 4 — anti-chalk, weighted random
+    function generateDBC(skbNames=[]) {
+      const candidates = buildCandidatePool();
+      // Remove chalk tier (top ~8 by odds) and SKB picks
+      const chalkCutoff = [...candidates].sort((a,b) => a.oddsNum - b.oddsNum).slice(0,8).map(c => c.name);
+      const pool = candidates.filter(c => !skbNames.includes(c.name) && !chalkCutoff.includes(c.name) && c.score >= 5);
+      // If pool too small, relax: allow some chalk back except SKB names
+      const finalPool = pool.length >= 8 ? pool : candidates.filter(c => !skbNames.includes(c.name) && c.score >= 3);
+      if (finalPool.length < 4) return null;
+      // Weighted random sampling
+      const sel = []; const gc = {}; const used = new Set();
+      const totalWeight = finalPool.reduce((s,c) => s + Math.max(1, c.score), 0);
+      for (let attempts = 0; attempts < 200 && sel.length < 4; attempts++) {
+        let r = Math.random() * totalWeight; let picked = null;
+        for (const c of finalPool) {
+          r -= Math.max(1, c.score);
+          if (r <= 0) { picked = c; break; }
+        }
+        if (!picked || used.has(picked.name)) continue;
+        const gk = [picked.team,picked.opponent].sort().join('-');
+        if ((gc[gk]||0) >= 2) continue;
+        sel.push(picked); used.add(picked.name); gc[gk] = (gc[gk]||0)+1;
+      }
+      if (sel.length < 4) return null;
+      const avg = sel.reduce((s,c) => s+c.score, 0)/4;
+      return buildPickObj('dbc', sel, Math.min(100, Math.round(avg*0.9)),
+        `The spicy alt — viable HR hitters outside the chalk tier, weighted-random from ${finalPool.length} candidates. Still dangerous, less obvious.`);
+    }
 
-      // Build rationale
-      const rationale = `Selected the 4 highest-scoring HR candidates from today's ${todayGames.length}-game slate. ` +
-        `Factors: season HR power, recent 7/15-game form, AB/HR rate, and sportsbook odds (shorter = more likely). ` +
-        `Max 2 players per game to diversify. Average candidate score: ${avgScore.toFixed(0)}/100.`;
-
+    function buildPickObj(type, sel, confidence, rationale) {
       return {
-        date: today,
-        generated: new Date().toISOString(),
-        confidence,
-        rationale,
-        status: 'pending', // pending | won | lost | partial
-        hits: null, // number of legs that hit (0-4)
-        legs: selected.map((c, i) => ({
-          legNum: i + 1,
-          mlbId: c.mlbId, name: c.name, team: c.team,
+        type, date: todayStr(), generated: new Date().toISOString(),
+        confidence, rationale, status: 'pending', hits: null,
+        legs: sel.map((c,i) => ({
+          legNum: i+1, mlbId: c.mlbId, name: c.name, team: c.team,
           opponent: c.opponent, time: c.time, pitcher: c.pitcher, venue: c.venue,
-          odds: c.odds, oddsBook: c.oddsBook,
-          aiScore: c.aiScore,
-          reason: c.reasons.slice(0, 2).join(' · ') || 'Best available candidate',
+          odds: c.odds, oddsBook: c.oddsBook, aiScore: c.score,
+          reason: c.reasons.slice(0,2).join(' · ') || 'Viable HR candidate',
           seasonHR: c.seasonHR, last7HR: c.last7HR, abPerHR: c.abPerHR,
-          result: null, // null | 'hit' | 'miss'
+          result: null,
         })),
       };
     }
 
-    async function ensureTodayPick() {
-      const existing = getTodayPick();
-      if (existing) return existing;
-      if (!todayGames.length) return null;
-      const pick = generateDailyPick();
-      if (!pick) return null;
-      aiPicks.unshift(pick); // newest first
-      // Keep last 90 days of history
-      if (aiPicks.length > 90) aiPicks = aiPicks.slice(0, 90);
-      await sbSaveDingers('ai_picks', aiPicks);
-      return pick;
+    async function ensureTodayPicks() {
+      let changed = false;
+      if (!getTodayPick('skb') && todayGames.length) {
+        const skb = generateSKB();
+        if (skb) { aiPicks.unshift(skb); changed = true; }
+      }
+      if (!getTodayPick('dbc') && todayGames.length) {
+        const skbNames = (getTodayPick('skb')?.legs||[]).map(l=>l.name);
+        const dbc = generateDBC(skbNames);
+        if (dbc) { aiPicks.unshift(dbc); changed = true; }
+      }
+      if (changed) {
+        if (aiPicks.length > 180) aiPicks = aiPicks.slice(0, 180);
+        await sbSaveDingers('ai_picks', aiPicks);
+      }
     }
 
-    async function regenerateTodayPick() {
-      // Remove today's existing pick
-      aiPicks = aiPicks.filter(p => p.date !== todayStr());
-      const pick = generateDailyPick();
-      if (!pick) { showToast('Not enough data to generate a pick'); return; }
+    async function regeneratePick(type) {
+      aiPicks = aiPicks.filter(p => !(p.date === todayStr() && p.type === type));
+      let pick;
+      if (type === 'skb') { pick = generateSKB(); }
+      else { const skbNames = (getTodayPick('skb')?.legs||[]).map(l=>l.name); pick = generateDBC(skbNames); }
+      if (!pick) { showToast('Not enough data'); return; }
       aiPicks.unshift(pick);
       await sbSaveDingers('ai_picks', aiPicks);
-      renderAIPick();
-      renderAIHistory();
-      showToast('Daily pick regenerated');
+      renderAIPicks(); renderAIHistory();
+      showToast(type==='skb' ? '💎 Regenerated' : '🎀 Regenerated');
     }
 
-    function loadAIPickIntoBuilder() {
-      const pick = getTodayPick();
-      if (!pick) return;
-      builderLegs = pick.legs.map(l => ({ id: l.mlbId.toString(), name: l.name, team: l.team }));
+    function loadPickIntoBuilder(type) {
+      const pick = getTodayPick(type); if (!pick) return;
+      builderLegs = pick.legs.map(l => ({id:l.mlbId.toString(), name:l.name, team:l.team}));
       saveJSON(STORE.BUILDER, builderLegs);
       renderParlayBuilder(); renderHitterCards();
-      showToast('Loaded into parlay builder');
+      showToast('Loaded into builder');
     }
 
     // ── Grading ───────────────────────────────────────────────────
-    async function gradePickByDate(dateStr) {
-      const pick = aiPicks.find(p => p.date === dateStr);
+    async function gradePickByDate(dateStr, type) {
+      const pick = aiPicks.find(p => p.date===dateStr && p.type===type);
       if (!pick || pick.status !== 'pending') return;
-      // Fetch game logs for each leg's player for that date
       let hits = 0;
       for (const leg of pick.legs) {
         try {
-          const year = dateStr.split('-')[0];
-          const r = await fetch(`${MLB_API}/people/${leg.mlbId}/stats?stats=gameLog&group=hitting&season=${year}&sportId=1`);
+          const yr = dateStr.split('-')[0];
+          const r = await fetch(`${MLB_API}/people/${leg.mlbId}/stats?stats=gameLog&group=hitting&season=${yr}&sportId=1`);
           if (!r.ok) continue;
           const data = await r.json();
-          const games = data.stats?.[0]?.splits || [];
-          const gameOnDate = games.find(g => g.date === dateStr);
-          if (gameOnDate && gameOnDate.stat?.homeRuns > 0) {
-            leg.result = 'hit';
-            hits++;
-          } else if (gameOnDate) {
-            leg.result = 'miss';
-          }
-          // If no game found, leave null (game may not have happened yet)
-        } catch (e) { /* skip */ }
+          const g = (data.stats?.[0]?.splits||[]).find(g => g.date === dateStr);
+          if (g && g.stat?.homeRuns > 0) { leg.result = 'hit'; hits++; }
+          else if (g) { leg.result = 'miss'; }
+        } catch(e) {}
       }
-      const allGraded = pick.legs.every(l => l.result !== null);
-      if (allGraded) {
-        pick.hits = hits;
-        pick.status = hits === 4 ? 'won' : 'lost';
-      } else if (pick.legs.some(l => l.result !== null)) {
-        pick.hits = hits;
-        pick.status = 'partial';
-      }
+      const all = pick.legs.every(l => l.result !== null);
+      if (all) { pick.hits = hits; pick.status = hits===4 ? 'won' : 'lost'; }
+      else if (pick.legs.some(l => l.result !== null)) { pick.hits = hits; pick.status = 'partial'; }
       await sbSaveDingers('ai_picks', aiPicks);
     }
 
     async function gradeRecentPicks() {
-      // Auto-grade any pending picks from yesterday or earlier
       const today = todayStr();
-      const pending = aiPicks.filter(p => p.status === 'pending' && p.date < today);
-      for (const p of pending) {
-        await gradePickByDate(p.date);
-      }
-      if (pending.length) { renderAIPick(); renderAIHistory(); }
+      const pending = aiPicks.filter(p => p.status==='pending' && p.date < today);
+      for (const p of pending) await gradePickByDate(p.date, p.type);
+      if (pending.length) { renderAIPicks(); renderAIHistory(); }
     }
 
-    // ── AI Record Stats ───────────────────────────────────────────
-    function getAIRecord() {
-      const graded = aiPicks.filter(p => p.status === 'won' || p.status === 'lost');
-      const wins = graded.filter(p => p.status === 'won').length;
-      const losses = graded.filter(p => p.status === 'lost').length;
-      const total = graded.length;
-      const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
-      // Current streak
-      let streak = 0, streakType = '';
-      for (const p of graded) {
-        if (!streakType) { streakType = p.status; streak = 1; }
-        else if (p.status === streakType) streak++;
-        else break;
-      }
-      // Best win streak
-      let bestStreak = 0, curStreak = 0;
-      for (const p of graded) {
-        if (p.status === 'won') { curStreak++; bestStreak = Math.max(bestStreak, curStreak); }
-        else curStreak = 0;
-      }
-      // Total legs hit
-      const totalLegs = graded.reduce((s, p) => s + (p.legs?.length || 4), 0);
-      const legsHit = graded.reduce((s, p) => s + (p.hits || 0), 0);
-      // Last 7
-      const last7 = graded.slice(0, 7);
-      const l7wins = last7.filter(p => p.status === 'won').length;
-
-      return { wins, losses, total, winRate, streak, streakType, bestStreak, totalLegs, legsHit, l7wins, l7total: last7.length };
+    // ── Record stats per type ─────────────────────────────────────
+    function getAIRecord(type) {
+      const graded = aiPicks.filter(p => p.type===type && (p.status==='won'||p.status==='lost'));
+      const w = graded.filter(p=>p.status==='won').length, l = graded.length - w;
+      let streak=0, sType='';
+      for (const p of graded) { if(!sType){sType=p.status;streak=1;} else if(p.status===sType) streak++; else break; }
+      let best=0, cur=0;
+      for (const p of graded) { if(p.status==='won'){cur++;best=Math.max(best,cur);} else cur=0; }
+      const tLegs = graded.reduce((s,p)=>s+(p.legs?.length||4),0);
+      const hLegs = graded.reduce((s,p)=>s+(p.hits||0),0);
+      const l7 = graded.slice(0,7); const l7w = l7.filter(p=>p.status==='won').length;
+      return {wins:w, losses:l, total:graded.length, winRate: graded.length?Math.round(w/graded.length*100):0, streak, streakType:sType, bestStreak:best, totalLegs:tLegs, legsHit:hLegs, l7wins:l7w, l7total:l7.length};
     }
 
-    // ── Render: AI Pick ───────────────────────────────────────────
-    function renderAIPick() {
-      const card = document.getElementById('aiPickCard');
-      const pick = getTodayPick();
+    // ── Render helpers ────────────────────────────────────────────
+    function parlayOddsHtml(pick) {
+      const lo = pick.legs.filter(l=>l.odds);
+      if (lo.length < 2) return '';
+      const dec = lo.map(l=>{const p=parseInt(l.odds);return p>0?(p/100)+1:(100/Math.abs(p))+1;});
+      const c = dec.reduce((a,b)=>a*b,1);
+      const am = c>=2?'+'+Math.round((c-1)*100):'-'+Math.round(100/(c-1));
+      const pay = Math.round(c*10);
+      return `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(168,85,247,.04);border:1px solid rgba(168,85,247,.08);margin-bottom:8px">
+        <div style="text-align:center"><div style="font-size:.45rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">Odds</div><div style="font-size:1rem;font-weight:800;color:var(--purple)">${am}</div></div>
+        <div style="width:1px;height:22px;background:rgba(168,85,247,.12)"></div>
+        <div style="text-align:center"><div style="font-size:.45rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">$10 Pays</div><div style="font-size:1rem;font-weight:800;color:var(--text)">$${pay.toLocaleString()}</div></div>
+        <div style="width:1px;height:22px;background:rgba(168,85,247,.12)"></div>
+        <div style="text-align:center"><div style="font-size:.45rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">Profit</div><div style="font-size:1rem;font-weight:800;color:#059669">$${(pay-10).toLocaleString()}</div></div>
+      </div>`;
+    }
 
+    function renderPickCard(elId, pick, title, emoji, type) {
+      const card = document.getElementById(elId);
       if (!pick) {
-        card.innerHTML = `
-          <div class="ai-pick-header">
-            <div><div class="ai-pick-title">✨ Daily Dinger Darling</div><div class="ai-pick-date">No pick yet for today</div></div>
-          </div>
-          <div class="ai-pick-body" style="text-align:center;padding:20px">
-            <div style="font-size:2rem;margin-bottom:8px">🔮</div>
-            <div style="font-size:.78rem;color:var(--sub)">${todayGames.length ? 'Waiting for stats & odds to generate today\'s pick…' : 'No games today'}</div>
-          </div>`;
+        card.innerHTML = `<div class="ai-pick-header"><div><div class="ai-pick-title">${emoji} ${title}</div><div class="ai-pick-date">Generating…</div></div></div>
+          <div class="ai-pick-body" style="text-align:center;padding:16px"><div style="font-size:1.5rem;margin-bottom:6px">${emoji}</div>
+          <div style="font-size:.72rem;color:var(--sub)">${todayGames.length?'Waiting for stats & odds…':'No games today'}</div></div>`;
         return;
       }
-
-      const record = getAIRecord();
-      const statusCls = pick.status === 'won' ? 'won' : pick.status === 'lost' ? 'lost' : pick.status === 'partial' ? 'partial' : 'pending';
-      const statusLabel = pick.status === 'won' ? '4/4 WON' : pick.status === 'lost' ? `${pick.hits||0}/4 LOST` : pick.status === 'partial' ? `${pick.hits||0}/4 IN PROGRESS` : 'PENDING';
-
+      const rec = getAIRecord(type);
+      const sCls = pick.status==='won'?'won':pick.status==='lost'?'lost':pick.status==='partial'?'partial':'pending';
+      const sLbl = pick.status==='won'?'4/4 WON':pick.status==='lost'?`${pick.hits||0}/4 LOST`:pick.status==='partial'?`${pick.hits||0}/4 IN PROG`:'PENDING';
       card.innerHTML = `
         <div class="ai-pick-header">
-          <div>
-            <div class="ai-pick-title">✨ Daily Dinger Darling</div>
-            <div class="ai-pick-date">${new Date(pick.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="ai-pick-confidence">🎯 ${pick.confidence}%</div>
-            <div class="ai-pick-status ${statusCls}">${statusLabel}</div>
-          </div>
+          <div><div class="ai-pick-title">${emoji} ${title}</div>
+            <div class="ai-pick-date">${new Date(pick.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</div></div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:.6rem;font-weight:700;color:var(--purple)">🎯${pick.confidence}%</span>
+            <div class="ai-pick-status ${sCls}">${sLbl}</div></div>
         </div>
         <div class="ai-pick-body">
-          <div class="ai-pick-legs">
-            ${pick.legs.map(l => {
-              const headshot = l.mlbId
-                ? `<img src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_60,q_auto:best/v1/people/${l.mlbId}/headshot/67/current" alt="" onerror="this.style.display='none';this.parentNode.textContent='⚾'">`
-                : '⚾';
-              const resultHtml = l.result ? `<div class="ai-leg-result ${l.result}">${l.result === 'hit' ? '✅ HR' : '❌ No HR'}</div>` : '';
-              return `<div class="ai-leg">
-                <div class="ai-leg-avatar">${headshot}</div>
-                <div class="ai-leg-name">${l.name}</div>
-                <div class="ai-leg-meta">${l.team} vs ${l.opponent} · ${l.time}</div>
-                ${l.odds ? `<div class="ai-leg-odds" style="color:${parseInt(l.odds)<=400?'var(--hot)':parseInt(l.odds)<=600?'var(--amber)':'var(--purple)'}">${l.odds}</div>` : ''}
-                <div class="ai-leg-reason">${l.reason}</div>
-                ${resultHtml}
-              </div>`;
-            }).join('')}
-          </div>
-          ${(()=>{
-            const legsWithOdds = pick.legs.filter(l => l.odds);
-            if (legsWithOdds.length < 2) return '';
-            const decOdds = legsWithOdds.map(l => { const p = parseInt(l.odds); return p > 0 ? (p/100)+1 : (100/Math.abs(p))+1; });
-            const combined = decOdds.reduce((a,b) => a*b, 1);
-            const americanOdds = combined >= 2 ? '+'+Math.round((combined-1)*100) : '-'+Math.round(100/(combined-1));
-            const payout10 = Math.round(combined * 10);
-            return `<div style="display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(232,78,160,.06),rgba(168,85,247,.06));border:1px solid rgba(232,78,160,.15);margin-bottom:10px">
-              <div style="text-align:center">
-                <div style="font-size:.5rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">Parlay Odds</div>
-                <div style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent">${americanOdds}</div>
-              </div>
-              <div style="width:1px;height:28px;background:rgba(168,85,247,.15)"></div>
-              <div style="text-align:center">
-                <div style="font-size:.5rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">$10 Pays</div>
-                <div style="font-size:1.2rem;font-weight:800;color:var(--text)">$${payout10.toLocaleString()}</div>
-              </div>
-              <div style="width:1px;height:28px;background:rgba(168,85,247,.15)"></div>
-              <div style="text-align:center">
-                <div style="font-size:.5rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">$10 Wins</div>
-                <div style="font-size:1.2rem;font-weight:800;color:#059669">$${(payout10-10).toLocaleString()}</div>
-              </div>
-              ${legsWithOdds.length < pick.legs.length ? `<div style="font-size:.48rem;color:var(--text-light);font-style:italic">${legsWithOdds.length}/${pick.legs.length} legs priced</div>` : ''}
-            </div>`;
-          })()}
-          <div class="ai-pick-rationale">💡 ${pick.rationale}</div>
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <div class="ai-pick-actions">
-              <button class="ai-pick-btn primary" onclick="loadAIPickIntoBuilder()">💰 Load into Builder</button>
-              <button class="ai-pick-btn" onclick="regenerateTodayPick()">🔄 Regenerate</button>
-              ${pick.status === 'pending' && pick.date < todayStr() ? `<button class="ai-pick-btn" onclick="gradePickByDate('${pick.date}').then(()=>{renderAIPick();renderAIHistory()})">📊 Grade</button>` : ''}
-            </div>
+          <div class="ai-pick-legs">${pick.legs.map(l=>{
+            const hs = l.mlbId?`<img src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_60,q_auto:best/v1/people/${l.mlbId}/headshot/67/current" alt="" onerror="this.style.display='none';this.parentNode.textContent='⚾'">`:'⚾';
+            const rh = l.result?`<div class="ai-leg-result ${l.result}">${l.result==='hit'?'✅ HR':'❌'}</div>`:'';
+            return `<div class="ai-leg"><div class="ai-leg-avatar">${hs}</div><div class="ai-leg-name">${l.name}</div>
+              <div class="ai-leg-meta">${l.team} vs ${l.opponent} · ${l.time}</div>
+              ${l.odds?`<div class="ai-leg-odds" style="color:${parseInt(l.odds)<=400?'var(--hot)':parseInt(l.odds)<=600?'var(--amber)':'var(--purple)'}">${l.odds}</div>`:''}
+              <div class="ai-leg-reason">${l.reason}</div>${rh}</div>`;
+          }).join('')}</div>
+          ${parlayOddsHtml(pick)}
+          <div class="ai-pick-rationale">${type==='skb'?'💎':'🎀'} ${pick.rationale}</div>
+          <div class="ai-pick-actions">
+            <button class="ai-pick-btn primary" onclick="loadPickIntoBuilder('${type}')">💰 Builder</button>
+            <button class="ai-pick-btn" onclick="regeneratePick('${type}')">🔄</button>
           </div>
         </div>
-        ${record.total > 0 ? `<div class="ai-record">
-          <div class="ai-record-stat"><div class="ai-record-val">${record.total}</div><div class="ai-record-label">Picks</div></div>
-          <div class="ai-record-stat"><div class="ai-record-val" style="color:#059669">${record.wins}</div><div class="ai-record-label">Wins</div></div>
-          <div class="ai-record-stat"><div class="ai-record-val" style="color:var(--hot)">${record.losses}</div><div class="ai-record-label">Losses</div></div>
-          <div class="ai-record-stat"><div class="ai-record-val">${record.winRate}%</div><div class="ai-record-label">Win Rate</div></div>
-          <div class="ai-record-stat"><div class="ai-record-val">${record.streak}${record.streakType==='won'?'W':'L'}</div><div class="ai-record-label">Streak</div></div>
-          <div class="ai-record-stat"><div class="ai-record-val">${record.bestStreak}</div><div class="ai-record-label">Best W</div></div>
-          <div class="ai-record-stat"><div class="ai-record-val">${record.legsHit}/${record.totalLegs}</div><div class="ai-record-label">Legs Hit</div></div>
-          <div class="ai-record-stat"><div class="ai-record-val">${record.l7wins}/${record.l7total}</div><div class="ai-record-label">Last 7</div></div>
-        </div>` : ''}`;
+        ${rec.total>0?`<div class="ai-record">
+          <div class="ai-record-stat"><div class="ai-record-val">${rec.total}</div><div class="ai-record-label">Picks</div></div>
+          <div class="ai-record-stat"><div class="ai-record-val" style="color:#059669">${rec.wins}</div><div class="ai-record-label">W</div></div>
+          <div class="ai-record-stat"><div class="ai-record-val" style="color:var(--hot)">${rec.losses}</div><div class="ai-record-label">L</div></div>
+          <div class="ai-record-stat"><div class="ai-record-val">${rec.winRate}%</div><div class="ai-record-label">Rate</div></div>
+          <div class="ai-record-stat"><div class="ai-record-val">${rec.legsHit}/${rec.totalLegs}</div><div class="ai-record-label">Legs</div></div>
+        </div>`:''}`;
     }
 
-    // ── Render: AI History ────────────────────────────────────────
+    function renderAIPicks() {
+      renderPickCard('aiCardSKB', getTodayPick('skb'), 'She Knows Ball 4', '💎', 'skb');
+      renderPickCard('aiCardDBC', getTodayPick('dbc'), 'Delusional (But Correct) 4', '🎀', 'dbc');
+    }
+
     function renderAIHistory() {
       const list = document.getElementById('aiHistoryList');
-      const past = aiPicks.filter(p => p.date !== todayStr() || p.status !== 'pending');
+      const past = aiPicks.filter(p => !(p.date===todayStr() && p.status==='pending'));
       if (!past.length) { list.innerHTML = '<div style="font-size:.72rem;color:var(--sub);font-style:italic">No history yet — picks build over time</div>'; return; }
-      list.innerHTML = past.slice(0, 30).map(p => {
-        const cls = p.status === 'won' ? 'won' : p.status === 'lost' ? 'lost' : 'pending';
-        const label = p.status === 'won' ? 'WON' : p.status === 'lost' ? 'LOST' : p.status === 'partial' ? 'IN PROG' : 'PENDING';
-        return `<div class="ai-history-item" onclick="showHistoryDetail('${p.date}')">
+      list.innerHTML = past.slice(0,40).map(p => {
+        const cls = p.status==='won'?'won':p.status==='lost'?'lost':'pending';
+        const lbl = p.status==='won'?'WON':p.status==='lost'?'LOST':p.status==='partial'?'IN PROG':'PENDING';
+        const icon = p.type==='skb'?'💎':'🎀';
+        return `<div class="ai-history-item" onclick="showHistoryDetail('${p.date}','${p.type}')">
+          <div class="ai-history-type">${icon}</div>
           <div class="ai-history-date">${new Date(p.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
           <div class="ai-history-legs">${p.legs.map(l=>l.name).join(' · ')}</div>
-          <div class="ai-history-hits">${p.hits !== null ? p.hits+'/4' : '—'}</div>
-          <div class="ai-history-result ${cls}">${label}</div>
+          <div class="ai-history-hits">${p.hits!==null?p.hits+'/4':'—'}</div>
+          <div class="ai-history-result ${cls}">${lbl}</div>
         </div>`;
       }).join('');
     }
 
-    function showHistoryDetail(dateStr) {
-      const pick = aiPicks.find(p => p.date === dateStr);
-      if (!pick) return;
-      // Reuse hitter detail overlay for history detail
-      const panel = document.getElementById('hitterDetail');
-      panel.innerHTML = `
+    function showHistoryDetail(dateStr, type) {
+      const pick = aiPicks.find(p => p.date===dateStr && p.type===type); if (!pick) return;
+      const icon = type==='skb'?'💎':'🎀';
+      const title = type==='skb'?'She Knows Ball 4':'Delusional (But Correct) 4';
+      document.getElementById('hitterDetail').innerHTML = `
         <button class="hd-close" onclick="closeHitterDetail()">✕</button>
-        <div class="hd-name">Daily Pick — ${new Date(pick.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div>
-        <div class="hd-team">Confidence: ${pick.confidence}% · Status: ${pick.status.toUpperCase()}${pick.hits !== null ? ' · '+pick.hits+'/4 legs hit' : ''}</div>
+        <div class="hd-name">${icon} ${title}</div>
+        <div class="hd-team">${new Date(pick.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})} · ${pick.confidence}% · ${pick.status.toUpperCase()}${pick.hits!==null?' · '+pick.hits+'/4':''}</div>
         <div class="hd-section"><div class="hd-section-title">Legs</div>
-          ${pick.legs.map(l => `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(168,85,247,.06)">
-            <div style="font-size:.75rem;font-weight:700;flex:1">${l.name} <span style="font-size:.6rem;color:var(--sub)">${l.team} vs ${l.opponent}</span></div>
-            ${l.odds ? `<span style="font-size:.68rem;font-weight:800">${l.odds}</span>` : ''}
-            ${l.result ? `<span style="font-size:.6rem;font-weight:800;color:${l.result==='hit'?'#059669':'var(--hot)'}">${l.result==='hit'?'✅':'❌'}</span>` : ''}
-          </div>`).join('')}
-        </div>
-        <div class="hd-section"><div class="hd-section-title">Rationale</div>
-          <div style="font-size:.72rem;color:var(--sub);line-height:1.5">${pick.rationale}</div>
-        </div>
-        ${pick.status === 'pending' && pick.date < todayStr() ? `<div class="hd-actions"><button class="hd-btn" onclick="gradePickByDate('${pick.date}').then(()=>{renderAIPick();renderAIHistory();closeHitterDetail()})">📊 Grade This Pick</button></div>` : ''}`;
+          ${pick.legs.map(l=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(168,85,247,.06)">
+            <div style="font-size:.72rem;font-weight:700;flex:1">${l.name} <span style="font-size:.58rem;color:var(--sub)">${l.team} vs ${l.opponent}</span></div>
+            ${l.odds?`<span style="font-size:.65rem;font-weight:800">${l.odds}</span>`:''}
+            ${l.result?`<span style="font-size:.58rem;font-weight:800;color:${l.result==='hit'?'#059669':'var(--hot)'}">${l.result==='hit'?'✅':'❌'}</span>`:''}
+          </div>`).join('')}</div>
+        <div class="hd-section"><div class="hd-section-title">Rationale</div><div style="font-size:.68rem;color:var(--sub);line-height:1.4">${pick.rationale}</div></div>
+        ${pick.status==='pending'&&pick.date<todayStr()?`<div class="hd-actions"><button class="hd-btn" onclick="gradePickByDate('${pick.date}','${pick.type}').then(()=>{renderAIPicks();renderAIHistory();closeHitterDetail()})">📊 Grade</button></div>`:''}`;
       document.getElementById('hitterDetailOverlay').classList.add('open');
     }
 
@@ -2090,7 +2067,7 @@
       renderDateChip(); renderSlate(); renderChips();
       renderHitterCards(); renderParlayBuilder();
       renderSavedParlays(); renderTemplates(); renderExcludedList();
-      renderAIPick(); renderAIHistory();
+      renderAIPicks(); renderAIHistory();
     }
 
     // ── Init ───────────────────────────────────────────────────────
@@ -2123,9 +2100,9 @@
       // Sync live stats and odds in background, then generate AI pick
       Promise.all([syncAllHitterStats(), fetchHRPropOdds()]).then(async () => {
         renderAll();
-        // Generate today's AI pick once we have stats + odds
-        await ensureTodayPick();
-        renderAIPick(); renderAIHistory();
+        // Generate today's dual AI picks once we have stats + odds
+        await ensureTodayPicks();
+        renderAIPicks(); renderAIHistory();
         // Grade any pending picks from previous days
         gradeRecentPicks();
       });
