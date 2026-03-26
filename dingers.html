@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Enid's Dinger Dashboard ⚾✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────────── */
+    :root {
+      --pink:       #E84EA0;
+      --purple:     #A855F7;
+      --mint:       #6EE7B7;
+      --amber:      #F59E0B;
+      --cream:      #FFFBF7;
+      --glass:      rgba(255,255,255,0.76);
+      --border:     rgba(168,85,247,0.13);
+      --text:       #2D1B4E;
+      --sub:        #7C6F9B;
+      --morning-a:  #F59E0B;
+      --evening-a:  #8B5CF6;
+      --text-light: #9C8FC4;
+      --sky:        #38BDF8;
+      --peach:      #FB923C;
+      --lavender:   #C4B5FD;
+      --rose:       #FDA4AF;
+      --hot:        #F43F5E;
+      --cold:       #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FDF4EE;
+      min-height: 100vh;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 5%  10%,  rgba(245,158,11,.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 95% 15%,  rgba(59,130,246,.14) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 50% 92%,  rgba(139,92,246,.19) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 15% 65%,  rgba(232,78,160,.16) 0%, transparent 50%),
+        radial-gradient(ellipse 55% 50% at 80% 50%,  rgba(110,231,183,.10) 0%, transparent 55%),
+        linear-gradient(160deg, #FFF8EE 0%, #F3E8FF 45%, #E8FBF6 75%, #FFF3EE 100%);
+      pointer-events: none;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── Loader ────────────────────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--cream);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; z-index: 999;
+      transition: opacity .35s ease;
+    }
+    #loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-icon { font-size: 3rem; animation: bounce 1.1s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .loader-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--purple);
+    }
+
+    /* ── App shell ─────────────────────────────────────────────────── */
+    #app { position: relative; z-index: 2; }
+
+    /* ── Header ────────────────────────────────────────────────────── */
+    .app-header {
+      position: relative;
+      padding: 22px 20px 14px;
+      max-width: 1060px; margin: 0 auto;
+    }
+    .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .header-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.8rem, 5vw, 2.8rem); line-height: 1.1;
+      background: linear-gradient(135deg, var(--peach) 0%, var(--pink) 45%, var(--purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(232,78,160,.15));
+    }
+    .header-sub { font-size: .78rem; color: var(--sub); margin-top: 3px; }
+    .date-chip {
+      flex-shrink: 0;
+      font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+      color: var(--sub);
+      background: rgba(168,85,247,.08);
+      border: 1px solid var(--border);
+      padding: 5px 11px; border-radius: 20px;
+      white-space: nowrap; margin-top: 2px;
+    }
+    .header-nav { padding: 7px 0 0; display: flex; gap: 7px; flex-wrap: wrap; }
+    .header-nav-link {
+      font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+      color: var(--purple);
+      background: rgba(168,85,247,.08); border: 1px solid var(--border);
+      padding: 4px 12px; border-radius: 20px;
+      text-decoration: none; white-space: nowrap;
+      transition: background .15s;
+    }
+    .header-nav-link:hover { background: rgba(168,85,247,.18); }
+
+    /* ── Slate summary chip row ────────────────────────────────────── */
+    .slate-summary {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding: 0 20px 8px;
+      max-width: 1060px; margin: 0 auto;
+    }
+    .slate-chip {
+      font-size: .68rem; font-weight: 700; letter-spacing: .03em;
+      padding: 5px 12px; border-radius: 20px;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .slate-chip.games {
+      background: rgba(56,189,248,.1); border: 1px solid rgba(56,189,248,.25);
+      color: #0284C7;
+    }
+    .slate-chip.active-hitters {
+      background: rgba(232,78,160,.1); border: 1px solid rgba(232,78,160,.2);
+      color: var(--pink);
+    }
+    .slate-chip.parlays {
+      background: rgba(168,85,247,.1); border: 1px solid rgba(168,85,247,.2);
+      color: var(--purple);
+    }
+
+    /* ── Main layout ───────────────────────────────────────────────── */
+    .main-layout {
+      max-width: 1260px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr 300px;
+      gap: 14px;
+      padding: 0 14px 80px;
+      align-items: start;
+    }
+    @media(max-width:1100px) {
+      .main-layout { grid-template-columns: 1fr; max-width: 760px; }
+      .sidebar-left { display: none; }
+      .sidebar-right { position: fixed; right: -360px; top: 0; bottom: 0; width: 340px; z-index: 100; background: #FDF4EE; box-shadow: -4px 0 30px rgba(45,27,61,.15); padding: 18px; overflow-y: auto; transition: right .3s ease; }
+      .sidebar-right.open { right: 0; }
+    }
+
+    /* ── Sidebar ───────────────────────────────────────────────────── */
+    .sidebar-left, .sidebar-right { position: sticky; top: 14px; }
+
+    .sb-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+      margin-bottom: 12px;
+    }
+    .sb-card-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sb-card-title {
+      font-size: .78rem; font-weight: 700; color: var(--text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .sb-card-body { padding: 10px 14px; }
+
+    /* ── Sidebar filter pills ──────────────────────────────────────── */
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+    .filter-pill {
+      font-size: .64rem; font-weight: 700; letter-spacing: .03em;
+      padding: 4px 10px; border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--sub); cursor: pointer;
+      transition: all .15s;
+    }
+    .filter-pill:hover { background: rgba(168,85,247,.08); }
+    .filter-pill.active {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+      box-shadow: 0 2px 8px rgba(232,78,160,.25);
+    }
+
+    /* ── Sort select ───────────────────────────────────────────────── */
+    .sort-select {
+      width: 100%;
+      font-size: .72rem; font-weight: 600;
+      padding: 6px 10px; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.6);
+      color: var(--text);
+      font-family: inherit;
+      margin-top: 6px;
+    }
+
+    /* ── Sidebar watchlist list ─────────────────────────────────────── */
+    .sb-hitter-list { max-height: 340px; overflow-y: auto; }
+    .sb-hitter-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 0; font-size: .75rem;
+      cursor: pointer; transition: background .12s;
+      border-radius: 8px; padding: 5px 6px;
+    }
+    .sb-hitter-item:hover { background: rgba(168,85,247,.06); }
+    .sb-hitter-item.inactive { opacity: .45; }
+    .sb-hitter-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    }
+    .sb-hitter-dot.on { background: var(--mint); box-shadow: 0 0 6px rgba(110,231,183,.5); }
+    .sb-hitter-dot.off { background: var(--cold); }
+    .sb-hitter-name { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sb-hitter-fav { font-size: .72rem; cursor: pointer; opacity: .4; transition: opacity .15s; }
+    .sb-hitter-fav.is-fav { opacity: 1; }
+
+    /* ── Saved parlays / templates in sidebar ──────────────────────── */
+    .sb-parlay-item {
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(168,85,247,.07);
+      cursor: pointer;
+    }
+    .sb-parlay-item:last-child { border-bottom: none; }
+    .sb-parlay-name { font-size: .75rem; font-weight: 700; color: var(--text); }
+    .sb-parlay-meta { font-size: .62rem; color: var(--sub); margin-top: 2px; }
+    .sb-parlay-legs { font-size: .62rem; color: var(--text-light); margin-top: 2px; }
+    .sb-parlay-actions { display: flex; gap: 5px; margin-top: 4px; }
+    .sb-parlay-btn {
+      font-size: .58rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(168,85,247,.06);
+      color: var(--purple); cursor: pointer;
+      transition: background .12s;
+    }
+    .sb-parlay-btn:hover { background: rgba(168,85,247,.15); }
+    .sb-parlay-btn.apply {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+    }
+
+    /* ── Today's Slate Section ─────────────────────────────────────── */
+    .slate-section {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 18px rgba(168,85,247,.06);
+      margin-bottom: 14px;
+    }
+    .slate-header {
+      background: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #C084FC 100%);
+      padding: 14px 18px;
+      position: relative; overflow: hidden;
+    }
+    .slate-header::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .slate-title { font-size: .92rem; font-weight: 700; color: #fff; }
+    .slate-sub { font-size: .68rem; color: rgba(255,255,255,.7); margin-top: 2px; }
+
+    .slate-games {
+      display: flex; gap: 10px; padding: 12px 14px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .slate-games::-webkit-scrollbar { display: none; }
+
+    .game-card {
+      flex: 0 0 auto;
+      min-width: 165px;
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      transition: all .18s;
+    }
+    .game-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168,85,247,.12); }
+    .game-card.has-tracked {
+      border-color: rgba(232,78,160,.3);
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 2px 12px rgba(232,78,160,.1);
+    }
+    .game-teams { display: flex; align-items: center; gap: 6px; }
+    .game-team {
+      font-size: .75rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 8px;
+      background: rgba(168,85,247,.08);
+    }
+    .game-at { font-size: .6rem; color: var(--sub); font-weight: 600; }
+    .game-time { font-size: .62rem; color: var(--sub); margin-top: 4px; }
+    .game-pitchers { font-size: .6rem; color: var(--text-light); margin-top: 3px; font-style: italic; }
+    .game-park { font-size: .58rem; color: var(--text-light); margin-top: 1px; }
+    .game-tracked-badge {
+      display: inline-block; margin-top: 4px;
+      font-size: .55rem; font-weight: 800; letter-spacing: .04em;
+      color: var(--pink);
+      background: rgba(232,78,160,.1);
+      border: 1px solid rgba(232,78,160,.2);
+      padding: 1px 7px; border-radius: 8px;
+    }
+
+    /* ── Hitter cards grid ─────────────────────────────────────────── */
+    .hitters-section { margin-bottom: 14px; }
+    .section-label {
+      font-size: .68rem; font-weight: 800; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--sub);
+      padding: 0 4px 8px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label-line { flex: 1; height: 1px; background: var(--border); }
+
+    .hitter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    /* ── Hitter card ───────────────────────────────────────────────── */
+    .hitter-card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      transition: all .22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .hitter-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(168,85,247,.12);
+      border-color: rgba(168,85,247,.25);
+    }
+    .hitter-card.inactive {
+      opacity: .45;
+      filter: grayscale(.3);
+    }
+    .hitter-card.inactive:hover {
+      opacity: .55;
+      transform: none;
+      box-shadow: none;
+    }
+    .hitter-card.core-play {
+      border-color: rgba(232,78,160,.35);
+      box-shadow: 0 2px 14px rgba(232,78,160,.1);
+    }
+    .hitter-card.core-play::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+    }
+    .hitter-card.hot::after {
+      content: '🔥';
+      position: absolute; top: 8px; right: 8px; font-size: .8rem;
+    }
+    .hitter-card.cold-streak::after {
+      content: '🥶';
+      position: absolute; top: 8px; right: 8px; font-size: .8rem;
+    }
+
+    .hc-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+    .hc-avatar {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(168,85,247,.15), rgba(232,78,160,.15));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+      overflow: hidden;
+    }
+    .hc-avatar img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 12px;
+    }
+    .hc-info { flex: 1; min-width: 0; }
+    .hc-name { font-size: .85rem; font-weight: 700; line-height: 1.2; }
+    .hc-team { font-size: .65rem; color: var(--sub); margin-top: 1px; }
+    .hc-matchup {
+      font-size: .62rem; color: var(--purple); font-weight: 600;
+      margin-top: 2px;
+    }
+    .hc-badges { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
+    .hc-badge {
+      font-size: .55rem; font-weight: 800; letter-spacing: .04em;
+      padding: 2px 7px; border-radius: 8px;
+      border: 1px solid;
+    }
+    .hc-badge.fav { color: var(--pink); background: rgba(232,78,160,.08); border-color: rgba(232,78,160,.2); }
+    .hc-badge.core { color: #fff; background: linear-gradient(135deg, var(--pink), var(--purple)); border-color: transparent; }
+    .hc-badge.active-badge { color: #059669; background: rgba(110,231,183,.1); border-color: rgba(110,231,183,.3); }
+    .hc-badge.off-badge { color: var(--cold); background: rgba(148,163,184,.08); border-color: rgba(148,163,184,.2); }
+
+    /* Inactive overlay badge */
+    .hc-inactive-banner {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: rgba(148,163,184,.12);
+      text-align: center;
+      padding: 3px 0;
+      font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+      color: var(--cold);
+      text-transform: uppercase;
+    }
+
+    /* Stats row */
+    .hc-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+      margin: 6px 0;
+    }
+    .hc-stat {
+      text-align: center;
+      padding: 4px 2px;
+      background: rgba(168,85,247,.04);
+      border-radius: 8px;
+    }
+    .hc-stat-val { font-size: .82rem; font-weight: 800; color: var(--text); }
+    .hc-stat-label { font-size: .52rem; font-weight: 700; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; }
+
+    /* Score bar */
+    .hc-score-row {
+      display: flex; align-items: center; gap: 8px;
+      margin: 6px 0 4px;
+    }
+    .hc-score-label { font-size: .6rem; font-weight: 700; color: var(--sub); white-space: nowrap; }
+    .hc-score-bar {
+      flex: 1; height: 6px;
+      background: rgba(168,85,247,.1);
+      border-radius: 3px; overflow: hidden;
+    }
+    .hc-score-fill {
+      height: 100%; border-radius: 3px;
+      transition: width .4s ease;
+    }
+    .hc-score-fill.high { background: linear-gradient(90deg, var(--pink), #F43F5E); }
+    .hc-score-fill.med { background: linear-gradient(90deg, var(--amber), var(--peach)); }
+    .hc-score-fill.low { background: linear-gradient(90deg, var(--cold), #CBD5E1); }
+    .hc-score-num { font-size: .72rem; font-weight: 800; min-width: 22px; text-align: right; }
+
+    /* Notes preview */
+    .hc-notes {
+      font-size: .62rem; color: var(--sub); font-style: italic;
+      margin-top: 4px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    /* Card actions */
+    .hc-actions { display: flex; gap: 5px; margin-top: 8px; }
+    .hc-btn {
+      flex: 1;
+      font-size: .62rem; font-weight: 700;
+      padding: 5px 0; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(168,85,247,.06);
+      color: var(--purple); cursor: pointer;
+      transition: all .15s; text-align: center;
+      font-family: inherit;
+    }
+    .hc-btn:hover { background: rgba(168,85,247,.14); }
+    .hc-btn.add-parlay {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+      box-shadow: 0 2px 8px rgba(232,78,160,.2);
+    }
+    .hc-btn.add-parlay:hover { box-shadow: 0 4px 14px rgba(232,78,160,.35); }
+    .hc-btn.add-parlay:disabled {
+      background: rgba(148,163,184,.15);
+      color: var(--cold); border-color: rgba(148,163,184,.2);
+      box-shadow: none; cursor: not-allowed;
+    }
+
+    /* ── Right sidebar: Parlay Builder ─────────────────────────────── */
+    .parlay-builder-header {
+      background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+      padding: 14px;
+      position: relative; overflow: hidden;
+    }
+    .parlay-builder-header::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .pb-title { font-size: .88rem; font-weight: 700; color: #fff; }
+    .pb-sub { font-size: .62rem; color: rgba(255,255,255,.7); margin-top: 2px; }
+
+    .pb-body { padding: 12px 14px; }
+
+    .pb-empty {
+      text-align: center; padding: 18px 10px;
+      font-size: .75rem; color: var(--sub);
+    }
+    .pb-empty-icon { font-size: 2rem; margin-bottom: 6px; }
+
+    .pb-leg {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(168,85,247,.07);
+    }
+    .pb-leg:last-child { border-bottom: none; }
+    .pb-leg-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; font-size: .6rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .pb-leg-info { flex: 1; min-width: 0; }
+    .pb-leg-name { font-size: .75rem; font-weight: 700; }
+    .pb-leg-team { font-size: .6rem; color: var(--sub); }
+    .pb-leg-remove {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 1px solid rgba(244,63,94,.2);
+      background: rgba(244,63,94,.06);
+      color: var(--hot); font-size: .7rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .15s;
+    }
+    .pb-leg-remove:hover { background: rgba(244,63,94,.15); }
+
+    .pb-notes {
+      width: 100%;
+      font-size: .72rem; font-family: inherit;
+      padding: 7px 10px; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.5);
+      color: var(--text);
+      resize: vertical; min-height: 36px;
+      margin-top: 8px;
+    }
+    .pb-notes::placeholder { color: var(--text-light); }
+
+    .pb-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+    .pb-btn {
+      flex: 1; min-width: 80px;
+      font-size: .65rem; font-weight: 700;
+      padding: 7px 0; border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(168,85,247,.06);
+      color: var(--purple); cursor: pointer;
+      transition: all .15s; text-align: center;
+      font-family: inherit;
+    }
+    .pb-btn:hover { background: rgba(168,85,247,.14); }
+    .pb-btn.save {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+    }
+    .pb-btn.save-template {
+      background: linear-gradient(135deg, var(--amber), var(--peach));
+      color: #fff; border-color: transparent;
+    }
+
+    /* ── Parlay builder toggle (mobile) ────────────────────────────── */
+    .pb-toggle {
+      display: none;
+      position: fixed; bottom: 20px; right: 20px; z-index: 90;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; font-size: 1.3rem;
+      border: none; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(232,78,160,.4);
+      align-items: center; justify-content: center;
+      transition: transform .2s;
+    }
+    .pb-toggle:hover { transform: scale(1.08); }
+    @media(max-width:1100px) { .pb-toggle { display: flex; } }
+
+    .pb-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(45,27,61,.35);
+      backdrop-filter: blur(4px);
+    }
+    .pb-overlay.open { display: block; }
+
+    /* ── Add hitter modal ──────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(45,27,61,.45);
+      backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      max-width: 480px; width: 90%;
+      box-shadow: 0 20px 60px rgba(45,27,61,.25);
+      animation: modalPop .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes modalPop { from { transform: scale(.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+    }
+    .modal-field { margin-bottom: 10px; }
+    .modal-label { font-size: .68rem; font-weight: 700; color: var(--sub); margin-bottom: 3px; display: block; }
+    .modal-input {
+      width: 100%;
+      font-size: .82rem; font-family: inherit;
+      padding: 8px 12px; border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.6);
+      color: var(--text);
+    }
+    .modal-input:focus { outline: none; border-color: rgba(168,85,247,.35); }
+    .modal-row { display: flex; gap: 8px; }
+    .modal-row .modal-field { flex: 1; }
+    .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .modal-btn {
+      flex: 1; padding: 9px 0; border-radius: 12px;
+      font-size: .78rem; font-weight: 700;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--sub);
+      cursor: pointer; font-family: inherit;
+      transition: all .15s;
+    }
+    .modal-btn:hover { background: rgba(168,85,247,.08); }
+    .modal-btn.primary {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border-color: transparent;
+    }
+
+    /* ── Save parlay/template modal ────────────────────────────────── */
+    .modal-textarea {
+      width: 100%;
+      font-size: .75rem; font-family: inherit;
+      padding: 8px 12px; border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.6);
+      color: var(--text);
+      resize: vertical; min-height: 48px;
+    }
+    .modal-textarea:focus { outline: none; border-color: rgba(168,85,247,.35); }
+
+    /* ── Toast ──────────────────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      padding: 10px 20px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; font-size: .78rem; font-weight: 700;
+      box-shadow: 0 8px 30px rgba(232,78,160,.35);
+      z-index: 300;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      opacity: 0; pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── Loading state ─────────────────────────────────────────────── */
+    .loading-shimmer {
+      background: linear-gradient(90deg, rgba(168,85,247,.06) 25%, rgba(168,85,247,.12) 50%, rgba(168,85,247,.06) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 12px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── Animations ────────────────────────────────────────────────── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp .5s ease both; }
+    .fade-down { animation: fadeDown .5s ease both; }
+
+    /* ── Responsive ────────────────────────────────────────────────── */
+    @media(max-width:600px) {
+      .hitter-grid { grid-template-columns: 1fr; }
+      .hc-stats { grid-template-columns: repeat(2, 1fr); }
+      .game-card { min-width: 150px; }
+      .slate-summary { padding: 0 14px 8px; }
+    }
+
+    /* ── Scrollbar styling ─────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(168,85,247,.18); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,.3); }
+
+    /* ── Detail panel (click hitter card to expand) ─────────────────── */
+    .hitter-detail-overlay {
+      position: fixed; inset: 0; z-index: 150;
+      background: rgba(45,27,61,.4);
+      backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+    }
+    .hitter-detail-overlay.open { display: flex; }
+    .hitter-detail {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      max-width: 520px; width: 92%;
+      max-height: 85vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(45,27,61,.25);
+      animation: modalPop .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .hd-close {
+      float: right; width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid var(--border); background: rgba(168,85,247,.06);
+      color: var(--sub); font-size: .8rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
+    }
+    .hd-close:hover { background: rgba(168,85,247,.15); }
+    .hd-name { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--text); }
+    .hd-team { font-size: .78rem; color: var(--sub); margin-top: 2px; }
+    .hd-section { margin-top: 14px; }
+    .hd-section-title {
+      font-size: .68rem; font-weight: 800; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--purple); margin-bottom: 6px;
+    }
+    .hd-notes-area {
+      width: 100%; min-height: 60px;
+      font-size: .78rem; font-family: inherit;
+      padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.5);
+      color: var(--text); resize: vertical;
+    }
+    .hd-notes-area:focus { outline: none; border-color: rgba(168,85,247,.35); }
+    .hd-tag-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+    .hd-tag {
+      font-size: .6rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 10px;
+      background: rgba(168,85,247,.08);
+      border: 1px solid rgba(168,85,247,.15);
+      color: var(--purple);
+    }
+    .hd-toggle-row {
+      display: flex; gap: 10px; margin-top: 10px;
+    }
+    .hd-toggle {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .72rem; font-weight: 600; color: var(--sub);
+      cursor: pointer;
+    }
+    .hd-toggle-check {
+      width: 18px; height: 18px; border-radius: 6px;
+      border: 2px solid rgba(168,85,247,.28);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s;
+    }
+    .hd-toggle-check.on {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(232,78,160,.3);
+    }
+    .hd-toggle-mark { color: #fff; font-size: .6rem; font-weight: 800; }
+    .hd-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .hd-btn {
+      flex: 1; padding: 9px 0; border-radius: 12px;
+      font-size: .72rem; font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(168,85,247,.06);
+      color: var(--purple); cursor: pointer;
+      font-family: inherit; transition: all .15s;
+    }
+    .hd-btn:hover { background: rgba(168,85,247,.14); }
+    .hd-btn.danger { color: var(--hot); border-color: rgba(244,63,94,.2); background: rgba(244,63,94,.06); }
+    .hd-btn.danger:hover { background: rgba(244,63,94,.12); }
+
+    /* ── Score breakdown tooltip ────────────────────────────────────── */
+    .score-tooltip {
+      display: none;
+      position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+      background: var(--glass); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 10px 12px; min-width: 180px;
+      box-shadow: 0 8px 24px rgba(45,27,61,.15);
+      z-index: 10;
+    }
+    .score-tooltip.visible { display: block; }
+    .score-tooltip-row { display: flex; justify-content: space-between; font-size: .62rem; padding: 2px 0; }
+    .score-tooltip-label { color: var(--sub); }
+    .score-tooltip-val { font-weight: 700; color: var(--text); }
+
+    /* ── Empty states ──────────────────────────────────────────────── */
+    .empty-state {
+      text-align: center; padding: 40px 20px;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1.5px dashed var(--border);
+      border-radius: 20px;
+    }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .empty-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem; color: var(--text);
+    }
+    .empty-sub { font-size: .78rem; color: var(--sub); margin-top: 4px; }
+    .empty-btn {
+      display: inline-block; margin-top: 12px;
+      font-size: .75rem; font-weight: 700;
+      padding: 8px 18px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border: none; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(232,78,160,.25);
+      font-family: inherit; transition: all .15s;
+    }
+    .empty-btn:hover { box-shadow: 0 6px 20px rgba(232,78,160,.4); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-icon">⚾✨</div>
+    <div class="loader-text">Loading your dinger ritual…</div>
+  </div>
+
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header fade-down">
+      <div class="header-row">
+        <div>
+          <div class="header-title">Today's Dingers ⚾✨</div>
+          <div class="header-sub" id="headerSub">Your pastel baseball chaos board</div>
+        </div>
+        <div class="date-chip" id="dateChip"></div>
+      </div>
+      <nav class="header-nav">
+        <a href="index.html" class="header-nav-link">🏠 Hub</a>
+        <a href="analytics.html" class="header-nav-link">📊 Analytics</a>
+        <a href="finance.html" class="header-nav-link">💰 Finance</a>
+        <a href="journal.html" class="header-nav-link">📓 Journal</a>
+        <a href="books.html" class="header-nav-link">📚 Books</a>
+        <a href="movies.html" class="header-nav-link">📽️ Movies</a>
+      </nav>
+    </header>
+
+    <!-- Slate summary chips -->
+    <div class="slate-summary fade-up" style="animation-delay:.1s">
+      <div class="slate-chip games" id="chipGames">⚾ Loading slate…</div>
+      <div class="slate-chip active-hitters" id="chipActive">🎯 — active</div>
+      <div class="slate-chip parlays" id="chipParlays">📋 — saved</div>
+    </div>
+
+    <!-- Main 3-col layout -->
+    <div class="main-layout">
+
+      <!-- LEFT SIDEBAR -->
+      <aside class="sidebar-left fade-up" style="animation-delay:.15s">
+        <!-- Filters -->
+        <div class="sb-card">
+          <div class="sb-card-header">
+            <div class="sb-card-title">🔮 Filters</div>
+          </div>
+          <div class="sb-card-body">
+            <div class="filter-pills" id="filterPills">
+              <button class="filter-pill active" data-filter="all">All</button>
+              <button class="filter-pill" data-filter="active">Active</button>
+              <button class="filter-pill" data-filter="off">Off Slate</button>
+              <button class="filter-pill" data-filter="fav">Favorites</button>
+              <button class="filter-pill" data-filter="core">Core Plays</button>
+            </div>
+            <select class="sort-select" id="sortSelect">
+              <option value="score">Sort: Opportunity Score</option>
+              <option value="hr">Sort: Season HRs</option>
+              <option value="recent">Sort: Last 7 HRs</option>
+              <option value="abhr">Sort: AB/HR</option>
+              <option value="name">Sort: Name A-Z</option>
+              <option value="custom">Sort: Custom Order</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Watchlist -->
+        <div class="sb-card">
+          <div class="sb-card-header">
+            <div class="sb-card-title">👀 Watchlist</div>
+            <button class="sb-parlay-btn" onclick="openAddHitterModal()" style="font-size:.6rem">+ Add</button>
+          </div>
+          <div class="sb-card-body">
+            <div class="sb-hitter-list" id="sbHitterList"></div>
+          </div>
+        </div>
+
+        <!-- Saved Parlays -->
+        <div class="sb-card">
+          <div class="sb-card-header">
+            <div class="sb-card-title">💰 Saved Parlays</div>
+          </div>
+          <div class="sb-card-body" id="sbSavedParlays">
+            <div style="font-size:.72rem;color:var(--sub);font-style:italic">No saved parlays yet</div>
+          </div>
+        </div>
+
+        <!-- Templates -->
+        <div class="sb-card">
+          <div class="sb-card-header">
+            <div class="sb-card-title">⭐ Templates</div>
+          </div>
+          <div class="sb-card-body" id="sbTemplates">
+            <div style="font-size:.72rem;color:var(--sub);font-style:italic">No templates yet</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content fade-up" style="animation-delay:.2s">
+        <!-- Today's slate -->
+        <div class="slate-section">
+          <div class="slate-header">
+            <div class="slate-title">⚾ Today's Slate</div>
+            <div class="slate-sub" id="slateSubtitle">Loading games…</div>
+          </div>
+          <div class="slate-games" id="slateGames">
+            <div class="loading-shimmer" style="width:165px;height:90px"></div>
+            <div class="loading-shimmer" style="width:165px;height:90px"></div>
+            <div class="loading-shimmer" style="width:165px;height:90px"></div>
+          </div>
+        </div>
+
+        <!-- Active hitters -->
+        <div class="hitters-section" id="activeSection">
+          <div class="section-label">
+            🎯 Active Today
+            <span class="section-label-line"></span>
+          </div>
+          <div class="hitter-grid" id="activeGrid"></div>
+        </div>
+
+        <!-- Core plays -->
+        <div class="hitters-section" id="coreSection" style="display:none">
+          <div class="section-label">
+            💎 Core Plays
+            <span class="section-label-line"></span>
+          </div>
+          <div class="hitter-grid" id="coreGrid"></div>
+        </div>
+
+        <!-- Off-slate hitters -->
+        <div class="hitters-section" id="offSection">
+          <div class="section-label">
+            😴 Off Slate
+            <span class="section-label-line"></span>
+          </div>
+          <div class="hitter-grid" id="offGrid"></div>
+        </div>
+      </main>
+
+      <!-- RIGHT SIDEBAR: Parlay Builder -->
+      <aside class="sidebar-right" id="parlayPanel">
+        <div class="sb-card">
+          <div class="parlay-builder-header">
+            <div class="pb-title">🏠 Parlay Builder</div>
+            <div class="pb-sub" id="pbLegCount">0 legs</div>
+          </div>
+          <div class="pb-body" id="pbBody">
+            <div class="pb-empty">
+              <div class="pb-empty-icon">⚾</div>
+              Click a hitter card to add them<br>to your dinger parlay
+            </div>
+          </div>
+          <div style="padding:0 14px 14px">
+            <textarea class="pb-notes" id="pbNotes" placeholder="Parlay notes… (e.g. 'Friday night bombs')"></textarea>
+            <div class="pb-actions">
+              <button class="pb-btn" onclick="clearParlay()">Clear</button>
+              <button class="pb-btn save" onclick="openSaveParlayModal()">Save Parlay</button>
+              <button class="pb-btn save-template" onclick="openSaveTemplateModal()">Save Template</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Mobile parlay toggle -->
+  <button class="pb-toggle" id="pbToggle" onclick="toggleParlayPanel()">💰</button>
+  <div class="pb-overlay" id="pbOverlay" onclick="toggleParlayPanel()"></div>
+
+  <!-- Add Hitter Modal -->
+  <div class="modal-overlay" id="addHitterModal">
+    <div class="modal">
+      <div class="modal-title">Add a Hitter ⚾</div>
+      <div class="modal-field">
+        <label class="modal-label">Player Name *</label>
+        <input class="modal-input" id="ahName" placeholder="e.g. Aaron Judge">
+      </div>
+      <div class="modal-row">
+        <div class="modal-field">
+          <label class="modal-label">Team *</label>
+          <input class="modal-input" id="ahTeam" placeholder="e.g. NYY">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Bats</label>
+          <select class="modal-input" id="ahBats">
+            <option value="">—</option>
+            <option value="R">Right</option>
+            <option value="L">Left</option>
+            <option value="S">Switch</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-field">
+          <label class="modal-label">Season HRs</label>
+          <input class="modal-input" id="ahHR" type="number" placeholder="0">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">AB/HR</label>
+          <input class="modal-input" id="ahABHR" type="number" step="0.1" placeholder="e.g. 14.2">
+        </div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-field">
+          <label class="modal-label">Last 7 HRs</label>
+          <input class="modal-input" id="ahL7" type="number" placeholder="0">
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Last 15 HRs</label>
+          <input class="modal-input" id="ahL15" type="number" placeholder="0">
+        </div>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Notes</label>
+        <textarea class="modal-textarea" id="ahNotes" placeholder="e.g. Only use in hitter parks"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" onclick="closeModal('addHitterModal')">Cancel</button>
+        <button class="modal-btn primary" onclick="saveNewHitter()">Add Hitter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Parlay Modal -->
+  <div class="modal-overlay" id="saveParlayModal">
+    <div class="modal">
+      <div class="modal-title">Save This Parlay 💰</div>
+      <div class="modal-field">
+        <label class="modal-label">Parlay Name *</label>
+        <input class="modal-input" id="spName" placeholder="e.g. Friday Night Bombs">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Tags</label>
+        <input class="modal-input" id="spTags" placeholder="e.g. longshot, weekend">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Notes</label>
+        <textarea class="modal-textarea" id="spNotes" placeholder="Parlay notes…"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" onclick="closeModal('saveParlayModal')">Cancel</button>
+        <button class="modal-btn primary" onclick="saveParlay()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Template Modal -->
+  <div class="modal-overlay" id="saveTemplateModal">
+    <div class="modal">
+      <div class="modal-title">Save as Template ⭐</div>
+      <div class="modal-field">
+        <label class="modal-label">Template Name *</label>
+        <input class="modal-input" id="stName" placeholder="e.g. Power Trio">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Tags</label>
+        <input class="modal-input" id="stTags" placeholder="e.g. daily-core, big-slate">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Notes</label>
+        <textarea class="modal-textarea" id="stNotes" placeholder="When to use this template…"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" onclick="closeModal('saveTemplateModal')">Cancel</button>
+        <button class="modal-btn primary" onclick="saveTemplate()">Save Template</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hitter Detail Overlay -->
+  <div class="hitter-detail-overlay" id="hitterDetailOverlay">
+    <div class="hitter-detail" id="hitterDetail"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ================================================================
+       ENID'S DINGER DASHBOARD — Phase 1 MVP
+       ================================================================ */
+
+    // ── Storage keys ───────────────────────────────────────────────
+    const STORE = {
+      HITTERS:   'enid_dingers_hitters',
+      PARLAYS:   'enid_dingers_parlays',
+      TEMPLATES: 'enid_dingers_templates',
+      PARLAY_BUILDER: 'enid_dingers_builder',
+    };
+
+    // ── State ──────────────────────────────────────────────────────
+    let hitters   = loadJSON(STORE.HITTERS, []);
+    let parlays   = loadJSON(STORE.PARLAYS, []);
+    let templates = loadJSON(STORE.TEMPLATES, []);
+    let builderLegs = loadJSON(STORE.PARLAY_BUILDER, []);
+    let todayGames = [];
+    let activeTeams = new Set();
+    let teamGameMap = {};    // team abbrev -> game info
+    let currentFilter = 'all';
+    let currentSort = 'score';
+    let editingHitterId = null;
+
+    // ── Helpers ────────────────────────────────────────────────────
+    function loadJSON(key, fallback) {
+      try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+      catch { return fallback; }
+    }
+    function saveJSON(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+    function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+
+    // Team abbreviation mapping (MLB Stats API uses full names)
+    const TEAM_ABBREVS = {
+      'Arizona Diamondbacks': 'ARI', 'Atlanta Braves': 'ATL', 'Baltimore Orioles': 'BAL',
+      'Boston Red Sox': 'BOS', 'Chicago Cubs': 'CHC', 'Chicago White Sox': 'CWS',
+      'Cincinnati Reds': 'CIN', 'Cleveland Guardians': 'CLE', 'Colorado Rockies': 'COL',
+      'Detroit Tigers': 'DET', 'Houston Astros': 'HOU', 'Kansas City Royals': 'KC',
+      'Los Angeles Angels': 'LAA', 'Los Angeles Dodgers': 'LAD', 'Miami Marlins': 'MIA',
+      'Milwaukee Brewers': 'MIL', 'Minnesota Twins': 'MIN', 'New York Mets': 'NYM',
+      'New York Yankees': 'NYY', 'Oakland Athletics': 'OAK', 'Philadelphia Phillies': 'PHI',
+      'Pittsburgh Pirates': 'PIT', 'San Diego Padres': 'SD', 'San Francisco Giants': 'SF',
+      'Seattle Mariners': 'SEA', 'St. Louis Cardinals': 'STL', 'Tampa Bay Rays': 'TB',
+      'Texas Rangers': 'TEX', 'Toronto Blue Jays': 'TOR', 'Washington Nationals': 'WSH',
+    };
+    // Reverse lookup
+    const ABBREV_TO_FULL = {};
+    for (const [full, abbr] of Object.entries(TEAM_ABBREVS)) ABBREV_TO_FULL[abbr] = full;
+
+    // ── MLB Stats API ──────────────────────────────────────────────
+    const MLB_API = 'https://statsapi.mlb.com/api/v1';
+
+    async function fetchTodaySchedule() {
+      const today = new Date();
+      const dateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+      try {
+        const res = await fetch(`${MLB_API}/schedule?sportId=1&date=${dateStr}&hydrate=probablePitcher,venue`);
+        if (!res.ok) throw new Error('Schedule fetch failed');
+        const data = await res.json();
+        const games = [];
+        if (data.dates && data.dates.length > 0) {
+          for (const game of data.dates[0].games) {
+            const away = game.teams.away;
+            const home = game.teams.home;
+            const awayName = away.team.name;
+            const homeName = home.team.name;
+            const awayAbbr = TEAM_ABBREVS[awayName] || awayName.slice(0, 3).toUpperCase();
+            const homeAbbr = TEAM_ABBREVS[homeName] || homeName.slice(0, 3).toUpperCase();
+            const gameTime = new Date(game.gameDate);
+            const timeStr = gameTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            const awayPitcher = away.probablePitcher ? away.probablePitcher.fullName : 'TBD';
+            const homePitcher = home.probablePitcher ? home.probablePitcher.fullName : 'TBD';
+            const venue = game.venue ? game.venue.name : '';
+
+            games.push({
+              awayTeam: awayAbbr, homeTeam: homeAbbr,
+              awayFull: awayName, homeFull: homeName,
+              time: timeStr, status: game.status.detailedState,
+              awayPitcher, homePitcher, venue,
+            });
+          }
+        }
+        return games;
+      } catch (err) {
+        console.warn('MLB API fetch failed, using empty slate:', err);
+        return [];
+      }
+    }
+
+    // ── Compute active teams from schedule ─────────────────────────
+    function computeActiveTeams(games) {
+      const teams = new Set();
+      const map = {};
+      for (const g of games) {
+        teams.add(g.awayTeam);
+        teams.add(g.homeTeam);
+        // Map each team to its game info
+        const awayInfo = { opponent: g.homeTeam, time: g.time, pitcher: g.homePitcher, venue: g.venue, side: 'away' };
+        const homeInfo = { opponent: g.awayTeam, time: g.time, pitcher: g.awayPitcher, venue: g.venue, side: 'home' };
+        map[g.awayTeam] = awayInfo;
+        map[g.homeTeam] = homeInfo;
+      }
+      return { teams, map };
+    }
+
+    // ── Hitter active state ────────────────────────────────────────
+    function isHitterActive(h) {
+      return activeTeams.has(h.team.toUpperCase());
+    }
+
+    function getHitterGameInfo(h) {
+      return teamGameMap[h.team.toUpperCase()] || null;
+    }
+
+    // ── Opportunity Score ──────────────────────────────────────────
+    function computeScore(h) {
+      let score = 0;
+      let factors = [];
+
+      // Season HR power (0-30 points)
+      const hrPoints = Math.min(30, (h.seasonHR || 0) * 1.2);
+      score += hrPoints;
+      factors.push({ label: 'Season HR Power', value: hrPoints.toFixed(0) });
+
+      // Recent form - Last 7 (0-25 points)
+      const l7Points = Math.min(25, (h.last7HR || 0) * 8);
+      score += l7Points;
+      factors.push({ label: 'Last 7 HR Form', value: l7Points.toFixed(0) });
+
+      // Recent form - Last 15 (0-15 points)
+      const l15Points = Math.min(15, (h.last15HR || 0) * 3.5);
+      score += l15Points;
+      factors.push({ label: 'Last 15 HR Form', value: l15Points.toFixed(0) });
+
+      // AB/HR efficiency (0-20 points) — lower is better
+      if (h.abPerHR && h.abPerHR > 0) {
+        const abhrPoints = Math.max(0, Math.min(20, (30 - h.abPerHR) * 1.2));
+        score += abhrPoints;
+        factors.push({ label: 'AB/HR Rate', value: abhrPoints.toFixed(0) });
+      }
+
+      // Active today bonus (0-10 points)
+      if (isHitterActive(h)) {
+        score += 10;
+        factors.push({ label: 'Active Today', value: '10' });
+      }
+
+      return { score: Math.min(100, Math.round(score)), factors };
+    }
+
+    // ── Determine heat state ───────────────────────────────────────
+    function heatState(h) {
+      if ((h.last7HR || 0) >= 3) return 'hot';
+      if ((h.last7HR || 0) === 0 && (h.last15HR || 0) <= 1) return 'cold';
+      return 'neutral';
+    }
+
+    // ── Render: Date chip ──────────────────────────────────────────
+    function renderDateChip() {
+      const now = new Date();
+      const opts = { weekday: 'long', month: 'long', day: 'numeric' };
+      document.getElementById('dateChip').textContent = now.toLocaleDateString('en-US', opts);
+    }
+
+    // ── Render: Slate games ────────────────────────────────────────
+    function renderSlate() {
+      const container = document.getElementById('slateGames');
+      const subtitle = document.getElementById('slateSubtitle');
+
+      if (todayGames.length === 0) {
+        container.innerHTML = '<div style="padding:14px;font-size:.78rem;color:var(--sub);font-style:italic">No games found for today — off day or data unavailable</div>';
+        subtitle.textContent = 'No games today';
+        document.getElementById('chipGames').textContent = '⚾ No games today';
+        return;
+      }
+
+      subtitle.textContent = `${todayGames.length} game${todayGames.length !== 1 ? 's' : ''} today`;
+      document.getElementById('chipGames').textContent = `⚾ ${todayGames.length} games`;
+
+      // Check which games have tracked hitters
+      const trackedTeams = new Set(hitters.map(h => h.team.toUpperCase()));
+
+      container.innerHTML = todayGames.map(g => {
+        const hasTracked = trackedTeams.has(g.awayTeam) || trackedTeams.has(g.homeTeam);
+        return `
+          <div class="game-card${hasTracked ? ' has-tracked' : ''}">
+            <div class="game-teams">
+              <span class="game-team">${g.awayTeam}</span>
+              <span class="game-at">@</span>
+              <span class="game-team">${g.homeTeam}</span>
+            </div>
+            <div class="game-time">${g.time} · ${g.status}</div>
+            <div class="game-pitchers">${g.awayPitcher} vs ${g.homePitcher}</div>
+            ${g.venue ? `<div class="game-park">📍 ${g.venue}</div>` : ''}
+            ${hasTracked ? '<div class="game-tracked-badge">✨ Tracked hitters in this game</div>' : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ── Render: Summary chips ──────────────────────────────────────
+    function renderChips() {
+      const activeCount = hitters.filter(h => isHitterActive(h)).length;
+      document.getElementById('chipActive').textContent = `🎯 ${activeCount} active`;
+      document.getElementById('chipParlays').textContent = `📋 ${parlays.length} saved`;
+    }
+
+    // ── Render: Sidebar hitter list ────────────────────────────────
+    function renderSidebarHitters() {
+      const list = document.getElementById('sbHitterList');
+      if (hitters.length === 0) {
+        list.innerHTML = '<div style="font-size:.72rem;color:var(--sub);font-style:italic;padding:4px 0">Add hitters to start tracking</div>';
+        return;
+      }
+      list.innerHTML = hitters.map(h => {
+        const active = isHitterActive(h);
+        return `
+          <div class="sb-hitter-item${active ? '' : ' inactive'}" onclick="openHitterDetail('${h.id}')">
+            <div class="sb-hitter-dot ${active ? 'on' : 'off'}"></div>
+            <div class="sb-hitter-name">${h.name}</div>
+            <div class="sb-hitter-fav ${h.favorite ? 'is-fav' : ''}" onclick="event.stopPropagation();toggleFav('${h.id}')">
+              ${h.favorite ? '⭐' : '☆'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ── Render: Sidebar saved parlays ──────────────────────────────
+    function renderSidebarParlays() {
+      const container = document.getElementById('sbSavedParlays');
+      if (parlays.length === 0) {
+        container.innerHTML = '<div style="font-size:.72rem;color:var(--sub);font-style:italic">No saved parlays yet</div>';
+        return;
+      }
+      container.innerHTML = parlays.map(p => `
+        <div class="sb-parlay-item">
+          <div class="sb-parlay-name">${p.name}</div>
+          <div class="sb-parlay-meta">${new Date(p.created).toLocaleDateString()} · ${p.legs.length} legs</div>
+          <div class="sb-parlay-legs">${p.legs.map(l => l.name).join(' · ')}</div>
+          ${p.notes ? `<div style="font-size:.6rem;color:var(--text-light);font-style:italic;margin-top:2px">${p.notes}</div>` : ''}
+          <div class="sb-parlay-actions">
+            <button class="sb-parlay-btn" onclick="loadParlayToBuilder('${p.id}')">Load</button>
+            <button class="sb-parlay-btn" onclick="duplicateParlay('${p.id}')">Clone</button>
+            <button class="sb-parlay-btn" onclick="deleteParlay('${p.id}')" style="color:var(--hot);border-color:rgba(244,63,94,.2)">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ── Render: Sidebar templates ──────────────────────────────────
+    function renderSidebarTemplates() {
+      const container = document.getElementById('sbTemplates');
+      if (templates.length === 0) {
+        container.innerHTML = '<div style="font-size:.72rem;color:var(--sub);font-style:italic">No templates yet</div>';
+        return;
+      }
+      container.innerHTML = templates.map(t => {
+        const activeLegs = t.legs.filter(l => {
+          const h = hitters.find(x => x.id === l.id);
+          return h && isHitterActive(h);
+        });
+        const totalLegs = t.legs.length;
+        return `
+          <div class="sb-parlay-item">
+            <div class="sb-parlay-name">⭐ ${t.name}</div>
+            <div class="sb-parlay-meta">${activeLegs.length}/${totalLegs} legs active today</div>
+            <div class="sb-parlay-legs">${t.legs.map(l => {
+              const h = hitters.find(x => x.id === l.id);
+              const active = h && isHitterActive(h);
+              return `<span style="opacity:${active ? '1' : '.4'}">${l.name}</span>`;
+            }).join(' · ')}</div>
+            ${t.notes ? `<div style="font-size:.6rem;color:var(--text-light);font-style:italic;margin-top:2px">${t.notes}</div>` : ''}
+            <div class="sb-parlay-actions">
+              <button class="sb-parlay-btn apply" onclick="applyTemplate('${t.id}')">Apply Today</button>
+              <button class="sb-parlay-btn" onclick="deleteTemplate('${t.id}')" style="color:var(--hot);border-color:rgba(244,63,94,.2)">✕</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ── Render: Hitter cards ───────────────────────────────────────
+    function renderHitterCards() {
+      const activeGrid = document.getElementById('activeGrid');
+      const offGrid = document.getElementById('offGrid');
+      const coreGrid = document.getElementById('coreGrid');
+      const coreSection = document.getElementById('coreSection');
+      const activeSection = document.getElementById('activeSection');
+      const offSection = document.getElementById('offSection');
+
+      let filtered = [...hitters];
+
+      // Apply filter
+      if (currentFilter === 'active') filtered = filtered.filter(h => isHitterActive(h));
+      else if (currentFilter === 'off') filtered = filtered.filter(h => !isHitterActive(h));
+      else if (currentFilter === 'fav') filtered = filtered.filter(h => h.favorite);
+      else if (currentFilter === 'core') filtered = filtered.filter(h => h.core);
+
+      // Apply sort
+      filtered.sort((a, b) => {
+        if (currentSort === 'score') return computeScore(b).score - computeScore(a).score;
+        if (currentSort === 'hr') return (b.seasonHR || 0) - (a.seasonHR || 0);
+        if (currentSort === 'recent') return (b.last7HR || 0) - (a.last7HR || 0);
+        if (currentSort === 'abhr') return (a.abPerHR || 999) - (b.abPerHR || 999);
+        if (currentSort === 'name') return a.name.localeCompare(b.name);
+        return 0; // custom
+      });
+
+      const active = filtered.filter(h => isHitterActive(h));
+      const off = filtered.filter(h => !isHitterActive(h));
+      const core = active.filter(h => h.core);
+
+      // Core section
+      if (core.length > 0 && currentFilter !== 'off') {
+        coreSection.style.display = '';
+        coreGrid.innerHTML = core.map(h => buildHitterCard(h)).join('');
+      } else {
+        coreSection.style.display = 'none';
+      }
+
+      // Active section
+      if (currentFilter !== 'off') {
+        activeSection.style.display = '';
+        if (active.length === 0) {
+          activeGrid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1">
+              <div class="empty-icon">🌙</div>
+              <div class="empty-title">${hitters.length === 0 ? 'No hitters tracked yet' : 'No tracked hitters active today'}</div>
+              <div class="empty-sub">${hitters.length === 0 ? 'Add some sluggers to your watchlist' : 'Check back when the slate drops'}</div>
+              ${hitters.length === 0 ? '<button class="empty-btn" onclick="openAddHitterModal()">+ Add Hitter</button>' : ''}
+            </div>
+          `;
+        } else {
+          activeGrid.innerHTML = active.filter(h => !h.core || currentFilter !== 'all').map(h => buildHitterCard(h)).join('');
+          if (active.filter(h => !h.core || currentFilter !== 'all').length === 0 && core.length > 0) {
+            activeGrid.innerHTML = '<div style="font-size:.72rem;color:var(--sub);font-style:italic;padding:8px 4px;grid-column:1/-1">All active hitters are shown in Core Plays above</div>';
+          }
+        }
+      } else {
+        activeSection.style.display = 'none';
+      }
+
+      // Off section
+      if (currentFilter !== 'active' && currentFilter !== 'core') {
+        offSection.style.display = '';
+        if (off.length === 0) {
+          offGrid.innerHTML = '<div style="font-size:.72rem;color:var(--sub);font-style:italic;padding:8px 4px;grid-column:1/-1">All tracked hitters are active today!</div>';
+        } else {
+          offGrid.innerHTML = off.map(h => buildHitterCard(h)).join('');
+        }
+      } else {
+        offSection.style.display = 'none';
+      }
+    }
+
+    function buildHitterCard(h) {
+      const active = isHitterActive(h);
+      const gameInfo = getHitterGameInfo(h);
+      const { score, factors } = computeScore(h);
+      const heat = heatState(h);
+      const inBuilder = builderLegs.some(l => l.id === h.id);
+
+      let cls = 'hitter-card';
+      if (!active) cls += ' inactive';
+      if (h.core) cls += ' core-play';
+      if (heat === 'hot' && active) cls += ' hot';
+      if (heat === 'cold' && active) cls += ' cold-streak';
+
+      const scoreCls = score >= 60 ? 'high' : score >= 35 ? 'med' : 'low';
+
+      const headshot = h.mlbId
+        ? `<img src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_120,q_auto:best/v1/people/${h.mlbId}/headshot/67/current" alt="" onerror="this.style.display='none';this.parentNode.textContent='⚾'">`
+        : '⚾';
+
+      return `
+        <div class="${cls}" onclick="openHitterDetail('${h.id}')">
+          ${!active ? '<div class="hc-inactive-banner">Off Slate</div>' : ''}
+          <div class="hc-top" style="${!active ? 'margin-top:12px' : ''}">
+            <div class="hc-avatar">${headshot}</div>
+            <div class="hc-info">
+              <div class="hc-name">${h.name}</div>
+              <div class="hc-team">${h.team}${h.bats ? ` · Bats ${h.bats}` : ''}</div>
+              ${active && gameInfo ? `<div class="hc-matchup">vs ${gameInfo.opponent} · ${gameInfo.time}</div>` : ''}
+              <div class="hc-badges">
+                ${h.favorite ? '<span class="hc-badge fav">⭐ Fav</span>' : ''}
+                ${h.core ? '<span class="hc-badge core">💎 Core</span>' : ''}
+                ${active ? '<span class="hc-badge active-badge">✓ Active</span>' : '<span class="hc-badge off-badge">No Game</span>'}
+              </div>
+            </div>
+          </div>
+          <div class="hc-stats">
+            <div class="hc-stat">
+              <div class="hc-stat-val">${h.seasonHR || 0}</div>
+              <div class="hc-stat-label">HRs</div>
+            </div>
+            <div class="hc-stat">
+              <div class="hc-stat-val">${h.last7HR || 0}</div>
+              <div class="hc-stat-label">L7 HR</div>
+            </div>
+            <div class="hc-stat">
+              <div class="hc-stat-val">${h.last15HR || 0}</div>
+              <div class="hc-stat-label">L15 HR</div>
+            </div>
+            <div class="hc-stat">
+              <div class="hc-stat-val">${h.abPerHR || '—'}</div>
+              <div class="hc-stat-label">AB/HR</div>
+            </div>
+          </div>
+          <div class="hc-score-row" style="position:relative">
+            <div class="hc-score-label">HR Score</div>
+            <div class="hc-score-bar"><div class="hc-score-fill ${scoreCls}" style="width:${score}%"></div></div>
+            <div class="hc-score-num" style="color:${score >= 60 ? 'var(--hot)' : score >= 35 ? 'var(--amber)' : 'var(--cold)'}">${score}</div>
+          </div>
+          ${active && gameInfo ? `<div style="font-size:.6rem;color:var(--text-light);margin-top:2px">🎯 vs ${gameInfo.pitcher} · 📍 ${gameInfo.venue || '—'}</div>` : ''}
+          ${h.notes ? `<div class="hc-notes">📝 ${h.notes}</div>` : ''}
+          <div class="hc-actions" onclick="event.stopPropagation()">
+            <button class="hc-btn" onclick="event.stopPropagation();openHitterDetail('${h.id}')">Details</button>
+            <button class="hc-btn add-parlay" ${!active ? 'disabled' : ''} onclick="event.stopPropagation();${active ? `toggleBuilderLeg('${h.id}')` : ''}">
+              ${inBuilder ? '✓ In Parlay' : '+ Parlay'}
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ── Render: Parlay Builder ─────────────────────────────────────
+    function renderParlayBuilder() {
+      const body = document.getElementById('pbBody');
+      const countEl = document.getElementById('pbLegCount');
+      countEl.textContent = `${builderLegs.length} leg${builderLegs.length !== 1 ? 's' : ''}`;
+
+      if (builderLegs.length === 0) {
+        body.innerHTML = `
+          <div class="pb-empty">
+            <div class="pb-empty-icon">⚾</div>
+            Click a hitter card to add them<br>to your dinger parlay
+          </div>
+        `;
+        return;
+      }
+
+      body.innerHTML = builderLegs.map((leg, i) => `
+        <div class="pb-leg">
+          <div class="pb-leg-num">${i + 1}</div>
+          <div class="pb-leg-info">
+            <div class="pb-leg-name">${leg.name}</div>
+            <div class="pb-leg-team">${leg.team}</div>
+          </div>
+          <div class="pb-leg-remove" onclick="removeBuilderLeg('${leg.id}')">✕</div>
+        </div>
+      `).join('');
+    }
+
+    // ── Parlay Builder actions ─────────────────────────────────────
+    function toggleBuilderLeg(hitterId) {
+      const idx = builderLegs.findIndex(l => l.id === hitterId);
+      if (idx >= 0) {
+        builderLegs.splice(idx, 1);
+      } else {
+        const h = hitters.find(x => x.id === hitterId);
+        if (h) builderLegs.push({ id: h.id, name: h.name, team: h.team });
+      }
+      saveJSON(STORE.PARLAY_BUILDER, builderLegs);
+      renderParlayBuilder();
+      renderHitterCards();
+    }
+
+    function removeBuilderLeg(hitterId) {
+      builderLegs = builderLegs.filter(l => l.id !== hitterId);
+      saveJSON(STORE.PARLAY_BUILDER, builderLegs);
+      renderParlayBuilder();
+      renderHitterCards();
+    }
+
+    function clearParlay() {
+      builderLegs = [];
+      saveJSON(STORE.PARLAY_BUILDER, builderLegs);
+      document.getElementById('pbNotes').value = '';
+      renderParlayBuilder();
+      renderHitterCards();
+      showToast('Parlay cleared');
+    }
+
+    // ── Save / Load Parlays ────────────────────────────────────────
+    function openSaveParlayModal() {
+      if (builderLegs.length === 0) return showToast('Add legs to your parlay first');
+      document.getElementById('spNotes').value = document.getElementById('pbNotes').value;
+      openModal('saveParlayModal');
+    }
+
+    function saveParlay() {
+      const name = document.getElementById('spName').value.trim();
+      if (!name) return showToast('Name your parlay');
+      const tags = document.getElementById('spTags').value.trim().split(',').map(t => t.trim()).filter(Boolean);
+      const notes = document.getElementById('spNotes').value.trim();
+
+      parlays.push({
+        id: genId(), name, legs: [...builderLegs],
+        created: new Date().toISOString(),
+        tags, notes,
+      });
+      saveJSON(STORE.PARLAYS, parlays);
+      closeModal('saveParlayModal');
+      document.getElementById('spName').value = '';
+      document.getElementById('spTags').value = '';
+      document.getElementById('spNotes').value = '';
+      renderSidebarParlays();
+      renderChips();
+      showToast(`Parlay "${name}" saved!`);
+    }
+
+    function loadParlayToBuilder(parlayId) {
+      const p = parlays.find(x => x.id === parlayId);
+      if (!p) return;
+      builderLegs = [...p.legs];
+      saveJSON(STORE.PARLAY_BUILDER, builderLegs);
+      document.getElementById('pbNotes').value = p.notes || '';
+      renderParlayBuilder();
+      renderHitterCards();
+      showToast(`Loaded "${p.name}"`);
+    }
+
+    function duplicateParlay(parlayId) {
+      const p = parlays.find(x => x.id === parlayId);
+      if (!p) return;
+      parlays.push({ ...p, id: genId(), name: p.name + ' (copy)', created: new Date().toISOString() });
+      saveJSON(STORE.PARLAYS, parlays);
+      renderSidebarParlays();
+      showToast('Parlay duplicated');
+    }
+
+    function deleteParlay(parlayId) {
+      parlays = parlays.filter(p => p.id !== parlayId);
+      saveJSON(STORE.PARLAYS, parlays);
+      renderSidebarParlays();
+      renderChips();
+      showToast('Parlay deleted');
+    }
+
+    // ── Save / Apply Templates ─────────────────────────────────────
+    function openSaveTemplateModal() {
+      if (builderLegs.length === 0) return showToast('Add legs first');
+      openModal('saveTemplateModal');
+    }
+
+    function saveTemplate() {
+      const name = document.getElementById('stName').value.trim();
+      if (!name) return showToast('Name your template');
+      const tags = document.getElementById('stTags').value.trim().split(',').map(t => t.trim()).filter(Boolean);
+      const notes = document.getElementById('stNotes').value.trim();
+
+      templates.push({
+        id: genId(), name, legs: [...builderLegs],
+        created: new Date().toISOString(),
+        tags, notes,
+      });
+      saveJSON(STORE.TEMPLATES, templates);
+      closeModal('saveTemplateModal');
+      document.getElementById('stName').value = '';
+      document.getElementById('stTags').value = '';
+      document.getElementById('stNotes').value = '';
+      renderSidebarTemplates();
+      showToast(`Template "${name}" saved!`);
+    }
+
+    function applyTemplate(templateId) {
+      const t = templates.find(x => x.id === templateId);
+      if (!t) return;
+      // Only apply active legs
+      const activeLegs = t.legs.filter(l => {
+        const h = hitters.find(x => x.id === l.id);
+        return h && isHitterActive(h);
+      });
+      if (activeLegs.length === 0) {
+        showToast('No legs active today for this template');
+        return;
+      }
+      builderLegs = activeLegs;
+      saveJSON(STORE.PARLAY_BUILDER, builderLegs);
+      renderParlayBuilder();
+      renderHitterCards();
+      showToast(`Applied ${activeLegs.length}/${t.legs.length} legs from "${t.name}"`);
+    }
+
+    function deleteTemplate(templateId) {
+      templates = templates.filter(t => t.id !== templateId);
+      saveJSON(STORE.TEMPLATES, templates);
+      renderSidebarTemplates();
+      showToast('Template deleted');
+    }
+
+    // ── Add / Edit Hitter ──────────────────────────────────────────
+    function openAddHitterModal() {
+      editingHitterId = null;
+      document.getElementById('ahName').value = '';
+      document.getElementById('ahTeam').value = '';
+      document.getElementById('ahBats').value = '';
+      document.getElementById('ahHR').value = '';
+      document.getElementById('ahABHR').value = '';
+      document.getElementById('ahL7').value = '';
+      document.getElementById('ahL15').value = '';
+      document.getElementById('ahNotes').value = '';
+      openModal('addHitterModal');
+      document.getElementById('ahName').focus();
+    }
+
+    function saveNewHitter() {
+      const name = document.getElementById('ahName').value.trim();
+      const team = document.getElementById('ahTeam').value.trim().toUpperCase();
+      if (!name || !team) return showToast('Name and team are required');
+
+      const data = {
+        name, team,
+        bats: document.getElementById('ahBats').value,
+        seasonHR: parseInt(document.getElementById('ahHR').value) || 0,
+        abPerHR: parseFloat(document.getElementById('ahABHR').value) || 0,
+        last7HR: parseInt(document.getElementById('ahL7').value) || 0,
+        last15HR: parseInt(document.getElementById('ahL15').value) || 0,
+        notes: document.getElementById('ahNotes').value.trim(),
+      };
+
+      if (editingHitterId) {
+        const idx = hitters.findIndex(h => h.id === editingHitterId);
+        if (idx >= 0) {
+          hitters[idx] = { ...hitters[idx], ...data };
+        }
+      } else {
+        hitters.push({ id: genId(), ...data, favorite: false, core: false, tags: [], order: hitters.length });
+      }
+
+      saveJSON(STORE.HITTERS, hitters);
+      closeModal('addHitterModal');
+      renderAll();
+      showToast(editingHitterId ? 'Hitter updated' : `${name} added to watchlist!`);
+    }
+
+    function toggleFav(hitterId) {
+      const h = hitters.find(x => x.id === hitterId);
+      if (h) {
+        h.favorite = !h.favorite;
+        saveJSON(STORE.HITTERS, hitters);
+        renderAll();
+      }
+    }
+
+    // ── Hitter Detail ──────────────────────────────────────────────
+    function openHitterDetail(hitterId) {
+      const h = hitters.find(x => x.id === hitterId);
+      if (!h) return;
+      const active = isHitterActive(h);
+      const gameInfo = getHitterGameInfo(h);
+      const { score, factors } = computeScore(h);
+
+      const panel = document.getElementById('hitterDetail');
+      panel.innerHTML = `
+        <button class="hd-close" onclick="closeHitterDetail()">✕</button>
+        <div class="hd-name">${h.name}</div>
+        <div class="hd-team">${h.team}${h.bats ? ` · Bats ${h.bats}` : ''} ${active ? '· ✅ Active Today' : '· 😴 No Game Today'}</div>
+        ${active && gameInfo ? `<div style="font-size:.78rem;color:var(--purple);font-weight:600;margin-top:4px">vs ${gameInfo.opponent} · ${gameInfo.time} · vs ${gameInfo.pitcher}</div>` : ''}
+        ${active && gameInfo && gameInfo.venue ? `<div style="font-size:.72rem;color:var(--sub);margin-top:2px">📍 ${gameInfo.venue}</div>` : ''}
+
+        <div class="hd-section">
+          <div class="hd-section-title">Stats</div>
+          <div class="hc-stats">
+            <div class="hc-stat"><div class="hc-stat-val">${h.seasonHR || 0}</div><div class="hc-stat-label">Season HR</div></div>
+            <div class="hc-stat"><div class="hc-stat-val">${h.last7HR || 0}</div><div class="hc-stat-label">L7 HR</div></div>
+            <div class="hc-stat"><div class="hc-stat-val">${h.last15HR || 0}</div><div class="hc-stat-label">L15 HR</div></div>
+            <div class="hc-stat"><div class="hc-stat-val">${h.abPerHR || '—'}</div><div class="hc-stat-label">AB/HR</div></div>
+          </div>
+        </div>
+
+        <div class="hd-section">
+          <div class="hd-section-title">HR Opportunity Score: ${score}/100</div>
+          ${factors.map(f => `
+            <div class="score-tooltip-row">
+              <span class="score-tooltip-label">${f.label}</span>
+              <span class="score-tooltip-val">+${f.value}</span>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="hd-section">
+          <div class="hd-section-title">Notes</div>
+          <textarea class="hd-notes-area" id="hdNotes" onchange="updateHitterNotes('${h.id}', this.value)">${h.notes || ''}</textarea>
+        </div>
+
+        <div class="hd-toggle-row">
+          <div class="hd-toggle" onclick="toggleHitterFlag('${h.id}', 'favorite')">
+            <div class="hd-toggle-check ${h.favorite ? 'on' : ''}"><span class="hd-toggle-mark">${h.favorite ? '✓' : ''}</span></div>
+            ⭐ Favorite
+          </div>
+          <div class="hd-toggle" onclick="toggleHitterFlag('${h.id}', 'core')">
+            <div class="hd-toggle-check ${h.core ? 'on' : ''}"><span class="hd-toggle-mark">${h.core ? '✓' : ''}</span></div>
+            💎 Core Play
+          </div>
+        </div>
+
+        <div class="hd-actions">
+          <button class="hd-btn" onclick="editHitter('${h.id}')">✏️ Edit</button>
+          <button class="hd-btn danger" onclick="deleteHitter('${h.id}')">🗑️ Remove</button>
+        </div>
+      `;
+      document.getElementById('hitterDetailOverlay').classList.add('open');
+    }
+
+    function closeHitterDetail() {
+      document.getElementById('hitterDetailOverlay').classList.remove('open');
+    }
+
+    function updateHitterNotes(hitterId, notes) {
+      const h = hitters.find(x => x.id === hitterId);
+      if (h) { h.notes = notes.trim(); saveJSON(STORE.HITTERS, hitters); renderHitterCards(); renderSidebarHitters(); }
+    }
+
+    function toggleHitterFlag(hitterId, flag) {
+      const h = hitters.find(x => x.id === hitterId);
+      if (h) {
+        h[flag] = !h[flag];
+        saveJSON(STORE.HITTERS, hitters);
+        openHitterDetail(hitterId); // re-render detail
+        renderAll();
+      }
+    }
+
+    function editHitter(hitterId) {
+      const h = hitters.find(x => x.id === hitterId);
+      if (!h) return;
+      closeHitterDetail();
+      editingHitterId = hitterId;
+      document.getElementById('ahName').value = h.name;
+      document.getElementById('ahTeam').value = h.team;
+      document.getElementById('ahBats').value = h.bats || '';
+      document.getElementById('ahHR').value = h.seasonHR || '';
+      document.getElementById('ahABHR').value = h.abPerHR || '';
+      document.getElementById('ahL7').value = h.last7HR || '';
+      document.getElementById('ahL15').value = h.last15HR || '';
+      document.getElementById('ahNotes').value = h.notes || '';
+      openModal('addHitterModal');
+    }
+
+    function deleteHitter(hitterId) {
+      hitters = hitters.filter(h => h.id !== hitterId);
+      saveJSON(STORE.HITTERS, hitters);
+      builderLegs = builderLegs.filter(l => l.id !== hitterId);
+      saveJSON(STORE.PARLAY_BUILDER, builderLegs);
+      closeHitterDetail();
+      renderAll();
+      showToast('Hitter removed');
+    }
+
+    // ── Filter / Sort handlers ─────────────────────────────────────
+    document.getElementById('filterPills').addEventListener('click', e => {
+      if (!e.target.matches('.filter-pill')) return;
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      e.target.classList.add('active');
+      currentFilter = e.target.dataset.filter;
+      renderHitterCards();
+    });
+
+    document.getElementById('sortSelect').addEventListener('change', e => {
+      currentSort = e.target.value;
+      renderHitterCards();
+    });
+
+    // ── Mobile parlay panel toggle ─────────────────────────────────
+    function toggleParlayPanel() {
+      const panel = document.getElementById('parlayPanel');
+      const overlay = document.getElementById('pbOverlay');
+      panel.classList.toggle('open');
+      overlay.classList.toggle('open');
+    }
+
+    // ── Close overlays on backdrop click ───────────────────────────
+    document.getElementById('addHitterModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal('addHitterModal'); });
+    document.getElementById('saveParlayModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal('saveParlayModal'); });
+    document.getElementById('saveTemplateModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal('saveTemplateModal'); });
+    document.getElementById('hitterDetailOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeHitterDetail(); });
+
+    // ── Render all ─────────────────────────────────────────────────
+    function renderAll() {
+      renderDateChip();
+      renderSlate();
+      renderChips();
+      renderSidebarHitters();
+      renderSidebarParlays();
+      renderSidebarTemplates();
+      renderHitterCards();
+      renderParlayBuilder();
+    }
+
+    // ── Initialize ─────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', async () => {
+      renderDateChip();
+
+      // Fetch today's MLB schedule
+      todayGames = await fetchTodaySchedule();
+      const { teams, map } = computeActiveTeams(todayGames);
+      activeTeams = teams;
+      teamGameMap = map;
+
+      renderAll();
+
+      // Hide loader
+      const loader = document.getElementById('loader');
+      loader.classList.add('hidden');
+      setTimeout(() => loader.style.display = 'none', 400);
+    });
+
+    // ── Keyboard shortcuts ─────────────────────────────────────────
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeModal('addHitterModal');
+        closeModal('saveParlayModal');
+        closeModal('saveTemplateModal');
+        closeHitterDetail();
+      }
+    });
+  </script>
+</body>
+</html>

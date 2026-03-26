@@ -38,6 +38,11 @@
       "name": "Analytics",
       "url": "/enid-hub/analytics.html",
       "description": "View your habit analytics"
+    },
+    {
+      "name": "Dingers",
+      "url": "/enid-hub/dingers.html",
+      "description": "Open the MLB Dinger Dashboard"
     }
   ]
 }
