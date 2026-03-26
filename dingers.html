@@ -2000,6 +2000,31 @@
               </div>`;
             }).join('')}
           </div>
+          ${(()=>{
+            const legsWithOdds = pick.legs.filter(l => l.odds);
+            if (legsWithOdds.length < 2) return '';
+            const decOdds = legsWithOdds.map(l => { const p = parseInt(l.odds); return p > 0 ? (p/100)+1 : (100/Math.abs(p))+1; });
+            const combined = decOdds.reduce((a,b) => a*b, 1);
+            const americanOdds = combined >= 2 ? '+'+Math.round((combined-1)*100) : '-'+Math.round(100/(combined-1));
+            const payout10 = Math.round(combined * 10);
+            return `<div style="display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(232,78,160,.06),rgba(168,85,247,.06));border:1px solid rgba(232,78,160,.15);margin-bottom:10px">
+              <div style="text-align:center">
+                <div style="font-size:.5rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">Parlay Odds</div>
+                <div style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent">${americanOdds}</div>
+              </div>
+              <div style="width:1px;height:28px;background:rgba(168,85,247,.15)"></div>
+              <div style="text-align:center">
+                <div style="font-size:.5rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">$10 Pays</div>
+                <div style="font-size:1.2rem;font-weight:800;color:var(--text)">$${payout10.toLocaleString()}</div>
+              </div>
+              <div style="width:1px;height:28px;background:rgba(168,85,247,.15)"></div>
+              <div style="text-align:center">
+                <div style="font-size:.5rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.05em">$10 Wins</div>
+                <div style="font-size:1.2rem;font-weight:800;color:#059669">$${(payout10-10).toLocaleString()}</div>
+              </div>
+              ${legsWithOdds.length < pick.legs.length ? `<div style="font-size:.48rem;color:var(--text-light);font-style:italic">${legsWithOdds.length}/${pick.legs.length} legs priced</div>` : ''}
+            </div>`;
+          })()}
           <div class="ai-pick-rationale">💡 ${pick.rationale}</div>
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
             <div class="ai-pick-actions">
