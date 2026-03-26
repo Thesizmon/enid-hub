@@ -616,27 +616,17 @@
         <div class="col-body" id="activeGrid"></div>
       </div>
 
-      <!-- Column 3: Off Slate -->
+      <!-- Column 3: Parlay Builder -->
       <div class="col-panel">
-        <div class="col-header slate-gray">
-          <div class="col-title">😴 Off Slate</div>
-          <div class="col-sub" id="offSubtitle">—</div>
+        <div class="col-header" style="background:linear-gradient(135deg,var(--pink) 0%,var(--purple) 100%);position:relative;overflow:hidden">
+          <div style="content:'';position:absolute;inset:0;pointer-events:none;background:url(&quot;data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E&quot;)"></div>
+          <div class="col-title">💰 Parlay Builder <span id="pbLegCount" style="font-weight:400;opacity:.7;font-size:.65rem">0 legs</span></div>
+          <div class="col-sub">Build your dinger combos</div>
         </div>
-        <div class="col-body" id="offGrid"></div>
-      </div>
-    </div>
-
-    <!-- Bottom bar: Parlay Builder + Templates + Saved -->
-    <div class="bottom-bar fade-up" style="animation-delay:.25s">
-      <!-- Parlay Builder -->
-      <div class="bb-card">
-        <div class="bb-header gradient">
-          <div class="bb-title">💰 Parlay Builder <span id="pbLegCount" style="font-weight:400;opacity:.7;font-size:.65rem">0 legs</span></div>
-        </div>
-        <div class="bb-body" id="pbBody">
+        <div class="col-body" id="pbBody">
           <div class="pb-empty"><div class="pb-empty-icon">⚾</div>Add hitters from Active Today</div>
         </div>
-        <div style="padding:0 14px 12px">
+        <div style="padding:0 10px 12px">
           <textarea class="pb-notes" id="pbNotes" placeholder="Parlay notes…"></textarea>
           <div class="pb-actions">
             <button class="pb-btn" onclick="clearParlay()">Clear</button>
@@ -644,6 +634,17 @@
             <button class="pb-btn save-template" onclick="openSaveTemplateModal()">Template</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar: Off Slate + Templates + Saved -->
+    <div class="bottom-bar fade-up" style="animation-delay:.25s">
+      <!-- Off Slate -->
+      <div class="bb-card">
+        <div class="bb-header" style="background:linear-gradient(135deg,#64748B 0%,#94A3B8 40%,#CBD5E1 100%);position:relative;overflow:hidden">
+          <div class="bb-title" style="color:#fff">😴 Off Slate <span id="offSubtitle" style="font-weight:400;opacity:.7;font-size:.65rem">—</span></div>
+        </div>
+        <div class="bb-body" id="offGrid"></div>
       </div>
 
       <!-- Templates -->
