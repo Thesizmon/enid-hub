@@ -964,19 +964,13 @@
         const evtRes = await fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events?apiKey=${ODDS_API_KEY}&dateFormat=iso`);
         if (!evtRes.ok) throw new Error('Events fetch failed');
         const events = await evtRes.json();
-        // Fetch HR props sequentially in small batches to avoid rate limiting
+        // Fetch HR props one game at a time to avoid rate limiting
         const oddsMap = {};
-        const batchSize = 4;
-        for (let i = 0; i < events.length; i += batchSize) {
-          const batch = events.slice(i, i + batchSize);
-          const results = await Promise.all(
-            batch.map(evt =>
-              fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events/${evt.id}/odds?apiKey=${ODDS_API_KEY}&regions=us&markets=batter_home_runs&oddsFormat=american`)
-                .then(r => r.ok ? r.json() : null)
-                .catch(() => null)
-            )
-          );
-          for (const evt of results) {
+        for (let i = 0; i < events.length; i++) {
+          try {
+            const r = await fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events/${events[i].id}/odds?apiKey=${ODDS_API_KEY}&regions=us&markets=batter_home_runs&oddsFormat=american`);
+            if (!r.ok) { await new Promise(w => setTimeout(w, 1000)); continue; }
+            const evt = await r.json();
             if (!evt || !evt.bookmakers) continue;
             for (const book of evt.bookmakers) {
               for (const market of book.markets) {
@@ -996,13 +990,14 @@
                 }
               }
             }
+          } catch(e) { /* skip failed game, continue to next */ }
+          // Pause between requests
+          if (i < events.length - 1) await new Promise(w => setTimeout(w, 250));
+          // Merge incrementally so odds appear as they load
+          if (i % 3 === 2 || i === events.length - 1) {
+            for (const [n, d] of Object.entries(oddsMap)) playerOdds[n] = d;
+            renderHitterCards(); renderParlayBuilder();
           }
-          // Small delay between batches to be kind to rate limits
-          if (i + batchSize < events.length) await new Promise(r => setTimeout(r, 300));
-        }
-        // Merge into existing odds (never lose data from partial fetches)
-        for (const [name, data] of Object.entries(oddsMap)) {
-          playerOdds[name] = data;
         }
         oddsLoaded = true;
       } catch (e) { console.warn('Odds fetch failed:', e); oddsLoaded = true; }
