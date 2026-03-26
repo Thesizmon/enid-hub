@@ -825,40 +825,43 @@
     function openModal(id) { document.getElementById(id).classList.add('open'); }
 
     // Team abbreviation mapping
-    const TEAM_ABBREVS = {
-      'Arizona Diamondbacks':'ARI','Atlanta Braves':'ATL','Baltimore Orioles':'BAL',
-      'Boston Red Sox':'BOS','Chicago Cubs':'CHC','Chicago White Sox':'CWS',
-      'Cincinnati Reds':'CIN','Cleveland Guardians':'CLE','Colorado Rockies':'COL',
-      'Detroit Tigers':'DET','Houston Astros':'HOU','Kansas City Royals':'KC',
-      'Los Angeles Angels':'LAA','Los Angeles Dodgers':'LAD','Miami Marlins':'MIA',
-      'Milwaukee Brewers':'MIL','Minnesota Twins':'MIN','New York Mets':'NYM',
-      'New York Yankees':'NYY','Oakland Athletics':'OAK','Philadelphia Phillies':'PHI',
-      'Pittsburgh Pirates':'PIT','San Diego Padres':'SD','San Francisco Giants':'SF',
-      'Seattle Mariners':'SEA','St. Louis Cardinals':'STL','Tampa Bay Rays':'TB',
-      'Texas Rangers':'TEX','Toronto Blue Jays':'TOR','Washington Nationals':'WSH',
-    };
-    const ABBREV_TO_FULL = {}; for (const [f,a] of Object.entries(TEAM_ABBREVS)) ABBREV_TO_FULL[a] = f;
-    const TEAM_ID_MAP = {}; // populated from API
+    // Team maps — populated from the MLB teams API at init
+    let teamIdToAbbr = {};   // e.g. 119 → "LAD"
+    let teamNameToAbbr = {}; // e.g. "Los Angeles Dodgers" → "LAD"
 
     // ── MLB Stats API ──────────────────────────────────────────────
     const MLB_API = 'https://statsapi.mlb.com/api/v1';
+
+    async function fetchTeams() {
+      try {
+        const r = await fetch(`${MLB_API}/teams?sportId=1`);
+        if (!r.ok) throw new Error('fail');
+        const data = await r.json();
+        for (const t of data.teams) {
+          teamIdToAbbr[t.id] = t.abbreviation;
+          teamNameToAbbr[t.name] = t.abbreviation;
+        }
+      } catch(e) { console.warn('Teams fetch failed:', e); }
+    }
+
+    function teamAbbr(name) { return teamNameToAbbr[name] || name.slice(0,3).toUpperCase(); }
 
     async function fetchTodaySchedule() {
       const d = new Date();
       const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
       try {
-        const r = await fetch(`${MLB_API}/schedule?sportId=1&date=${ds}&hydrate=probablePitcher,venue`);
+        const r = await fetch(`${MLB_API}/schedule?sportId=1&date=${ds}&hydrate=probablePitcher,venue,team`);
         if (!r.ok) throw new Error('fail');
         const data = await r.json();
         const games = [];
         if (data.dates && data.dates.length > 0) {
           for (const g of data.dates[0].games) {
-            const aN = g.teams.away.team.name, hN = g.teams.home.team.name;
-            const aA = TEAM_ABBREVS[aN] || aN.slice(0,3).toUpperCase();
-            const hA = TEAM_ABBREVS[hN] || hN.slice(0,3).toUpperCase();
+            const away = g.teams.away.team, home = g.teams.home.team;
+            const aA = away.abbreviation || teamAbbr(away.name);
+            const hA = home.abbreviation || teamAbbr(home.name);
             const t = new Date(g.gameDate).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
             games.push({
-              awayTeam:aA, homeTeam:hA, awayFull:aN, homeFull:hN,
+              awayTeam:aA, homeTeam:hA, awayFull:away.name, homeFull:home.name,
               time:t, status:g.status.detailedState,
               awayPitcher: g.teams.away.probablePitcher?.fullName || 'TBD',
               homePitcher: g.teams.home.probablePitcher?.fullName || 'TBD',
@@ -879,26 +882,26 @@
         const players = [];
         if (data.people) {
           for (const p of data.people) {
-            // Filter out pitchers (position code "1" = pitcher, or abbreviation "P" / "TWP")
             const posCode = p.primaryPosition?.code;
             const posAbbr = p.primaryPosition?.abbreviation;
             // Include two-way players (TWP), exclude pure pitchers
             if (posCode === '1' && posAbbr !== 'TWP') continue;
-            const teamName = p.currentTeam?.name || '';
-            const teamAbbr = TEAM_ABBREVS[teamName] || teamName.slice(0,3).toUpperCase();
+            // Use team ID → abbreviation map (the players endpoint only gives team ID, not name)
+            const tId = p.currentTeam?.id;
+            const tAbbr = tId ? (teamIdToAbbr[tId] || '') : '';
+            const tName = Object.entries(teamNameToAbbr).find(([,a]) => a === tAbbr)?.[0] || '';
             players.push({
               mlbId: p.id,
               name: p.fullName,
-              team: teamAbbr,
-              teamFull: teamName,
-              pos: p.primaryPosition?.abbreviation || '',
+              team: tAbbr,
+              teamFull: tName,
+              pos: posAbbr || '',
               bats: p.batSide?.code || '',
               number: p.primaryNumber || '',
               active: p.active !== false,
             });
           }
         }
-        // Sort by name
         players.sort((a,b) => a.name.localeCompare(b.name));
         return players;
       } catch(e) { console.warn('Player fetch failed:', e); return []; }
@@ -1213,7 +1216,12 @@
       if (mlbPlayers.length === 0) {
         acInput.placeholder = 'Loading MLB players…';
         acInput.disabled = true;
-        fetchMLBPlayers().then(p => { mlbPlayers = p; acInput.placeholder = 'Type a name… e.g. Judge, Ohtani'; acInput.disabled = false; });
+        (async () => {
+          if (!Object.keys(teamIdToAbbr).length) await fetchTeams();
+          mlbPlayers = await fetchMLBPlayers();
+          acInput.placeholder = 'Type a name… e.g. Judge, Ohtani';
+          acInput.disabled = false;
+        })();
       }
       openModal('addHitterModal'); acInput.focus();
     }
@@ -1362,9 +1370,24 @@
     // ── Init ───────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', async () => {
       renderDateChip();
-      // Fetch schedule + players in parallel
+      // Fetch teams first (needed for ID→abbreviation mapping), then schedule + players in parallel
+      await fetchTeams();
       const [games, players] = await Promise.all([fetchTodaySchedule(), fetchMLBPlayers()]);
       todayGames = games; mlbPlayers = players;
+      // Patch any tracked hitters that were saved with empty/wrong team data
+      let patched = false;
+      for (const h of hitters) {
+        if (h.mlbId && (!h.team || h.team === '')) {
+          const match = mlbPlayers.find(p => p.mlbId === h.mlbId);
+          if (match && match.team) {
+            h.team = match.team;
+            if (!h.pos && match.pos) h.pos = match.pos;
+            if (!h.bats && match.bats) h.bats = match.bats;
+            patched = true;
+          }
+        }
+      }
+      if (patched) saveJSON(STORE.HITTERS, hitters);
       const { teams, map } = computeActiveTeams(todayGames);
       activeTeams = teams; teamGameMap = map;
       renderAll();
