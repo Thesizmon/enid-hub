@@ -554,9 +554,10 @@
     /* ── Dual AI Pick Section ──────────────────────────────────── */
     .ai-pick-section {
       max-width: 1440px; margin: 0 auto; padding: 0 14px 14px;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;
     }
-    @media(max-width:900px) { .ai-pick-section { grid-template-columns: 1fr; } }
+    @media(max-width:1100px) { .ai-pick-section { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:700px) { .ai-pick-section { grid-template-columns: 1fr; } }
 
     .ai-pick-card {
       background: var(--glass); backdrop-filter: blur(16px);
@@ -618,6 +619,39 @@
       66% { box-shadow: 0 4px 26px rgba(251,146,60,.14), 0 2px 12px rgba(236,72,153,.08); }
     }
     .ai-pick-card.dbc { animation: dbcGlow 3s ease-in-out infinite; }
+
+    /* 🪩 Unhinged But Valid — electric candy disco */
+    .ai-pick-card.ubv {
+      border: 2px solid rgba(192,132,252,.25);
+      box-shadow: 0 4px 24px rgba(192,132,252,.12), 0 2px 12px rgba(56,189,248,.08);
+    }
+    .ai-pick-card.ubv::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+      background: linear-gradient(90deg, #F472B6, #C084FC, #38BDF8, #FBBF24, #F472B6);
+      background-size: 200% 100%;
+      animation: ubvStripe 3s linear infinite;
+    }
+    @keyframes ubvStripe { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+    .ai-pick-card.ubv .ai-pick-header {
+      background: linear-gradient(135deg, rgba(192,132,252,.07), rgba(56,189,248,.04), rgba(251,191,36,.03));
+      border-bottom: 1px solid rgba(192,132,252,.12);
+    }
+    .ai-pick-card.ubv .ai-pick-title {
+      background: linear-gradient(135deg, #C084FC, #F472B6, #38BDF8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .ai-pick-card.ubv .ai-leg {
+      background: linear-gradient(135deg, rgba(192,132,252,.04), rgba(56,189,248,.03));
+      border-color: rgba(192,132,252,.1);
+    }
+    .ai-pick-card.ubv .ai-leg:hover { border-color: rgba(192,132,252,.3); box-shadow: 0 2px 12px rgba(192,132,252,.12); }
+    @keyframes ubvPulse {
+      0%,100% { box-shadow: 0 4px 24px rgba(192,132,252,.12), 0 2px 12px rgba(56,189,248,.08); }
+      25% { box-shadow: 0 5px 28px rgba(192,132,252,.18), 0 3px 16px rgba(56,189,248,.12); }
+      50% { box-shadow: 0 5px 30px rgba(236,72,153,.14), 0 3px 14px rgba(251,191,36,.1); }
+      75% { box-shadow: 0 4px 26px rgba(56,189,248,.16), 0 2px 12px rgba(192,132,252,.1); }
+    }
+    .ai-pick-card.ubv { animation: ubvPulse 4s ease-in-out infinite; }
 
     /* Shared card inner styles */
     .ai-pick-header {
@@ -784,10 +818,11 @@
       </div>
     </div>
 
-    <!-- Dual Daily AI Picks -->
+    <!-- Triple Daily AI Picks -->
     <div class="ai-pick-section fade-up" style="animation-delay:.22s">
       <div class="ai-pick-card skb" id="aiCardSKB"></div>
       <div class="ai-pick-card dbc" id="aiCardDBC"></div>
+      <div class="ai-pick-card ubv" id="aiCardUBV"></div>
     </div>
 
     <!-- AI Pick History -->
@@ -1865,6 +1900,41 @@
         `The spicy alt — viable HR hitters outside the chalk tier, weighted-random from ${finalPool.length} candidates. Still dangerous, less obvious.`);
     }
 
+    // ── 🪩 Unhinged But Valid 5 — chaotic moonshot, 5 legs ──────
+    function generateUBV(avoidNames=[]) {
+      const candidates = buildCandidatePool();
+      // Wider pool: lower threshold, reward volatility, allow longer odds
+      const pool = candidates.filter(c => !avoidNames.includes(c.name) && c.score >= 2);
+      if (pool.length < 8) return null;
+      // Re-score with chaos bonus: reward higher odds (more upside), recent hot streaks, raw power
+      const chaosPool = pool.map(c => {
+        let chaosScore = c.score;
+        // Bonus for longer odds (more explosive payout)
+        if (c.oddsNum >= 400 && c.oddsNum <= 900) chaosScore += 8;
+        if (c.oddsNum >= 300 && c.oddsNum < 400) chaosScore += 4;
+        // Bonus for recent hot stretch
+        if (c.last7HR >= 2) chaosScore += 6;
+        // Small random jitter for variety
+        chaosScore += Math.random() * 8;
+        return { ...c, chaosScore };
+      });
+      // Weighted random sampling from chaos-scored pool
+      const sel = []; const gc = {}; const used = new Set();
+      const totalW = chaosPool.reduce((s,c) => s + Math.max(1, c.chaosScore), 0);
+      for (let att = 0; att < 300 && sel.length < 5; att++) {
+        let r = Math.random() * totalW; let picked = null;
+        for (const c of chaosPool) { r -= Math.max(1, c.chaosScore); if (r <= 0) { picked = c; break; } }
+        if (!picked || used.has(picked.name)) continue;
+        const gk = [picked.team,picked.opponent].sort().join('-');
+        if ((gc[gk]||0) >= 2) continue;
+        sel.push(picked); used.add(picked.name); gc[gk] = (gc[gk]||0)+1;
+      }
+      if (sel.length < 5) return null;
+      const avg = sel.reduce((s,c) => s+c.chaosScore, 0)/5;
+      return buildPickObj('ubv', sel, Math.min(100, Math.round(avg*0.7)),
+        `The full-send moonshot — 5 viable HR hitters picked for upside and chaos from ${pool.length} candidates. Longer odds, hotter streaks, maximum variance.`);
+    }
+
     function buildPickObj(type, sel, confidence, rationale) {
       return {
         type, date: todayStr(), generated: new Date().toISOString(),
@@ -1891,8 +1961,13 @@
         const dbc = generateDBC(skbNames);
         if (dbc) { aiPicks.unshift(dbc); changed = true; }
       }
+      if (!getTodayPick('ubv') && todayGames.length) {
+        const avoid = [...(getTodayPick('skb')?.legs||[]), ...(getTodayPick('dbc')?.legs||[])].map(l=>l.name);
+        const ubv = generateUBV(avoid);
+        if (ubv) { aiPicks.unshift(ubv); changed = true; }
+      }
       if (changed) {
-        if (aiPicks.length > 180) aiPicks = aiPicks.slice(0, 180);
+        if (aiPicks.length > 270) aiPicks = aiPicks.slice(0, 270);
         await sbSaveDingers('ai_picks', aiPicks);
       }
     }
@@ -1901,12 +1976,14 @@
       aiPicks = aiPicks.filter(p => !(p.date === todayStr() && p.type === type));
       let pick;
       if (type === 'skb') { pick = generateSKB(); }
-      else { const skbNames = (getTodayPick('skb')?.legs||[]).map(l=>l.name); pick = generateDBC(skbNames); }
+      else if (type === 'dbc') { const skbNames = (getTodayPick('skb')?.legs||[]).map(l=>l.name); pick = generateDBC(skbNames); }
+      else { const avoid = [...(getTodayPick('skb')?.legs||[]), ...(getTodayPick('dbc')?.legs||[])].map(l=>l.name); pick = generateUBV(avoid); }
       if (!pick) { showToast('Not enough data'); return; }
       aiPicks.unshift(pick);
       await sbSaveDingers('ai_picks', aiPicks);
       renderAIPicks(); renderAIHistory();
-      showToast(type==='skb' ? '💎 Regenerated' : '🎀 Regenerated');
+      const labels = {skb:'💎',dbc:'🎀',ubv:'🪩'};
+      showToast(`${labels[type]||''} Regenerated`);
     }
 
     function loadPickIntoBuilder(type) {
@@ -1934,7 +2011,7 @@
         } catch(e) {}
       }
       const all = pick.legs.every(l => l.result !== null);
-      if (all) { pick.hits = hits; pick.status = hits===4 ? 'won' : 'lost'; }
+      if (all) { pick.hits = hits; pick.status = hits===pick.legs.length ? 'won' : 'lost'; }
       else if (pick.legs.some(l => l.result !== null)) { pick.hits = hits; pick.status = 'partial'; }
       await sbSaveDingers('ai_picks', aiPicks);
     }
@@ -1987,7 +2064,8 @@
       }
       const rec = getAIRecord(type);
       const sCls = pick.status==='won'?'won':pick.status==='lost'?'lost':pick.status==='partial'?'partial':'pending';
-      const sLbl = pick.status==='won'?'4/4 WON':pick.status==='lost'?`${pick.hits||0}/4 LOST`:pick.status==='partial'?`${pick.hits||0}/4 IN PROG`:'PENDING';
+      const nLegs = pick.legs.length;
+      const sLbl = pick.status==='won'?`${nLegs}/${nLegs} WON`:pick.status==='lost'?`${pick.hits||0}/${nLegs} LOST`:pick.status==='partial'?`${pick.hits||0}/${nLegs} IN PROG`:'PENDING';
       card.innerHTML = `
         <div class="ai-pick-header">
           <div><div class="ai-pick-title">${emoji} ${title}</div>
@@ -2024,6 +2102,7 @@
     function renderAIPicks() {
       renderPickCard('aiCardSKB', getTodayPick('skb'), 'She Knows Ball 4', '💎', 'skb');
       renderPickCard('aiCardDBC', getTodayPick('dbc'), 'Delusional (But Correct) 4', '🎀', 'dbc');
+      renderPickCard('aiCardUBV', getTodayPick('ubv'), 'Unhinged But Valid 5', '🪩', 'ubv');
     }
 
     function renderAIHistory() {
@@ -2033,12 +2112,12 @@
       list.innerHTML = past.slice(0,40).map(p => {
         const cls = p.status==='won'?'won':p.status==='lost'?'lost':'pending';
         const lbl = p.status==='won'?'WON':p.status==='lost'?'LOST':p.status==='partial'?'IN PROG':'PENDING';
-        const icon = p.type==='skb'?'💎':'🎀';
+        const icon = p.type==='skb'?'💎':p.type==='dbc'?'🎀':'🪩';
         return `<div class="ai-history-item" onclick="showHistoryDetail('${p.date}','${p.type}')">
           <div class="ai-history-type">${icon}</div>
           <div class="ai-history-date">${new Date(p.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
           <div class="ai-history-legs">${p.legs.map(l=>l.name).join(' · ')}</div>
-          <div class="ai-history-hits">${p.hits!==null?p.hits+'/4':'—'}</div>
+          <div class="ai-history-hits">${p.hits!==null?p.hits+'/'+p.legs.length:'—'}</div>
           <div class="ai-history-result ${cls}">${lbl}</div>
         </div>`;
       }).join('');
@@ -2046,8 +2125,8 @@
 
     function showHistoryDetail(dateStr, type) {
       const pick = aiPicks.find(p => p.date===dateStr && p.type===type); if (!pick) return;
-      const icon = type==='skb'?'💎':'🎀';
-      const title = type==='skb'?'She Knows Ball 4':'Delusional (But Correct) 4';
+      const icon = type==='skb'?'💎':type==='dbc'?'🎀':'🪩';
+      const title = type==='skb'?'She Knows Ball 4':type==='dbc'?'Delusional (But Correct) 4':'Unhinged But Valid 5';
       document.getElementById('hitterDetail').innerHTML = `
         <button class="hd-close" onclick="closeHitterDetail()">✕</button>
         <div class="hd-name">${icon} ${title}</div>
