@@ -592,6 +592,7 @@
     <!-- Toolbar -->
     <div class="toolbar fade-up" style="animation-delay:.15s">
       <button class="tb-btn primary" onclick="openAddHitterModal()">⚾ Add Hitter</button>
+      <button class="tb-btn" id="syncBtn" onclick="manualSync()">📊 Sync Stats</button>
       <button class="tb-btn" onclick="openModal('excludedModal')">🚫 Excluded (<span id="excludedCount">0</span>)</button>
     </div>
 
@@ -692,25 +693,8 @@
           <button onclick="clearAcSelection()" style="background:none;border:none;cursor:pointer;font-size:.8rem;color:var(--hot)">✕</button>
         </div>
       </div>
-      <div class="modal-row">
-        <div class="modal-field">
-          <label class="modal-label">Season HRs</label>
-          <input class="modal-input" id="ahHR" type="number" placeholder="0">
-        </div>
-        <div class="modal-field">
-          <label class="modal-label">AB/HR</label>
-          <input class="modal-input" id="ahABHR" type="number" step="0.1" placeholder="e.g. 14.2">
-        </div>
-      </div>
-      <div class="modal-row">
-        <div class="modal-field">
-          <label class="modal-label">Last 7 HRs</label>
-          <input class="modal-input" id="ahL7" type="number" placeholder="0">
-        </div>
-        <div class="modal-field">
-          <label class="modal-label">Last 15 HRs</label>
-          <input class="modal-input" id="ahL15" type="number" placeholder="0">
-        </div>
+      <div style="font-size:.68rem;color:var(--sub);padding:4px 0 6px;border-top:1px solid var(--border);margin-top:4px">
+        📊 Stats (HRs, AB/HR, recent form) sync automatically from MLB
       </div>
       <div class="modal-field">
         <label class="modal-label">Notes</label>
@@ -906,6 +890,75 @@
         players.sort((a,b) => a.name.localeCompare(b.name));
         return players;
       } catch(e) { console.warn('Player fetch failed:', e); return []; }
+    }
+
+    // ── Fetch live stats for tracked hitters ─────────────────────
+    async function fetchHitterStats(mlbId) {
+      const year = new Date().getFullYear();
+      try {
+        const [seasonRes, gameLogRes] = await Promise.all([
+          fetch(`${MLB_API}/people/${mlbId}/stats?stats=season&group=hitting&season=${year}&sportId=1`),
+          fetch(`${MLB_API}/people/${mlbId}/stats?stats=gameLog&group=hitting&season=${year}&sportId=1`),
+        ]);
+        const seasonData = await seasonRes.json();
+        const gameLogData = await gameLogRes.json();
+        const season = seasonData.stats?.[0]?.splits?.[0]?.stat;
+        const games = gameLogData.stats?.[0]?.splits || [];
+        // Last 7 games HR total
+        const last7 = games.slice(-7).reduce((sum, g) => sum + (g.stat?.homeRuns || 0), 0);
+        // Last 15 games HR total
+        const last15 = games.slice(-15).reduce((sum, g) => sum + (g.stat?.homeRuns || 0), 0);
+        const seasonHR = season?.homeRuns || 0;
+        const seasonAB = season?.atBats || 0;
+        const abPerHR = seasonHR > 0 ? Math.round((seasonAB / seasonHR) * 10) / 10 : 0;
+        return {
+          seasonHR, last7HR: last7, last15HR: last15, abPerHR,
+          gamesPlayed: season?.gamesPlayed || 0,
+          avg: season?.avg || '.000',
+          ops: season?.ops || '.000',
+          abs: seasonAB,
+          _synced: new Date().toISOString(),
+        };
+      } catch (e) {
+        console.warn(`Stats fetch failed for ${mlbId}:`, e);
+        return null;
+      }
+    }
+
+    async function syncAllHitterStats() {
+      if (!hitters.length) return;
+      // Fetch stats for all tracked hitters in parallel (max ~20 concurrent)
+      const results = await Promise.all(
+        hitters.filter(h => h.mlbId).map(async h => {
+          const stats = await fetchHitterStats(h.mlbId);
+          return { id: h.id, stats };
+        })
+      );
+      let changed = false;
+      for (const { id, stats } of results) {
+        if (!stats) continue;
+        const h = hitters.find(x => x.id === id);
+        if (!h) continue;
+        h.seasonHR = stats.seasonHR;
+        h.last7HR = stats.last7HR;
+        h.last15HR = stats.last15HR;
+        h.abPerHR = stats.abPerHR;
+        h.gamesPlayed = stats.gamesPlayed;
+        h.avg = stats.avg;
+        h.ops = stats.ops;
+        h._synced = stats._synced;
+        changed = true;
+      }
+      if (changed) saveJSON(STORE.HITTERS, hitters);
+    }
+
+    async function manualSync() {
+      const btn = document.getElementById('syncBtn');
+      btn.textContent = '📊 Syncing…'; btn.disabled = true;
+      await syncAllHitterStats();
+      renderAll();
+      btn.textContent = '📊 Sync Stats'; btn.disabled = false;
+      showToast('Stats synced from MLB');
     }
 
     // ── Active state helpers ───────────────────────────────────────
@@ -1210,8 +1263,6 @@
     function openAddHitterModal() {
       editingHitterId = null; acSelectedPlayer = null;
       acInput.value = ''; document.getElementById('acSelected').style.display = 'none';
-      document.getElementById('ahHR').value = ''; document.getElementById('ahABHR').value = '';
-      document.getElementById('ahL7').value = ''; document.getElementById('ahL15').value = '';
       document.getElementById('ahNotes').value = '';
       document.getElementById('ahSaveBtn').textContent = 'Add Hitter';
       if (mlbPlayers.length === 0) {
@@ -1229,26 +1280,34 @@
 
     function saveNewHitter() {
       if (!acSelectedPlayer && !editingHitterId) return showToast('Search and select a player first');
-      const data = {
-        seasonHR: parseInt(document.getElementById('ahHR').value)||0,
-        abPerHR: parseFloat(document.getElementById('ahABHR').value)||0,
-        last7HR: parseInt(document.getElementById('ahL7').value)||0,
-        last15HR: parseInt(document.getElementById('ahL15').value)||0,
-        notes: document.getElementById('ahNotes').value.trim(),
-      };
+      const notes = document.getElementById('ahNotes').value.trim();
       if (editingHitterId) {
         const idx = hitters.findIndex(h=>h.id===editingHitterId);
-        if (idx>=0) hitters[idx] = {...hitters[idx], ...data};
+        if (idx>=0) hitters[idx].notes = notes;
       } else {
         const p = acSelectedPlayer;
         hitters.push({
           id: genId(), mlbId: p.mlbId, name: p.name, team: p.team,
-          bats: p.bats, pos: p.pos, ...data,
+          bats: p.bats, pos: p.pos, notes,
+          seasonHR: 0, last7HR: 0, last15HR: 0, abPerHR: 0,
           favorite: false, core: false, tags: [], order: hitters.length,
         });
       }
       saveJSON(STORE.HITTERS, hitters); closeModal('addHitterModal'); renderAll();
-      showToast(editingHitterId ? 'Updated' : `${acSelectedPlayer?.name || 'Hitter'} added!`);
+      const toastName = editingHitterId ? 'Updated' : `${acSelectedPlayer?.name || 'Hitter'} added!`;
+      showToast(toastName);
+      // Auto-sync stats for the new/edited hitter
+      if (!editingHitterId && acSelectedPlayer?.mlbId) {
+        fetchHitterStats(acSelectedPlayer.mlbId).then(stats => {
+          if (!stats) return;
+          const h = hitters.find(x => x.mlbId === acSelectedPlayer.mlbId);
+          if (h) {
+            Object.assign(h, { seasonHR: stats.seasonHR, last7HR: stats.last7HR, last15HR: stats.last15HR, abPerHR: stats.abPerHR, gamesPlayed: stats.gamesPlayed, avg: stats.avg, ops: stats.ops, _synced: stats._synced });
+            saveJSON(STORE.HITTERS, hitters);
+            renderAll();
+          }
+        });
+      }
     }
 
     // ── Hitter Detail ──────────────────────────────────────────────
@@ -1268,7 +1327,10 @@
             <div class="hc-stat"><div class="hc-stat-val">${h.last7HR||0}</div><div class="hc-stat-label">L7 HR</div></div>
             <div class="hc-stat"><div class="hc-stat-val">${h.last15HR||0}</div><div class="hc-stat-label">L15 HR</div></div>
             <div class="hc-stat"><div class="hc-stat-val">${h.abPerHR||'—'}</div><div class="hc-stat-label">AB/HR</div></div>
-          </div></div>
+          </div>
+          ${h._synced ? `<div style="font-size:.55rem;color:var(--text-light);margin-top:2px">📊 Synced ${new Date(h._synced).toLocaleString()}</div>` : '<div style="font-size:.55rem;color:var(--amber);margin-top:2px">⏳ Stats not yet synced</div>'}
+          ${h.gamesPlayed != null ? `<div style="font-size:.58rem;color:var(--sub);margin-top:2px">${h.gamesPlayed} GP · ${h.avg||'.000'} AVG · ${h.ops||'.000'} OPS</div>` : ''}
+          </div>
         <div class="hd-section"><div class="hd-section-title">HR Score: ${score}/100</div>
           ${factors.map(f=>`<div style="display:flex;justify-content:space-between;font-size:.62rem;padding:2px 0"><span style="color:var(--sub)">${f.label}</span><span style="font-weight:700">+${f.value}</span></div>`).join('')}
         </div>
@@ -1300,10 +1362,6 @@
       document.getElementById('acSelName').textContent=h.name;
       document.getElementById('acSelMeta').textContent=`${h.team}${h.bats?' · Bats '+h.bats:''}${h.pos?' · '+h.pos:''}`;
       document.getElementById('acSelAvatar').innerHTML=h.mlbId?`<img src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_60,q_auto:best/v1/people/${h.mlbId}/headshot/67/current" alt="" onerror="this.style.display='none';this.parentNode.textContent='⚾'">`:'⚾';
-      document.getElementById('ahHR').value=h.seasonHR||'';
-      document.getElementById('ahABHR').value=h.abPerHR||'';
-      document.getElementById('ahL7').value=h.last7HR||'';
-      document.getElementById('ahL15').value=h.last15HR||'';
       document.getElementById('ahNotes').value=h.notes||'';
       document.getElementById('ahSaveBtn').textContent='Update Hitter';
       openModal('addHitterModal');
@@ -1375,23 +1433,26 @@
       await fetchTeams();
       const [games, players] = await Promise.all([fetchTodaySchedule(), fetchMLBPlayers()]);
       todayGames = games; mlbPlayers = players;
-      // Patch any tracked hitters that were saved with empty/wrong team data
+      // Patch any tracked hitters missing mlbId, team, or other data
       let patched = false;
       for (const h of hitters) {
-        if (h.mlbId && (!h.team || h.team === '')) {
-          const match = mlbPlayers.find(p => p.mlbId === h.mlbId);
-          if (match && match.team) {
-            h.team = match.team;
-            if (!h.pos && match.pos) h.pos = match.pos;
-            if (!h.bats && match.bats) h.bats = match.bats;
-            patched = true;
-          }
+        // Try to match by name if mlbId is missing
+        const match = h.mlbId
+          ? mlbPlayers.find(p => p.mlbId === h.mlbId)
+          : mlbPlayers.find(p => p.name.toLowerCase() === h.name.toLowerCase());
+        if (match) {
+          if (!h.mlbId) { h.mlbId = match.mlbId; patched = true; }
+          if (!h.team || h.team === '') { h.team = match.team; patched = true; }
+          if (!h.pos && match.pos) { h.pos = match.pos; patched = true; }
+          if (!h.bats && match.bats) { h.bats = match.bats; patched = true; }
         }
       }
       if (patched) saveJSON(STORE.HITTERS, hitters);
       const { teams, map } = computeActiveTeams(todayGames);
       activeTeams = teams; teamGameMap = map;
       renderAll();
+      // Sync live stats in background after initial render
+      syncAllHitterStats().then(() => renderAll());
       document.getElementById('loader').classList.add('hidden');
       setTimeout(() => document.getElementById('loader').style.display='none', 400);
     });
