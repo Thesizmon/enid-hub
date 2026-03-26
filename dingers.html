@@ -952,10 +952,61 @@
       if (changed) saveJSON(STORE.HITTERS, hitters);
     }
 
+    // ── Fetch HR prop odds from The Odds API ────────────────────
+    const ODDS_API_KEY = '84fee6041e382277db940ec090a50f00';
+    let playerOdds = {}; // playerName (lowercase) → { best: "+450", book: "DraftKings", all: [...] }
+
+    async function fetchHRPropOdds() {
+      if (!todayGames.length) return;
+      try {
+        // First get today's event IDs
+        const evtRes = await fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events?apiKey=${ODDS_API_KEY}&dateFormat=iso`);
+        if (!evtRes.ok) throw new Error('Events fetch failed');
+        const events = await evtRes.json();
+        // Fetch HR props for each event in parallel
+        const oddsResults = await Promise.all(
+          events.map(evt =>
+            fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events/${evt.id}/odds?apiKey=${ODDS_API_KEY}&regions=us&markets=batter_home_runs&oddsFormat=american`)
+              .then(r => r.ok ? r.json() : null)
+              .catch(() => null)
+          )
+        );
+        // Build player → odds map
+        const oddsMap = {};
+        for (const evt of oddsResults) {
+          if (!evt || !evt.bookmakers) continue;
+          for (const book of evt.bookmakers) {
+            for (const market of book.markets) {
+              if (market.key !== 'batter_home_runs') continue;
+              for (const outcome of market.outcomes) {
+                if (outcome.name !== 'Over' || outcome.point !== 0.5) continue;
+                const name = outcome.description.toLowerCase();
+                const price = outcome.price;
+                const display = price > 0 ? `+${price}` : `${price}`;
+                if (!oddsMap[name]) oddsMap[name] = { best: price, bestDisplay: display, book: book.title, all: [] };
+                oddsMap[name].all.push({ book: book.title, price, display });
+                // Track the best (shortest) odds — closest to even money
+                if (price < oddsMap[name].best) {
+                  oddsMap[name].best = price;
+                  oddsMap[name].bestDisplay = display;
+                  oddsMap[name].book = book.title;
+                }
+              }
+            }
+          }
+        }
+        playerOdds = oddsMap;
+      } catch (e) { console.warn('Odds fetch failed:', e); }
+    }
+
+    function getPlayerOdds(playerName) {
+      return playerOdds[playerName.toLowerCase()] || null;
+    }
+
     async function manualSync() {
       const btn = document.getElementById('syncBtn');
       btn.textContent = '📊 Syncing…'; btn.disabled = true;
-      await syncAllHitterStats();
+      await Promise.all([syncAllHitterStats(), fetchHRPropOdds()]);
       renderAll();
       btn.textContent = '📊 Sync Stats'; btn.disabled = false;
       showToast('Stats synced from MLB');
@@ -1067,6 +1118,16 @@
         ? `<img src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_80,q_auto:best/v1/people/${h.mlbId}/headshot/67/current" alt="" onerror="this.style.display='none';this.parentNode.textContent='⚾'">`
         : '⚾';
 
+      const odds = active ? getPlayerOdds(h.name) : null;
+      const oddsHtml = odds
+        ? `<div style="display:flex;align-items:center;gap:5px;margin:4px 0;padding:4px 8px;border-radius:9px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.12)">
+            <span style="font-size:.55rem;font-weight:700;color:var(--sub)">HR</span>
+            <span style="font-size:.78rem;font-weight:800;color:${odds.best <= 400 ? 'var(--hot)' : odds.best <= 600 ? 'var(--amber)' : 'var(--purple)'}">${odds.bestDisplay}</span>
+            <span style="font-size:.5rem;color:var(--text-light);flex:1">${odds.book}</span>
+            ${odds.all.length > 1 ? `<span style="font-size:.48rem;color:var(--text-light)">${odds.all.length} books</span>` : ''}
+          </div>`
+        : (active ? '<div style="font-size:.52rem;color:var(--text-light);margin:3px 0;font-style:italic">No HR prop available</div>' : '');
+
       return `<div class="${cls}" onclick="openHitterDetail('${h.id}')">
         ${!active?'<div class="hc-inactive-banner">No Game Today</div>':''}
         <div class="hc-top" style="${!active?'margin-top:10px':''}">
@@ -1088,6 +1149,7 @@
           <div class="hc-stat"><div class="hc-stat-val">${h.last15HR||0}</div><div class="hc-stat-label">L15</div></div>
           <div class="hc-stat"><div class="hc-stat-val">${h.abPerHR||'—'}</div><div class="hc-stat-label">AB/HR</div></div>
         </div>
+        ${oddsHtml}
         <div class="hc-score-row">
           <div class="hc-score-label">Score</div>
           <div class="hc-score-bar"><div class="hc-score-fill ${scoreCls}" style="width:${score}%"></div></div>
@@ -1113,7 +1175,7 @@
       body.innerHTML = builderLegs.map((leg,i) => `
         <div class="pb-leg">
           <div class="pb-leg-num">${i+1}</div>
-          <div class="pb-leg-info"><div class="pb-leg-name">${leg.name}</div><div class="pb-leg-team">${leg.team}</div></div>
+          <div class="pb-leg-info"><div class="pb-leg-name">${leg.name}</div><div class="pb-leg-team">${leg.team}${(()=>{ const o=getPlayerOdds(leg.name); return o ? ` · <span style="font-weight:800;color:${o.best<=400?'var(--hot)':o.best<=600?'var(--amber)':'var(--purple)'}">${o.bestDisplay}</span>` : ''; })()}</div></div>
           <div class="pb-leg-remove" onclick="removeBuilderLeg('${leg.id}')">✕</div>
         </div>`).join('');
     }
@@ -1331,6 +1393,20 @@
           ${h._synced ? `<div style="font-size:.55rem;color:var(--text-light);margin-top:2px">📊 Synced ${new Date(h._synced).toLocaleString()}</div>` : '<div style="font-size:.55rem;color:var(--amber);margin-top:2px">⏳ Stats not yet synced</div>'}
           ${h.gamesPlayed != null ? `<div style="font-size:.58rem;color:var(--sub);margin-top:2px">${h.gamesPlayed} GP · ${h.avg||'.000'} AVG · ${h.ops||'.000'} OPS</div>` : ''}
           </div>
+        ${(()=>{
+          const odds = active ? getPlayerOdds(h.name) : null;
+          if (!odds) return active ? '<div class="hd-section"><div class="hd-section-title">HR Odds</div><div style="font-size:.72rem;color:var(--sub);font-style:italic">No HR prop available for this game</div></div>' : '';
+          return `<div class="hd-section"><div class="hd-section-title">HR Odds — ${odds.all.length} Book${odds.all.length!==1?'s':''}</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">
+              <span style="font-size:1.1rem;font-weight:800;color:${odds.best<=400?'var(--hot)':odds.best<=600?'var(--amber)':'var(--purple)'}">${odds.bestDisplay}</span>
+              <span style="font-size:.65rem;color:var(--sub)">best @ ${odds.book}</span>
+            </div>
+            ${odds.all.map(o => `<div style="display:flex;justify-content:space-between;font-size:.65rem;padding:3px 0;border-bottom:1px solid rgba(168,85,247,.06)">
+              <span style="color:var(--sub)">${o.book}</span>
+              <span style="font-weight:700;color:var(--text)">${o.display}</span>
+            </div>`).join('')}
+          </div>`;
+        })()}
         <div class="hd-section"><div class="hd-section-title">HR Score: ${score}/100</div>
           ${factors.map(f=>`<div style="display:flex;justify-content:space-between;font-size:.62rem;padding:2px 0"><span style="color:var(--sub)">${f.label}</span><span style="font-weight:700">+${f.value}</span></div>`).join('')}
         </div>
@@ -1451,8 +1527,8 @@
       const { teams, map } = computeActiveTeams(todayGames);
       activeTeams = teams; teamGameMap = map;
       renderAll();
-      // Sync live stats in background after initial render
-      syncAllHitterStats().then(() => renderAll());
+      // Sync live stats and odds in background after initial render
+      Promise.all([syncAllHitterStats(), fetchHRPropOdds()]).then(() => renderAll());
       document.getElementById('loader').classList.add('hidden');
       setTimeout(() => document.getElementById('loader').style.display='none', 400);
     });
