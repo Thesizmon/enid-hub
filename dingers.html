@@ -1000,7 +1000,10 @@
           // Small delay between batches to be kind to rate limits
           if (i + batchSize < events.length) await new Promise(r => setTimeout(r, 300));
         }
-        playerOdds = oddsMap;
+        // Merge into existing odds (never lose data from partial fetches)
+        for (const [name, data] of Object.entries(oddsMap)) {
+          playerOdds[name] = data;
+        }
         oddsLoaded = true;
       } catch (e) { console.warn('Odds fetch failed:', e); oddsLoaded = true; }
     }
@@ -1154,7 +1157,7 @@
             <span style="font-size:.5rem;color:var(--text-light);flex:1">${odds.book}</span>
             ${odds.all.length > 1 ? `<span style="font-size:.48rem;color:var(--text-light)">${odds.all.length} books</span>` : ''}
           </div>`
-        : (active && oddsLoaded ? '<div style="font-size:.52rem;color:var(--text-light);margin:3px 0;font-style:italic">No HR prop available</div>' : (active && !oddsLoaded ? '<div style="font-size:.52rem;color:var(--text-light);margin:3px 0;font-style:italic">Loading odds…</div>' : ''));
+        : '';
 
       return `<div class="${cls}" onclick="openHitterDetail('${h.id}')">
         ${!active?'<div class="hc-inactive-banner">No Game Today</div>':''}
@@ -1435,7 +1438,7 @@
           </div>
         ${(()=>{
           const odds = active ? getPlayerOdds(h.name) : null;
-          if (!odds) return active ? '<div class="hd-section"><div class="hd-section-title">HR Odds</div><div style="font-size:.72rem;color:var(--sub);font-style:italic">No HR prop available for this game</div></div>' : '';
+          if (!odds) return '';
           return `<div class="hd-section"><div class="hd-section-title">HR Odds — ${odds.all.length} Book${odds.all.length!==1?'s':''}</div>
             <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">
               <span style="font-size:1.1rem;font-weight:800;color:${odds.best<=400?'var(--hot)':odds.best<=600?'var(--amber)':'var(--purple)'}">${odds.bestDisplay}</span>
