@@ -2067,9 +2067,13 @@
 
     // ── Render helpers ────────────────────────────────────────────
     function parlayOddsHtml(pick) {
-      const lo = pick.legs.filter(l=>l.odds);
+      // Use live odds if available, fall back to saved leg odds
+      const lo = pick.legs.map(l => {
+        const live = getPlayerOdds(l.name);
+        return live ? live.bestDisplay : l.odds;
+      }).filter(Boolean);
       if (lo.length < 2) return '';
-      const dec = lo.map(l=>{const p=parseInt(l.odds);return p>0?(p/100)+1:(100/Math.abs(p))+1;});
+      const dec = lo.map(o=>{const p=parseInt(o);return p>0?(p/100)+1:(100/Math.abs(p))+1;});
       const c = dec.reduce((a,b)=>a*b,1);
       const am = c>=2?'+'+Math.round((c-1)*100):'-'+Math.round(100/(c-1));
       const pay = Math.round(c*10);
@@ -2113,9 +2117,12 @@
           <div class="ai-pick-legs">${pick.legs.map(l=>{
             const hs = l.mlbId?`<img src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_60,q_auto:best/v1/people/${l.mlbId}/headshot/67/current" alt="" onerror="this.style.display='none';this.parentNode.textContent='⚾'">`:'⚾';
             const rh = l.result?`<div class="ai-leg-result ${l.result}">${l.result==='hit'?'✅ HR':'❌'}</div>`:'';
+            // Use live odds if available, fall back to saved
+            const liveOdds = getPlayerOdds(l.name);
+            const dispOdds = liveOdds ? liveOdds.bestDisplay : l.odds;
             return `<div class="ai-leg"><div class="ai-leg-avatar">${hs}</div><div class="ai-leg-name">${l.name}</div>
               <div class="ai-leg-meta">${l.team} vs ${l.opponent} · ${l.time}</div>
-              ${l.odds?`<div class="ai-leg-odds" style="color:${parseInt(l.odds)<=400?'var(--hot)':parseInt(l.odds)<=600?'var(--amber)':'var(--purple)'}">${l.odds}</div>`:''}
+              ${dispOdds?`<div class="ai-leg-odds" style="color:${parseInt(dispOdds)<=400?'var(--hot)':parseInt(dispOdds)<=600?'var(--amber)':'var(--purple)'}">${dispOdds}</div>`:''}
               <div class="ai-leg-reason">${l.reason}</div>${rh}</div>`;
           }).join('')}</div>
           ${parlayOddsHtml(pick)}
