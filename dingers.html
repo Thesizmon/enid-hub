@@ -1271,6 +1271,7 @@
           if (i % 3 === 2 || i === events.length - 1) {
             for (const [n, d] of Object.entries(oddsMap)) playerOdds[n] = d;
             renderHitterCards(); renderParlayBuilder();
+            if (typeof renderAIPicks === 'function') renderAIPicks();
           }
         }
         oddsLoaded = true;
@@ -2230,8 +2231,11 @@
       // As each source completes, re-render cards with updated data
       statsPromise.then(() => { renderHitterCards(); renderParlayBuilder(); });
       // After both complete, check if any AI picks are still missing and retry with better data
+      // After odds load, re-render AI picks so odds/payout show immediately
+      oddsPromise.then(() => { renderAIPicks(); });
       Promise.all([statsPromise, oddsPromise]).then(async () => {
         renderAll();
+        renderAIPicks(); renderAIHistory();
         // Retry generation for any cards that failed on first attempt (now with full data)
         const before = ['skb','dbc','ubv'].filter(t => !getTodayPick(t)).length;
         if (before > 0) {
