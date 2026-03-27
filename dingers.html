@@ -1326,8 +1326,20 @@
       } catch (e) { console.warn('Odds fetch failed:', e); oddsLoaded = true; }
     }
 
+    function normalizeOddsName(name) {
+      return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
     function getPlayerOdds(playerName) {
-      return playerOdds[playerName.toLowerCase()] || null;
+      // Try exact lowercase first, then accent-stripped
+      const lower = playerName.toLowerCase();
+      if (playerOdds[lower]) return playerOdds[lower];
+      const stripped = normalizeOddsName(playerName);
+      if (playerOdds[stripped]) return playerOdds[stripped];
+      // Search all keys with accent stripping
+      for (const [k, v] of Object.entries(playerOdds)) {
+        if (normalizeOddsName(k) === stripped) return v;
+      }
+      return null;
     }
 
     // ── Parlay odds calculation ───────────────────────────────────
