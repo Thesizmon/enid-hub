@@ -1817,14 +1817,23 @@
     function getTodayPick(type) { return aiPicks.find(p => p.date === todayStr() && p.type === type); }
 
     // ── Shared candidate scoring ─────────────────────────────────
+    // dataTier tracks what data was available during generation
+    let aiDataTier = 'unknown'; // 'full', 'partial', 'basic'
+
     function buildCandidatePool() {
+      const hasOdds = Object.keys(playerOdds).length > 0;
+      const hasTracked = hitters.some(h => h.seasonHR > 0);
+      aiDataTier = (hasOdds && hasTracked) ? 'full' : (hasOdds || hasTracked) ? 'partial' : 'basic';
+
       return mlbPlayers
         .filter(p => p.team && activeTeams.has(p.team))
         .map(p => {
           const tracked = hitters.find(h => h.mlbId === p.mlbId);
           const gi = teamGameMap[p.team] || {};
           const odds = getPlayerOdds(p.name);
-          let score = 0; const reasons = [];
+          // Every active MLB hitter gets a baseline score of 5
+          let score = 5; const reasons = [];
+          // Bonus from tracked hitter stats
           if (tracked) {
             const hr = Math.min(25, (tracked.seasonHR||0)*1.5); score += hr;
             if (tracked.seasonHR >= 3) reasons.push(`${tracked.seasonHR} HR`);
@@ -1832,13 +1841,18 @@
             if (tracked.last7HR >= 2) reasons.push(`${tracked.last7HR} HR L7`);
             score += Math.min(15, (tracked.last15HR||0)*3);
             if (tracked.abPerHR > 0) { score += Math.max(0, Math.min(20, (25-tracked.abPerHR)*1.5)); if (tracked.abPerHR <= 15) reasons.push(`${tracked.abPerHR} AB/HR`); }
+            if (tracked.isFav || tracked.isCore) { score += 3; reasons.push('Core/Fav'); }
           }
+          // Bonus from odds (shorter odds = higher HR probability)
           if (odds) {
-            score += Math.max(0, Math.min(20, (700-odds.best)/30));
+            score += Math.max(0, Math.min(25, (700-odds.best)/25));
             if (odds.best <= 350) reasons.push(`Short: ${odds.bestDisplay}`);
             else if (odds.best <= 550) reasons.push(`Odds: ${odds.bestDisplay}`);
           }
-          if (!tracked && !odds) score -= 10;
+          // Position-based baseline: known power positions get small bonus
+          const powerPos = ['RF','LF','CF','1B','DH'];
+          if (powerPos.includes(p.pos)) { score += 2; }
+          if (!reasons.length) reasons.push('Active today');
           return {
             mlbId: p.mlbId, name: p.name, team: p.team, pos: p.pos, bats: p.bats,
             opponent: gi.opponent||'?', time: gi.time||'', pitcher: gi.pitcher||'TBD', venue: gi.venue||'',
@@ -1846,7 +1860,7 @@
             score, reasons,
             seasonHR: tracked?.seasonHR||0, last7HR: tracked?.last7HR||0, abPerHR: tracked?.abPerHR||0,
           };
-        }).filter(c => c.score > 0);
+        }).filter(c => c.score > 3);
     }
 
     function pickTop4(candidates, excludeNames=[]) {
@@ -1864,22 +1878,28 @@
     // ── 💎 She Knows Ball 4 — best data, composed ────────────────
     function generateSKB() {
       const candidates = buildCandidatePool();
+      if (candidates.length < 4) { console.warn(`SKB: only ${candidates.length} candidates, need 4`); return null; }
       const sel = pickTop4(candidates);
-      if (sel.length < 4) return null;
+      if (sel.length < 4) { console.warn(`SKB: pickTop4 returned ${sel.length}`); return null; }
       const avg = sel.reduce((s,c) => s+c.score, 0)/4;
+      const tierNote = aiDataTier !== 'full' ? ` [${aiDataTier} data]` : '';
       return buildPickObj('skb', sel, Math.min(100, Math.round(avg*1.1)),
-        `The 4 strongest HR candidates by data: power, recent form, AB/HR, and odds across ${todayGames.length} games. Max 2 per game.`);
+        `The 4 strongest HR candidates by data: power, recent form, AB/HR, and odds across ${todayGames.length} games.${tierNote}`);
     }
 
     // ── 🎀 Delusional (But Correct) 4 — anti-chalk, weighted random
     function generateDBC(skbNames=[]) {
       const candidates = buildCandidatePool();
-      // Remove chalk tier (top ~8 by odds) and SKB picks
-      const chalkCutoff = [...candidates].sort((a,b) => a.oddsNum - b.oddsNum).slice(0,8).map(c => c.name);
-      const pool = candidates.filter(c => !skbNames.includes(c.name) && !chalkCutoff.includes(c.name) && c.score >= 5);
+      if (candidates.length < 8) { console.warn(`DBC: only ${candidates.length} candidates`); }
+      // Remove chalk tier (top ~8 by odds) and SKB picks — but only if we have odds data
+      const hasOddsData = candidates.some(c => c.oddsNum < 9999);
+      const chalkCutoff = hasOddsData
+        ? [...candidates].sort((a,b) => a.oddsNum - b.oddsNum).slice(0,8).map(c => c.name)
+        : [...candidates].sort((a,b) => b.score - a.score).slice(0,6).map(c => c.name);
+      const pool = candidates.filter(c => !skbNames.includes(c.name) && !chalkCutoff.includes(c.name));
       // If pool too small, relax: allow some chalk back except SKB names
-      const finalPool = pool.length >= 8 ? pool : candidates.filter(c => !skbNames.includes(c.name) && c.score >= 3);
-      if (finalPool.length < 4) return null;
+      const finalPool = pool.length >= 6 ? pool : candidates.filter(c => !skbNames.includes(c.name));
+      if (finalPool.length < 4) { console.warn(`DBC: finalPool only ${finalPool.length}`); return null; }
       // Weighted random sampling
       const sel = []; const gc = {}; const used = new Set();
       const totalWeight = finalPool.reduce((s,c) => s + Math.max(1, c.score), 0);
@@ -1903,9 +1923,9 @@
     // ── 🪩 Unhinged But Valid 5 — chaotic moonshot, 5 legs ──────
     function generateUBV(avoidNames=[]) {
       const candidates = buildCandidatePool();
-      // Wider pool: lower threshold, reward volatility, allow longer odds
-      const pool = candidates.filter(c => !avoidNames.includes(c.name) && c.score >= 2);
-      if (pool.length < 8) return null;
+      // Wider pool: include everyone not already picked, very low threshold
+      const pool = candidates.filter(c => !avoidNames.includes(c.name));
+      if (pool.length < 5) { console.warn(`UBV: pool only ${pool.length}`); return null; }
       // Re-score with chaos bonus: reward higher odds (more upside), recent hot streaks, raw power
       const chaosPool = pool.map(c => {
         let chaosScore = c.score;
@@ -1938,6 +1958,7 @@
     function buildPickObj(type, sel, confidence, rationale) {
       return {
         type, date: todayStr(), generated: new Date().toISOString(),
+        dataTier: aiDataTier, oddsCount: Object.keys(playerOdds).length,
         confidence, rationale, status: 'pending', hits: null,
         legs: sel.map((c,i) => ({
           legNum: i+1, mlbId: c.mlbId, name: c.name, team: c.team,
@@ -1951,20 +1972,27 @@
     }
 
     async function ensureTodayPicks() {
+      if (!todayGames.length) { console.warn('AI: No games today, skipping generation'); return; }
+      const pool = buildCandidatePool();
+      console.log(`AI generation: ${pool.length} candidates, dataTier=${aiDataTier}, odds=${Object.keys(playerOdds).length}, games=${todayGames.length}`);
+      if (pool.length < 4) { console.warn(`AI: Only ${pool.length} candidates — not enough to generate`); return; }
       let changed = false;
-      if (!getTodayPick('skb') && todayGames.length) {
+      if (!getTodayPick('skb')) {
         const skb = generateSKB();
-        if (skb) { aiPicks.unshift(skb); changed = true; }
+        if (skb) { aiPicks.unshift(skb); changed = true; console.log('AI: Generated SKB'); }
+        else { console.warn('AI: SKB generation returned null'); }
       }
-      if (!getTodayPick('dbc') && todayGames.length) {
+      if (!getTodayPick('dbc')) {
         const skbNames = (getTodayPick('skb')?.legs||[]).map(l=>l.name);
         const dbc = generateDBC(skbNames);
-        if (dbc) { aiPicks.unshift(dbc); changed = true; }
+        if (dbc) { aiPicks.unshift(dbc); changed = true; console.log('AI: Generated DBC'); }
+        else { console.warn('AI: DBC generation returned null'); }
       }
-      if (!getTodayPick('ubv') && todayGames.length) {
+      if (!getTodayPick('ubv')) {
         const avoid = [...(getTodayPick('skb')?.legs||[]), ...(getTodayPick('dbc')?.legs||[])].map(l=>l.name);
         const ubv = generateUBV(avoid);
-        if (ubv) { aiPicks.unshift(ubv); changed = true; }
+        if (ubv) { aiPicks.unshift(ubv); changed = true; console.log('AI: Generated UBV'); }
+        else { console.warn('AI: UBV generation returned null'); }
       }
       if (changed) {
         if (aiPicks.length > 270) aiPicks = aiPicks.slice(0, 270);
@@ -2057,9 +2085,16 @@
     function renderPickCard(elId, pick, title, emoji, type) {
       const card = document.getElementById(elId);
       if (!pick) {
-        card.innerHTML = `<div class="ai-pick-header"><div><div class="ai-pick-title">${emoji} ${title}</div><div class="ai-pick-date">Generating…</div></div></div>
+        let statusMsg = 'No games today';
+        if (todayGames.length) {
+          const pool = buildCandidatePool();
+          if (pool.length < 4) statusMsg = `Only ${pool.length} eligible hitters found — need 4+`;
+          else statusMsg = 'Generating — reload if this persists';
+        }
+        card.innerHTML = `<div class="ai-pick-header"><div><div class="ai-pick-title">${emoji} ${title}</div><div class="ai-pick-date">${todayStr()}</div></div></div>
           <div class="ai-pick-body" style="text-align:center;padding:16px"><div style="font-size:1.5rem;margin-bottom:6px">${emoji}</div>
-          <div style="font-size:.72rem;color:var(--sub)">${todayGames.length?'Waiting for stats & odds…':'No games today'}</div></div>`;
+          <div style="font-size:.72rem;color:var(--sub)">${statusMsg}</div>
+          ${todayGames.length && buildCandidatePool().length >= 4 ? `<button class="ai-pick-btn primary" style="margin-top:8px" onclick="regeneratePick('${type}')">⚡ Generate Now</button>` : ''}</div>`;
         return;
       }
       const rec = getAIRecord(type);
@@ -2176,17 +2211,30 @@
       const { teams, map } = computeActiveTeams(todayGames);
       activeTeams = teams; teamGameMap = map;
       renderAll();
-      // Sync live stats and odds in background, then generate AI pick
-      Promise.all([syncAllHitterStats(), fetchHRPropOdds()]).then(async () => {
+      // Attempt AI generation immediately with basic data (schedule + player list)
+      // This ensures picks generate even if stats/odds are slow or fail
+      await ensureTodayPicks();
+      renderAIPicks(); renderAIHistory();
+      document.getElementById('loader').classList.add('hidden');
+      setTimeout(() => document.getElementById('loader').style.display='none', 400);
+      // Sync live stats and odds in background — upgrade picks if they improve
+      const statsPromise = syncAllHitterStats().catch(e => console.warn('Stats sync error:', e));
+      const oddsPromise = fetchHRPropOdds().catch(e => console.warn('Odds fetch error:', e));
+      // As each source completes, re-render cards with updated data
+      statsPromise.then(() => { renderHitterCards(); renderParlayBuilder(); });
+      // After both complete, check if any AI picks are still missing and retry with better data
+      Promise.all([statsPromise, oddsPromise]).then(async () => {
         renderAll();
-        // Generate today's dual AI picks once we have stats + odds
-        await ensureTodayPicks();
-        renderAIPicks(); renderAIHistory();
+        // Retry generation for any cards that failed on first attempt (now with full data)
+        const before = ['skb','dbc','ubv'].filter(t => !getTodayPick(t)).length;
+        if (before > 0) {
+          console.log(`AI: Retrying ${before} missing picks with enriched data`);
+          await ensureTodayPicks();
+          renderAIPicks(); renderAIHistory();
+        }
         // Grade any pending picks from previous days
         gradeRecentPicks();
       });
-      document.getElementById('loader').classList.add('hidden');
-      setTimeout(() => document.getElementById('loader').style.display='none', 400);
     });
 
     // ── Keyboard ───────────────────────────────────────────────────
