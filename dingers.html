@@ -1924,6 +1924,11 @@
         }).filter(c => c.score > 3);
     }
 
+    // Filter candidates to only those with bookmaker HR odds (bettable)
+    function bettableCandidates(candidates) {
+      return candidates.filter(c => c.odds !== null);
+    }
+
     function pickTop4(candidates, excludeNames=[]) {
       const pool = candidates.filter(c => !excludeNames.includes(c.name)).sort((a,b) => b.score - a.score);
       const sel = []; const gc = {};
@@ -1938,8 +1943,9 @@
 
     // ── 💎 She Knows Ball 4 — best data, composed ────────────────
     function generateSKB() {
-      const candidates = buildCandidatePool();
-      if (candidates.length < 4) { console.warn(`SKB: only ${candidates.length} candidates, need 4`); return null; }
+      const raw = buildCandidatePool();
+      const candidates = oddsLoaded ? bettableCandidates(raw) : raw;
+      if (candidates.length < 4) { console.warn(`SKB: only ${candidates.length} bettable candidates, need 4`); return null; }
       const sel = pickTop4(candidates);
       if (sel.length < 4) { console.warn(`SKB: pickTop4 returned ${sel.length}`); return null; }
       const avg = sel.reduce((s,c) => s+c.score, 0)/4;
@@ -1950,8 +1956,9 @@
 
     // ── 🎀 Delusional (But Correct) 4 — anti-chalk, weighted random
     function generateDBC(skbNames=[]) {
-      const candidates = buildCandidatePool();
-      if (candidates.length < 8) { console.warn(`DBC: only ${candidates.length} candidates`); }
+      const raw = buildCandidatePool();
+      const candidates = oddsLoaded ? bettableCandidates(raw) : raw;
+      if (candidates.length < 8) { console.warn(`DBC: only ${candidates.length} bettable candidates`); }
       // Remove chalk tier (top ~8 by odds) and SKB picks — but only if we have odds data
       const hasOddsData = candidates.some(c => c.oddsNum < 9999);
       const chalkCutoff = hasOddsData
@@ -1983,7 +1990,8 @@
 
     // ── 🪩 Unhinged But Valid 5 — chaotic moonshot, 5 legs ──────
     function generateUBV(avoidNames=[]) {
-      const candidates = buildCandidatePool();
+      const raw = buildCandidatePool();
+      const candidates = oddsLoaded ? bettableCandidates(raw) : raw;
       // Wider pool: include everyone not already picked, very low threshold
       const pool = candidates.filter(c => !avoidNames.includes(c.name));
       if (pool.length < 5) { console.warn(`UBV: pool only ${pool.length}`); return null; }
@@ -2296,11 +2304,19 @@
       Promise.all([statsPromise, oddsPromise]).then(async () => {
         renderAll();
         renderAIPicks(); renderAIHistory();
-        // Retry generation for any cards that failed on first attempt (now with full data)
-        const before = ['skb','dbc','ubv'].filter(t => !getTodayPick(t)).length;
-        if (before > 0) {
-          console.log(`AI: Retrying ${before} missing picks with enriched data`);
+        // Check if existing picks have unbettable legs (no odds) — regenerate with odds filter
+        const needsUpgrade = ['skb','dbc','ubv'].filter(t => {
+          const pick = getTodayPick(t);
+          return !pick || (oddsLoaded && pick.legs.some(l => !getPlayerOdds(l.name)));
+        });
+        if (needsUpgrade.length > 0) {
+          console.log(`AI: Upgrading ${needsUpgrade.length} picks — filtering to bettable players with odds`);
+          // Remove stale picks so they regenerate
+          for (const t of needsUpgrade) {
+            aiPicks = aiPicks.filter(p => !(p.date === todayStr() && p.type === t));
+          }
           await ensureTodayPicks();
+          debouncedSave(STORE.AI_PICKS, aiPicks);
           renderAIPicks(); renderAIHistory();
         }
         // Grade any pending picks from previous days
