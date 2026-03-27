@@ -1231,48 +1231,96 @@
     let playerOdds = {}; // playerName (lowercase) → { best, bestDisplay, book, all }
     let oddsLoaded = false;
 
-    async function fetchHRPropOdds() {
-      if (!todayGames.length) return;
+    const ODDS_CACHE_KEY = 'odds_cache';
+    const ODDS_CACHE_MAX_AGE_MS = 2 * 60 * 60 * 1000; // 2 hours
+
+    async function loadOddsFromCache() {
       try {
-        // Get today's event IDs
-        const evtRes = await fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events?apiKey=${ODDS_API_KEY}&dateFormat=iso`);
-        if (!evtRes.ok) throw new Error('Events fetch failed');
-        const events = await evtRes.json();
-        // Fetch HR props one game at a time to avoid rate limiting
-        const oddsMap = {};
-        for (let i = 0; i < events.length; i++) {
-          try {
-            const r = await fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events/${events[i].id}/odds?apiKey=${ODDS_API_KEY}&regions=us&markets=batter_home_runs&oddsFormat=american`);
-            if (!r.ok) { await new Promise(w => setTimeout(w, 1000)); continue; }
-            const evt = await r.json();
-            if (!evt || !evt.bookmakers) continue;
-            for (const book of evt.bookmakers) {
-              for (const market of book.markets) {
-                if (market.key !== 'batter_home_runs') continue;
-                for (const outcome of market.outcomes) {
-                  if (outcome.name !== 'Over' || outcome.point !== 0.5) continue;
-                  const name = outcome.description.toLowerCase();
-                  const price = outcome.price;
-                  const display = price > 0 ? `+${price}` : `${price}`;
-                  if (!oddsMap[name]) oddsMap[name] = { best: price, bestDisplay: display, book: book.title, all: [] };
-                  oddsMap[name].all.push({ book: book.title, price, display });
-                  if (price < oddsMap[name].best) {
-                    oddsMap[name].best = price;
-                    oddsMap[name].bestDisplay = display;
-                    oddsMap[name].book = book.title;
-                  }
+        const cached = await sbLoadDingers(ODDS_CACHE_KEY);
+        if (!cached || !cached.date || cached.date !== todayStr()) return null;
+        const age = Date.now() - new Date(cached.fetchedAt).getTime();
+        if (age > ODDS_CACHE_MAX_AGE_MS) return null; // stale
+        return cached;
+      } catch(e) { return null; }
+    }
+
+    async function saveOddsToCache(oddsMap) {
+      try {
+        await sbSaveDingers(ODDS_CACHE_KEY, {
+          date: todayStr(),
+          fetchedAt: new Date().toISOString(),
+          odds: oddsMap
+        });
+      } catch(e) { console.warn('Failed to cache odds:', e); }
+    }
+
+    async function fetchOddsFromAPI() {
+      const oddsMap = {};
+      const evtRes = await fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events?apiKey=${ODDS_API_KEY}&dateFormat=iso`);
+      if (!evtRes.ok) throw new Error(`Events fetch failed: ${evtRes.status}`);
+      const events = await evtRes.json();
+      let successCount = 0;
+      for (let i = 0; i < events.length; i++) {
+        try {
+          const r = await fetch(`https://api.the-odds-api.com/v4/sports/baseball_mlb/events/${events[i].id}/odds?apiKey=${ODDS_API_KEY}&regions=us&markets=batter_home_runs&oddsFormat=american`);
+          if (!r.ok) {
+            if (r.status === 401 || r.status === 429) { console.warn('Odds API quota/rate limit hit'); break; }
+            await new Promise(w => setTimeout(w, 1000)); continue;
+          }
+          const evt = await r.json();
+          if (!evt || !evt.bookmakers) continue;
+          successCount++;
+          for (const book of evt.bookmakers) {
+            for (const market of book.markets) {
+              if (market.key !== 'batter_home_runs') continue;
+              for (const outcome of market.outcomes) {
+                if (outcome.name !== 'Over' || outcome.point !== 0.5) continue;
+                const name = outcome.description.toLowerCase();
+                const price = outcome.price;
+                const display = price > 0 ? `+${price}` : `${price}`;
+                if (!oddsMap[name]) oddsMap[name] = { best: price, bestDisplay: display, book: book.title, all: [] };
+                oddsMap[name].all.push({ book: book.title, price, display });
+                if (price < oddsMap[name].best) {
+                  oddsMap[name].best = price;
+                  oddsMap[name].bestDisplay = display;
+                  oddsMap[name].book = book.title;
                 }
               }
             }
-          } catch(e) { /* skip failed game, continue to next */ }
-          // Pause between requests
-          if (i < events.length - 1) await new Promise(w => setTimeout(w, 250));
-          // Merge incrementally so odds appear as they load
-          if (i % 3 === 2 || i === events.length - 1) {
-            for (const [n, d] of Object.entries(oddsMap)) playerOdds[n] = d;
-            renderHitterCards(); renderParlayBuilder();
-            if (typeof renderAIPicks === 'function') renderAIPicks();
           }
+        } catch(e) { /* skip failed game */ }
+        if (i < events.length - 1) await new Promise(w => setTimeout(w, 300));
+        // Incremental render every 3 games
+        if (i % 3 === 2 || i === events.length - 1) {
+          for (const [n, d] of Object.entries(oddsMap)) playerOdds[n] = d;
+          renderHitterCards(); renderParlayBuilder();
+          if (typeof renderAIPicks === 'function') renderAIPicks();
+        }
+      }
+      console.log(`Odds API: fetched ${successCount}/${events.length} games, ${Object.keys(oddsMap).length} players`);
+      return oddsMap;
+    }
+
+    async function fetchHRPropOdds() {
+      if (!todayGames.length) return;
+      try {
+        // 1. Try Supabase cache first
+        const cached = await loadOddsFromCache();
+        if (cached && cached.odds && Object.keys(cached.odds).length > 0) {
+          console.log(`Odds loaded from cache (${Object.keys(cached.odds).length} players, fetched ${cached.fetchedAt})`);
+          for (const [n, d] of Object.entries(cached.odds)) playerOdds[n] = d;
+          oddsLoaded = true;
+          renderHitterCards(); renderParlayBuilder();
+          if (typeof renderAIPicks === 'function') renderAIPicks();
+          return;
+        }
+        // 2. Cache miss/stale — fetch from API
+        console.log('Odds cache miss — fetching from API...');
+        const freshOdds = await fetchOddsFromAPI();
+        if (Object.keys(freshOdds).length > 0) {
+          // Save to Supabase cache
+          await saveOddsToCache(freshOdds);
+          console.log(`Odds cached to Supabase (${Object.keys(freshOdds).length} players)`);
         }
         oddsLoaded = true;
       } catch (e) { console.warn('Odds fetch failed:', e); oddsLoaded = true; }
