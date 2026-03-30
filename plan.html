@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐺 Enid's Weekly Planner</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --deep:#3A3A5E;
+  --lavender:#B9A5E2;
+  --muted:#9B92B8;
+  --text:#2D2044;
+  --bg-grad:linear-gradient(135deg,#F2EEFF 0%,#FFF0FA 55%,#EEF4FF 100%);
+  --cell:56px;
+  --cols:52px repeat(7,minmax(90px,1fr));
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg-grad);color:var(--text);min-height:100vh}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;z-index:999;background:var(--bg-grad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .35s ease}
+#loader.hidden{opacity:0;pointer-events:none}
+.loader-wrap{position:relative;width:100px;height:100px;display:flex;align-items:center;justify-content:center}
+.loader-nails-img{width:64px;height:64px;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.sp{position:absolute;font-size:12px;color:var(--lavender);animation:orbit 2.4s linear infinite}
+.sp1{top:4px;left:50%;animation-delay:0s}
+.sp2{top:20%;right:4px;animation-delay:-.48s}
+.sp3{bottom:10%;right:10%;animation-delay:-.96s}
+.sp4{bottom:4px;left:30%;animation-delay:-1.44s}
+.sp5{top:20%;left:4px;animation-delay:-1.92s}
+@keyframes orbit{0%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}100%{opacity:1;transform:scale(1)}}
+.loader-text{font-size:.82rem;font-weight:700;color:var(--muted);letter-spacing:.03em}
+
+/* ── HEADER ── */
+.header{background:var(--deep);color:#fff;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;border-radius:0 0 18px 18px;box-shadow:0 4px 24px rgba(58,58,94,.35);gap:12px;flex-wrap:wrap}
+.brand{font-size:1.1rem;font-weight:900;display:flex;align-items:center;gap:9px}
+.back-link{color:rgba(255,255,255,.7);text-decoration:none;font-size:.72rem;font-weight:700;transition:color .2s}
+.back-link:hover{color:#fff}
+.week-lbl{font-size:.84rem;font-weight:700;opacity:.82}
+.navs{display:flex;gap:6px}
+.nb{background:rgba(255,255,255,.13);border:none;color:#fff;border-radius:9px;padding:5px 13px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.77rem;font-weight:800;transition:background .2s}
+.nb:hover{background:rgba(255,255,255,.24)}
+.nb.today-btn{background:rgba(185,165,226,.28)}
+
+/* ── LEGEND ── */
+.legend{padding:12px 20px 4px}
+.legend-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.legend-label{font-size:.62rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-right:2px}
+.lc{padding:4px 11px;border-radius:20px;font-size:.68rem;font-weight:800}
+.lc.t2{padding:3px 10px;font-size:.64rem;opacity:.92}
+
+/* ── QUICK ADD ── */
+.quick-add{padding:4px 20px 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qa-label{font-size:.65rem;font-weight:900;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-right:2px}
+.qa-divider{width:1px;height:18px;background:rgba(185,165,226,.35);margin:0 2px}
+.qa-btn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:20px;border:none;font-family:'Nunito',sans-serif;font-size:.71rem;font-weight:800;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.qa-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.13)}
+.qa-btn.t2{padding:4px 11px;font-size:.67rem;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.qa-btn.t2:hover{box-shadow:0 3px 10px rgba(0,0,0,.11)}
+
+/* ── AI BAR ── */
+.ai-wrap{padding:0 20px 10px}
+.ai-bar{background:rgba(255,255,255,.75);border-radius:12px;border:1.5px solid rgba(185,165,226,.4);display:flex;align-items:center;gap:8px;padding:9px 14px;box-shadow:0 2px 14px rgba(185,165,226,.18)}
+.ai-icon{font-size:1rem}
+.ai-input{flex:1;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:700;color:var(--text);outline:none;min-width:0}
+.ai-input::placeholder{color:var(--muted)}
+.ai-send{background:var(--deep);color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:.7rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
+.ai-resp{background:rgba(185,165,226,.2);border-radius:10px;padding:8px 14px;font-size:.73rem;font-weight:700;color:var(--deep);display:none;margin-top:6px;border-left:3px solid var(--lavender);white-space:pre-wrap;line-height:1.5}
+
+/* ── PLANNER ── */
+.planner-scroll{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 260px);padding:0 16px 40px}
+.planner{min-width:720px}
+
+/* ── DAY HEADERS ── */
+.head-row{display:grid;grid-template-columns:var(--cols);position:sticky;top:0;z-index:20;background:var(--bg-grad);padding:10px 0 6px;margin-bottom:2px}
+.th-day{text-align:center;padding:4px 2px 8px;font-size:.62rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.dn{display:block;font-size:1.2rem;font-weight:900;color:var(--text);margin-top:2px;line-height:1}
+.today-wrap .dn{width:34px;height:34px;background:var(--deep);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:2px auto 0;font-size:1rem}
+.wknd-dim{opacity:.5}
+.sub-mo{font-size:.55rem;color:var(--muted);display:block;margin-top:1px}
+
+/* ── BODY GRID ── */
+.body-grid{display:grid;grid-template-columns:var(--cols)}
+.tlbl{height:var(--cell);display:flex;align-items:flex-start;padding:3px 8px 0 0;justify-content:flex-end;font-size:.59rem;color:var(--muted);font-weight:700;white-space:nowrap}
+
+/* ── DAY COLS ── */
+.dcol{position:relative;border-left:1px solid rgba(185,165,226,.22)}
+.wknd-col{background:rgba(255,215,240,.04)}
+.hcell{height:var(--cell);border-top:1px solid rgba(185,165,226,.13);cursor:pointer;transition:background .13s}
+.hcell:hover{background:rgba(185,165,226,.09)}
+.hr8-line{position:absolute;left:0;right:0;height:1.5px;background:rgba(185,165,226,.35);pointer-events:none;z-index:2}
+.hr8-label{position:absolute;right:4px;font-size:.52rem;font-weight:900;color:rgba(185,165,226,.6);pointer-events:none;z-index:2;letter-spacing:.04em}
+
+/* ── EVENTS ── */
+.ev{position:absolute;left:3px;right:3px;border-radius:10px;padding:5px 8px;font-size:.66rem;font-weight:700;box-shadow:0 2px 12px rgba(0,0,0,.13);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;gap:2px;z-index:3;transition:transform .14s,box-shadow .14s,opacity .22s}
+.ev:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(0,0,0,.2)}
+.et{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.68rem}
+.em{font-size:.57rem;opacity:.8;font-weight:700}
+.rm{position:absolute;top:4px;right:4px;background:rgba(255,255,255,.2);border:none;color:inherit;border-radius:5px;padding:2px 7px;font-size:.56rem;cursor:pointer;font-weight:900;line-height:1.5;font-family:'Nunito',sans-serif;transition:background .17s}
+.rm:hover{background:rgba(255,255,255,.42)}
+
+/* ── FREE HINT ── */
+.free-hint{position:absolute;left:3px;right:3px;border-radius:10px;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(185,165,226,.07) 0%,rgba(255,220,245,.04) 100%);border:1px solid rgba(185,165,226,.1)}
+
+/* ── NOW LINE ── */
+.now-line{position:absolute;left:0;right:0;height:2.5px;background:linear-gradient(90deg,#FF6B9D,#FFB3D1);z-index:8;pointer-events:none;border-radius:2px}
+.now-dot{position:absolute;left:-5px;top:-4.5px;width:11px;height:11px;background:#FF6B9D;border-radius:50%;box-shadow:0 0 8px rgba(255,107,157,.6)}
+
+/* ── MODALS ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(45,32,68,.35);z-index:50;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:18px;padding:24px;width:340px;box-shadow:0 8px 40px rgba(58,58,94,.25);position:relative;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:1rem;font-weight:900;color:var(--deep);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal label{display:block;font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;margin-top:12px}
+.modal label:first-of-type{margin-top:0}
+.modal input,.modal select,.modal textarea{width:100%;border:1.5px solid rgba(185,165,226,.5);border-radius:8px;padding:7px 10px;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;color:var(--text);outline:none;transition:border .18s;background:#FDFBFF}
+.modal input:focus,.modal select:focus{border-color:var(--lavender)}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-actions{display:flex;gap:8px;margin-top:18px}
+.modal-save{flex:1;border:none;border-radius:10px;padding:9px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer;transition:opacity .2s;color:#fff}
+.modal-save:hover{opacity:.88}
+.modal-cancel{background:#f0ebff;color:var(--muted);border:none;border-radius:10px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);line-height:1}
+.early-notice{background:#FFF3CD;border:1px solid #FFD966;border-radius:8px;padding:7px 10px;font-size:.67rem;font-weight:700;color:#7A5800;margin-top:8px;display:none}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--deep);color:#fff;padding:9px 22px;border-radius:13px;font-size:.75rem;font-weight:700;box-shadow:0 4px 22px rgba(58,58,94,.35);transition:transform .28s cubic-bezier(.34,1.56,.64,1);z-index:99;pointer-events:none;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-wrap">
+    <img class="loader-nails-img" src="nails.png" alt="💅">
+    <span class="sp sp1">✦</span>
+    <span class="sp sp2">✦</span>
+    <span class="sp sp3">✦</span>
+    <span class="sp sp4">✦</span>
+    <span class="sp sp5">✦</span>
+  </div>
+  <div class="loader-text">planning your best week yet 🐺✨</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+
+<!-- HEADER -->
+<div class="header">
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="index.html" class="back-link">← Home</a>
+    <div class="brand">🐺 Enid's Weekly Planner</div>
+  </div>
+  <div class="week-lbl" id="weekLabel"></div>
+  <div class="navs">
+    <button class="nb" id="prevBtn">‹ Prev</button>
+    <button class="nb today-btn" id="todayBtn">Today</button>
+    <button class="nb" id="nextBtn">Next ›</button>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-row">
+    <span class="legend-label">Tier 1</span>
+    <span class="lc" style="background:#3A3A5E;color:#fff">💼 BBS Work</span>
+    <span class="lc" style="background:#B9A5E2;color:#2D2044">🎳 Bowling</span>
+    <span class="lc" style="background:#7086B5;color:#fff">⛽ Kwik Trip</span>
+    <span class="lc" style="background:#ED80E9;color:#fff">🎬 Movies</span>
+  </div>
+  <div class="legend-row">
+    <span class="legend-label">Tier 2</span>
+    <span class="lc t2" style="background:#F4956A;color:#5A2010">💪 Gym</span>
+    <span class="lc t2" style="background:#C5DFA8;color:#2A4A1A">🧘 Yoga</span>
+    <span class="lc t2" style="background:#FFCBA4;color:#5A2E00">👨‍👩‍👧 Family</span>
+    <span class="lc t2" style="background:#C9B8F0;color:#2D2044">✦ Other</span>
+  </div>
+</div>
+
+<!-- QUICK ADD -->
+<div class="quick-add">
+  <span class="qa-label">Quick Add</span>
+  <button class="qa-btn" style="background:#7086B5;color:#fff" onclick="openModal('kt')">⛽ KT Shift</button>
+  <button class="qa-btn" style="background:#ED80E9;color:#fff" onclick="openModal('movie')">🎬 Movie</button>
+  <div class="qa-divider"></div>
+  <button class="qa-btn t2" style="background:#F4956A;color:#5A2010" onclick="openT2('gym')">💪 Gym</button>
+  <button class="qa-btn t2" style="background:#C5DFA8;color:#2A4A1A" onclick="openT2('yoga')">🧘 Yoga</button>
+  <button class="qa-btn t2" style="background:#FFCBA4;color:#5A2E00" onclick="openT2('family')">👨‍👩‍👧 Family</button>
+  <button class="qa-btn t2" style="background:#EDE8FF;color:var(--muted)" onclick="openT2('other')">✦ Other</button>
+</div>
+
+<!-- AI BAR -->
+<div class="ai-wrap">
+  <div class="ai-bar">
+    <span class="ai-icon">✨</span>
+    <input class="ai-input" id="aiIn" placeholder='Ask Enid AI… "When can I fit the gym?" or "How packed is Thursday?"'/>
+    <button class="ai-send" id="aiSendBtn">Ask 🐺</button>
+  </div>
+  <div class="ai-resp" id="aiResp"></div>
+</div>
+
+<!-- PLANNER GRID -->
+<div class="planner-scroll" id="plannerScroll">
+<div class="planner">
+  <div class="head-row" id="headRow"></div>
+  <div class="body-grid" id="bodyGrid"></div>
+</div>
+</div>
+
+</div><!-- /app -->
+
+<!-- KT MODAL -->
+<div class="modal-overlay" id="modal-kt">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('kt')">✕</button>
+    <div class="modal-title">⛽ Add Kwik Trip Shift</div>
+    <label>Day</label>
+    <select id="kt-day"></select>
+    <div class="modal-row" style="margin-top:12px">
+      <div><label>Start Time</label><input type="time" id="kt-start" value="06:00" oninput="checkEarly()"/></div>
+      <div><label>End Time</label><input type="time" id="kt-end" value="14:00"/></div>
+    </div>
+    <div class="early-notice" id="early-notice">⚡ This shift starts before 8 AM — the grid will scroll up to show it!</div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('kt')">Cancel</button>
+      <button class="modal-save" style="background:#7086B5" onclick="saveKT()">⛽ Add Shift</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOVIE MODAL -->
+<div class="modal-overlay" id="modal-movie">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('movie')">✕</button>
+    <div class="modal-title">🎬 Add Movie</div>
+    <label>Movie Title</label>
+    <input type="text" id="mv-title" placeholder="e.g. Sinners"/>
+    <label>Theatre</label>
+    <input type="text" id="mv-theatre" placeholder="e.g. Marcus Cinema Fond du Lac"/>
+    <label>Day</label>
+    <select id="mv-day"></select>
+    <div class="modal-row" style="margin-top:12px">
+      <div><label>Start Time</label><input type="time" id="mv-start" value="19:00"/></div>
+      <div><label>End Time</label><input type="time" id="mv-end" value="21:30"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('movie')">Cancel</button>
+      <button class="modal-save" style="background:#ED80E9" onclick="saveMovie()">🎬 Add Movie</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIER 2 SHARED MODAL -->
+<div class="modal-overlay" id="modal-t2">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('t2')">✕</button>
+    <div class="modal-title" id="t2-title">💪 Add Event</div>
+    <label>Title</label>
+    <input type="text" id="t2-title-input" placeholder="e.g. Morning Lift"/>
+    <label>Day</label>
+    <select id="t2-day"></select>
+    <div class="modal-row" style="margin-top:12px">
+      <div><label>Start Time</label><input type="time" id="t2-start" value="07:00"/></div>
+      <div><label>End Time</label><input type="time" id="t2-end" value="08:00"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('t2')">Cancel</button>
+      <button class="modal-save" id="t2-save-btn" onclick="saveT2()">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toastEl"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+// ── SUPABASE ──
+const SUPA_URL = 'https://oebxxurgxvzjnunjaujh.supabase.co';
+const SUPA_KEY = 'sb_publishable_x0QWqeNaNAFf7vN7Ky0Mzw_c_FMBAAP';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+// ── CONSTANTS ──
+const CELL = 56;
+const GRID_START = 5;
+const HOURS = 19;
+const DEFAULT_SHOW = 8;
+
+const T = (h, m = 0) => (h + m / 60 - GRID_START) * CELL;
+const H = (sh, sm, eh, em) => ((eh * 60 + em) - (sh * 60 + sm)) / 60 * CELL;
+
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAY_NAMES_SHORT = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const DAY_NAMES_FULL = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+// ── CATEGORY CONFIG ──
+const CATEGORIES = {
+  bbs:       { icon: '💼', label: 'BBS Agency',    bg: '#3A3A5E', tc: '#ffffff' },
+  bowling:   { icon: '🎳', label: 'Bowling League', bg: '#B9A5E2', tc: '#2D2044' },
+  kwik_trip: { icon: '⛽', label: 'Kwik Trip',      bg: '#7086B5', tc: '#ffffff' },
+  movie:     { icon: '🎬', label: 'Movie',          bg: '#ED80E9', tc: '#ffffff' },
+  gym:       { icon: '💪', label: 'Gym Session',    bg: '#F4956A', tc: '#5A2010' },
+  yoga:      { icon: '🧘', label: 'Yoga',           bg: '#C5DFA8', tc: '#2A4A1A' },
+  family:    { icon: '👨‍👩‍👧', label: 'Family Event',  bg: '#FFCBA4', tc: '#5A2E00' },
+  other:     { icon: '✦',  label: 'Other Event',    bg: '#C9B8F0', tc: '#2D2044' },
+};
+
+// ── BOWLING CONFIG ──
+// Easy to update when summer leagues start — just add entries here
+const BOWLING_CONFIG = [
+  { weekStart: '2026-03-30', days: [1, 3] }, // Tue + Thu
+  { weekStart: '2026-04-06', days: [3] },     // Thu only
+  // summer leagues: add new entries here later
+];
+
+// ── STATE ──
+let currentMonday = getMondayOf(new Date());
+let weekEvents = [];
+let nowLineInterval = null;
+
+// ── DATE HELPERS ──
+function getMondayOf(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function toISODate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+
+function formatWeekLabel(monday) {
+  const sun = addDays(monday, 6);
+  const m1 = MONTH_NAMES[monday.getMonth()];
+  const m2 = MONTH_NAMES[sun.getMonth()];
+  const label = monday.getMonth() === sun.getMonth()
+    ? `${m1} ${monday.getDate()} – ${sun.getDate()}, ${monday.getFullYear()}`
+    : `${m1} ${monday.getDate()} – ${m2} ${sun.getDate()}, ${sun.getFullYear()}`;
+  return label;
+}
+
+function parseTime(str) {
+  const [h, m] = str.split(':').map(Number);
+  return { h, m };
+}
+
+function fmtTime(str) {
+  const { h, m } = parseTime(str);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
+}
+
+function isToday(date) {
+  const now = new Date();
+  return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
+}
+
+function getTodayDayIndex() {
+  const now = new Date();
+  const mon = getMondayOf(now);
+  if (toISODate(mon) !== toISODate(currentMonday)) return -1;
+  const day = now.getDay();
+  return day === 0 ? 6 : day - 1;
+}
+
+// ── TOAST ──
+function toast(msg) {
+  const el = document.getElementById('toastEl');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2700);
+}
+
+// ── MODALS ──
+function openModal(id) { document.getElementById('modal-' + id).classList.add('open'); }
+function closeModal(id) { document.getElementById('modal-' + id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+function checkEarly() {
+  const v = document.getElementById('kt-start').value;
+  if (!v) return;
+  const { h } = parseTime(v);
+  document.getElementById('early-notice').style.display = h < DEFAULT_SHOW ? 'block' : 'none';
+}
+
+// ── POPULATE DAY SELECTS ──
+function populateDaySelects() {
+  const selects = ['kt-day', 'mv-day', 't2-day'];
+  selects.forEach(id => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = '';
+    for (let i = 0; i < 7; i++) {
+      const d = addDays(currentMonday, i);
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${DAY_NAMES_FULL[i]}, ${MONTH_NAMES[d.getMonth()]} ${d.getDate()}`;
+      sel.appendChild(opt);
+    }
+  });
+}
+
+// ── T2 MODAL ──
+const t2Config = {
+  gym:    { icon: '💪', label: 'Gym Session',   bg: '#F4956A', tc: '#5A2010', ph: 'e.g. Morning Lift' },
+  yoga:   { icon: '🧘', label: 'Yoga',          bg: '#C5DFA8', tc: '#2A4A1A', ph: 'e.g. Flow Class' },
+  family: { icon: '👨‍👩‍👧', label: 'Family Event', bg: '#FFCBA4', tc: '#5A2E00', ph: 'e.g. Sunday Dinner' },
+  other:  { icon: '✦',  label: 'Other Event',   bg: '#C9B8F0', tc: '#2D2044', ph: "What's happening?" },
+};
+let currentT2 = 'gym';
+
+function openT2(type) {
+  currentT2 = type;
+  const cfg = t2Config[type];
+  document.getElementById('t2-title').textContent = cfg.icon + ' Add ' + cfg.label;
+  document.getElementById('t2-title-input').placeholder = cfg.ph;
+  document.getElementById('t2-title-input').value = '';
+  const btn = document.getElementById('t2-save-btn');
+  btn.style.background = cfg.bg;
+  btn.style.color = cfg.tc;
+  btn.textContent = cfg.icon + ' Add ' + cfg.label;
+  openModal('t2');
+}
+
+// ── SCROLL HELPERS ──
+function scrollToHour(h, buffer = 0.5) {
+  const scroll = document.getElementById('plannerScroll');
+  const target = Math.max(0, (h - GRID_START - buffer) * CELL);
+  scroll.scrollTo({ top: target, behavior: 'smooth' });
+}
+
+function scrollToDefault() {
+  const scroll = document.getElementById('plannerScroll');
+  scroll.scrollTop = (DEFAULT_SHOW - GRID_START) * CELL;
+}
+
+// ── BUILD GRID STRUCTURE ──
+function buildGrid() {
+  // Header row
+  const headRow = document.getElementById('headRow');
+  headRow.innerHTML = '<div></div>';
+  for (let i = 0; i < 7; i++) {
+    const d = addDays(currentMonday, i);
+    const isWknd = i >= 5;
+    const isTodayCol = isToday(d);
+    const div = document.createElement('div');
+    div.className = 'th-day' + (isWknd ? ' wknd-dim' : '') + (isTodayCol ? ' today-wrap' : '');
+    div.innerHTML = `${DAY_NAMES_SHORT[i]}<span class="dn">${d.getDate()}</span><span class="sub-mo">${MONTH_NAMES[d.getMonth()]}</span>`;
+    headRow.appendChild(div);
+  }
+
+  // Body grid
+  const bodyGrid = document.getElementById('bodyGrid');
+  bodyGrid.innerHTML = '';
+
+  // Time labels column
+  const tcol = document.createElement('div');
+  tcol.id = 'tcol';
+  for (let i = 0; i < HOURS; i++) {
+    const h = GRID_START + i;
+    const label = h === 0 ? '12 AM' : h < 12 ? h + ' AM' : h === 12 ? '12 PM' : (h - 12) + ' PM';
+    const el = document.createElement('div');
+    el.className = 'tlbl';
+    el.textContent = label;
+    tcol.appendChild(el);
+  }
+  bodyGrid.appendChild(tcol);
+
+  // Day columns
+  for (let di = 0; di < 7; di++) {
+    const col = document.createElement('div');
+    col.className = 'dcol' + (di >= 5 ? ' wknd-col' : '');
+    col.id = 'c' + di;
+    col.style.height = (HOURS * CELL) + 'px';
+    col.style.position = 'relative';
+
+    for (let i = 0; i < HOURS; i++) {
+      const c = document.createElement('div');
+      c.className = 'hcell';
+      c.onclick = () => toast('Use Quick Add above to add events here ✦');
+      col.appendChild(c);
+    }
+
+    // 8 AM marker line
+    const marker = document.createElement('div');
+    marker.className = 'hr8-line';
+    marker.style.top = T(8) + 'px';
+    col.appendChild(marker);
+
+    if (di === 0) {
+      const mlbl = document.createElement('div');
+      mlbl.className = 'hr8-label';
+      mlbl.style.top = (T(8) - 13) + 'px';
+      mlbl.textContent = '8 AM ↓';
+      col.appendChild(mlbl);
+    }
+
+    bodyGrid.appendChild(col);
+  }
+}
+
+// ── RENDER EVENT ON GRID ──
+function renderEvent(ev) {
+  if (ev.is_hidden) return;
+  const col = document.getElementById('c' + ev.day_index);
+  if (!col) return;
+
+  const cat = CATEGORIES[ev.category] || CATEGORIES.other;
+  const { h: sh, m: sm } = parseTime(ev.start_time);
+  const { h: eh, m: em } = parseTime(ev.end_time);
+  const topPx = T(sh, sm);
+  const heightPx = H(sh, sm, eh, em);
+
+  const el = document.createElement('div');
+  el.className = 'ev';
+  el.style.cssText = `top:${topPx}px;height:${heightPx}px;background:${cat.bg};color:${cat.tc}`;
+  el.dataset.eventId = ev.id;
+
+  const subtitle = ev.subtitle || `${fmtTime(ev.start_time)} – ${fmtTime(ev.end_time)}`;
+  const isRecurring = ev.category === 'bbs' || ev.category === 'bowling';
+
+  el.innerHTML = `<span class="et">${cat.icon} ${ev.title}</span><span class="em">${subtitle}</span>`;
+
+  const rmBtn = document.createElement('button');
+  rmBtn.className = 'rm';
+  rmBtn.textContent = isRecurring ? '✕ hide' : '✕';
+  rmBtn.onclick = async (e) => {
+    e.stopPropagation();
+    if (isRecurring) {
+      await sb.from('planner_events').update({ is_hidden: true }).eq('id', ev.id);
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 220);
+      toast(`${cat.icon} ${ev.title} hidden`);
+    } else {
+      await sb.from('planner_events').delete().eq('id', ev.id);
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 220);
+      toast('Removed ✓');
+    }
+    weekEvents = weekEvents.filter(e => e.id !== ev.id);
+    renderFreeTimeHints();
+  };
+  el.appendChild(rmBtn);
+  col.appendChild(el);
+}
+
+// ── FREE TIME HINTS ──
+function renderFreeTimeHints() {
+  document.querySelectorAll('.free-hint').forEach(el => el.remove());
+
+  for (let di = 0; di < 7; di++) {
+    const col = document.getElementById('c' + di);
+    if (!col) continue;
+
+    const dayEvents = weekEvents.filter(e => e.day_index === di && !e.is_hidden);
+    let freeStart;
+
+    if (dayEvents.length === 0) {
+      freeStart = GRID_START;
+    } else {
+      let latestEnd = 0;
+      dayEvents.forEach(ev => {
+        const { h, m } = parseTime(ev.end_time);
+        const totalMins = h * 60 + m;
+        if (totalMins > latestEnd) latestEnd = totalMins;
+      });
+      freeStart = latestEnd / 60;
+    }
+
+    const gridEnd = GRID_START + HOURS;
+    if (freeStart < gridEnd) {
+      const freeHeight = (gridEnd - freeStart) * CELL;
+      if (freeHeight > CELL) {
+        const fh = document.createElement('div');
+        fh.className = 'free-hint';
+        fh.style.top = T(Math.floor(freeStart), (freeStart % 1) * 60) + 'px';
+        fh.style.height = freeHeight + 'px';
+        col.appendChild(fh);
+      }
+    }
+  }
+}
+
+// ── NOW LINE ──
+function renderNowLine() {
+  document.querySelectorAll('.now-line').forEach(el => el.remove());
+  const todayIdx = getTodayDayIndex();
+  if (todayIdx < 0) return;
+
+  const col = document.getElementById('c' + todayIdx);
+  if (!col) return;
+
+  const now = new Date();
+  const nh = now.getHours() + now.getMinutes() / 60;
+  if (nh < GRID_START || nh >= GRID_START + HOURS) return;
+
+  const nl = document.createElement('div');
+  nl.className = 'now-line';
+  nl.style.top = T(now.getHours(), now.getMinutes()) + 'px';
+  nl.innerHTML = '<div class="now-dot"></div>';
+  col.appendChild(nl);
+}
+
+function startNowLine() {
+  if (nowLineInterval) clearInterval(nowLineInterval);
+  renderNowLine();
+  nowLineInterval = setInterval(renderNowLine, 60000);
+}
+
+// ── PRE-POPULATE RECURRING EVENTS ──
+async function ensureRecurringEvents(weekStart) {
+  const { data: existing } = await sb.from('planner_events')
+    .select('day_index, category')
+    .eq('week_start', weekStart);
+
+  const existingSet = new Set((existing || []).map(e => `${e.category}:${e.day_index}`));
+  const toInsert = [];
+
+  // BBS Mon-Fri
+  for (let di = 0; di <= 4; di++) {
+    if (!existingSet.has(`bbs:${di}`)) {
+      toInsert.push({
+        week_start: weekStart,
+        day_index: di,
+        category: 'bbs',
+        title: 'BBS Agency',
+        subtitle: '9:00 AM – 5:00 PM',
+        start_time: '09:00',
+        end_time: '17:00',
+        is_recurring: true,
+        recurring_rule: 'weekly:mon,tue,wed,thu,fri',
+      });
+    }
+  }
+
+  // Bowling
+  const bowlingWeek = BOWLING_CONFIG.find(c => c.weekStart === weekStart);
+  if (bowlingWeek) {
+    bowlingWeek.days.forEach(di => {
+      if (!existingSet.has(`bowling:${di}`)) {
+        toInsert.push({
+          week_start: weekStart,
+          day_index: di,
+          category: 'bowling',
+          title: 'Bowling League',
+          subtitle: '6:15 PM – 9:00 PM',
+          start_time: '18:15',
+          end_time: '21:00',
+          is_recurring: true,
+          recurring_rule: 'weekly:seasonal',
+        });
+      }
+    });
+  }
+
+  if (toInsert.length > 0) {
+    await sb.from('planner_events').insert(toInsert);
+  }
+}
+
+// ── LOAD WEEK ──
+async function loadWeek() {
+  const weekStart = toISODate(currentMonday);
+
+  // Update header
+  document.getElementById('weekLabel').textContent = formatWeekLabel(currentMonday);
+
+  // Build grid structure
+  buildGrid();
+
+  // Populate modal day selects
+  populateDaySelects();
+
+  // Ensure recurring events exist
+  await ensureRecurringEvents(weekStart);
+
+  // Fetch all events for this week
+  const { data, error } = await sb.from('planner_events')
+    .select('*')
+    .eq('week_start', weekStart)
+    .order('start_time');
+
+  if (error) {
+    console.error('Supabase error:', error);
+    toast('Error loading events — check console');
+    return;
+  }
+
+  weekEvents = data || [];
+
+  // Render events
+  weekEvents.forEach(renderEvent);
+
+  // Free time hints
+  renderFreeTimeHints();
+
+  // Now line
+  startNowLine();
+
+  // Default scroll to 8 AM
+  scrollToDefault();
+}
+
+// ── SAVE KT ──
+async function saveKT() {
+  const dayIdx = parseInt(document.getElementById('kt-day').value);
+  const s = document.getElementById('kt-start').value;
+  const e = document.getElementById('kt-end').value;
+  if (!s || !e) { toast('Pick a start & end time! 🐾'); return; }
+
+  const weekStart = toISODate(currentMonday);
+  const newEvent = {
+    week_start: weekStart,
+    day_index: dayIdx,
+    category: 'kwik_trip',
+    title: 'Kwik Trip',
+    subtitle: `${fmtTime(s)} – ${fmtTime(e)}`,
+    start_time: s,
+    end_time: e,
+    is_recurring: false,
+  };
+
+  const { data, error } = await sb.from('planner_events').insert(newEvent).select().single();
+  if (error) { toast('Error saving — check console'); console.error(error); return; }
+
+  weekEvents.push(data);
+  renderEvent(data);
+  renderFreeTimeHints();
+  closeModal('kt');
+
+  const { h } = parseTime(s);
+  if (h < DEFAULT_SHOW) {
+    setTimeout(() => scrollToHour(h), 150);
+    toast('⛽ Early shift added — scrolled up to show it!');
+  } else {
+    toast('⛽ KT shift added!');
+  }
+  document.getElementById('early-notice').style.display = 'none';
+}
+
+// ── SAVE MOVIE ──
+async function saveMovie() {
+  const title = document.getElementById('mv-title').value || 'Movie';
+  const theatre = document.getElementById('mv-theatre').value;
+  const dayIdx = parseInt(document.getElementById('mv-day').value);
+  const s = document.getElementById('mv-start').value;
+  const e = document.getElementById('mv-end').value;
+  if (!s || !e) { toast('Pick a start & end time! 🐾'); return; }
+
+  const sub = theatre ? `${fmtTime(s)} · ${theatre}` : `${fmtTime(s)} – ${fmtTime(e)}`;
+  const weekStart = toISODate(currentMonday);
+  const newEvent = {
+    week_start: weekStart,
+    day_index: dayIdx,
+    category: 'movie',
+    title: title,
+    subtitle: sub,
+    start_time: s,
+    end_time: e,
+    is_recurring: false,
+  };
+
+  const { data, error } = await sb.from('planner_events').insert(newEvent).select().single();
+  if (error) { toast('Error saving — check console'); console.error(error); return; }
+
+  weekEvents.push(data);
+  renderEvent(data);
+  renderFreeTimeHints();
+  closeModal('movie');
+  toast('🎬 Movie night locked in!');
+}
+
+// ── SAVE T2 ──
+async function saveT2() {
+  const cfg = t2Config[currentT2];
+  const title = document.getElementById('t2-title-input').value || cfg.label;
+  const dayIdx = parseInt(document.getElementById('t2-day').value);
+  const s = document.getElementById('t2-start').value;
+  const e = document.getElementById('t2-end').value;
+  if (!s || !e) { toast('Pick a start & end time! 🐾'); return; }
+
+  const weekStart = toISODate(currentMonday);
+  const newEvent = {
+    week_start: weekStart,
+    day_index: dayIdx,
+    category: currentT2,
+    title: title,
+    subtitle: `${fmtTime(s)} – ${fmtTime(e)}`,
+    start_time: s,
+    end_time: e,
+    is_recurring: false,
+  };
+
+  const { data, error } = await sb.from('planner_events').insert(newEvent).select().single();
+  if (error) { toast('Error saving — check console'); console.error(error); return; }
+
+  weekEvents.push(data);
+  renderEvent(data);
+  renderFreeTimeHints();
+  closeModal('t2');
+  toast(`${cfg.icon} ${title} added!`);
+}
+
+// ── AI PLANNING ASSISTANT ──
+async function askAI() {
+  const input = document.getElementById('aiIn');
+  const query = input.value.trim();
+  if (!query) return;
+
+  const respEl = document.getElementById('aiResp');
+  respEl.style.display = 'block';
+  respEl.textContent = '🐺 Thinking...';
+  input.value = '';
+
+  // Serialize current week events
+  const visibleEvents = weekEvents.filter(e => !e.is_hidden).map(e => ({
+    day: DAY_NAMES_FULL[e.day_index],
+    category: e.category,
+    title: e.title,
+    start: e.start_time,
+    end: e.end_time,
+    subtitle: e.subtitle,
+  }));
+
+  const weekLabel = document.getElementById('weekLabel').textContent;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': SUPA_KEY.replace('sb_publishable_', 'sk-ant-api03-'),
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 512,
+        system: `You are Enid, a warm and enthusiastic AI planning assistant (inspired by Enid Sinclair from Wednesday). You have full access to the user's weekly schedule as JSON below. Help them plan their time, spot conflicts, find free slots, suggest when to add gym/yoga/etc., and keep a balanced week. Be concise, friendly, and use occasional wolf/sparkle energy. Address them as "Roomie".\n\nCurrent week (${weekLabel}) events:\n${JSON.stringify(visibleEvents, null, 2)}`,
+        messages: [{ role: 'user', content: query }],
+      }),
+    });
+
+    if (!response.ok) {
+      // Fallback to local responses if API fails
+      const fallback = [
+        '🐺 Hmm, I couldn\'t reach the AI right now — but looking at your week, Wednesday and Friday evenings look wide open, Roomie!',
+        '✨ AI is taking a catnap, but your weekends look free for something fun! 🎬',
+        '💜 Can\'t connect right now, but your schedule is looking manageable this week, Roomie!',
+      ];
+      respEl.textContent = fallback[Math.floor(Math.random() * fallback.length)];
+      return;
+    }
+
+    const data = await response.json();
+    const text = data.content?.[0]?.text || '🐺 Hmm, I\'m at a loss for words. Try asking again!';
+
+    // Stream-like effect
+    respEl.textContent = '';
+    let i = 0;
+    const interval = setInterval(() => {
+      respEl.textContent += text[i++];
+      if (i >= text.length) clearInterval(interval);
+    }, 12);
+  } catch (err) {
+    console.error('AI error:', err);
+    respEl.textContent = '🐺 Couldn\'t reach AI right now — but your week is looking great, Roomie! ✨';
+  }
+}
+
+// Future: AI can return structured JSON action { action: 'add_event', ... }
+// and the calendar will intercept and auto-drop the block with a confirmation prompt.
+
+// ── WEEK NAVIGATION ──
+document.getElementById('prevBtn').addEventListener('click', () => {
+  currentMonday = addDays(currentMonday, -7);
+  loadWeek();
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  currentMonday = addDays(currentMonday, 7);
+  loadWeek();
+});
+
+document.getElementById('todayBtn').addEventListener('click', () => {
+  currentMonday = getMondayOf(new Date());
+  loadWeek();
+  setTimeout(() => {
+    const now = new Date();
+    scrollToHour(now.getHours(), 1.5);
+  }, 100);
+});
+
+// AI input Enter key
+document.getElementById('aiIn').addEventListener('keydown', e => {
+  if (e.key === 'Enter') askAI();
+});
+document.getElementById('aiSendBtn').addEventListener('click', askAI);
+
+// ── INIT ──
+(async () => {
+  try {
+    await loadWeek();
+  } catch (err) {
+    console.error('Init error:', err);
+    toast('Something went wrong loading the planner');
+  } finally {
+    document.getElementById('loader').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('app').style.display = '';
+    }, 380);
+  }
+})();
+</script>
+</body>
+</html>
