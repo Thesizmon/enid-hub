@@ -317,7 +317,7 @@ const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 // ── CONSTANTS ──
 const CELL = 56;
 const GRID_START = 0;  // Midnight — supports late-night events (advance screenings, etc.)
-const HOURS = 24;      // Full 24-hour grid (12 AM → 12 AM)
+const HOURS = 25;      // 12 AM → 1 AM next day (shows next-day midnight events)
 const DEFAULT_SHOW = 8;
 
 const T = (h, m = 0) => (h + m / 60 - GRID_START) * CELL;
@@ -512,7 +512,8 @@ function buildGrid() {
   tcol.id = 'tcol';
   for (let i = 0; i < HOURS; i++) {
     const h = GRID_START + i;
-    const label = h === 0 ? '12 AM' : h < 12 ? h + ' AM' : h === 12 ? '12 PM' : (h - 12) + ' PM';
+    const hNorm = h % 24;
+    const label = h === 24 ? '12 AM +1' : hNorm === 0 ? '12 AM' : hNorm < 12 ? hNorm + ' AM' : hNorm === 12 ? '12 PM' : (hNorm - 12) + ' PM';
     const el = document.createElement('div');
     el.className = 'tlbl';
     el.textContent = label;
@@ -596,6 +597,21 @@ function renderEvent(ev) {
   };
   el.appendChild(rmBtn);
   col.appendChild(el);
+
+  // Overflow preview: if event starts between 12 AM – 1 AM, show a ghost on the previous day's +1 zone
+  if (sh < 1 && ev.day_index > 0) {
+    const prevCol = document.getElementById('c' + (ev.day_index - 1));
+    if (prevCol) {
+      const ghostTop = T(24 + sh, sm); // 24 + 0 = position in the +1 overflow hour
+      const ghostEnd = Math.min(eh * 60 + em, 60); // Clip to 1 AM
+      const ghostHeight = Math.max((ghostEnd - (sh * 60 + sm)) / 60 * CELL, 20);
+      const ghost = document.createElement('div');
+      ghost.className = 'ev';
+      ghost.style.cssText = `top:${ghostTop}px;height:${ghostHeight}px;background:${cat.bg};color:${cat.tc};opacity:.5;pointer-events:none`;
+      ghost.innerHTML = `<span class="et">${cat.icon} ${ev.title}</span><span class="em" style="font-size:.52rem">+1 · ${fmtTime(ev.start_time)}</span>`;
+      prevCol.appendChild(ghost);
+    }
+  }
 }
 
 // ── FREE TIME HINTS ──
