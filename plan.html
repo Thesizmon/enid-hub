@@ -1440,6 +1440,8 @@ document.getElementById('aiSendBtn').addEventListener('click', askAI);
     setTimeout(() => {
       document.getElementById('loader').style.display = 'none';
       document.getElementById('app').style.display = '';
+      // Scroll AFTER app becomes visible (display:none resets scrollTop)
+      requestAnimationFrame(() => scrollToDefault());
     }, 380);
   }
 })();
