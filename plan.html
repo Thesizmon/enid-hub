@@ -926,7 +926,82 @@ function freeSlotStr(slot) {
   return `${DAY_NAMES_FULL[slot.day]} ${minsToTimeStr(slot.from)}–${minsToTimeStr(slot.to)}`;
 }
 
-function askAI() {
+// ── MONTH DATA FETCHER (for AI) ──
+async function fetchMonthEvents(monthDate) {
+  // If we already have monthEvents cached for this month, reuse them
+  if (monthEvents.length > 0 && currentView === 'month') return monthEvents;
+
+  const { gridStart, gridEnd } = getMonthGridRange(monthDate);
+  const mondays = getMondaysInRange(gridStart, gridEnd);
+
+  const { data, error } = await sb.from('planner_events')
+    .select('*')
+    .in('week_start', mondays)
+    .order('start_time');
+
+  if (error) { console.error('Month fetch error:', error); return []; }
+  return (data || []).filter(e => !e.is_hidden);
+}
+
+function analyzeMonthEvents(events, monthDate) {
+  const m = monthDate.getMonth();
+  const y = monthDate.getFullYear();
+  // Filter to only days actually in this month
+  const inMonth = events.filter(e => {
+    if (e.is_hidden) return false;
+    const ws = new Date(e.week_start + 'T00:00:00');
+    const evDate = addDays(ws, e.day_index);
+    return evDate.getMonth() === m && evDate.getFullYear() === y;
+  });
+
+  // Hours per category
+  const catHours = {};
+  const catShifts = {};
+  const catDetails = {};
+  inMonth.forEach(ev => {
+    const { h: sh, m: sm } = parseTime(ev.start_time);
+    const { h: eh, m: em } = parseTime(ev.end_time);
+    const hrs = ((eh * 60 + em) - (sh * 60 + sm)) / 60;
+    const cat = ev.category;
+    catHours[cat] = (catHours[cat] || 0) + hrs;
+    catShifts[cat] = (catShifts[cat] || 0) + 1;
+    if (!catDetails[cat]) catDetails[cat] = [];
+    const ws = new Date(ev.week_start + 'T00:00:00');
+    const evDate = addDays(ws, ev.day_index);
+    catDetails[cat].push({
+      date: evDate,
+      hours: hrs,
+      title: ev.title,
+      start: ev.start_time,
+      end: ev.end_time,
+    });
+  });
+
+  const totalHours = Object.values(catHours).reduce((a, b) => a + b, 0);
+  const totalEvents = inMonth.length;
+
+  return { inMonth, catHours, catShifts, catDetails, totalHours, totalEvents };
+}
+
+// Category keyword map for natural language matching
+const CAT_KEYWORDS = {
+  kwik_trip: /\b(kt|kwik\s*trip|gas\s*station|convenience)\b/,
+  bbs:       /\b(bbs|agency|work)\b/,
+  bowling:   /\b(bowl(ing)?|league)\b/,
+  movie:     /\b(movie|film|cinema|theatre|theater)\b/,
+  gym:       /\b(gym|workout|exercise|lift|train|fitness)\b/,
+  yoga:      /\b(yoga|stretch|meditat)\b/,
+  family:    /\b(family|fam)\b/,
+};
+
+function detectCategory(query) {
+  for (const [cat, regex] of Object.entries(CAT_KEYWORDS)) {
+    if (regex.test(query)) return cat;
+  }
+  return null;
+}
+
+async function askAI() {
   const input = document.getElementById('aiIn');
   const query = input.value.trim().toLowerCase();
   if (!query) return;
@@ -936,128 +1011,202 @@ function askAI() {
   respEl.textContent = '';
   input.value = '';
 
-  const info = analyzeSchedule();
+  // Detect if this is a month-level question
+  const isMonthQ = /month|total\s*hours|how\s*many\s*hours|how\s*much\s*time|hours.*(?:booked|scheduled|worked|logged)|shifts?\s*this|paycheck|pay\s*period|earnings/.test(query);
+  const detectedCat = detectCategory(query);
+
   let reply = '';
 
-  // ── Pattern matching for common questions ──
+  // ── MONTH-LEVEL QUERIES ──
+  if (isMonthQ) {
+    respEl.textContent = '🐺 Crunching the numbers...';
+    const monthDate = currentView === 'month' ? currentMonth : new Date(currentMonday.getFullYear(), currentMonday.getMonth(), 1);
+    const mEvents = await fetchMonthEvents(monthDate);
+    const mInfo = analyzeMonthEvents(mEvents, monthDate);
+    const monthName = MONTH_NAMES_FULL[monthDate.getMonth()];
 
-  // "when am I free" / "free time" / "open slots" / "availability"
-  if (/free|open|avail|slot|gap/.test(query)) {
-    if (info.freeSlots.length === 0) {
-      reply = '🐺 Whoa Roomie, you are BOOKED this week! No gaps over an hour. Maybe hide a BBS block if you need breathing room? 💜';
-    } else {
-      const top = info.freeSlots.slice(0, 5).map(s => '  • ' + freeSlotStr(s)).join('\n');
-      reply = `✨ Here are your best open windows this week, Roomie!\n\n${top}\n\n${info.freeSlots.length > 5 ? `...and ${info.freeSlots.length - 5} more slots! ` : ''}You've got this! 🐺💜`;
-    }
-  }
-  // "best night for movie" / "movie" / "when to watch"
-  else if (/movie|watch|film|cinema|theatre/.test(query)) {
-    const eveningSlots = info.freeSlots.filter(s => s.from >= 17 * 60 && (s.to - s.from) >= 150);
-    if (eveningSlots.length === 0) {
-      reply = '🎬 Evenings are pretty packed this week, Roomie! You might need to shuffle something around for movie night. Weekends might be your best bet! 🐺';
-    } else {
-      const best = eveningSlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
-      reply = `🎬 Best movie night options, Roomie!\n\n${best}\n\nPlenty of time for popcorn AND previews! 🍿✨`;
-    }
-  }
-  // "gym" / "workout" / "exercise" / "fit a gym"
-  else if (/gym|workout|exercise|lift|train|fitness/.test(query)) {
-    const gymSlots = info.freeSlots.filter(s => (s.to - s.from) >= 60 && s.to <= 21 * 60);
-    if (gymSlots.length === 0) {
-      reply = '💪 Tough to squeeze a workout in this week — things are packed! Maybe a quick morning session before 9? 🐺';
-    } else {
-      const best = gymSlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
-      reply = `💪 Great gym windows this week, Roomie!\n\n${best}\n\nGet those gains! 🐺✨`;
-    }
-  }
-  // "yoga" / "stretch" / "relax"
-  else if (/yoga|stretch|relax|meditat/.test(query)) {
-    const morningSlots = info.freeSlots.filter(s => s.from < 12 * 60 && (s.to - s.from) >= 60);
-    const anySlots = morningSlots.length ? morningSlots : info.freeSlots.filter(s => (s.to - s.from) >= 60);
-    if (anySlots.length === 0) {
-      reply = '🧘 This week is pretty full, Roomie — but even 15 minutes of stretching at home counts! 💜';
-    } else {
-      const best = anySlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
-      reply = `🧘 Perfect yoga windows, Roomie!\n\n${best}\n\nNamaste and slay! 🐺✨`;
-    }
-  }
-  // Specific day questions: "how does thursday look" / "what's on monday" / "wednesday"
-  else if (/monday|tuesday|wednesday|thursday|friday|saturday|sunday/.test(query)) {
-    const dayMatch = query.match(/monday|tuesday|wednesday|thursday|friday|saturday|sunday/);
-    const di = DAY_NAMES_FULL.findIndex(d => d.toLowerCase() === dayMatch[0]);
-    const dayEvs = weekEvents.filter(e => e.day_index === di && !e.is_hidden);
-    const dayFree = info.freeSlots.filter(s => s.day === di);
+    if (detectedCat && mInfo.catHours[detectedCat]) {
+      const cat = CATEGORIES[detectedCat] || CATEGORIES.other;
+      const hrs = mInfo.catHours[detectedCat];
+      const shifts = mInfo.catShifts[detectedCat];
+      const details = mInfo.catDetails[detectedCat] || [];
 
-    if (dayEvs.length === 0) {
-      reply = `✨ ${DAY_NAMES_FULL[di]} is wide open, Roomie! A blank canvas — fill it with something fun! 🐺💜`;
-    } else {
-      const evList = dayEvs.map(e => {
-        const cat = CATEGORIES[e.category] || CATEGORIES.other;
-        return `  • ${cat.icon} ${e.title} (${fmtTime(e.start_time)}–${fmtTime(e.end_time)})`;
+      // Build shift breakdown
+      const breakdown = details.map(d => {
+        const dayName = DAY_NAMES_FULL[d.date.getDay() === 0 ? 6 : d.date.getDay() - 1];
+        return `  • ${MONTH_NAMES[d.date.getMonth()]} ${d.date.getDate()} (${dayName}): ${fmtTime(d.start)}–${fmtTime(d.end)} (${d.hours.toFixed(1)}h)`;
       }).join('\n');
-      const freeList = dayFree.length
-        ? '\n\nFree windows:\n' + dayFree.map(s => '  • ' + minsToTimeStr(s.from) + '–' + minsToTimeStr(s.to)).join('\n')
-        : '\n\nNo major gaps — it\'s a full day!';
-      reply = `🐺 Here's ${DAY_NAMES_FULL[di]}, Roomie!\n\n${evList}${freeList}\n\n${dayEvs.length >= 3 ? 'Busy day — pace yourself! 💜' : 'Solid lineup! ✨'}`;
-    }
-  }
-  // "conflict" / "overlap" / "double booked"
-  else if (/conflict|overlap|double|clash/.test(query)) {
-    if (info.conflicts.length === 0) {
-      reply = '✨ No conflicts this week — your schedule is clean, Roomie! 🐺💜';
+
+      reply = `${cat.icon} ${monthName} ${cat.label} Report, Roomie!\n\n` +
+        `  📊 ${shifts} shift${shifts !== 1 ? 's' : ''} · ${hrs.toFixed(1)} total hours\n` +
+        `  ⏱️ Average: ${(hrs / shifts).toFixed(1)}h per shift\n\n` +
+        `Shift breakdown:\n${breakdown}\n\n` +
+        `Keep grinding, Roomie! 🐺💜`;
+    } else if (detectedCat && !mInfo.catHours[detectedCat]) {
+      const cat = CATEGORIES[detectedCat] || CATEGORIES.other;
+      reply = `${cat.icon} No ${cat.label} events found in ${monthName}, Roomie! If that's wrong, make sure they're added via Quick Add. 🐺`;
     } else {
-      const cList = info.conflicts.map(c =>
-        `  ⚠️ ${DAY_NAMES_FULL[c.day]}: "${c.a.title}" overlaps with "${c.b.title}"`
-      ).join('\n');
-      reply = `🐺 Heads up, Roomie — found some overlaps!\n\n${cList}\n\nMight want to adjust those! 💜`;
+      // General month summary
+      const catLines = Object.entries(mInfo.catHours)
+        .sort((a, b) => b[1] - a[1])
+        .map(([cat, hrs]) => {
+          const c = CATEGORIES[cat] || CATEGORIES.other;
+          const shifts = mInfo.catShifts[cat];
+          return `  ${c.icon} ${c.label}: ${hrs.toFixed(1)}h (${shifts} event${shifts !== 1 ? 's' : ''})`;
+        }).join('\n');
+
+      reply = `🐺 ${monthName} Overview, Roomie!\n\n` +
+        `  📊 ${mInfo.totalEvents} total events · ${mInfo.totalHours.toFixed(1)} hours booked\n\n` +
+        `By category:\n${catLines}\n\n` +
+        `Ask me about a specific one — like "KT hours this month" or "how many bowling nights?" 💜✨`;
+    }
+
+    respEl.textContent = '';
+  }
+  // ── CATEGORY HOURS (week-level, e.g. "how many KT shifts this week") ──
+  else if (detectedCat && /how\s*many|count|shifts?|hours|times/.test(query)) {
+    const cat = CATEGORIES[detectedCat] || CATEGORIES.other;
+    const catEvs = weekEvents.filter(e => e.category === detectedCat && !e.is_hidden);
+    if (catEvs.length === 0) {
+      reply = `${cat.icon} No ${cat.label} events this week, Roomie! Want to add one? 🐺`;
+    } else {
+      let totalMins = 0;
+      const lines = catEvs.map(e => {
+        const { h: sh, m: sm } = parseTime(e.start_time);
+        const { h: eh, m: em } = parseTime(e.end_time);
+        const mins = (eh * 60 + em) - (sh * 60 + sm);
+        totalMins += mins;
+        return `  • ${DAY_NAMES_FULL[e.day_index]}: ${fmtTime(e.start_time)}–${fmtTime(e.end_time)} (${(mins/60).toFixed(1)}h)`;
+      }).join('\n');
+      reply = `${cat.icon} ${cat.label} this week, Roomie!\n\n` +
+        `${lines}\n\n` +
+        `  📊 ${catEvs.length} shift${catEvs.length !== 1 ? 's' : ''} · ${(totalMins/60).toFixed(1)} total hours\n\n` +
+        `Want the monthly total? Ask "KT hours this month"! 🐺💜`;
     }
   }
-  // "busiest" / "packed" / "heaviest"
-  else if (/busiest|packed|heaviest|fullest|most busy/.test(query)) {
-    const hours = (info.dayLoad[info.busiestIdx] / 60).toFixed(1);
-    reply = `🐺 ${DAY_NAMES_FULL[info.busiestIdx]} is your busiest day with ~${hours} hours scheduled! ${DAY_NAMES_FULL[info.freestIdx]} is your lightest. Balance is key, Roomie! ✨💜`;
-  }
-  // "summary" / "overview" / "how's my week" / "how does my week look"
-  else if (/summary|overview|how.*(week|schedule)|recap/.test(query)) {
-    const totalHours = (info.dayLoad.reduce((a, b) => a + b, 0) / 60).toFixed(1);
-    const totalEvents = weekEvents.filter(e => !e.is_hidden).length;
-    const freeCount = info.freeSlots.length;
-    const hasGym = info.catCounts.gym || 0;
-    const hasYoga = info.catCounts.yoga || 0;
-
-    reply = `🐺 Week at a glance, Roomie!\n\n` +
-      `  📊 ${totalEvents} events · ~${totalHours} hours scheduled\n` +
-      `  🔥 Busiest: ${DAY_NAMES_FULL[info.busiestIdx]}\n` +
-      `  🌿 Lightest: ${DAY_NAMES_FULL[info.freestIdx]}\n` +
-      `  🕐 ${freeCount} free slot${freeCount !== 1 ? 's' : ''} (1hr+)\n` +
-      `  ${info.conflicts.length ? '⚠️ ' + info.conflicts.length + ' conflict(s) detected!' : '✅ No conflicts!'}\n` +
-      `${!hasGym && !hasYoga ? '\n💡 No gym or yoga this week — maybe add one? Self-care matters! ' : ''}` +
-      `\n\nYou\'re doing amazing! 💜✨`;
-  }
-  // "weekend" / "saturday" / "sunday" (general)
-  else if (/weekend/.test(query)) {
-    const satEvs = weekEvents.filter(e => e.day_index === 5 && !e.is_hidden);
-    const sunEvs = weekEvents.filter(e => e.day_index === 6 && !e.is_hidden);
-    const satFree = info.freeSlots.filter(s => s.day === 5);
-    const sunFree = info.freeSlots.filter(s => s.day === 6);
-
-    reply = `🐺 Weekend report, Roomie!\n\n` +
-      `Saturday: ${satEvs.length ? satEvs.length + ' event(s)' : 'Wide open! 🎉'} · ${satFree.length} free slot(s)\n` +
-      `Sunday: ${sunEvs.length ? sunEvs.length + ' event(s)' : 'Wide open! 🎉'} · ${sunFree.length} free slot(s)\n\n` +
-      `${satEvs.length + sunEvs.length === 0 ? 'Whole weekend is yours — live it up! 🐺✨' : 'Enjoy the downtime between things! 💜✨'}`;
-  }
-  // Default / catch-all — give a helpful overview
+  // ── WEEK-LEVEL QUERIES (existing logic) ──
   else {
-    const freeCount = info.freeSlots.length;
-    const topFree = info.freeSlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
-    reply = `🐺 Hey Roomie! Here's what I see this week:\n\n` +
-      `${freeCount} free slot${freeCount !== 1 ? 's' : ''} of 1hr+. Your lightest day is ${DAY_NAMES_FULL[info.freestIdx]}.\n` +
-      `${info.conflicts.length ? '⚠️ ' + info.conflicts.length + ' overlap(s) to check!\n' : ''}` +
-      `${topFree ? '\nTop open windows:\n' + topFree + '\n' : ''}` +
-      `\nTry asking: "How does Thursday look?" or "Best night for a movie?" 💜✨`;
+    const info = analyzeSchedule();
+
+    // "when am I free" / "free time" / "open slots" / "availability"
+    if (/free|open|avail|slot|gap/.test(query)) {
+      if (info.freeSlots.length === 0) {
+        reply = '🐺 Whoa Roomie, you are BOOKED this week! No gaps over an hour. Maybe hide a BBS block if you need breathing room? 💜';
+      } else {
+        const top = info.freeSlots.slice(0, 5).map(s => '  • ' + freeSlotStr(s)).join('\n');
+        reply = `✨ Here are your best open windows this week, Roomie!\n\n${top}\n\n${info.freeSlots.length > 5 ? `...and ${info.freeSlots.length - 5} more slots! ` : ''}You've got this! 🐺💜`;
+      }
+    }
+    // "best night for movie" / "when to watch"
+    else if (/movie|watch|film|cinema|theatre/.test(query)) {
+      const eveningSlots = info.freeSlots.filter(s => s.from >= 17 * 60 && (s.to - s.from) >= 150);
+      if (eveningSlots.length === 0) {
+        reply = '🎬 Evenings are pretty packed this week, Roomie! You might need to shuffle something around for movie night. Weekends might be your best bet! 🐺';
+      } else {
+        const best = eveningSlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
+        reply = `🎬 Best movie night options, Roomie!\n\n${best}\n\nPlenty of time for popcorn AND previews! 🍿✨`;
+      }
+    }
+    // "gym" / "workout" / "exercise" / "fit a gym"
+    else if (/gym|workout|exercise|lift|train|fitness/.test(query)) {
+      const gymSlots = info.freeSlots.filter(s => (s.to - s.from) >= 60 && s.to <= 21 * 60);
+      if (gymSlots.length === 0) {
+        reply = '💪 Tough to squeeze a workout in this week — things are packed! Maybe a quick morning session before 9? 🐺';
+      } else {
+        const best = gymSlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
+        reply = `💪 Great gym windows this week, Roomie!\n\n${best}\n\nGet those gains! 🐺✨`;
+      }
+    }
+    // "yoga" / "stretch" / "relax"
+    else if (/yoga|stretch|relax|meditat/.test(query)) {
+      const morningSlots = info.freeSlots.filter(s => s.from < 12 * 60 && (s.to - s.from) >= 60);
+      const anySlots = morningSlots.length ? morningSlots : info.freeSlots.filter(s => (s.to - s.from) >= 60);
+      if (anySlots.length === 0) {
+        reply = '🧘 This week is pretty full, Roomie — but even 15 minutes of stretching at home counts! 💜';
+      } else {
+        const best = anySlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
+        reply = `🧘 Perfect yoga windows, Roomie!\n\n${best}\n\nNamaste and slay! 🐺✨`;
+      }
+    }
+    // Specific day questions
+    else if (/monday|tuesday|wednesday|thursday|friday|saturday|sunday/.test(query)) {
+      const dayMatch = query.match(/monday|tuesday|wednesday|thursday|friday|saturday|sunday/);
+      const di = DAY_NAMES_FULL.findIndex(d => d.toLowerCase() === dayMatch[0]);
+      const dayEvs = weekEvents.filter(e => e.day_index === di && !e.is_hidden);
+      const dayFree = info.freeSlots.filter(s => s.day === di);
+
+      if (dayEvs.length === 0) {
+        reply = `✨ ${DAY_NAMES_FULL[di]} is wide open, Roomie! A blank canvas — fill it with something fun! 🐺💜`;
+      } else {
+        const evList = dayEvs.map(e => {
+          const cat = CATEGORIES[e.category] || CATEGORIES.other;
+          return `  • ${cat.icon} ${e.title} (${fmtTime(e.start_time)}–${fmtTime(e.end_time)})`;
+        }).join('\n');
+        const freeList = dayFree.length
+          ? '\n\nFree windows:\n' + dayFree.map(s => '  • ' + minsToTimeStr(s.from) + '–' + minsToTimeStr(s.to)).join('\n')
+          : '\n\nNo major gaps — it\'s a full day!';
+        reply = `🐺 Here's ${DAY_NAMES_FULL[di]}, Roomie!\n\n${evList}${freeList}\n\n${dayEvs.length >= 3 ? 'Busy day — pace yourself! 💜' : 'Solid lineup! ✨'}`;
+      }
+    }
+    // "conflict" / "overlap"
+    else if (/conflict|overlap|double|clash/.test(query)) {
+      if (info.conflicts.length === 0) {
+        reply = '✨ No conflicts this week — your schedule is clean, Roomie! 🐺💜';
+      } else {
+        const cList = info.conflicts.map(c =>
+          `  ⚠️ ${DAY_NAMES_FULL[c.day]}: "${c.a.title}" overlaps with "${c.b.title}"`
+        ).join('\n');
+        reply = `🐺 Heads up, Roomie — found some overlaps!\n\n${cList}\n\nMight want to adjust those! 💜`;
+      }
+    }
+    // "busiest" / "packed"
+    else if (/busiest|packed|heaviest|fullest|most busy/.test(query)) {
+      const hours = (info.dayLoad[info.busiestIdx] / 60).toFixed(1);
+      reply = `🐺 ${DAY_NAMES_FULL[info.busiestIdx]} is your busiest day with ~${hours} hours scheduled! ${DAY_NAMES_FULL[info.freestIdx]} is your lightest. Balance is key, Roomie! ✨💜`;
+    }
+    // "summary" / "overview" / "how's my week"
+    else if (/summary|overview|how.*(week|schedule)|recap/.test(query)) {
+      const totalHours = (info.dayLoad.reduce((a, b) => a + b, 0) / 60).toFixed(1);
+      const totalEvents = weekEvents.filter(e => !e.is_hidden).length;
+      const freeCount = info.freeSlots.length;
+      const hasGym = info.catCounts.gym || 0;
+      const hasYoga = info.catCounts.yoga || 0;
+
+      reply = `🐺 Week at a glance, Roomie!\n\n` +
+        `  📊 ${totalEvents} events · ~${totalHours} hours scheduled\n` +
+        `  🔥 Busiest: ${DAY_NAMES_FULL[info.busiestIdx]}\n` +
+        `  🌿 Lightest: ${DAY_NAMES_FULL[info.freestIdx]}\n` +
+        `  🕐 ${freeCount} free slot${freeCount !== 1 ? 's' : ''} (1hr+)\n` +
+        `  ${info.conflicts.length ? '⚠️ ' + info.conflicts.length + ' conflict(s) detected!' : '✅ No conflicts!'}\n` +
+        `${!hasGym && !hasYoga ? '\n💡 No gym or yoga this week — maybe add one? Self-care matters! ' : ''}` +
+        `\n\nYou\'re doing amazing! 💜✨`;
+    }
+    // "weekend"
+    else if (/weekend/.test(query)) {
+      const satEvs = weekEvents.filter(e => e.day_index === 5 && !e.is_hidden);
+      const sunEvs = weekEvents.filter(e => e.day_index === 6 && !e.is_hidden);
+      const satFree = info.freeSlots.filter(s => s.day === 5);
+      const sunFree = info.freeSlots.filter(s => s.day === 6);
+
+      reply = `🐺 Weekend report, Roomie!\n\n` +
+        `Saturday: ${satEvs.length ? satEvs.length + ' event(s)' : 'Wide open! 🎉'} · ${satFree.length} free slot(s)\n` +
+        `Sunday: ${sunEvs.length ? sunEvs.length + ' event(s)' : 'Wide open! 🎉'} · ${sunFree.length} free slot(s)\n\n` +
+        `${satEvs.length + sunEvs.length === 0 ? 'Whole weekend is yours — live it up! 🐺✨' : 'Enjoy the downtime between things! 💜✨'}`;
+    }
+    // Default / catch-all
+    else {
+      const freeCount = info.freeSlots.length;
+      const topFree = info.freeSlots.slice(0, 3).map(s => '  • ' + freeSlotStr(s)).join('\n');
+      reply = `🐺 Hey Roomie! Here's what I see this week:\n\n` +
+        `${freeCount} free slot${freeCount !== 1 ? 's' : ''} of 1hr+. Your lightest day is ${DAY_NAMES_FULL[info.freestIdx]}.\n` +
+        `${info.conflicts.length ? '⚠️ ' + info.conflicts.length + ' overlap(s) to check!\n' : ''}` +
+        `${topFree ? '\nTop open windows:\n' + topFree + '\n' : ''}` +
+        `\nTry asking: "KT hours this month", "How does Thursday look?", or "Best night for a movie?" 💜✨`;
+    }
   }
 
   // Typewriter effect
+  respEl.textContent = '';
   let i = 0;
   const interval = setInterval(() => {
     respEl.textContent += reply[i++];
