@@ -316,8 +316,8 @@ const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 // ── CONSTANTS ──
 const CELL = 56;
-const GRID_START = 5;
-const HOURS = 19;
+const GRID_START = 0;  // Midnight — supports late-night events (advance screenings, etc.)
+const HOURS = 24;      // Full 24-hour grid (12 AM → 12 AM)
 const DEFAULT_SHOW = 8;
 
 const T = (h, m = 0) => (h + m / 60 - GRID_START) * CELL;
