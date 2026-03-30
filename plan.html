@@ -482,7 +482,10 @@ function scrollToHour(h, buffer = 0.5) {
 
 function scrollToDefault() {
   const scroll = document.getElementById('plannerScroll');
-  scroll.scrollTop = (DEFAULT_SHOW - GRID_START) * CELL;
+  const target = (DEFAULT_SHOW - GRID_START) * CELL;
+  scroll.scrollTop = target;
+  // Belt-and-suspenders: ensure scroll lands after browser layout
+  requestAnimationFrame(() => { scroll.scrollTop = target; });
 }
 
 // ── BUILD GRID STRUCTURE ──
