@@ -45,6 +45,28 @@ body{font-family:'Nunito',sans-serif;background:var(--bg-grad);color:var(--text)
 .nb:hover{background:rgba(255,255,255,.24)}
 .nb.today-btn{background:rgba(185,165,226,.28)}
 
+/* ── VIEW TOGGLE ── */
+.view-toggle{display:flex;gap:3px;background:rgba(0,0,0,.18);border-radius:10px;padding:2px}
+.vt-btn{background:transparent;border:none;color:rgba(255,255,255,.55);border-radius:8px;padding:4px 14px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;transition:all .2s}
+.vt-btn.active{background:rgba(255,255,255,.22);color:#fff}
+.vt-btn:hover:not(.active){color:rgba(255,255,255,.8)}
+
+/* ── MONTH GRID ── */
+.month-wrap{padding:10px 16px 40px}
+.month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;min-width:600px}
+.month-hdr{text-align:center;font-size:.62rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:6px 0}
+.month-hdr.wknd{opacity:.5}
+.month-cell{min-height:95px;background:rgba(255,255,255,.55);border-radius:12px;padding:6px 7px;cursor:pointer;transition:transform .14s,box-shadow .14s;border:1.5px solid rgba(185,165,226,.12);position:relative;overflow:hidden}
+.month-cell:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,58,94,.12)}
+.month-cell.today{border-color:var(--deep);box-shadow:0 0 0 2px rgba(58,58,94,.2)}
+.month-cell.other-month{opacity:.35;background:rgba(255,255,255,.25)}
+.month-cell.weekend{background:rgba(255,215,240,.2)}
+.month-cell-date{font-size:.82rem;font-weight:900;color:var(--text);margin-bottom:4px;line-height:1}
+.month-cell.today .month-cell-date{width:26px;height:26px;background:var(--deep);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem}
+.month-pill{display:flex;align-items:center;gap:4px;font-size:.56rem;font-weight:700;color:var(--text);padding:1.5px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4}
+.month-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.month-more{font-size:.52rem;font-weight:800;color:var(--muted);margin-top:1px}
+
 /* ── LEGEND ── */
 .legend{padding:12px 20px 4px}
 .legend-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
@@ -155,6 +177,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg-grad);color:var(--text)
     <a href="index.html" class="back-link">← Home</a>
     <div class="brand">🐺 Enid's Weekly Planner</div>
   </div>
+  <div class="view-toggle">
+    <button class="vt-btn active" id="vtWeek">Week</button>
+    <button class="vt-btn" id="vtMonth">Month</button>
+  </div>
   <div class="week-lbl" id="weekLabel"></div>
   <div class="navs">
     <button class="nb" id="prevBtn">‹ Prev</button>
@@ -209,6 +235,11 @@ body{font-family:'Nunito',sans-serif;background:var(--bg-grad);color:var(--text)
   <div class="head-row" id="headRow"></div>
   <div class="body-grid" id="bodyGrid"></div>
 </div>
+</div>
+
+<!-- MONTH GRID -->
+<div class="month-wrap" id="monthWrap" style="display:none">
+  <div class="month-grid" id="monthGrid"></div>
 </div>
 
 </div><!-- /app -->
@@ -317,8 +348,11 @@ const BOWLING_CONFIG = [
 ];
 
 // ── STATE ──
+let currentView = 'week'; // 'week' | 'month'
 let currentMonday = getMondayOf(new Date());
+let currentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let weekEvents = [];
+let monthEvents = [];
 let nowLineInterval = null;
 
 // ── DATE HELPERS ──
@@ -753,6 +787,7 @@ async function saveKT() {
     toast('⛽ KT shift added!');
   }
   document.getElementById('early-notice').style.display = 'none';
+  if (currentView === 'month') loadMonth();
 }
 
 // ── SAVE MOVIE ──
@@ -785,6 +820,7 @@ async function saveMovie() {
   renderFreeTimeHints();
   closeModal('movie');
   toast('🎬 Movie night locked in!');
+  if (currentView === 'month') loadMonth();
 }
 
 // ── SAVE T2 ──
@@ -816,6 +852,7 @@ async function saveT2() {
   renderFreeTimeHints();
   closeModal('t2');
   toast(`${cfg.icon} ${title} added!`);
+  if (currentView === 'month') loadMonth();
 }
 
 // ── AI PLANNING ASSISTANT (Local Smart Engine) ──
@@ -1031,24 +1068,206 @@ function askAI() {
 // Future: AI can return structured JSON action { action: 'add_event', ... }
 // and the calendar will intercept and auto-drop the block with a confirmation prompt.
 
-// ── WEEK NAVIGATION ──
+// ── MONTH VIEW ──
+const MONTH_NAMES_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MAX_PILLS = 4;
+
+function getMonthGridRange(monthDate) {
+  // First day of the month
+  const first = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+  // Last day of the month
+  const last = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+  // Grid starts on the Monday on or before the 1st
+  const gridStart = getMondayOf(first);
+  // Grid ends on the Sunday on or after the last day
+  let gridEnd = new Date(last);
+  const endDay = gridEnd.getDay();
+  if (endDay !== 0) gridEnd = addDays(gridEnd, 7 - endDay);
+  return { gridStart, gridEnd };
+}
+
+function getMondaysInRange(start, end) {
+  const mondays = [];
+  let d = new Date(start);
+  while (d <= end) {
+    mondays.push(toISODate(d));
+    d = addDays(d, 7);
+  }
+  return mondays;
+}
+
+async function loadMonth() {
+  const { gridStart, gridEnd } = getMonthGridRange(currentMonth);
+  const mondays = getMondaysInRange(gridStart, gridEnd);
+
+  // Update header label
+  document.getElementById('weekLabel').textContent =
+    `${MONTH_NAMES_FULL[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`;
+
+  // Ensure recurring events for each week in range
+  for (const mon of mondays) {
+    await ensureRecurringEvents(mon);
+  }
+
+  // Fetch all events across the month's weeks
+  const { data, error } = await sb.from('planner_events')
+    .select('*')
+    .in('week_start', mondays)
+    .order('start_time');
+
+  if (error) {
+    console.error('Supabase error:', error);
+    toast('Error loading month — check console');
+    return;
+  }
+
+  monthEvents = data || [];
+  renderMonthGrid(gridStart, gridEnd);
+}
+
+function renderMonthGrid(gridStart, gridEnd) {
+  const grid = document.getElementById('monthGrid');
+  grid.innerHTML = '';
+
+  // Day-of-week headers
+  const hdrLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  hdrLabels.forEach((lbl, i) => {
+    const hdr = document.createElement('div');
+    hdr.className = 'month-hdr' + (i >= 5 ? ' wknd' : '');
+    hdr.textContent = lbl;
+    grid.appendChild(hdr);
+  });
+
+  // Day cells
+  let d = new Date(gridStart);
+  const thisMonth = currentMonth.getMonth();
+  const now = new Date();
+
+  while (d <= gridEnd) {
+    const cell = document.createElement('div');
+    const isOther = d.getMonth() !== thisMonth;
+    const isTodayCell = isToday(d);
+    const dayOfWeek = d.getDay();
+    const isWknd = dayOfWeek === 0 || dayOfWeek === 6;
+
+    cell.className = 'month-cell'
+      + (isOther ? ' other-month' : '')
+      + (isTodayCell ? ' today' : '')
+      + (isWknd ? ' weekend' : '');
+
+    // Date number
+    const dateEl = document.createElement('div');
+    dateEl.className = 'month-cell-date';
+    dateEl.textContent = d.getDate();
+    cell.appendChild(dateEl);
+
+    // Find events for this day
+    const cellMonday = getMondayOf(d);
+    const cellMondayStr = toISODate(cellMonday);
+    const cellDayIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const dayEvs = monthEvents.filter(e =>
+      e.week_start === cellMondayStr && e.day_index === cellDayIndex && !e.is_hidden
+    );
+
+    // Render event pills
+    const showCount = Math.min(dayEvs.length, MAX_PILLS);
+    for (let i = 0; i < showCount; i++) {
+      const ev = dayEvs[i];
+      const cat = CATEGORIES[ev.category] || CATEGORIES.other;
+      const pill = document.createElement('div');
+      pill.className = 'month-pill';
+      pill.innerHTML = `<span class="month-pill-dot" style="background:${cat.bg}"></span>${cat.icon} ${ev.title}`;
+      cell.appendChild(pill);
+    }
+    if (dayEvs.length > MAX_PILLS) {
+      const more = document.createElement('div');
+      more.className = 'month-more';
+      more.textContent = `+${dayEvs.length - MAX_PILLS} more`;
+      cell.appendChild(more);
+    }
+
+    // Click → jump to that week
+    const clickDate = new Date(d);
+    cell.addEventListener('click', () => {
+      currentMonday = getMondayOf(clickDate);
+      currentView = 'week';
+      switchView();
+    });
+
+    grid.appendChild(cell);
+    d = addDays(d, 1);
+  }
+}
+
+// ── VIEW SWITCHING ──
+function switchView() {
+  const weekToggle = document.getElementById('vtWeek');
+  const monthToggle = document.getElementById('vtMonth');
+  const plannerScroll = document.getElementById('plannerScroll');
+  const monthWrap = document.getElementById('monthWrap');
+
+  if (currentView === 'week') {
+    weekToggle.classList.add('active');
+    monthToggle.classList.remove('active');
+    plannerScroll.style.display = '';
+    monthWrap.style.display = 'none';
+    loadWeek();
+  } else {
+    weekToggle.classList.remove('active');
+    monthToggle.classList.add('active');
+    plannerScroll.style.display = 'none';
+    monthWrap.style.display = '';
+    // Sync currentMonth from currentMonday
+    currentMonth = new Date(currentMonday.getFullYear(), currentMonday.getMonth(), 1);
+    loadMonth();
+  }
+}
+
+// ── NAVIGATION ──
 document.getElementById('prevBtn').addEventListener('click', () => {
-  currentMonday = addDays(currentMonday, -7);
-  loadWeek();
+  if (currentView === 'week') {
+    currentMonday = addDays(currentMonday, -7);
+    loadWeek();
+  } else {
+    currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+    loadMonth();
+  }
 });
 
 document.getElementById('nextBtn').addEventListener('click', () => {
-  currentMonday = addDays(currentMonday, 7);
-  loadWeek();
+  if (currentView === 'week') {
+    currentMonday = addDays(currentMonday, 7);
+    loadWeek();
+  } else {
+    currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+    loadMonth();
+  }
 });
 
 document.getElementById('todayBtn').addEventListener('click', () => {
-  currentMonday = getMondayOf(new Date());
-  loadWeek();
-  setTimeout(() => {
-    const now = new Date();
-    scrollToHour(now.getHours(), 1.5);
-  }, 100);
+  if (currentView === 'week') {
+    currentMonday = getMondayOf(new Date());
+    loadWeek();
+    setTimeout(() => {
+      const now = new Date();
+      scrollToHour(now.getHours(), 1.5);
+    }, 100);
+  } else {
+    currentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    loadMonth();
+  }
+});
+
+document.getElementById('vtWeek').addEventListener('click', () => {
+  if (currentView === 'week') return;
+  currentView = 'week';
+  switchView();
+});
+
+document.getElementById('vtMonth').addEventListener('click', () => {
+  if (currentView === 'month') return;
+  currentView = 'month';
+  switchView();
 });
 
 // AI input Enter key
