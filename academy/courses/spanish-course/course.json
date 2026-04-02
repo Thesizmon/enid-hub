@@ -1,0 +1,12 @@
+{
+  "id": "spanish",
+  "name": "Spanish Language",
+  "icon": "🇪🇸",
+  "totalLevels": 5,
+  "totalUnits": 20,
+  "totalLessons": 100,
+  "lessonMinutes": 15,
+  "description": "From first words to practical fluency — learn Spanish for real life and work at Kwik Trip.",
+  "accent": "#E84EA0",
+  "accentSoft": "rgba(232,78,160,0.12)"
+}

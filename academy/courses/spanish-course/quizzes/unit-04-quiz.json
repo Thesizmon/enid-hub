@@ -1,0 +1,97 @@
+{
+  "unitId": 4,
+  "title": "Unit 4 Review — About Me",
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 1,
+      "format": "multipleChoice",
+      "question": "\"Soy de Wisconsin\" uses which verb?",
+      "options": ["Estar (temporary)", "Ser (permanent/identity)", "Tener (to have)", "Gustar (to like)"],
+      "correct": 1,
+      "explanation": "\"Soy\" is from \"ser\" — used for identity, origin, and permanent characteristics."
+    },
+    {
+      "id": 2,
+      "format": "fillBlank",
+      "question": "Me _____ el café.",
+      "answer": "gusta",
+      "acceptableAnswers": ["gusta"]
+    },
+    {
+      "id": 3,
+      "format": "matching",
+      "instruction": "Match the family member",
+      "pairs": [
+        {"left": "Mamá", "right": "Mom"},
+        {"left": "Hermano", "right": "Brother"},
+        {"left": "Esposa", "right": "Wife"},
+        {"left": "Hijo", "right": "Son"}
+      ]
+    },
+    {
+      "id": 4,
+      "format": "multipleChoice",
+      "question": "\"Estoy cansado\" means:",
+      "options": ["I am American", "I am a student", "I am tired", "I am happy"],
+      "correct": 2,
+      "explanation": "\"Estoy\" + adjective describes how you feel. Cansado = tired."
+    },
+    {
+      "id": 5,
+      "format": "typed",
+      "question": "Say \"I work at Kwik Trip\" in Spanish.",
+      "acceptableAnswers": ["trabajo en kwik trip", "yo trabajo en kwik trip"],
+      "hint": "Trabajo en..."
+    },
+    {
+      "id": 6,
+      "format": "bestResponse",
+      "situation": "A coworker asks \"¿Te gusta trabajar aquí?\" (Do you like working here?)",
+      "options": [
+        "No entiendo.",
+        "Sí, me gusta mucho.",
+        "Me llamo Simon.",
+        "Son las tres."
+      ],
+      "correct": 1,
+      "explanation": "\"Sí, me gusta mucho\" = Yes, I like it a lot."
+    },
+    {
+      "id": 7,
+      "format": "multipleChoice",
+      "question": "\"No me gustan las verduras\" — what doesn't this person like?",
+      "options": ["Meat", "Fruits", "Vegetables", "Sweets"],
+      "correct": 2,
+      "explanation": "Verduras = vegetables. Note \"gustan\" (plural) because verduras is plural."
+    },
+    {
+      "id": 8,
+      "format": "sentenceBuild",
+      "instruction": "Build: \"I am a cashier at Kwik Trip.\"",
+      "words": ["cajero", "en", "Kwik Trip.", "Soy", "un"],
+      "correctOrder": [3, 4, 0, 1, 2],
+      "answer": "Soy un cajero en Kwik Trip."
+    },
+    {
+      "id": 9,
+      "format": "fillBlank",
+      "question": "_____ dos hermanas y un hermano.",
+      "answer": "Tengo",
+      "acceptableAnswers": ["Tengo", "tengo"]
+    },
+    {
+      "id": 10,
+      "format": "bestResponse",
+      "situation": "Someone asks you \"¿Cómo es tu familia?\" (What's your family like?)",
+      "options": [
+        "Estoy bien, gracias.",
+        "Tengo una familia grande — dos hermanos y una hermana.",
+        "No sé.",
+        "Me gusta la pizza."
+      ],
+      "correct": 1,
+      "explanation": "Describing your family size and members is the appropriate response."
+    }
+  ]
+}

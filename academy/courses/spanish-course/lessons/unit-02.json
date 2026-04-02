@@ -1,0 +1,897 @@
+[
+  {
+    "id": 1,
+    "unitId": 2,
+    "globalIndex": 6,
+    "title": "How Are You?",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Ask someone how they are in formal and informal Spanish",
+      "Respond with at least four different answers about how you feel",
+      "Use ¿Y tú? / ¿Y usted? to return the question politely"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Now that you can greet people, the natural next step is asking how they're doing. This is the glue of every conversation — and at Kwik Trip, it turns a quick transaction into a real human moment. You'll learn how to ask, how to answer, and how to bounce the question back."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Ask someone how they are in formal and informal Spanish",
+          "Respond with at least four different answers about how you feel",
+          "Use ¿Y tú? / ¿Y usted? to return the question politely"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "¿Cómo estás?", "pronunciation": "KOH-moh ehs-TAHS", "english": "How are you? (informal)", "notes": "Use with friends, coworkers your age"},
+          {"spanish": "¿Cómo está?", "pronunciation": "KOH-moh ehs-TAH", "english": "How are you? (formal)", "notes": "Use with customers — always safe"},
+          {"spanish": "Bien", "pronunciation": "bee-EHN", "english": "Good / Well", "notes": "The most common answer"},
+          {"spanish": "Muy bien", "pronunciation": "mooy bee-EHN", "english": "Very good", "notes": "When you're feeling great"},
+          {"spanish": "Mal", "pronunciation": "mahl", "english": "Bad", "notes": "Honest but simple"},
+          {"spanish": "Más o menos", "pronunciation": "mahs oh MEH-nohs", "english": "So-so / More or less", "notes": "The universal shrug answer"},
+          {"spanish": "Regular", "pronunciation": "reh-goo-LAR", "english": "Okay / Average", "notes": "Sounds like English — easy to remember"},
+          {"spanish": "¿Y tú?", "pronunciation": "ee TOO", "english": "And you? (informal)", "notes": "Bounces the question back casually"},
+          {"spanish": "¿Y usted?", "pronunciation": "ee oos-TEHD", "english": "And you? (formal)", "notes": "Polite — use this at work with customers"},
+          {"spanish": "Gracias por preguntar", "pronunciation": "GRAH-see-ahs por preh-goon-TAR", "english": "Thanks for asking", "notes": "A warm, friendly touch"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar — Estar (to be)",
+        "content": "Spanish has two verbs that mean \"to be\": ser and estar. For now, you only need estar — it's the one used for feelings and temporary states. ¿Cómo estás? literally means \"How are you (right now)?\" The difference between estás and está is just formality: estás = tú (informal), está = usted (formal). At Kwik Trip, default to ¿Cómo está? with customers. With coworkers you're close with, ¿Cómo estás? is fine."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "Afternoon shift at Kwik Trip — a regular Spanish-speaking customer comes to the register",
+        "lines": [
+          {"speaker": "You", "spanish": "¡Hola! Buenas tardes. ¿Cómo está?", "english": "Hello! Good afternoon. How are you?"},
+          {"speaker": "Customer", "spanish": "Bien, gracias. ¿Y tú?", "english": "Good, thanks. And you?"},
+          {"speaker": "You", "spanish": "Muy bien, gracias por preguntar.", "english": "Very good, thanks for asking."},
+          {"speaker": "Customer", "spanish": "Me alegro.", "english": "I'm glad."},
+          {"speaker": "You", "spanish": "¿Algo más?", "english": "Anything else?"}
+        ],
+        "breakdown": [
+          {"phrase": "¿Cómo está?", "explanation": "How are you? (formal) — You used the polite form with a customer. Perfect for work."},
+          {"phrase": "Gracias por preguntar", "explanation": "Thanks for asking — A warm phrase that shows you appreciate the conversation."},
+          {"phrase": "Me alegro", "explanation": "I'm glad — A common, friendly response when someone says they're doing well."},
+          {"phrase": "¿Algo más?", "explanation": "Anything else? — A handy register phrase you'll use constantly. Preview of future lessons!"}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Which form did the employee use to ask 'How are you?' — and why?",
+            "options": ["Informal (estás) — because the customer is young", "Formal (está) — because they're speaking to a customer", "Both — they mixed them up", "Neither — they skipped the question"],
+            "correct": 1
+          },
+          {
+            "question": "What does 'más o menos' mean?",
+            "options": ["Very good", "Bad", "So-so / More or less", "And you?"],
+            "correct": 2
+          },
+          {
+            "question": "When should you use '¿Y usted?' instead of '¿Y tú?'",
+            "options": ["With children", "With your best friend", "With customers and strangers", "Only in writing"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer just greeted you. Ask them how they are (formally).",
+        "acceptableAnswers": ["¿cómo está?", "cómo está", "como esta", "hola cómo está", "hola como esta", "hola, ¿cómo está?"],
+        "hint": "Use the formal form of estar...",
+        "feedback": "¡Muy bien! ¿Cómo está? is polite, professional, and shows you care."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "Your coworker says: \"¡Hola! ¿Cómo estás?\" — Tell them you're doing so-so.",
+            "acceptableAnswers": ["más o menos", "mas o menos", "estoy más o menos"],
+            "partialCredit": ["mas o menos", "regular"],
+            "hint": "The 'shrug' answer — more or less..."
+          },
+          {
+            "prompt": "They say: \"¿Qué pasó?\" (What happened?) — Say you're okay and ask how they are (informal).",
+            "acceptableAnswers": ["bien, ¿y tú?", "bien y tú", "estoy bien y tú", "estoy bien, ¿y tú?"],
+            "partialCredit": ["bien", "y tú"],
+            "hint": "Say good/well, then bounce it back with 'and you?'"
+          },
+          {
+            "prompt": "A customer greets you: \"Buenas tardes.\" — Greet them back and ask how they are formally.",
+            "acceptableAnswers": ["buenas tardes, ¿cómo está?", "buenas tardes cómo está", "buenas tardes como esta", "hola buenas tardes cómo está"],
+            "partialCredit": ["buenas tardes", "cómo está"],
+            "hint": "Good afternoon + How are you (formal)?"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Mini Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "Which answer means 'so-so'?",
+            "options": ["Bien", "Mal", "Más o menos", "Muy bien"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Fill in the blank: ¿Cómo ___? (formal 'How are you?')",
+            "answer": "está",
+            "acceptableAnswers": ["está", "esta"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "You're at the register with a customer. Which is the safest way to ask how they are?",
+            "options": ["¿Cómo estás?", "¿Cómo está?", "¿Qué onda?", "¿Qué tal, wey?"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "A customer asks '¿Cómo está?' — You're doing great. Reply: '______, gracias.'",
+            "answer": "muy bien",
+            "acceptableAnswers": ["muy bien", "bien"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario",
+        "content": "At Kwik Trip, many regulars come in daily. Adding '¿Cómo está?' after your greeting transforms the interaction — it shows you see them as a person, not just a transaction. You don't need to understand every word of their response. If you hear 'bien,' smile and nod. If you hear 'mal' or they look down, a simple 'Lo siento' (I'm sorry) goes a long way. The goal isn't perfect Spanish — it's genuine connection."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builder",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "¡Hola! ¿Cómo está?", "english": "Hello! How are you?"},
+          {"spanish": "Muy bien, gracias. ¿Y usted?", "english": "Very good, thanks. And you?"},
+          {"spanish": "Más o menos.", "english": "So-so."},
+          {"spanish": "Gracias por preguntar.", "english": "Thanks for asking."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "¿Cómo está? (formal) is your go-to at work — safe, polite, professional",
+          "¿Cómo estás? (informal) is for coworkers and friends",
+          "You know four responses: bien, muy bien, mal, más o menos, and regular",
+          "¿Y usted? bounces the question back formally — great customer service move",
+          "Even a simple '¿Cómo está?' can make a customer's day"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 2,
+    "globalIndex": 7,
+    "title": "What Is This?",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Ask what something is using ¿Qué es esto? and ¿Qué es eso?",
+      "Understand the difference between esto, eso, and aquel",
+      "Identify common store items in Spanish"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Customers point at things all the time — at the hot food counter, the drink station, the shelves. Knowing how to ask and answer 'What is this?' unlocks a huge chunk of real conversation. You'll learn demonstratives (this, that, that over there) and some common item names you'll actually use at Kwik Trip."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Ask what something is using ¿Qué es esto? and ¿Qué es eso?",
+          "Understand the difference between esto, eso, and aquel",
+          "Identify common store items in Spanish"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "¿Qué es esto?", "pronunciation": "keh ehs EHS-toh", "english": "What is this?", "notes": "For something right here, near you"},
+          {"spanish": "¿Qué es eso?", "pronunciation": "keh ehs EH-soh", "english": "What is that?", "notes": "For something near the other person"},
+          {"spanish": "¿Qué es aquello?", "pronunciation": "keh ehs ah-KEH-yoh", "english": "What is that over there?", "notes": "For something far from both of you"},
+          {"spanish": "Esto es...", "pronunciation": "EHS-toh ehs", "english": "This is...", "notes": "Use to identify something close to you"},
+          {"spanish": "Eso es...", "pronunciation": "EH-soh ehs", "english": "That is...", "notes": "Use to identify something near them"},
+          {"spanish": "el café", "pronunciation": "ehl kah-FEH", "english": "the coffee", "notes": "Kwik Trip staple"},
+          {"spanish": "la leche", "pronunciation": "lah LEH-cheh", "english": "the milk", "notes": ""},
+          {"spanish": "el agua", "pronunciation": "ehl AH-gwah", "english": "the water", "notes": "Masculine article even though it ends in -a"},
+          {"spanish": "el pan", "pronunciation": "ehl pahn", "english": "the bread", "notes": "Includes rolls, buns, etc."},
+          {"spanish": "la pizza", "pronunciation": "lah PEET-sah", "english": "the pizza", "notes": "Kwik Trip hot case favorite"},
+          {"spanish": "los dulces", "pronunciation": "lohs DOOL-sehs", "english": "the candy / sweets", "notes": ""},
+          {"spanish": "las papas fritas", "pronunciation": "lahs PAH-pahs FREE-tahs", "english": "the chips / fries", "notes": "Papas = potatoes, fritas = fried"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar — Demonstratives",
+        "content": "Spanish has three levels of distance for 'this/that': esto (this — near me), eso (that — near you), and aquello (that over there — far from both of us). When they stand alone as pronouns (not describing a noun), they end in -o and have no accent mark: esto, eso, aquello. You'll mostly use esto and eso at work. A customer pointing at the hot case? They'll say eso. You holding up a cup? Say esto. It maps perfectly to physical distance."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer is at the Kwik Trip hot food counter pointing at items behind the glass",
+        "lines": [
+          {"speaker": "Customer", "spanish": "Disculpe, ¿qué es eso?", "english": "Excuse me, what is that?"},
+          {"speaker": "You", "spanish": "Eso es pizza.", "english": "That is pizza."},
+          {"speaker": "Customer", "spanish": "¿Y esto?", "english": "And this?"},
+          {"speaker": "You", "spanish": "Esto es un tornillo. Es como pan con jamón.", "english": "This is a tornado. It's like bread with ham."},
+          {"speaker": "Customer", "spanish": "Ah, muy bien. Quiero eso, por favor.", "english": "Ah, very good. I want that, please."},
+          {"speaker": "You", "spanish": "¡Claro! Aquí tiene.", "english": "Of course! Here you go."}
+        ],
+        "breakdown": [
+          {"phrase": "¿Qué es eso?", "explanation": "What is that? — The customer is pointing at something behind the glass, near you. From their perspective, it's eso (near the other person)."},
+          {"phrase": "Esto es un tornillo", "explanation": "This is a tornado (roller item). You're holding it, so it's esto (near me). Tornillo is a playful Spanglish term some use for the Kwik Trip tornado snack."},
+          {"phrase": "Quiero eso", "explanation": "I want that — Quiero = I want. Eso = that. Simple and direct."},
+          {"phrase": "Aquí tiene", "explanation": "Here you go — Literally: 'Here you have.' A standard phrase when handing something to a customer."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Why does the customer say 'eso' when pointing at the pizza?",
+            "options": ["Because pizza is masculine", "Because it's far away from everyone", "Because it's near the employee, not the customer", "Because they forgot the word"],
+            "correct": 2
+          },
+          {
+            "question": "What does '¿Qué es esto?' mean?",
+            "options": ["Where is this?", "How much is this?", "What is this?", "Who is this?"],
+            "correct": 2
+          },
+          {
+            "question": "Which demonstrative would you use for something across the store?",
+            "options": ["Esto", "Eso", "Aquello", "Este"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer points at an item near you and asks what it is. The item is coffee. How do you respond?",
+        "acceptableAnswers": ["esto es café", "esto es el café", "es café", "esto es cafe"],
+        "hint": "This is... coffee",
+        "feedback": "¡Perfecto! Esto es café. Clear, simple, helpful."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer points at something behind you and says: \"¿Qué es eso?\" — It's bread. Tell them.",
+            "acceptableAnswers": ["eso es pan", "es pan", "eso es el pan"],
+            "partialCredit": ["pan", "es pan"],
+            "hint": "That is... bread"
+          },
+          {
+            "prompt": "They point to something right next to them and ask: \"¿Y esto?\" — It's milk. Answer them.",
+            "acceptableAnswers": ["esto es leche", "esto es la leche", "es leche", "eso es leche"],
+            "partialCredit": ["leche", "la leche"],
+            "hint": "This/That is... milk"
+          },
+          {
+            "prompt": "Now YOU want to ask what something far away is. Ask: 'What is that over there?'",
+            "acceptableAnswers": ["¿qué es aquello?", "qué es aquello", "que es aquello"],
+            "partialCredit": ["aquello"],
+            "hint": "What is... (far away demonstrative)?"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Mini Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "A customer holds up a bag and asks you what it is. They say:",
+            "options": ["¿Qué es aquello?", "¿Qué es eso?", "¿Qué es esto?", "¿Dónde es esto?"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Point at something near you and identify it: '_____ es café.'",
+            "answer": "Esto",
+            "acceptableAnswers": ["Esto", "esto"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 'the milk' in Spanish?",
+            "options": ["El leche", "La leche", "Los leches", "Las leche"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "Translate: 'What is that?' (something near the other person)",
+            "answer": "¿Qué es eso?",
+            "acceptableAnswers": ["¿Qué es eso?", "qué es eso", "que es eso"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario",
+        "content": "At Kwik Trip, customers often point at items in the hot case, the bakery shelf, or the drink station without knowing the English names. If you can say 'Esto es pizza' or 'Eso es café,' you've just saved them from an awkward guessing game. You don't need to know every product name — start with the big ones: café, leche, agua, pan, pizza. When you don't know the Spanish word, just point and say 'Esto es...' followed by the English word. Most people will understand, and they'll appreciate that you tried."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builder",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "¿Qué es esto?", "english": "What is this?"},
+          {"spanish": "Eso es café.", "english": "That is coffee."},
+          {"spanish": "Esto es pizza.", "english": "This is pizza."},
+          {"spanish": "Aquí tiene.", "english": "Here you go."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "¿Qué es esto? = What is this? (near me) — use when holding something",
+          "¿Qué es eso? = What is that? (near you) — use when pointing at something near the other person",
+          "¿Qué es aquello? = What is that over there? — for distant items",
+          "You learned key store items: café, leche, agua, pan, pizza, dulces, papas fritas",
+          "Aquí tiene = Here you go — perfect for handing items to customers"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 2,
+    "globalIndex": 8,
+    "title": "Where Is...?",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Ask where something is located using ¿Dónde está?",
+      "Give simple directions using basic prepositions",
+      "Name common store locations customers ask about"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "This might be the single most useful question you learn for work. Customers ask where things are constantly — the bathroom, the milk, the coffee, the ATM. After this lesson, you'll understand the question AND be able to point them in the right direction with basic Spanish."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Ask where something is located using ¿Dónde está?",
+          "Give simple directions using basic prepositions",
+          "Name common store locations customers ask about"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "¿Dónde está...?", "pronunciation": "DOHN-deh ehs-TAH", "english": "Where is...?", "notes": "The big one — you'll hear this daily"},
+          {"spanish": "el baño", "pronunciation": "ehl BAH-nyoh", "english": "the bathroom", "notes": "#1 question customers ask"},
+          {"spanish": "la salida", "pronunciation": "lah sah-LEE-dah", "english": "the exit", "notes": ""},
+          {"spanish": "la caja", "pronunciation": "lah KAH-hah", "english": "the register / cashier", "notes": "Literally: the box"},
+          {"spanish": "el cajero", "pronunciation": "ehl kah-HEH-roh", "english": "the ATM", "notes": "Cajero automático = ATM"},
+          {"spanish": "allá", "pronunciation": "ah-YAH", "english": "over there", "notes": "Point and say this — works great"},
+          {"spanish": "aquí", "pronunciation": "ah-KEE", "english": "here", "notes": ""},
+          {"spanish": "a la derecha", "pronunciation": "ah lah deh-REH-chah", "english": "to the right", "notes": ""},
+          {"spanish": "a la izquierda", "pronunciation": "ah lah ees-kee-EHR-dah", "english": "to the left", "notes": ""},
+          {"spanish": "al fondo", "pronunciation": "ahl FOHN-doh", "english": "in the back", "notes": "Where the bathroom usually is"},
+          {"spanish": "al lado de", "pronunciation": "ahl LAH-doh deh", "english": "next to", "notes": ""},
+          {"spanish": "enfrente de", "pronunciation": "ehn-FREHN-teh deh", "english": "in front of / across from", "notes": ""}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar — ¿Dónde está? vs. ¿Dónde están?",
+        "content": "You already know está from ¿Cómo está? — now you're using it for location. ¿Dónde está? = Where is (one thing)? ¿Dónde están? = Where are (multiple things)? For now, most questions will use está (singular). The accent on Dónde is critical — without it, donde means 'where' as a statement, not a question. In speech, you'll hear the rising question tone naturally."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer approaches you at Kwik Trip looking confused",
+        "lines": [
+          {"speaker": "Customer", "spanish": "Disculpe, ¿dónde está el baño?", "english": "Excuse me, where is the bathroom?"},
+          {"speaker": "You", "spanish": "Está al fondo, a la derecha.", "english": "It's in the back, to the right."},
+          {"speaker": "Customer", "spanish": "Gracias. ¿Y dónde está la leche?", "english": "Thanks. And where is the milk?"},
+          {"speaker": "You", "spanish": "La leche está allá, a la izquierda.", "english": "The milk is over there, to the left."},
+          {"speaker": "Customer", "spanish": "Muchas gracias.", "english": "Thank you very much."},
+          {"speaker": "You", "spanish": "De nada. Con gusto.", "english": "You're welcome. My pleasure."}
+        ],
+        "breakdown": [
+          {"phrase": "¿Dónde está el baño?", "explanation": "Where is the bathroom? — The single most common question you'll hear from Spanish-speaking customers. Memorize this one cold."},
+          {"phrase": "Está al fondo, a la derecha", "explanation": "It's in the back, to the right — Two directions chained together. Al fondo = in the back. A la derecha = to the right."},
+          {"phrase": "La leche está allá", "explanation": "The milk is over there — You can put the item name first for clarity, then está + location."},
+          {"phrase": "Con gusto", "explanation": "My pleasure — A warm Latin American alternative to 'de nada.' Very common in Mexican Spanish."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Where did the employee say the bathroom is?",
+            "options": ["To the left", "In the back, to the right", "Over there", "Next to the register"],
+            "correct": 1
+          },
+          {
+            "question": "What does 'al fondo' mean?",
+            "options": ["To the right", "Over there", "In the back", "Next to"],
+            "correct": 2
+          },
+          {
+            "question": "How do you say 'to the left' in Spanish?",
+            "options": ["A la derecha", "Al fondo", "A la izquierda", "Allá"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer asks: '¿Dónde está el baño?' — The bathroom is in the back. How do you respond?",
+        "acceptableAnswers": ["está al fondo", "el baño está al fondo", "al fondo", "está al fondo, a la derecha"],
+        "hint": "It's in the back...",
+        "feedback": "¡Excelente! 'Está al fondo' is clear and helpful. You can always point while you say it too."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer walks up and says: \"Disculpe, ¿dónde está el café?\" — The coffee is over there, to the right. Tell them.",
+            "acceptableAnswers": ["está allá, a la derecha", "el café está allá, a la derecha", "allá, a la derecha"],
+            "partialCredit": ["allá", "a la derecha"],
+            "hint": "Over there, to the right..."
+          },
+          {
+            "prompt": "They then ask: \"¿Y la salida?\" — The exit is to the left. Respond.",
+            "acceptableAnswers": ["la salida está a la izquierda", "está a la izquierda", "a la izquierda"],
+            "partialCredit": ["a la izquierda", "izquierda"],
+            "hint": "To the left..."
+          },
+          {
+            "prompt": "They say: \"Muchas gracias.\" — Say 'You're welcome. My pleasure.'",
+            "acceptableAnswers": ["de nada, con gusto", "de nada. con gusto", "con gusto"],
+            "partialCredit": ["de nada", "con gusto"],
+            "hint": "You're welcome... My pleasure."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Mini Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "A customer asks '¿Dónde está el baño?' — What are they looking for?",
+            "options": ["The coffee", "The exit", "The bathroom", "The register"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Complete: El baño está ______ (in the back).",
+            "answer": "al fondo",
+            "acceptableAnswers": ["al fondo"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 'to the right'?",
+            "options": ["A la izquierda", "Al fondo", "A la derecha", "Al lado de"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Translate: 'Where is the milk?'",
+            "answer": "¿Dónde está la leche?",
+            "acceptableAnswers": ["¿Dónde está la leche?", "dónde está la leche", "donde está la leche", "donde esta la leche"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario",
+        "content": "At Kwik Trip, the top three things customers ask for in any language: bathroom, coffee, and specific products. If someone approaches you looking lost and says '¿Dónde está...?' followed by ANY word, your best move is to listen for that last word (the thing they want), then point and say 'Allá' (over there) or 'Al fondo' (in the back). Pointing plus one Spanish word beats a perfect sentence every time. As you get more comfortable, add the prepositions: 'Allá, a la derecha.' Baby steps."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builder",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "¿Dónde está el baño?", "english": "Where is the bathroom?"},
+          {"spanish": "Está al fondo, a la derecha.", "english": "It's in the back, to the right."},
+          {"spanish": "Allá, a la izquierda.", "english": "Over there, to the left."},
+          {"spanish": "Con gusto.", "english": "My pleasure."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "¿Dónde está...? = Where is...? — your most practical question at work",
+          "El baño, la leche, el café, la salida, la caja — key store locations",
+          "Allá = over there, aquí = here — point and say these",
+          "A la derecha = right, a la izquierda = left, al fondo = in the back",
+          "Con gusto = My pleasure — a warm, Mexican-style 'you're welcome'"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 2,
+    "globalIndex": 9,
+    "title": "How Much Does It Cost?",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Ask how much something costs using ¿Cuánto cuesta?",
+      "Understand basic prices in Spanish with a number preview",
+      "Handle simple shopping interactions at the register"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Money talk is unavoidable at a store. Customers will ask about prices, and you'll need to understand (or at least catch) the numbers. This lesson gives you the question '¿Cuánto cuesta?' and a practical preview of numbers so you can handle basic price conversations without freezing up."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Ask how much something costs using ¿Cuánto cuesta?",
+          "Understand basic prices in Spanish with a number preview",
+          "Handle simple shopping interactions at the register"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "¿Cuánto cuesta?", "pronunciation": "KWAHN-toh KWEHS-tah", "english": "How much does it cost?", "notes": "The essential shopping question"},
+          {"spanish": "¿Cuánto cuesta esto?", "pronunciation": "KWAHN-toh KWEHS-tah EHS-toh", "english": "How much does this cost?", "notes": "Pointing at a specific item"},
+          {"spanish": "¿Cuánto cuestan?", "pronunciation": "KWAHN-toh KWEHS-tahn", "english": "How much do they cost?", "notes": "For multiple items"},
+          {"spanish": "Cuesta... dólares", "pronunciation": "KWEHS-tah... DOH-lah-rehs", "english": "It costs... dollars", "notes": ""},
+          {"spanish": "uno", "pronunciation": "OO-noh", "english": "one / 1", "notes": ""},
+          {"spanish": "dos", "pronunciation": "dohs", "english": "two / 2", "notes": ""},
+          {"spanish": "tres", "pronunciation": "trehs", "english": "three / 3", "notes": ""},
+          {"spanish": "cinco", "pronunciation": "SEEN-koh", "english": "five / 5", "notes": ""},
+          {"spanish": "diez", "pronunciation": "dee-EHS", "english": "ten / 10", "notes": ""},
+          {"spanish": "veinte", "pronunciation": "BAYN-teh", "english": "twenty / 20", "notes": ""},
+          {"spanish": "Es gratis", "pronunciation": "ehs GRAH-tees", "english": "It's free", "notes": "Everyone's favorite phrase"},
+          {"spanish": "Está en oferta", "pronunciation": "ehs-TAH ehn oh-FEHR-tah", "english": "It's on sale", "notes": "Good to know for promos"},
+          {"spanish": "el total", "pronunciation": "ehl toh-TAHL", "english": "the total", "notes": ""},
+          {"spanish": "el cambio", "pronunciation": "ehl KAHM-bee-oh", "english": "the change", "notes": "Money back from a transaction"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar — Cuesta vs. Cuestan",
+        "content": "Cuesta is for one item: ¿Cuánto cuesta la pizza? (How much does the pizza cost?) Cuestan is for multiple items: ¿Cuánto cuestan las papas fritas? (How much do the chips cost?) The verb cuesta/cuestan comes from 'costar' (to cost). You don't need to conjugate it beyond these two forms for now. Just remember: one thing = cuesta, many things = cuestan."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer at Kwik Trip picks up a drink and some snacks and comes to the register",
+        "lines": [
+          {"speaker": "Customer", "spanish": "¿Cuánto cuesta esto?", "english": "How much does this cost?"},
+          {"speaker": "You", "spanish": "Cuesta dos dólares con cincuenta.", "english": "It costs two dollars and fifty cents."},
+          {"speaker": "Customer", "spanish": "¿Y esto? ¿Está en oferta?", "english": "And this? Is it on sale?"},
+          {"speaker": "You", "spanish": "Sí, está en oferta. Cuesta un dólar.", "english": "Yes, it's on sale. It costs one dollar."},
+          {"speaker": "Customer", "spanish": "Muy bien. Los dos, por favor.", "english": "Very good. Both, please."},
+          {"speaker": "You", "spanish": "El total es tres dólares con cincuenta.", "english": "The total is three dollars and fifty cents."},
+          {"speaker": "Customer", "spanish": "Aquí tiene. Cinco dólares.", "english": "Here you go. Five dollars."},
+          {"speaker": "You", "spanish": "Su cambio: un dólar con cincuenta. ¡Gracias!", "english": "Your change: one dollar and fifty cents. Thanks!"}
+        ],
+        "breakdown": [
+          {"phrase": "¿Cuánto cuesta esto?", "explanation": "How much does this cost? — Esto because the customer is holding the item."},
+          {"phrase": "Dos dólares con cincuenta", "explanation": "Two dollars and fifty cents — 'Con' (with) connects dollars and cents. Think: 'two dollars WITH fifty.'"},
+          {"phrase": "Está en oferta", "explanation": "It's on sale — Estar + en oferta. Great for pointing out deals to customers."},
+          {"phrase": "Su cambio", "explanation": "Your change — Su = your (formal). Cambio = change (money returned)."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "How much was the item on sale?",
+            "options": ["Two dollars and fifty cents", "Three dollars and fifty cents", "One dollar", "Five dollars"],
+            "correct": 2
+          },
+          {
+            "question": "What does 'con' mean in 'dos dólares con cincuenta'?",
+            "options": ["Without", "Plus", "And / With", "Minus"],
+            "correct": 2
+          },
+          {
+            "question": "What is 'el cambio'?",
+            "options": ["The total", "The change (money back)", "The receipt", "The price"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer holds up a coffee and asks how much. It costs three dollars. How do you say it?",
+        "acceptableAnswers": ["cuesta tres dólares", "cuesta tres dolares", "tres dólares", "tres dolares", "el café cuesta tres dólares"],
+        "hint": "It costs... three dollars",
+        "feedback": "¡Muy bien! Cuesta tres dólares. Short, clear, and exactly what the customer needs to hear."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer points at chips and asks: \"¿Cuánto cuesta?\" — They cost two dollars. Tell them.",
+            "acceptableAnswers": ["cuesta dos dólares", "dos dólares", "cuesta dos dolares", "cuestan dos dólares"],
+            "partialCredit": ["dos dólares", "dos dolares"],
+            "hint": "It costs two dollars..."
+          },
+          {
+            "prompt": "They ask: \"¿Está en oferta?\" — Yes, it's on sale. Confirm it.",
+            "acceptableAnswers": ["sí, está en oferta", "si, está en oferta", "sí está en oferta", "si esta en oferta"],
+            "partialCredit": ["sí", "en oferta"],
+            "hint": "Yes, it's on sale..."
+          },
+          {
+            "prompt": "The total is five dollars. They hand you ten. Give their change: \"Your change is five dollars.\"",
+            "acceptableAnswers": ["su cambio es cinco dólares", "su cambio cinco dólares", "su cambio: cinco dólares", "su cambio es cinco dolares"],
+            "partialCredit": ["cinco dólares", "su cambio"],
+            "hint": "Your change... five dollars"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Mini Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you ask 'How much does this cost?'",
+            "options": ["¿Dónde está esto?", "¿Qué es esto?", "¿Cuánto cuesta esto?", "¿Cómo está esto?"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Fill in the blank: La pizza _______ cinco dólares. (costs)",
+            "answer": "cuesta",
+            "acceptableAnswers": ["cuesta"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 'It's on sale'?",
+            "options": ["Es gratis", "Está en oferta", "Cuesta mucho", "El total es"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "Translate: 'Your change is two dollars.'",
+            "answer": "Su cambio es dos dólares.",
+            "acceptableAnswers": ["su cambio es dos dólares", "su cambio es dos dolares", "su cambio: dos dólares"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario",
+        "content": "At the Kwik Trip register, prices are on the screen, but customers sometimes ask before they get there — especially at the hot food counter or the drink station. You don't need to memorize every number right now (that comes in a future unit). For now, the survival strategy is: if a customer asks '¿Cuánto cuesta?' and you know the price, say the number + 'dólares.' If you don't know the price, point to the price tag or the register screen and say 'Aquí' (here). That's perfectly fine. The key numbers to know right now: uno (1), dos (2), tres (3), cinco (5), diez (10), veinte (20)."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builder",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "¿Cuánto cuesta esto?", "english": "How much does this cost?"},
+          {"spanish": "Cuesta cinco dólares.", "english": "It costs five dollars."},
+          {"spanish": "Está en oferta.", "english": "It's on sale."},
+          {"spanish": "Su cambio es dos dólares.", "english": "Your change is two dollars."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "¿Cuánto cuesta? = How much does it cost? — your key shopping phrase",
+          "Cuesta (one item) vs. cuestan (multiple items)",
+          "Number preview: uno, dos, tres, cinco, diez, veinte",
+          "Dos dólares con cincuenta = $2.50 — 'con' connects dollars and cents",
+          "Está en oferta = It's on sale, Su cambio = Your change, El total = The total"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 2,
+    "globalIndex": 10,
+    "title": "Can You Help Me?",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Ask for help politely using ¿Me puede ayudar?",
+      "Offer help to customers with ¿En qué le puedo ayudar?",
+      "Handle situations where you need to get a coworker or manager"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "This is the lesson where everything comes together. Asking for help and offering help are two sides of the same coin — and at Kwik Trip, both happen constantly. You'll learn how to be the helpful employee AND how to ask when you're the one who needs a hand. This is real customer service Spanish."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Ask for help politely using ¿Me puede ayudar?",
+          "Offer help to customers with ¿En qué le puedo ayudar?",
+          "Handle situations where you need to get a coworker or manager"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "¿Me puede ayudar?", "pronunciation": "meh PWEH-deh ah-yoo-DAR", "english": "Can you help me?", "notes": "Formal — great for asking customers or managers"},
+          {"spanish": "¿En qué le puedo ayudar?", "pronunciation": "ehn keh leh PWEH-doh ah-yoo-DAR", "english": "How can I help you?", "notes": "THE customer service phrase — memorize this one"},
+          {"spanish": "¿Necesita ayuda?", "pronunciation": "neh-seh-SEE-tah ah-YOO-dah", "english": "Do you need help?", "notes": "When a customer looks lost"},
+          {"spanish": "Sí, por favor", "pronunciation": "see por fah-VOR", "english": "Yes, please", "notes": "Accepting help gratefully"},
+          {"spanish": "No, gracias", "pronunciation": "noh GRAH-see-ahs", "english": "No, thank you", "notes": "Declining politely"},
+          {"spanish": "Un momento, por favor", "pronunciation": "oon moh-MEHN-toh por fah-VOR", "english": "One moment, please", "notes": "Buy yourself time — very useful"},
+          {"spanish": "Voy a buscar a alguien", "pronunciation": "voy ah boos-KAR ah AHL-gee-ehn", "english": "I'm going to find someone", "notes": "When you need backup"},
+          {"spanish": "No entiendo", "pronunciation": "noh ehn-tee-EHN-doh", "english": "I don't understand", "notes": "Honest and respectful"},
+          {"spanish": "¿Puede repetir, por favor?", "pronunciation": "PWEH-deh reh-peh-TEER por fah-VOR", "english": "Can you repeat, please?", "notes": "When they spoke too fast"},
+          {"spanish": "Más despacio, por favor", "pronunciation": "mahs dehs-PAH-see-oh por fah-VOR", "english": "Slower, please", "notes": "Everyone says this — no shame"},
+          {"spanish": "Con mucho gusto", "pronunciation": "kohn MOO-choh GOOS-toh", "english": "With great pleasure", "notes": "Warm way to say you're happy to help"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar — Poder (can / to be able to)",
+        "content": "Poder means 'can' or 'to be able to.' You'll use two forms: puedo (I can) and puede (you can / he-she can). ¿Me puede ayudar? = Can you help me? (Literally: Can-you me help?) ¿En qué le puedo ayudar? = How can I help you? (Literally: In what you can-I help?) Notice the word order is different from English — the object pronoun (me, le) goes before the verb. Don't overthink it. Just memorize these as fixed phrases for now."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer walks into Kwik Trip looking confused, holding a piece of paper",
+        "lines": [
+          {"speaker": "You", "spanish": "¡Hola! ¿En qué le puedo ayudar?", "english": "Hello! How can I help you?"},
+          {"speaker": "Customer", "spanish": "Sí, necesito encontrar la leche de almendras.", "english": "Yes, I need to find the almond milk."},
+          {"speaker": "You", "spanish": "Un momento, por favor... La leche está allá, al fondo.", "english": "One moment, please... The milk is over there, in the back."},
+          {"speaker": "Customer", "spanish": "¿Me puede ayudar a encontrarla?", "english": "Can you help me find it?"},
+          {"speaker": "You", "spanish": "¡Claro que sí! Venga conmigo.", "english": "Of course! Come with me."},
+          {"speaker": "Customer", "spanish": "Muchas gracias por su ayuda.", "english": "Thank you very much for your help."},
+          {"speaker": "You", "spanish": "Con mucho gusto. ¿Necesita algo más?", "english": "With great pleasure. Do you need anything else?"},
+          {"speaker": "Customer", "spanish": "No, gracias. Eso es todo.", "english": "No, thanks. That's everything."}
+        ],
+        "breakdown": [
+          {"phrase": "¿En qué le puedo ayudar?", "explanation": "How can I help you? — Your #1 customer service opener. 'Le' = you (formal object pronoun). Practice this until it's automatic."},
+          {"phrase": "Un momento, por favor", "explanation": "One moment, please — Buys you time to think. Use it whenever you need a second to process."},
+          {"phrase": "¡Claro que sí!", "explanation": "Of course! — Stronger than just 'sí.' Shows enthusiasm and willingness to help."},
+          {"phrase": "Venga conmigo", "explanation": "Come with me — Venga = come (formal command). Conmigo = with me. Use this to walk customers to what they need."},
+          {"phrase": "¿Necesita algo más?", "explanation": "Do you need anything else? — Perfect closing question. Algo más = something more/anything else."},
+          {"phrase": "Eso es todo", "explanation": "That's everything / That's all — The customer's way of saying they're done. You'll hear this often."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "What did the customer need help finding?",
+            "options": ["Coffee", "The bathroom", "Almond milk", "The exit"],
+            "correct": 2
+          },
+          {
+            "question": "What does '¡Claro que sí!' mean?",
+            "options": ["I don't know", "Of course!", "One moment", "That's everything"],
+            "correct": 1
+          },
+          {
+            "question": "What does 'Eso es todo' mean?",
+            "options": ["I need more help", "Where is it?", "That's everything", "Thank you"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer walks in looking lost. Offer to help them using the standard customer service phrase.",
+        "acceptableAnswers": ["¿en qué le puedo ayudar?", "en qué le puedo ayudar", "hola, ¿en qué le puedo ayudar?", "hola en qué le puedo ayudar"],
+        "hint": "How can I help you? (formal)",
+        "feedback": "¡Perfecto! '¿En qué le puedo ayudar?' is the gold standard of customer service Spanish. Say it with a smile and you're golden."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer approaches you at the register. Offer to help them.",
+            "acceptableAnswers": ["¿en qué le puedo ayudar?", "hola, ¿en qué le puedo ayudar?", "¿necesita ayuda?"],
+            "partialCredit": ["ayudar", "le puedo ayudar"],
+            "hint": "How can I help you? OR Do you need help?"
+          },
+          {
+            "prompt": "The customer speaks too fast and you didn't catch it. Ask them to repeat more slowly.",
+            "acceptableAnswers": ["¿puede repetir, por favor?", "más despacio, por favor", "puede repetir por favor", "mas despacio por favor"],
+            "partialCredit": ["repetir", "más despacio", "por favor"],
+            "hint": "Can you repeat? OR Slower, please..."
+          },
+          {
+            "prompt": "You still can't help — you need to get someone else. Tell them: 'One moment, I'm going to find someone.'",
+            "acceptableAnswers": ["un momento, voy a buscar a alguien", "un momento por favor, voy a buscar a alguien", "un momento. voy a buscar a alguien"],
+            "partialCredit": ["un momento", "voy a buscar a alguien"],
+            "hint": "One moment + I'm going to find someone..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Mini Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "What is the standard way to offer help to a customer in Spanish?",
+            "options": ["¿Me puede ayudar?", "¿En qué le puedo ayudar?", "No entiendo", "Un momento"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "You need help. Ask: 'Can you help me?'",
+            "answer": "¿Me puede ayudar?",
+            "acceptableAnswers": ["¿Me puede ayudar?", "me puede ayudar", "¿me puede ayudar?"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "A customer spoke too fast. What do you say?",
+            "options": ["No entiendo, gracias", "Más despacio, por favor", "Eso es todo", "Con mucho gusto"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "You need to go get your manager. Say: 'One moment, please.'",
+            "answer": "Un momento, por favor.",
+            "acceptableAnswers": ["un momento, por favor", "un momento por favor"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario",
+        "content": "Here's the truth about working at Kwik Trip with Spanish-speaking customers: you won't always understand everything. That's okay. The phrases in this lesson are your safety net. If a customer needs help, open with '¿En qué le puedo ayudar?' If they answer and you're lost, say '¿Puede repetir, por favor?' or 'Más despacio, por favor.' If you still can't figure it out, 'Un momento — voy a buscar a alguien' lets you tag in a bilingual coworker without anyone feeling embarrassed. The goal is never perfection. The goal is effort, warmth, and problem-solving."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builder",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "¿En qué le puedo ayudar?", "english": "How can I help you?"},
+          {"spanish": "Un momento, por favor.", "english": "One moment, please."},
+          {"spanish": "¿Puede repetir, por favor?", "english": "Can you repeat, please?"},
+          {"spanish": "Voy a buscar a alguien.", "english": "I'm going to find someone."},
+          {"spanish": "Con mucho gusto.", "english": "With great pleasure."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "¿En qué le puedo ayudar? = How can I help you? — your customer service opener",
+          "¿Me puede ayudar? = Can you help me? — when YOU need help",
+          "¿Necesita ayuda? = Do you need help? — for customers who look lost",
+          "Safety phrases: Un momento, No entiendo, ¿Puede repetir?, Más despacio",
+          "Voy a buscar a alguien = I'm going to find someone — your graceful exit when you need backup"
+        ]
+      }
+    ]
+  }
+]

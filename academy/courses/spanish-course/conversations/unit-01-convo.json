@@ -1,0 +1,121 @@
+{
+  "unitId": 1,
+  "title": "Conversation Lab — Your First Customer",
+  "mode": "guided",
+  "scenario": "It's a Tuesday morning at Kwik Trip. A Spanish-speaking customer walks up to the register. Time to put your skills to work!",
+  "turns": [
+    {
+      "npc": "Customer",
+      "npcLine": "¡Hola! Buenos días.",
+      "prompt": "Greet the customer back. It's morning.",
+      "acceptableAnswers": [
+        "hola buenos días",
+        "hola, buenos días",
+        "buenos días",
+        "hola buenos dias"
+      ],
+      "partialCredit": ["hola", "buenos dias", "buenos días"],
+      "hint": "A greeting + Good morning...",
+      "feedback": {
+        "perfect": "¡Perfecto! Warm and professional greeting.",
+        "partial": "Good start! Try adding both \"Hola\" and \"Buenos días\" for a fuller greeting.",
+        "wrong": "Try: ¡Hola! Buenos días."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "¿Cómo te llamas?",
+      "prompt": "Tell them your name.",
+      "acceptableAnswers": [
+        "me llamo simon",
+        "me llamo Simon",
+        "simon"
+      ],
+      "partialCredit": ["me llamo", "simon"],
+      "hint": "Me llamo...",
+      "feedback": {
+        "perfect": "¡Muy bien! Great introduction.",
+        "partial": "That works! For a complete answer, try \"Me llamo Simon.\"",
+        "wrong": "Try: Me llamo Simon."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Mucho gusto, Simon. Me llamo Carlos.",
+      "prompt": "Respond to \"Mucho gusto\" and offer to help.",
+      "acceptableAnswers": [
+        "mucho gusto carlos en qué le puedo ayudar",
+        "mucho gusto, carlos. ¿en qué le puedo ayudar?",
+        "igualmente. ¿en qué le puedo ayudar?",
+        "mucho gusto. ¿en qué le puedo ayudar?"
+      ],
+      "partialCredit": ["mucho gusto", "igualmente", "en qué le puedo ayudar"],
+      "hint": "Nice to meet you too + How can I help you?",
+      "feedback": {
+        "perfect": "¡Excelente! You greeted AND offered help. That's the flow!",
+        "partial": "Nice! Try combining your greeting with an offer to help.",
+        "wrong": "Try: Mucho gusto, Carlos. ¿En qué le puedo ayudar?"
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "¿Dónde puedo encontrar las donas glaseadas y el café de avellana con dos de azúcar?",
+      "prompt": "You didn't catch all of that. Ask them to speak more slowly.",
+      "acceptableAnswers": [
+        "perdón puede hablar más despacio",
+        "disculpe puede hablar más despacio",
+        "no entendí puede hablar más despacio",
+        "perdón, ¿puede hablar más despacio?",
+        "¿puede hablar más despacio, por favor?",
+        "no entiendo puede repetir"
+      ],
+      "partialCredit": ["no entiendo", "no entendí", "más despacio", "puede repetir"],
+      "hint": "Sorry, can you speak more slowly?",
+      "feedback": {
+        "perfect": "¡Perfecto! Asking to slow down is smart, not weak.",
+        "partial": "Good instinct! A complete version: \"Perdón, ¿puede hablar más despacio?\"",
+        "wrong": "Try: Perdón, ¿puede hablar más despacio?"
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Sí, claro. ¿Dónde... están... las donas?",
+      "prompt": "Point them in the right direction. Say: \"Over there, to the right.\"",
+      "acceptableAnswers": [
+        "están por allá a la derecha",
+        "por allá, a la derecha",
+        "están por allá",
+        "por allá a la derecha"
+      ],
+      "partialCredit": ["por allá", "a la derecha", "allá"],
+      "hint": "Over there, to the right...",
+      "feedback": {
+        "perfect": "¡Muy bien! Clear and helpful directions.",
+        "partial": "That works! A fuller answer: \"Están por allá, a la derecha.\"",
+        "wrong": "Try: Están por allá, a la derecha."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Muchas gracias. Eso es todo.",
+      "prompt": "Respond warmly and wish them a good day.",
+      "acceptableAnswers": [
+        "con mucho gusto que tenga un buen día",
+        "de nada que tenga un buen día",
+        "con mucho gusto. que tenga un buen día.",
+        "de nada, que tenga un buen día"
+      ],
+      "partialCredit": ["de nada", "con gusto", "buen día", "hasta luego"],
+      "hint": "You're welcome + Have a good day!",
+      "feedback": {
+        "perfect": "¡Excelente! Beautiful closing. You just handled a full customer interaction in Spanish!",
+        "partial": "Great! For the full package: \"Con mucho gusto. Que tenga un buen día.\"",
+        "wrong": "Try: Con mucho gusto. Que tenga un buen día."
+      }
+    }
+  ],
+  "evaluation": {
+    "criteria": ["understanding", "correctness", "appropriateness"],
+    "passingScore": 60
+  }
+}

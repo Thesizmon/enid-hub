@@ -1,0 +1,945 @@
+[
+  {
+    "id": 1,
+    "unitId": 4,
+    "globalIndex": 16,
+    "title": "I Am...",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Use 'soy' for permanent traits like nationality and profession",
+      "Use 'estoy' for temporary states like feelings and location",
+      "Describe yourself with basic adjectives",
+      "Tell someone what you do for work"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Time to talk about yourself! In Spanish, there are two ways to say 'I am' — 'soy' and 'estoy.' They aren't interchangeable. Soy is for permanent things (who you are), and estoy is for temporary things (how you feel right now). This lesson gives you the power to introduce yourself beyond just your name."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Use 'soy' for permanent traits like nationality and profession",
+          "Use 'estoy' for temporary states like feelings and location",
+          "Describe yourself with basic adjectives",
+          "Tell someone what you do for work"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "Soy americano/americana", "pronunciation": "soy ah-meh-ree-KAH-noh / ah-meh-ree-KAH-nah", "english": "I am American (m/f)", "notes": "Use -o if male, -a if female"},
+          {"spanish": "Soy de Wisconsin", "pronunciation": "soy deh wees-KOHN-seen", "english": "I am from Wisconsin", "notes": "Soy de + place for origin"},
+          {"spanish": "Soy empleado/empleada", "pronunciation": "soy ehm-pleh-AH-doh / ehm-pleh-AH-dah", "english": "I am an employee (m/f)", "notes": "General term for employee"},
+          {"spanish": "Trabajo en Kwik Trip", "pronunciation": "trah-BAH-hoh ehn kweek treep", "english": "I work at Kwik Trip", "notes": "Trabajo = I work"},
+          {"spanish": "Estoy bien", "pronunciation": "ehs-TOY bee-EHN", "english": "I am fine/good", "notes": "Temporary state — how you feel now"},
+          {"spanish": "Estoy cansado/cansada", "pronunciation": "ehs-TOY kahn-SAH-doh / kahn-SAH-dah", "english": "I am tired (m/f)", "notes": "Temporary feeling"},
+          {"spanish": "Estoy contento/contenta", "pronunciation": "ehs-TOY kohn-TEHN-toh / kohn-TEHN-tah", "english": "I am happy (m/f)", "notes": "Temporary state"},
+          {"spanish": "Estoy ocupado/ocupada", "pronunciation": "ehs-TOY oh-koo-PAH-doh / oh-koo-PAH-dah", "english": "I am busy (m/f)", "notes": "Very useful at work!"},
+          {"spanish": "Estoy aprendiendo español", "pronunciation": "ehs-TOY ah-prehn-dee-EHN-doh ehs-pah-NYOL", "english": "I am learning Spanish", "notes": "Your confidence phrase from Lesson 1!"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Ser vs. Estar — The Two 'To Be' Verbs",
+        "content": "Spanish has two verbs for 'to be': SER and ESTAR. Think of it this way: SER = who you are (identity, origin, profession, nationality, personality). ESTAR = how you are or where you are (feelings, mood, location, temporary conditions). 'Soy' is the 'I' form of ser. 'Estoy' is the 'I' form of estar. Examples: 'Soy americano' (I am American — that won't change). 'Estoy cansado' (I am tired — that will change). A quick trick: if the condition can change by tomorrow, use ESTAR. If it defines who you are, use SER."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "During a break at Kwik Trip, you chat with a new coworker who speaks Spanish",
+        "lines": [
+          {"speaker": "Coworker", "spanish": "¡Hola! ¿Cómo estás?", "english": "Hi! How are you?"},
+          {"speaker": "You", "spanish": "Estoy bien, gracias. ¿Y tú?", "english": "I'm good, thanks. And you?"},
+          {"speaker": "Coworker", "spanish": "Bien, bien. ¿De dónde eres?", "english": "Good, good. Where are you from?"},
+          {"speaker": "You", "spanish": "Soy de Wisconsin. Soy americano.", "english": "I'm from Wisconsin. I'm American."},
+          {"speaker": "Coworker", "spanish": "¡Ah, qué bien! Yo soy de México.", "english": "Oh, cool! I'm from Mexico."},
+          {"speaker": "You", "spanish": "Estoy aprendiendo español. Estoy un poco nervioso.", "english": "I'm learning Spanish. I'm a little nervous."},
+          {"speaker": "Coworker", "spanish": "¡No te preocupes! Hablas muy bien.", "english": "Don't worry! You speak very well."}
+        ],
+        "breakdown": [
+          {"phrase": "¿Cómo estás?", "explanation": "How are you? Uses estar because it asks about your current state/feeling."},
+          {"phrase": "¿Y tú?", "explanation": "And you? A quick way to return the question informally."},
+          {"phrase": "¿De dónde eres?", "explanation": "Where are you from? Uses ser (informal) because origin is permanent."},
+          {"phrase": "un poco nervioso", "explanation": "A little nervous. 'Un poco' = a little. Very useful modifier!"},
+          {"phrase": "¡No te preocupes!", "explanation": "Don't worry! A common reassuring phrase you'll hear."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Why does the speaker say 'Soy de Wisconsin' instead of 'Estoy de Wisconsin'?",
+            "options": ["Because Wisconsin is a big state", "Because origin is permanent — use ser", "Because they are at work", "Because estar is only for feelings"],
+            "correct": 1
+          },
+          {
+            "question": "Which verb is used when the speaker says they are nervous?",
+            "options": ["Ser — because it's part of their personality", "Estar — because it's a temporary feeling", "Both could work", "Neither — nervioso doesn't need a verb"],
+            "correct": 1
+          },
+          {
+            "question": "How does the coworker respond to 'I'm learning Spanish'?",
+            "options": ["They switch to English", "They say don't worry, you speak well", "They walk away", "They laugh"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "Tell someone you are American and you work at Kwik Trip.",
+        "acceptableAnswers": ["soy americano trabajo en kwik trip", "soy americano. trabajo en kwik trip.", "soy americana. trabajo en kwik trip.", "soy americana trabajo en kwik trip", "soy americano y trabajo en kwik trip", "soy americana y trabajo en kwik trip"],
+        "hint": "Soy + nationality, then Trabajo en + place...",
+        "feedback": "Excellent! You used 'soy' for your nationality (permanent) and 'trabajo en' for your workplace. That's perfect ser usage!"
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer asks: '¿Cómo estás?' — Tell them you are good.",
+            "acceptableAnswers": ["estoy bien", "estoy bien gracias", "estoy bien, gracias", "bien gracias", "bien, gracias"],
+            "partialCredit": ["bien", "estoy bien"],
+            "hint": "Estoy + a feeling word..."
+          },
+          {
+            "prompt": "They ask: '¿De dónde eres?' — Tell them where you are from.",
+            "acceptableAnswers": ["soy de wisconsin", "soy de estados unidos", "soy de aquí"],
+            "partialCredit": ["soy de", "wisconsin"],
+            "hint": "Soy de + your state or country..."
+          },
+          {
+            "prompt": "It's been a long shift. Tell them you are tired but happy.",
+            "acceptableAnswers": ["estoy cansado pero contento", "estoy cansada pero contenta", "estoy cansado pero estoy contento", "estoy cansada pero estoy contenta"],
+            "partialCredit": ["estoy cansado", "estoy cansada", "cansado pero contento"],
+            "hint": "Estoy + tired word + pero (but) + happy word..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "Which sentence correctly says 'I am tired'?",
+            "options": ["Soy cansado", "Estoy cansado", "Tengo cansado", "Es cansado"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "_____ americano. (I am American.)",
+            "answer": "Soy",
+            "acceptableAnswers": ["Soy", "soy"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "Which verb do you use for 'I am from Mexico'?",
+            "options": ["Estar — Estoy de México", "Ser — Soy de México", "Tener — Tengo de México", "Ir — Voy de México"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "_____ bien, gracias. (I am fine, thanks.)",
+            "answer": "Estoy",
+            "acceptableAnswers": ["Estoy", "estoy"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "At Kwik Trip, if a Spanish-speaking coworker or customer asks how you're doing, 'Estoy bien, gracias' is all you need. If it's been a long shift and someone asks, 'Estoy cansado pero bien' (I'm tired but good) always gets a laugh and a nod of understanding. You don't need to explain your entire life story — just one or two 'soy' or 'estoy' phrases show real effort."
+      },
+      {
+        "type": "confidence",
+        "heading": "Talking About Yourself",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Soy de aquí.", "english": "I am from here."},
+          {"spanish": "Estoy bien, gracias.", "english": "I am fine, thanks."},
+          {"spanish": "Trabajo en Kwik Trip.", "english": "I work at Kwik Trip."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "SER (soy) = permanent identity: nationality, origin, profession",
+          "ESTAR (estoy) = temporary states: feelings, mood, location",
+          "Soy americano/americana = I am American",
+          "Estoy bien / cansado / contento = I am fine / tired / happy",
+          "Trabajo en Kwik Trip = I work at Kwik Trip",
+          "Quick trick: if it can change by tomorrow, use ESTAR"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 4,
+    "globalIndex": 17,
+    "title": "I Like / I Don't Like",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Say what you like and don't like using 'me gusta'",
+      "Express preferences about food and activities",
+      "Understand how the gustar pattern works differently from English",
+      "Ask someone what they like"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Want to tell people what you enjoy? In Spanish, you don't say 'I like coffee' — you say 'Coffee is pleasing to me.' It sounds weird in English, but once you get the pattern, it's easy. This lesson covers me gusta, food, activities, and how to ask others what they like."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Say what you like and don't like using 'me gusta'",
+          "Express preferences about food and activities",
+          "Understand how the gustar pattern works differently from English",
+          "Ask someone what they like"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "Me gusta", "pronunciation": "meh GOO-stah", "english": "I like (one thing)", "notes": "Literally: 'It pleases me'"},
+          {"spanish": "Me gustan", "pronunciation": "meh GOO-stahn", "english": "I like (multiple things)", "notes": "Use when the thing you like is plural"},
+          {"spanish": "No me gusta", "pronunciation": "noh meh GOO-stah", "english": "I don't like (one thing)", "notes": "Just add 'no' at the beginning"},
+          {"spanish": "No me gustan", "pronunciation": "noh meh GOO-stahn", "english": "I don't like (multiple things)", "notes": ""},
+          {"spanish": "Me gusta mucho", "pronunciation": "meh GOO-stah MOO-choh", "english": "I really like / I like a lot", "notes": "Mucho = a lot"},
+          {"spanish": "Me gusta el café", "pronunciation": "meh GOO-stah ehl kah-FEH", "english": "I like coffee", "notes": "Notice 'el' before café"},
+          {"spanish": "Me gusta la pizza", "pronunciation": "meh GOO-stah lah PEET-sah", "english": "I like pizza", "notes": ""},
+          {"spanish": "Me gustan las películas", "pronunciation": "meh GOO-stahn lahs peh-LEE-koo-lahs", "english": "I like movies", "notes": "Plural noun = gustan"},
+          {"spanish": "¿Te gusta...?", "pronunciation": "teh GOO-stah", "english": "Do you like...? (informal)", "notes": "Change 'me' to 'te' to ask"},
+          {"spanish": "¿Le gusta...?", "pronunciation": "leh GOO-stah", "english": "Do you like...? (formal)", "notes": "Use 'le' for formal/strangers"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "The Gustar Pattern",
+        "content": "Gustar doesn't work like English 'to like.' In Spanish, the thing you like is the subject. Think of it as: 'To me, coffee is pleasing' = Me gusta el café. The verb agrees with the THING, not with you. One thing = gusta. Multiple things = gustan. Me gusta el café (one thing — coffee). Me gustan los tacos (multiple things — tacos). To say you don't like something, just put 'no' before 'me': No me gusta el frío (I don't like the cold). To ask someone: ¿Te gusta? (informal) or ¿Le gusta? (formal). You will almost always only need 'gusta' and 'gustan' — just two forms to remember!"
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "Lunch break at Kwik Trip — chatting with a coworker about food",
+        "lines": [
+          {"speaker": "Coworker", "spanish": "¿Qué vas a comer?", "english": "What are you going to eat?"},
+          {"speaker": "You", "spanish": "No sé. Me gusta la pizza, pero hoy quiero algo diferente.", "english": "I don't know. I like pizza, but today I want something different."},
+          {"speaker": "Coworker", "spanish": "¿Te gustan los tacos?", "english": "Do you like tacos?"},
+          {"speaker": "You", "spanish": "¡Me gustan mucho los tacos!", "english": "I really like tacos!"},
+          {"speaker": "Coworker", "spanish": "A mí también. Hay un lugar bueno cerca de aquí.", "english": "Me too. There's a good place near here."},
+          {"speaker": "You", "spanish": "¡Perfecto! No me gusta comer solo.", "english": "Perfect! I don't like eating alone."},
+          {"speaker": "Coworker", "spanish": "Ja ja, yo tampoco.", "english": "Ha ha, me neither."}
+        ],
+        "breakdown": [
+          {"phrase": "¿Qué vas a comer?", "explanation": "What are you going to eat? 'Vas a' = you are going to. 'Comer' = to eat."},
+          {"phrase": "No sé", "explanation": "I don't know. Very common, very useful."},
+          {"phrase": "quiero algo diferente", "explanation": "I want something different. Quiero = I want. Algo = something."},
+          {"phrase": "A mí también", "explanation": "Me too. The standard way to agree with a 'me gusta' statement."},
+          {"phrase": "yo tampoco", "explanation": "Me neither. Used to agree with a negative statement."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Why does the speaker say 'me gustan los tacos' instead of 'me gusta los tacos'?",
+            "options": ["Because tacos are delicious", "Because tacos is plural, so the verb must be plural too", "Because 'gustan' is more polite", "Because of the word 'los'"],
+            "correct": 1
+          },
+          {
+            "question": "How do you say 'me too' when someone says they like something?",
+            "options": ["Yo también", "A mí también", "Me gusta también", "Igualmente"],
+            "correct": 1
+          },
+          {
+            "question": "What does 'No me gusta comer solo' mean?",
+            "options": ["I don't like the food here", "I only like to eat", "I don't like eating alone", "I don't want to eat now"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "Say that you really like coffee.",
+        "acceptableAnswers": ["me gusta mucho el café", "me gusta mucho el cafe", "me gusta mucho café", "me gusta mucho cafe"],
+        "hint": "Me gusta + mucho + el café...",
+        "feedback": "Great job! 'Me gusta mucho el café' — you used gusta (singular) because coffee is one thing, and mucho to show enthusiasm!"
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A coworker asks: '¿Te gusta trabajar aquí?' (Do you like working here?) — Say yes, you like it a lot.",
+            "acceptableAnswers": ["sí me gusta mucho", "sí, me gusta mucho", "me gusta mucho", "si me gusta mucho", "si, me gusta mucho"],
+            "partialCredit": ["me gusta", "sí me gusta"],
+            "hint": "Sí, me gusta + mucho..."
+          },
+          {
+            "prompt": "Ask them if they like tacos. (Use informal.)",
+            "acceptableAnswers": ["¿te gustan los tacos?", "te gustan los tacos?", "te gustan los tacos"],
+            "partialCredit": ["te gustan", "gustan los tacos"],
+            "hint": "¿Te gustan + los tacos?"
+          },
+          {
+            "prompt": "They say '¡Sí, me gustan mucho!' Tell them you don't like tacos but you like pizza.",
+            "acceptableAnswers": ["no me gustan los tacos pero me gusta la pizza", "a mí no me gustan los tacos pero me gusta la pizza", "no me gustan los tacos, pero me gusta la pizza"],
+            "partialCredit": ["no me gustan los tacos", "me gusta la pizza"],
+            "hint": "No me gustan los tacos, pero me gusta la pizza..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 'I like movies'?",
+            "options": ["Me gusta las películas", "Me gustan las películas", "Yo gusto las películas", "Me gusta películas"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "No me _____ el frío. (I don't like the cold.)",
+            "answer": "gusta",
+            "acceptableAnswers": ["gusta"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "How do you ask a customer (formally) if they like something?",
+            "options": ["¿Me gusta?", "¿Te gusta?", "¿Le gusta?", "¿Nos gusta?"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Me _____ mucho los tacos. (I really like tacos.)",
+            "answer": "gustan",
+            "acceptableAnswers": ["gustan"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "At Kwik Trip, you sell food all day. If a Spanish-speaking customer is looking at the hot food case, you could ask '¿Le gustan los tornados?' (Do you like the tornados?) or recommend something: 'Me gusta mucho este' (I really like this one). Talking about food is the easiest way to bond. Even a simple '¿Le gusta el café?' while they're at the coffee station builds connection."
+      },
+      {
+        "type": "confidence",
+        "heading": "Sharing What You Like",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Me gusta mucho.", "english": "I really like it."},
+          {"spanish": "No me gusta.", "english": "I don't like it."},
+          {"spanish": "¿Te gusta?", "english": "Do you like it?"}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Me gusta = I like (one thing); Me gustan = I like (multiple things)",
+          "No me gusta / No me gustan = I don't like",
+          "The verb agrees with the THING, not with you",
+          "¿Te gusta? (informal) / ¿Le gusta? (formal) = Do you like?",
+          "A mí también = Me too; Yo tampoco = Me neither",
+          "Me gusta mucho = I really like / I like a lot"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 4,
+    "globalIndex": 18,
+    "title": "My Family",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Name immediate family members in Spanish",
+      "Describe your family using basic sentences",
+      "Say how many people are in your family",
+      "Ask someone about their family"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Family is one of the most common conversation topics. Whether a coworker shares photos of their kids or a customer mentions they're shopping for their family, knowing this vocabulary lets you connect on a personal level. Let's learn to talk about the people who matter most."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Name immediate family members in Spanish",
+          "Describe your family using basic sentences",
+          "Say how many people are in your family",
+          "Ask someone about their family"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "la familia", "pronunciation": "lah fah-MEE-lee-ah", "english": "the family", "notes": ""},
+          {"spanish": "mi mamá / mi madre", "pronunciation": "mee mah-MAH / mee MAH-dreh", "english": "my mom / my mother", "notes": "Mamá is casual, madre is formal"},
+          {"spanish": "mi papá / mi padre", "pronunciation": "mee pah-PAH / mee PAH-dreh", "english": "my dad / my father", "notes": "Papá is casual, padre is formal"},
+          {"spanish": "mi hermano", "pronunciation": "mee ehr-MAH-noh", "english": "my brother", "notes": ""},
+          {"spanish": "mi hermana", "pronunciation": "mee ehr-MAH-nah", "english": "my sister", "notes": ""},
+          {"spanish": "mi hijo", "pronunciation": "mee EE-hoh", "english": "my son", "notes": "The 'h' is silent!"},
+          {"spanish": "mi hija", "pronunciation": "mee EE-hah", "english": "my daughter", "notes": ""},
+          {"spanish": "mi esposo", "pronunciation": "mee ehs-POH-soh", "english": "my husband", "notes": ""},
+          {"spanish": "mi esposa", "pronunciation": "mee ehs-POH-sah", "english": "my wife", "notes": ""},
+          {"spanish": "mis padres", "pronunciation": "mees PAH-drehs", "english": "my parents", "notes": "Mis = my (plural)"},
+          {"spanish": "mis hijos", "pronunciation": "mees EE-hohs", "english": "my children / my kids", "notes": "Hijos can mean sons or children in general"},
+          {"spanish": "Tengo dos hermanos.", "pronunciation": "TEHN-goh dohs ehr-MAH-nohs", "english": "I have two brothers.", "notes": "Tengo = I have"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Possessives and Tengo",
+        "content": "To say 'my' in Spanish: 'mi' for one thing, 'mis' for multiple. Mi hermano (my brother), mis hermanos (my brothers). To talk about how many family members you have, use 'tengo' (I have): Tengo tres hermanos = I have three brothers. Tengo una hija = I have one daughter. No tengo hijos = I don't have kids. Note: In Spanish, when referring to mixed-gender groups, the masculine plural is used. 'Mis hermanos' can mean 'my brothers' or 'my siblings' (brothers and sisters together). Same with 'mis hijos' — it can mean 'my sons' or 'my children.'"
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A coworker at Kwik Trip shows you photos on their phone during a break",
+        "lines": [
+          {"speaker": "Coworker", "spanish": "Mira, esta es mi familia.", "english": "Look, this is my family."},
+          {"speaker": "You", "spanish": "¡Qué bonita! ¿Cuántos hijos tienes?", "english": "How nice! How many kids do you have?"},
+          {"speaker": "Coworker", "spanish": "Tengo dos — un hijo y una hija.", "english": "I have two — a son and a daughter."},
+          {"speaker": "You", "spanish": "¡Qué bien! Yo tengo un hermano y una hermana.", "english": "How nice! I have one brother and one sister."},
+          {"speaker": "Coworker", "spanish": "¿Y tus padres? ¿Viven cerca?", "english": "And your parents? Do they live nearby?"},
+          {"speaker": "You", "spanish": "Sí, mis padres viven aquí en Wisconsin.", "english": "Yes, my parents live here in Wisconsin."},
+          {"speaker": "Coworker", "spanish": "¡Qué bueno! La familia es importante.", "english": "That's great! Family is important."}
+        ],
+        "breakdown": [
+          {"phrase": "Mira", "explanation": "Look! A common way to get someone's attention to show them something."},
+          {"phrase": "¡Qué bonita!", "explanation": "How nice/pretty! 'Qué + adjective' is a common exclamation pattern."},
+          {"phrase": "¿Cuántos hijos tienes?", "explanation": "How many kids do you have? Cuántos = how many. Tienes = you have."},
+          {"phrase": "¿Viven cerca?", "explanation": "Do they live nearby? Viven = they live. Cerca = near/nearby."},
+          {"phrase": "¡Qué bueno!", "explanation": "That's great! Another common positive reaction."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "How many children does the coworker have?",
+            "options": ["One son", "One daughter", "Two — a son and a daughter", "Three kids"],
+            "correct": 2
+          },
+          {
+            "question": "What does 'mis padres' mean?",
+            "options": ["My father", "My mothers", "My parents", "My grandparents"],
+            "correct": 2
+          },
+          {
+            "question": "Where do the speaker's parents live?",
+            "options": ["In Mexico", "Far away", "In Wisconsin", "They don't say"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "Say that you have one sister and two brothers.",
+        "acceptableAnswers": ["tengo una hermana y dos hermanos", "tengo un hermana y dos hermanos"],
+        "hint": "Tengo + una hermana + y + dos hermanos...",
+        "feedback": "Well done! You used 'tengo' with the correct family vocabulary. 'Una hermana y dos hermanos' — notice hermana for sister and hermanos for brothers."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A coworker asks: '¿Tienes hermanos?' (Do you have siblings?) — Say yes, you have one brother.",
+            "acceptableAnswers": ["sí tengo un hermano", "sí, tengo un hermano", "si tengo un hermano", "si, tengo un hermano"],
+            "partialCredit": ["tengo un hermano", "sí"],
+            "hint": "Sí, tengo un hermano..."
+          },
+          {
+            "prompt": "They ask: '¿Y tus padres?' (And your parents?) — Say your parents live in Wisconsin.",
+            "acceptableAnswers": ["mis padres viven en wisconsin", "mis padres viven en Wisconsin"],
+            "partialCredit": ["mis padres", "viven en wisconsin"],
+            "hint": "Mis padres viven en..."
+          },
+          {
+            "prompt": "Ask them how many kids they have.",
+            "acceptableAnswers": ["¿cuántos hijos tienes?", "cuántos hijos tienes?", "cuantos hijos tienes?", "¿cuántos hijos tienes", "cuantos hijos tienes"],
+            "partialCredit": ["cuántos hijos", "hijos tienes"],
+            "hint": "¿Cuántos hijos tienes?"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 'my daughter'?",
+            "options": ["Mi hijo", "Mi hija", "Mi hermana", "Mi esposa"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "_____ tres hermanos. (I have three siblings.)",
+            "answer": "Tengo",
+            "acceptableAnswers": ["Tengo", "tengo"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "What is the plural of 'mi' (my)?",
+            "options": ["Mi", "Mis", "Mís", "Mos"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "Mi mamá y mi papá = _____ padres.",
+            "answer": "mis",
+            "acceptableAnswers": ["mis", "Mis"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "Family is the number one bonding topic in Latin American culture. If a coworker at Kwik Trip mentions their kids, even a simple '¿Cuántos hijos tienes?' shows genuine interest. When a customer comes in with children, you could say '¡Qué bonitos!' (How cute!) about the kids. Showing interest in someone's family — even with basic vocabulary — builds trust and warmth faster than almost anything else."
+      },
+      {
+        "type": "confidence",
+        "heading": "Talking About Family",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Tengo una familia grande.", "english": "I have a big family."},
+          {"spanish": "Mi mamá vive en Wisconsin.", "english": "My mom lives in Wisconsin."},
+          {"spanish": "¿Tienes hijos?", "english": "Do you have kids?"}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Family vocab: mamá, papá, hermano/a, hijo/a, esposo/a",
+          "Mi = my (singular), Mis = my (plural)",
+          "Tengo = I have; No tengo = I don't have",
+          "¿Cuántos hijos tienes? = How many kids do you have?",
+          "Mixed-gender groups use masculine plural (hermanos = siblings)",
+          "Family talk is the #1 bonding topic in Latin American culture"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 4,
+    "globalIndex": 19,
+    "title": "My Job / At Work",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Describe your job and workplace in Spanish",
+      "Talk about what you do at work",
+      "Use Kwik Trip-specific vocabulary",
+      "Talk about coworkers and work schedule"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "You spend a lot of time at Kwik Trip, so let's learn to talk about it! This lesson covers job vocabulary, describing what you do, talking about your schedule, and the specific words you need for your workplace. By the end, you'll be able to have a real conversation about your work life."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Describe your job and workplace in Spanish",
+          "Talk about what you do at work",
+          "Use Kwik Trip-specific vocabulary",
+          "Talk about coworkers and work schedule"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "el trabajo", "pronunciation": "ehl trah-BAH-hoh", "english": "the job / work", "notes": "Can mean the job or the workplace"},
+          {"spanish": "Trabajo en Kwik Trip.", "pronunciation": "trah-BAH-hoh ehn kweek treep", "english": "I work at Kwik Trip.", "notes": "Trabajo = I work (verb)"},
+          {"spanish": "Soy cajero/cajera.", "pronunciation": "soy kah-HEH-roh / kah-HEH-rah", "english": "I am a cashier (m/f).", "notes": "One of the most common KT roles"},
+          {"spanish": "mi compañero/compañera de trabajo", "pronunciation": "mee kohm-pah-NYEH-roh / kohm-pah-NYEH-rah deh trah-BAH-hoh", "english": "my coworker (m/f)", "notes": "Literally: companion of work"},
+          {"spanish": "mi jefe / mi jefa", "pronunciation": "mee HEH-feh / mee HEH-fah", "english": "my boss (m/f)", "notes": ""},
+          {"spanish": "el turno", "pronunciation": "ehl TOOR-noh", "english": "the shift", "notes": "Turno de la mañana = morning shift"},
+          {"spanish": "Trabajo de lunes a viernes.", "pronunciation": "trah-BAH-hoh deh LOO-nehs ah vee-EHR-nehs", "english": "I work Monday to Friday.", "notes": "De...a = from...to"},
+          {"spanish": "Hoy trabajo hasta las diez.", "pronunciation": "oy trah-BAH-hoh AH-stah lahs dee-EHS", "english": "Today I work until ten.", "notes": "Hasta = until"},
+          {"spanish": "la tienda", "pronunciation": "lah tee-EHN-dah", "english": "the store", "notes": "General word for store/shop"},
+          {"spanish": "la caja", "pronunciation": "lah KAH-hah", "english": "the register / cash register", "notes": "Also means 'box'"},
+          {"spanish": "la cocina", "pronunciation": "lah koh-SEE-nah", "english": "the kitchen", "notes": "Where the hot food is prepared"},
+          {"spanish": "el almacén", "pronunciation": "ehl ahl-mah-SEHN", "english": "the stockroom / storage", "notes": "Where inventory is kept"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Talking About What You Do",
+        "content": "To describe your job, you have several patterns. For your role: Soy + job title (no article needed!). 'Soy cajero' NOT 'Soy un cajero.' For where you work: Trabajo en + place. 'Trabajo en Kwik Trip.' For your schedule: Trabajo de + day + a + day. 'Trabajo de lunes a viernes.' For your hours: Trabajo hasta las + time. 'Trabajo hasta las diez.' To talk about what you do: Yo + verb. 'Yo ayudo a los clientes' (I help the customers). 'Yo limpio la tienda' (I clean the store). Notice how simple it is — subject + verb + the rest."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "You run into a friend outside of work and they ask about your job",
+        "lines": [
+          {"speaker": "Friend", "spanish": "¿En qué trabajas?", "english": "What do you do for work?"},
+          {"speaker": "You", "spanish": "Trabajo en Kwik Trip. Soy cajero.", "english": "I work at Kwik Trip. I'm a cashier."},
+          {"speaker": "Friend", "spanish": "¡Ah, qué bien! ¿Te gusta?", "english": "Oh, cool! Do you like it?"},
+          {"speaker": "You", "spanish": "Sí, me gusta. Mis compañeros de trabajo son muy amables.", "english": "Yes, I like it. My coworkers are very nice."},
+          {"speaker": "Friend", "spanish": "¿Cuántas horas trabajas?", "english": "How many hours do you work?"},
+          {"speaker": "You", "spanish": "Trabajo ocho horas al día, de lunes a viernes.", "english": "I work eight hours a day, Monday to Friday."},
+          {"speaker": "Friend", "spanish": "¿Y los fines de semana?", "english": "And on weekends?"},
+          {"speaker": "You", "spanish": "A veces trabajo los sábados, pero no siempre.", "english": "Sometimes I work Saturdays, but not always."}
+        ],
+        "breakdown": [
+          {"phrase": "¿En qué trabajas?", "explanation": "What do you do for work? Literally: 'In what do you work?' This is the standard way to ask about someone's job."},
+          {"phrase": "son muy amables", "explanation": "'Are very kind/nice.' Son = they are (ser, permanent quality). Amable = kind, friendly."},
+          {"phrase": "ocho horas al día", "explanation": "Eight hours a day. 'Al día' = per day."},
+          {"phrase": "los fines de semana", "explanation": "On weekends. 'Fin de semana' = weekend. 'Los fines' = the weekends (plural)."},
+          {"phrase": "A veces", "explanation": "Sometimes. A very useful frequency word."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "What does '¿En qué trabajas?' mean?",
+            "options": ["Where do you live?", "What do you do for work?", "Do you like your job?", "When do you work?"],
+            "correct": 1
+          },
+          {
+            "question": "How does the speaker describe their coworkers?",
+            "options": ["They are funny", "They are very nice", "They are new", "They don't speak Spanish"],
+            "correct": 1
+          },
+          {
+            "question": "Does the speaker work every Saturday?",
+            "options": ["Yes, always", "No, never", "Sometimes but not always", "Only in summer"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "Tell someone you work at Kwik Trip and you are a cashier.",
+        "acceptableAnswers": ["trabajo en kwik trip soy cajero", "trabajo en kwik trip. soy cajero.", "trabajo en kwik trip. soy cajera.", "trabajo en kwik trip soy cajera", "trabajo en kwik trip y soy cajero", "trabajo en kwik trip y soy cajera"],
+        "hint": "Trabajo en + place. Soy + job title...",
+        "feedback": "Perfect! 'Trabajo en Kwik Trip. Soy cajero/cajera.' Notice you don't need 'un/una' before the job title with ser — that's a key Spanish pattern."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "Someone asks: '¿En qué trabajas?' — Tell them you work at Kwik Trip.",
+            "acceptableAnswers": ["trabajo en kwik trip", "yo trabajo en kwik trip"],
+            "partialCredit": ["kwik trip", "trabajo"],
+            "hint": "Trabajo en..."
+          },
+          {
+            "prompt": "They ask: '¿Te gusta tu trabajo?' (Do you like your job?) — Say yes, you like it a lot.",
+            "acceptableAnswers": ["sí me gusta mucho", "sí, me gusta mucho", "si me gusta mucho", "si, me gusta mucho", "me gusta mucho"],
+            "partialCredit": ["me gusta", "sí"],
+            "hint": "Sí, me gusta mucho..."
+          },
+          {
+            "prompt": "Tell them you work until ten today.",
+            "acceptableAnswers": ["hoy trabajo hasta las diez", "trabajo hasta las diez hoy", "trabajo hasta las diez"],
+            "partialCredit": ["hasta las diez", "trabajo hasta"],
+            "hint": "Hoy trabajo hasta las..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 'my coworker' (male)?",
+            "options": ["Mi amigo de trabajo", "Mi compañero de trabajo", "Mi hermano de trabajo", "Mi jefe de trabajo"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "Trabajo _____ lunes a viernes. (I work Monday to Friday.)",
+            "answer": "de",
+            "acceptableAnswers": ["de"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "Which word means 'shift'?",
+            "options": ["El trabajo", "La tienda", "El turno", "La caja"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Hoy trabajo _____ las diez. (Today I work until ten.)",
+            "answer": "hasta",
+            "acceptableAnswers": ["hasta"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "At Kwik Trip, knowing workplace words in Spanish is a superpower. If you're working with a Spanish-speaking coworker, you can coordinate: 'Estoy en la caja' (I'm at the register), 'Voy al almacén' (I'm going to the stockroom), 'La cocina necesita ayuda' (The kitchen needs help). For your schedule, 'Trabajo hasta las...' plus the time tells everyone when your shift ends. Even if your coworkers speak English, mixing in Spanish shows respect and builds team bonds."
+      },
+      {
+        "type": "confidence",
+        "heading": "Talking About Work",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Trabajo en Kwik Trip.", "english": "I work at Kwik Trip."},
+          {"spanish": "Estoy en la caja.", "english": "I'm at the register."},
+          {"spanish": "Hoy trabajo hasta las diez.", "english": "Today I work until ten."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Trabajo en + place = I work at...",
+          "Soy + job title (no article) = I am a...",
+          "Soy cajero/cajera = I am a cashier",
+          "El turno = shift; la caja = register; la tienda = store",
+          "De lunes a viernes = Monday to Friday; Hasta las... = Until...",
+          "Mi compañero/a de trabajo = my coworker; Mi jefe/a = my boss",
+          "A veces = sometimes — useful for talking about schedule"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 4,
+    "globalIndex": 20,
+    "title": "Level 1 Review & Checkpoint",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Review all vocabulary and grammar from Units 1-4",
+      "Demonstrate mastery of greetings, numbers, common phrases, and personal topics",
+      "Complete a comprehensive checkpoint covering all Level 1 material",
+      "Build confidence for real-world conversations at Kwik Trip"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "You've completed all of Level 1! That's 20 lessons of real, usable Spanish. Before moving on, let's review everything: greetings, numbers, everyday phrases, ser vs estar, gustar, family, and work vocabulary. This checkpoint proves you're ready for Level 2. Take your time — this is about confidence, not speed."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Review all vocabulary and grammar from Units 1-4",
+          "Demonstrate mastery of greetings, numbers, common phrases, and personal topics",
+          "Complete a comprehensive checkpoint covering all Level 1 material",
+          "Build confidence for real-world conversations at Kwik Trip"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Level 1 Power Phrases",
+        "items": [
+          {"spanish": "¡Hola! Buenos días.", "pronunciation": "OH-lah BWAY-nohs DEE-ahs", "english": "Hello! Good morning.", "notes": "Unit 1 — Greetings"},
+          {"spanish": "Estoy aprendiendo español.", "pronunciation": "ehs-TOY ah-prehn-dee-EHN-doh ehs-pah-NYOL", "english": "I am learning Spanish.", "notes": "Unit 1 — Your #1 confidence phrase"},
+          {"spanish": "¿En qué le puedo ayudar?", "pronunciation": "ehn keh leh PWEH-doh ah-yoo-DAR", "english": "How can I help you?", "notes": "Unit 2 — Customer service essential"},
+          {"spanish": "Son cinco dólares con cincuenta.", "pronunciation": "sohn SEEN-koh DOH-lah-rehs kohn seen-KWEHN-tah", "english": "It's five dollars and fifty cents.", "notes": "Unit 3 — Numbers and prices"},
+          {"spanish": "Soy de Wisconsin.", "pronunciation": "soy deh wees-KOHN-seen", "english": "I am from Wisconsin.", "notes": "Unit 4 — Ser for identity"},
+          {"spanish": "Me gusta mucho mi trabajo.", "pronunciation": "meh GOO-stah MOO-choh mee trah-BAH-hoh", "english": "I really like my job.", "notes": "Unit 4 — Gustar pattern"},
+          {"spanish": "Trabajo en Kwik Trip.", "pronunciation": "trah-BAH-hoh ehn kweek treep", "english": "I work at Kwik Trip.", "notes": "Unit 4 — Your workplace"},
+          {"spanish": "¡Que tenga un buen día!", "pronunciation": "keh TEHN-gah oon bwehn DEE-ah", "english": "Have a good day!", "notes": "Unit 2 — Perfect farewell"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Level 1 Grammar Review",
+        "content": "Here are the key grammar points from Level 1: (1) Formal vs. Informal: Use usted with customers and strangers; tú with friends and peers. (2) Ser vs. Estar: Ser (soy) for permanent things — identity, origin, profession. Estar (estoy) for temporary things — feelings, location, current state. (3) Gustar pattern: Me gusta + singular thing. Me gustan + plural things. The thing you like is the subject, not you. (4) Tengo: I have. Used for family, possessions, and age (Tengo 25 años). (5) Gender: Most nouns ending in -o are masculine, -a are feminine. Adjectives match: cansado/cansada, americano/americana. (6) Plurals: Add -s to vowels, -es to consonants. Mi becomes mis."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Level 1 Showcase Dialogue",
+        "context": "A full interaction at Kwik Trip — a Spanish-speaking customer comes in, you help them, and chat briefly",
+        "lines": [
+          {"speaker": "You", "spanish": "¡Hola! Buenas tardes. ¿En qué le puedo ayudar?", "english": "Hello! Good afternoon. How can I help you?"},
+          {"speaker": "Customer", "spanish": "Buenas tardes. ¿Dónde está el café?", "english": "Good afternoon. Where is the coffee?"},
+          {"speaker": "You", "spanish": "El café está por allá, a la derecha.", "english": "The coffee is over there, to the right."},
+          {"speaker": "Customer", "spanish": "Gracias. ¿Hablas español muy bien, de dónde eres?", "english": "Thanks. You speak Spanish well, where are you from?"},
+          {"speaker": "You", "spanish": "Gracias, estoy aprendiendo. Soy de aquí, de Wisconsin.", "english": "Thanks, I'm learning. I'm from here, from Wisconsin."},
+          {"speaker": "Customer", "spanish": "¡Qué bien! Yo soy de México. Tengo mi familia aquí.", "english": "How nice! I'm from Mexico. I have my family here."},
+          {"speaker": "You", "spanish": "¡Qué bueno! ¿Son tres dólares con veinticinco, por favor?", "english": "That's great! It's three dollars and twenty-five cents, please."},
+          {"speaker": "Customer", "spanish": "Aquí tiene.", "english": "Here you go."},
+          {"speaker": "You", "spanish": "Gracias. ¡Que tenga un buen día!", "english": "Thanks. Have a good day!"},
+          {"speaker": "Customer", "spanish": "Igualmente, ¡gracias!", "english": "Likewise, thanks!"}
+        ],
+        "breakdown": [
+          {"phrase": "por allá, a la derecha", "explanation": "Over there, to the right. Combines direction phrases from Unit 2."},
+          {"phrase": "Hablas español muy bien", "explanation": "You speak Spanish very well. A compliment you'll hear more and more!"},
+          {"phrase": "Tengo mi familia aquí", "explanation": "I have my family here. Uses tengo (I have) + family vocabulary from this unit."},
+          {"phrase": "Aquí tiene", "explanation": "Here you go. Standard phrase when handing something over (formal)."},
+          {"phrase": "Igualmente", "explanation": "Likewise. Works as a response to almost any well-wish."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "What does the customer ask for help finding?",
+            "options": ["The bathroom", "The coffee", "The snacks", "The exit"],
+            "correct": 1
+          },
+          {
+            "question": "Where is the customer originally from?",
+            "options": ["Wisconsin", "Guatemala", "Mexico", "Texas"],
+            "correct": 2
+          },
+          {
+            "question": "How much does the coffee cost?",
+            "options": ["$3.50", "$2.25", "$3.25", "$5.25"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer walks in during the morning. Greet them and ask how you can help.",
+        "acceptableAnswers": ["hola buenos días en qué le puedo ayudar", "hola, buenos días. ¿en qué le puedo ayudar?", "buenos días en qué le puedo ayudar", "hola buenos días ¿en qué le puedo ayudar?", "buenos dias en que le puedo ayudar"],
+        "hint": "Start with a greeting, then ask how you can help... ¿En qué le puedo ayudar?",
+        "feedback": "That's a complete, professional Kwik Trip greeting in Spanish! You combined greetings from Unit 1 with the customer service phrase from Unit 2. This is exactly what real bilingual service looks like."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Level 1 Checkpoint Conversation",
+        "turns": [
+          {
+            "prompt": "A customer enters the store in the evening. Greet them appropriately.",
+            "acceptableAnswers": ["hola buenas noches", "hola, buenas noches", "buenas noches", "hola buenas noches en qué le puedo ayudar"],
+            "partialCredit": ["hola", "buenas noches"],
+            "hint": "What's the evening greeting?"
+          },
+          {
+            "prompt": "They ask: '¿Cómo estás?' — Tell them you're good but tired.",
+            "acceptableAnswers": ["estoy bien pero cansado", "estoy bien pero cansada", "estoy bien, pero cansado", "estoy bien, pero cansada", "bien pero cansado", "bien pero cansada"],
+            "partialCredit": ["estoy bien", "cansado", "cansada"],
+            "hint": "Estoy bien, pero..."
+          },
+          {
+            "prompt": "They ask where the coffee is. Tell them it's to the left.",
+            "acceptableAnswers": ["el café está a la izquierda", "está a la izquierda", "el cafe esta a la izquierda", "a la izquierda"],
+            "partialCredit": ["a la izquierda", "el café"],
+            "hint": "El café está a la izquierda..."
+          },
+          {
+            "prompt": "Their total is $7.50. Tell them the price.",
+            "acceptableAnswers": ["son siete dólares con cincuenta", "son siete dólares con cincuenta centavos", "son siete dolares con cincuenta", "siete dólares con cincuenta", "siete dolares con cincuenta"],
+            "partialCredit": ["siete dólares", "siete con cincuenta"],
+            "hint": "Son siete dólares con cincuenta..."
+          },
+          {
+            "prompt": "They pay and are leaving. Wish them a good evening.",
+            "acceptableAnswers": ["que tenga una buena noche", "¡que tenga una buena noche!", "buenas noches", "gracias que tenga una buena noche", "gracias, ¡que tenga una buena noche!"],
+            "partialCredit": ["buena noche", "buenas noches", "gracias"],
+            "hint": "¡Que tenga una buena noche!"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Level 1 Mastery Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "Which greeting do you use in the afternoon?",
+            "options": ["Buenos días", "Buenas tardes", "Buenas noches", "Buenas mañanas"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "_____ aprendiendo español. (I am learning Spanish.)",
+            "answer": "Estoy",
+            "acceptableAnswers": ["Estoy", "estoy"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 'I am from Wisconsin' using the correct verb?",
+            "options": ["Estoy de Wisconsin", "Soy de Wisconsin", "Tengo de Wisconsin", "Voy de Wisconsin"],
+            "correct": 1
+          },
+          {
+            "format": "multipleChoice",
+            "question": "Which is correct: 'I like tacos'?",
+            "options": ["Me gusta los tacos", "Yo gusto los tacos", "Me gustan los tacos", "Me gusta tacos"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "_____ dos hermanos. (I have two brothers.)",
+            "answer": "Tengo",
+            "acceptableAnswers": ["Tengo", "tengo"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "Which means 'my coworker'?",
+            "options": ["Mi jefe", "Mi hermano", "Mi compañero de trabajo", "Mi amigo"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Son tres _____ con veinticinco. (It's three dollars and twenty-five cents.)",
+            "answer": "dólares",
+            "acceptableAnswers": ["dólares", "dolares"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "You want to say you're tired after a long shift. Which is correct?",
+            "options": ["Soy cansado", "Estoy cansado", "Tengo cansado", "Me gusta cansado"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "You've now completed Level 1 — congratulations! You have enough Spanish to greet every customer, help them find things, handle money, introduce yourself, and have small talk about family and work. At Kwik Trip, try to use at least one Spanish phrase every shift. Start small: 'Hola, buenos días' to a customer you think might speak Spanish. Their reaction will tell you if they want to continue in Spanish. Most people light up when someone makes the effort. You are not aiming for perfection — you are aiming for connection."
+      },
+      {
+        "type": "confidence",
+        "heading": "Level 1 Complete!",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Hablo un poco de español.", "english": "I speak a little Spanish."},
+          {"spanish": "Estoy aprendiendo, pero puedo ayudar.", "english": "I'm learning, but I can help."},
+          {"spanish": "¿Puede repetir, por favor?", "english": "Can you repeat that, please?"}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Level 1 Complete — What You've Learned",
+        "points": [
+          "Unit 1: Greetings (hola, buenos días/tardes/noches), introductions (me llamo, soy de), polite words (por favor, gracias, disculpe), goodbyes",
+          "Unit 2: Customer service phrases (¿En qué le puedo ayudar?), directions (izquierda, derecha, al fondo), asking and answering questions at work",
+          "Unit 3: Numbers 0-100, prices (Son X dólares con Y centavos), time expressions, days of the week",
+          "Unit 4: Ser vs. estar, me gusta/gustan, family vocabulary, work and Kwik Trip vocabulary",
+          "Grammar: formal vs. informal, gender (-o/-a), plurals, tengo, gustar pattern",
+          "You now have 100+ Spanish words and phrases for real conversations!",
+          "Next up: Level 2 — deeper conversations, past tense, and more complex interactions"
+        ]
+      }
+    ]
+  }
+]

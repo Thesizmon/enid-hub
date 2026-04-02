@@ -1,0 +1,100 @@
+{
+  "unitId": 2,
+  "title": "Conversation Lab — Helping a Customer Find Something",
+  "mode": "guided",
+  "scenario": "Afternoon at Kwik Trip. A customer approaches looking confused, trying to find something in the store.",
+  "turns": [
+    {
+      "npc": "Customer",
+      "npcLine": "Buenas tardes. Disculpe...",
+      "prompt": "Greet them back and ask how you can help.",
+      "acceptableAnswers": [
+        "buenas tardes en qué le puedo ayudar",
+        "buenas tardes, ¿en qué le puedo ayudar?",
+        "hola buenas tardes en qué le puedo ayudar"
+      ],
+      "partialCredit": ["buenas tardes", "en qué le puedo ayudar"],
+      "hint": "Good afternoon + How can I help you?",
+      "feedback": {
+        "perfect": "¡Perfecto! Professional and welcoming.",
+        "partial": "Good! Try combining a greeting with an offer to help.",
+        "wrong": "Try: Buenas tardes. ¿En qué le puedo ayudar?"
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "¿Cómo estás? Busco la leche. ¿Dónde está?",
+      "prompt": "Tell them how you're doing, then direct them. The milk is in the back to the left.",
+      "acceptableAnswers": [
+        "bien gracias la leche está al fondo a la izquierda",
+        "bien, gracias. la leche está al fondo, a la izquierda.",
+        "muy bien, gracias. está al fondo a la izquierda"
+      ],
+      "partialCredit": ["bien gracias", "al fondo", "a la izquierda", "está"],
+      "hint": "Good, thanks. The milk is in the back, to the left.",
+      "feedback": {
+        "perfect": "¡Excelente! You answered their greeting AND gave directions.",
+        "partial": "Good pieces! Try the full response: Bien, gracias. La leche está al fondo, a la izquierda.",
+        "wrong": "Try: Bien, gracias. La leche está al fondo, a la izquierda."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Gracias. Y... ¿cuánto cuesta un café grande?",
+      "prompt": "The large coffee costs $2.50. Tell them the price.",
+      "acceptableAnswers": [
+        "dos dólares con cincuenta",
+        "cuesta dos dólares con cincuenta centavos",
+        "son dos dólares con cincuenta",
+        "dos cincuenta"
+      ],
+      "partialCredit": ["dos", "dólares", "cincuenta"],
+      "hint": "Two dollars and fifty cents...",
+      "feedback": {
+        "perfect": "¡Muy bien! Clear and confident price!",
+        "partial": "Almost! Try: Dos dólares con cincuenta.",
+        "wrong": "Try: Cuesta dos dólares con cincuenta."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Perfecto. ¿Qué es eso? ¿Qué hay de nuevo?",
+      "prompt": "You're not sure what they're asking about. Ask them to repeat.",
+      "acceptableAnswers": [
+        "perdón puede repetir",
+        "¿puede repetir, por favor?",
+        "disculpe no entendí puede repetir",
+        "no entendí, ¿puede repetir?"
+      ],
+      "partialCredit": ["puede repetir", "no entendí", "no entiendo"],
+      "hint": "Sorry, can you repeat?",
+      "feedback": {
+        "perfect": "¡Perfecto! Asking for repetition is smart communication.",
+        "partial": "Good instinct! Full version: ¿Puede repetir, por favor?",
+        "wrong": "Try: Perdón, ¿puede repetir, por favor?"
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Muchas gracias por la ayuda. ¡Hasta luego!",
+      "prompt": "Thank them and say goodbye warmly.",
+      "acceptableAnswers": [
+        "de nada hasta luego",
+        "con mucho gusto hasta luego",
+        "de nada, ¡hasta luego!",
+        "con gusto que tenga un buen día"
+      ],
+      "partialCredit": ["de nada", "hasta luego", "buen día", "con gusto"],
+      "hint": "You're welcome + See you later!",
+      "feedback": {
+        "perfect": "¡Excelente! Warm, natural goodbye.",
+        "partial": "Nice! For the full warmth: De nada. ¡Hasta luego!",
+        "wrong": "Try: De nada. ¡Hasta luego!"
+      }
+    }
+  ],
+  "evaluation": {
+    "criteria": ["understanding", "correctness", "appropriateness"],
+    "passingScore": 60
+  }
+}

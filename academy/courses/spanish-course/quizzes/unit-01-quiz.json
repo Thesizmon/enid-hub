@@ -1,0 +1,97 @@
+{
+  "unitId": 1,
+  "title": "Unit 1 Review — First Words",
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 1,
+      "format": "multipleChoice",
+      "question": "How do you greet someone in the afternoon?",
+      "options": ["Buenos días", "Buenas tardes", "Buenas noches", "Hasta luego"],
+      "correct": 1,
+      "explanation": "\"Buenas tardes\" is used from about noon until evening."
+    },
+    {
+      "id": 2,
+      "format": "matching",
+      "instruction": "Match the Spanish with the English",
+      "pairs": [
+        {"left": "Gracias", "right": "Thank you"},
+        {"left": "Por favor", "right": "Please"},
+        {"left": "Disculpe", "right": "Excuse me"},
+        {"left": "De nada", "right": "You're welcome"}
+      ]
+    },
+    {
+      "id": 3,
+      "format": "fillBlank",
+      "question": "Estoy _____ español.",
+      "answer": "aprendiendo",
+      "acceptableAnswers": ["aprendiendo"]
+    },
+    {
+      "id": 4,
+      "format": "multipleChoice",
+      "question": "\"Mucho gusto\" means:",
+      "options": ["Thank you", "Nice to meet you", "Goodbye", "I'm sorry"],
+      "correct": 1,
+      "explanation": "\"Mucho gusto\" literally means \"much pleasure\" — used when meeting someone."
+    },
+    {
+      "id": 5,
+      "format": "typed",
+      "question": "How do you say \"I speak a little Spanish\"?",
+      "acceptableAnswers": ["hablo un poco de español", "hablo un poco de espanol", "hablo un poco"],
+      "hint": "Hablo un poco de..."
+    },
+    {
+      "id": 6,
+      "format": "bestResponse",
+      "situation": "A customer speaks too fast and you don't catch what they said.",
+      "options": [
+        "Gracias",
+        "Perdón, ¿puede hablar más despacio?",
+        "Buenos días",
+        "De nada"
+      ],
+      "correct": 1,
+      "explanation": "When you don't understand, politely ask them to speak more slowly."
+    },
+    {
+      "id": 7,
+      "format": "sentenceBuild",
+      "instruction": "Put these words in order: \"Good morning, how can I help you?\"",
+      "words": ["días,", "Buenos", "¿en", "le", "qué", "puedo", "ayudar?"],
+      "correctOrder": [1, 0, 2, 4, 3, 5, 6],
+      "answer": "Buenos días, ¿en qué le puedo ayudar?"
+    },
+    {
+      "id": 8,
+      "format": "multipleChoice",
+      "question": "How do you say \"Where are you from?\" (formal)",
+      "options": ["¿Cómo te llamas?", "¿De dónde es usted?", "¿Qué es esto?", "¿Cómo estás?"],
+      "correct": 1,
+      "explanation": "\"¿De dónde es usted?\" is the formal way to ask someone's origin."
+    },
+    {
+      "id": 9,
+      "format": "fillBlank",
+      "question": "Me _____ Simon.",
+      "answer": "llamo",
+      "acceptableAnswers": ["llamo"]
+    },
+    {
+      "id": 10,
+      "format": "bestResponse",
+      "situation": "A customer says \"Muchas gracias\" after you help them find an item.",
+      "options": [
+        "No entiendo",
+        "Con mucho gusto. ¿Algo más?",
+        "Perdón",
+        "Buenos días"
+      ],
+      "correct": 1,
+      "explanation": "\"Con mucho gusto\" (with pleasure) + \"¿Algo más?\" (anything else?) is the perfect warm response."
+    }
+  ]
+}

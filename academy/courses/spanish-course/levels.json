@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Foundations",
+    "icon": "🌱",
+    "description": "First words, courtesy, basic questions, numbers",
+    "unitRange": [1, 4],
+    "immersion": "bilingual"
+  },
+  {
+    "id": 2,
+    "name": "Everyday Building",
+    "icon": "🏗️",
+    "description": "Time, food, directions, shopping, daily routines",
+    "unitRange": [5, 8],
+    "immersion": "bilingual"
+  },
+  {
+    "id": 3,
+    "name": "Real Conversation",
+    "icon": "💬",
+    "description": "Past tense, opinions, storytelling, phone and email",
+    "unitRange": [9, 12],
+    "immersion": "mixed"
+  },
+  {
+    "id": 4,
+    "name": "Work & Customer Spanish",
+    "icon": "🏪",
+    "description": "Greetings, product help, checkout, directions, small talk",
+    "unitRange": [13, 16],
+    "immersion": "mixed"
+  },
+  {
+    "id": 5,
+    "name": "Practical Fluency",
+    "icon": "🎓",
+    "description": "Complex conversation, subjunctive, cultural fluency",
+    "unitRange": [17, 20],
+    "immersion": "mostly-spanish"
+  }
+]

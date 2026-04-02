@@ -218,12 +218,14 @@
     .accent-japanese{ --accent: #A855F7; --accent-soft: rgba(168,85,247,.12); }
     .accent-yoga    { --accent: #6EE7B7; --accent-soft: rgba(110,231,183,.12); }
     .accent-pilates { --accent: #60C8F5; --accent-soft: rgba(96,200,245,.12); }
+    .accent-spanish { --accent: #E84EA0; --accent-soft: rgba(232,78,160,.12); }
 
     .subject-card.accent-bible   { border-color: rgba(245,158,11,.22); }
     .subject-card.accent-history { border-color: rgba(232,78,160,.22); }
     .subject-card.accent-japanese{ border-color: rgba(168,85,247,.22); }
     .subject-card.accent-yoga    { border-color: rgba(110,231,183,.22); }
     .subject-card.accent-pilates { border-color: rgba(96,200,245,.22); }
+    .subject-card.accent-spanish { border-color: rgba(232,78,160,.22); }
   </style>
 </head>
 <body>
@@ -259,7 +261,7 @@
   </header>
 
   <div class="section-title">
-    Current Studies <span class="pill" id="subjectCountPill">5 subjects</span>
+    Current Studies <span class="pill" id="subjectCountPill">6 subjects</span>
   </div>
 
   <div class="subject-grid" id="subjectGrid"></div>
@@ -293,6 +295,16 @@ const SUBJECT_META = [
     btnGrad: 'linear-gradient(135deg,#E84EA0,#A855F7)',
     fillGrad:'linear-gradient(90deg,#E84EA0,#F472B6)',
     courseUrl: 'ushistory.html',
+  },
+  {
+    id:      'spanish',
+    name:    'Spanish Language',
+    icon:    '🇪🇸',
+    accent:  'accent-spanish',
+    badge:   { bg: 'rgba(232,78,160,.15)', color: '#9D1768', label: 'Language' },
+    btnGrad: 'linear-gradient(135deg,#E84EA0,#F472B6)',
+    fillGrad:'linear-gradient(90deg,#E84EA0,#F9A8D4)',
+    courseUrl: 'spanish.html',
   },
   {
     id:      'japanese',
@@ -329,6 +341,7 @@ const DEFAULT_DATA = {
   subjects: {
     bible:     { unit: 'Unit 1 — Creation & the Fall', lesson: 1, totalLessons: 64 },
     usHistory: { unit: 'Colonial America', lesson: 1, totalLessons: 64 },
+    spanish:   { unit: 'Unit 1 — First Words', lesson: 1, totalLessons: 100 },
     japanese:  { unit: 'Unit 1 – Writing System', lesson: 1, totalLessons: 42 },
     yoga:      { unit: 'Foundations',      lesson: 1, totalLessons: 12 },
     pilates:   { unit: 'Core Stability',   lesson: 1, totalLessons: 10 },

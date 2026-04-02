@@ -1,0 +1,114 @@
+{
+  "unitId": 4,
+  "title": "Conversation Lab — Getting to Know a Regular",
+  "mode": "guided",
+  "scenario": "A regular customer you've seen before comes in. Today they're chatty and want to get to know you. Time to talk about yourself!",
+  "turns": [
+    {
+      "npc": "Customer",
+      "npcLine": "¡Hola! ¿Cómo estás hoy?",
+      "prompt": "Tell them you're doing well and ask how they are.",
+      "acceptableAnswers": [
+        "bien gracias ¿y usted?",
+        "muy bien, gracias. ¿y usted?",
+        "bien, gracias, ¿cómo está usted?"
+      ],
+      "partialCredit": ["bien", "gracias", "y usted"],
+      "hint": "Good, thanks. And you?",
+      "feedback": {
+        "perfect": "¡Perfecto! Natural and polite.",
+        "partial": "Good! Try: Bien, gracias. ¿Y usted?",
+        "wrong": "Try: Muy bien, gracias. ¿Y usted?"
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Bien, gracias. ¿Cómo te llamas? Te veo aquí siempre.",
+      "prompt": "Tell them your name and that you work here.",
+      "acceptableAnswers": [
+        "me llamo simon trabajo aquí en kwik trip",
+        "me llamo Simon. trabajo aquí.",
+        "soy Simon, trabajo aquí en Kwik Trip"
+      ],
+      "partialCredit": ["me llamo", "simon", "trabajo aquí"],
+      "hint": "My name is Simon. I work here...",
+      "feedback": {
+        "perfect": "¡Excelente! Great introduction.",
+        "partial": "Good start! Try: Me llamo Simon. Trabajo aquí en Kwik Trip.",
+        "wrong": "Try: Me llamo Simon. Trabajo aquí en Kwik Trip."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Mucho gusto, Simon. ¿De dónde eres?",
+      "prompt": "Tell them where you're from.",
+      "acceptableAnswers": [
+        "soy de wisconsin",
+        "soy de aquí de wisconsin",
+        "mucho gusto soy de wisconsin"
+      ],
+      "partialCredit": ["soy de", "wisconsin", "mucho gusto"],
+      "hint": "I'm from Wisconsin...",
+      "feedback": {
+        "perfect": "¡Muy bien! Sharing where you're from builds connection.",
+        "partial": "Good! Full answer: Soy de aquí, de Wisconsin.",
+        "wrong": "Try: Soy de Wisconsin."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "¡Qué bien! ¿Te gusta trabajar aquí?",
+      "prompt": "Tell them yes, you like it. The people are nice.",
+      "acceptableAnswers": [
+        "sí me gusta mucho la gente es muy amable",
+        "sí, me gusta. la gente es amable.",
+        "sí, me gusta mucho"
+      ],
+      "partialCredit": ["sí", "me gusta", "amable"],
+      "hint": "Yes, I like it a lot. The people are nice.",
+      "feedback": {
+        "perfect": "¡Perfecto! Natural and warm.",
+        "partial": "Nice! Try: Sí, me gusta mucho. La gente es muy amable.",
+        "wrong": "Try: Sí, me gusta mucho."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "¡Tu español es muy bueno! ¿Cuánto tiempo llevas aprendiendo?",
+      "prompt": "They complimented your Spanish! Thank them and say you're still learning.",
+      "acceptableAnswers": [
+        "gracias todavía estoy aprendiendo",
+        "muchas gracias, todavía estoy aprendiendo",
+        "gracias, estoy aprendiendo español"
+      ],
+      "partialCredit": ["gracias", "aprendiendo", "todavía"],
+      "hint": "Thanks! I'm still learning...",
+      "feedback": {
+        "perfect": "¡Excelente! Humble and confident — the perfect combo.",
+        "partial": "Great! Full version: Gracias, todavía estoy aprendiendo.",
+        "wrong": "Try: Muchas gracias, todavía estoy aprendiendo."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "¡Sigue así! Bueno, hasta luego, Simon.",
+      "prompt": "Say goodbye warmly — use their name if you remember it (they didn't give one, so just say goodbye).",
+      "acceptableAnswers": [
+        "hasta luego que tenga un buen día",
+        "gracias hasta luego",
+        "¡hasta luego! que tenga un buen día."
+      ],
+      "partialCredit": ["hasta luego", "buen día", "gracias"],
+      "hint": "See you later! Have a good day!",
+      "feedback": {
+        "perfect": "¡Perfecto! You just had a real personal conversation in Spanish!",
+        "partial": "Nice! For the warm close: ¡Hasta luego! Que tenga un buen día.",
+        "wrong": "Try: ¡Hasta luego! Que tenga un buen día."
+      }
+    }
+  ],
+  "evaluation": {
+    "criteria": ["understanding", "correctness", "appropriateness"],
+    "passingScore": 60
+  }
+}

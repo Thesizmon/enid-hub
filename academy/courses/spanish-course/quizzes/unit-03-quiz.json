@@ -1,0 +1,91 @@
+{
+  "unitId": 3,
+  "title": "Unit 3 Review — Numbers, Time & Money",
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 1,
+      "format": "multipleChoice",
+      "question": "How do you say \"15\" in Spanish?",
+      "options": ["Cincuenta", "Quince", "Cinco", "Catorce"],
+      "correct": 1,
+      "explanation": "Quince = 15. Cinco = 5, Catorce = 14, Cincuenta = 50."
+    },
+    {
+      "id": 2,
+      "format": "typed",
+      "question": "Write the number \"32\" in Spanish words.",
+      "acceptableAnswers": ["treinta y dos"],
+      "hint": "Treinta y..."
+    },
+    {
+      "id": 3,
+      "format": "fillBlank",
+      "question": "¿Qué _____ es?",
+      "answer": "hora",
+      "acceptableAnswers": ["hora"]
+    },
+    {
+      "id": 4,
+      "format": "multipleChoice",
+      "question": "\"Son las tres y media\" means:",
+      "options": ["It's 3:00", "It's 3:15", "It's 3:30", "It's 3:45"],
+      "correct": 2,
+      "explanation": "\"Y media\" means \"and a half\" — so 3:30."
+    },
+    {
+      "id": 5,
+      "format": "matching",
+      "instruction": "Match the number",
+      "pairs": [
+        {"left": "Veinte", "right": "20"},
+        {"left": "Cincuenta", "right": "50"},
+        {"left": "Cien", "right": "100"},
+        {"left": "Cuarenta", "right": "40"}
+      ]
+    },
+    {
+      "id": 6,
+      "format": "bestResponse",
+      "situation": "A customer asks how much their items cost. The total is $7.50.",
+      "options": [
+        "Son las siete y media.",
+        "Siete dólares con cincuenta centavos.",
+        "Son cincuenta dólares.",
+        "Cuesta mucho."
+      ],
+      "correct": 1,
+      "explanation": "\"Siete dólares con cincuenta centavos\" = $7.50."
+    },
+    {
+      "id": 7,
+      "format": "multipleChoice",
+      "question": "Which day is \"miércoles\"?",
+      "options": ["Monday", "Tuesday", "Wednesday", "Thursday"],
+      "correct": 2,
+      "explanation": "Miércoles = Wednesday."
+    },
+    {
+      "id": 8,
+      "format": "sentenceBuild",
+      "instruction": "Build: \"Your total is twelve dollars.\"",
+      "words": ["es", "total", "dólares.", "Su", "doce"],
+      "correctOrder": [3, 1, 0, 4, 2],
+      "answer": "Su total es doce dólares."
+    },
+    {
+      "id": 9,
+      "format": "fillBlank",
+      "question": "_____ dólares con veinticinco centavos.",
+      "answer": "Cinco",
+      "acceptableAnswers": ["Cinco", "cinco"]
+    },
+    {
+      "id": 10,
+      "format": "typed",
+      "question": "How do you ask \"What time is it?\" in Spanish?",
+      "acceptableAnswers": ["qué hora es", "¿qué hora es?"],
+      "hint": "¿Qué hora...?"
+    }
+  ]
+}

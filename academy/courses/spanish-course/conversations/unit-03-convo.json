@@ -1,0 +1,99 @@
+{
+  "unitId": 3,
+  "title": "Conversation Lab — At the Register",
+  "mode": "guided",
+  "scenario": "You're working the register at Kwik Trip. A Spanish-speaking customer brings items to check out. Time to handle the transaction!",
+  "turns": [
+    {
+      "npc": "Customer",
+      "npcLine": "¡Hola! Buenos días.",
+      "prompt": "Greet them. It's morning.",
+      "acceptableAnswers": [
+        "hola buenos días",
+        "hola, buenos días",
+        "buenos días"
+      ],
+      "partialCredit": ["hola", "buenos días"],
+      "hint": "Hello + Good morning",
+      "feedback": {
+        "perfect": "¡Perfecto! Great start.",
+        "partial": "Good! Try the full greeting: ¡Hola! Buenos días.",
+        "wrong": "Try: ¡Hola! Buenos días."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "¿Cuánto cuesta esto?",
+      "prompt": "The item costs $3.75. Tell them the price.",
+      "acceptableAnswers": [
+        "tres dólares con setenta y cinco",
+        "cuesta tres dólares con setenta y cinco centavos",
+        "son tres setenta y cinco",
+        "tres con setenta y cinco"
+      ],
+      "partialCredit": ["tres", "dólares", "setenta y cinco"],
+      "hint": "Three dollars and seventy-five cents...",
+      "feedback": {
+        "perfect": "¡Muy bien! Clear pricing.",
+        "partial": "Close! Full version: Tres dólares con setenta y cinco.",
+        "wrong": "Try: Tres dólares con setenta y cinco centavos."
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Bien. Eso es todo.",
+      "prompt": "Their total is $12.50. Tell them the total and ask cash or card.",
+      "acceptableAnswers": [
+        "su total es doce dólares con cincuenta efectivo o tarjeta",
+        "su total es doce cincuenta. ¿efectivo o tarjeta?",
+        "son doce dólares con cincuenta. ¿efectivo o tarjeta?"
+      ],
+      "partialCredit": ["su total", "doce", "efectivo o tarjeta"],
+      "hint": "Your total is twelve fifty. Cash or card?",
+      "feedback": {
+        "perfect": "¡Excelente! Full register flow!",
+        "partial": "Good pieces! Try combining: Su total es doce con cincuenta. ¿Efectivo o tarjeta?",
+        "wrong": "Try: Su total es doce dólares con cincuenta. ¿Efectivo o tarjeta?"
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "Tarjeta, por favor.",
+      "prompt": "They're paying by card. Ask if they need a bag.",
+      "acceptableAnswers": [
+        "¿necesita una bolsa?",
+        "necesita una bolsa",
+        "¿quiere una bolsa?"
+      ],
+      "partialCredit": ["bolsa", "necesita"],
+      "hint": "Do you need a bag?",
+      "feedback": {
+        "perfect": "¡Perfecto! Great customer service.",
+        "partial": "Good! The full question: ¿Necesita una bolsa?",
+        "wrong": "Try: ¿Necesita una bolsa?"
+      }
+    },
+    {
+      "npc": "Customer",
+      "npcLine": "No, gracias. ¡Que tengas un buen día!",
+      "prompt": "Wish them a good day too.",
+      "acceptableAnswers": [
+        "que tenga un buen día",
+        "igualmente que tenga un buen día",
+        "igualmente, ¡que tenga un buen día!",
+        "gracias igualmente"
+      ],
+      "partialCredit": ["buen día", "igualmente", "hasta luego"],
+      "hint": "Have a good day!",
+      "feedback": {
+        "perfect": "¡Excelente! You just handled a full register transaction in Spanish!",
+        "partial": "Nice! For the full version: ¡Que tenga un buen día!",
+        "wrong": "Try: ¡Que tenga un buen día!"
+      }
+    }
+  ],
+  "evaluation": {
+    "criteria": ["understanding", "correctness", "appropriateness"],
+    "passingScore": 60
+  }
+}

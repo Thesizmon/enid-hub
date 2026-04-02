@@ -1,0 +1,754 @@
+[
+  {
+    "id": 1,
+    "unitId": 1,
+    "globalIndex": 1,
+    "title": "Hola — Your First Spanish Words",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Greet people in Spanish at any time of day",
+      "Say please, thank you, and excuse me",
+      "Tell someone you are learning Spanish"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Welcome to Spanish! By the end of this lesson, you'll be able to greet anyone, be polite, and — most importantly — tell them you're learning. This one phrase alone will change every interaction you have."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Greet people in Spanish at any time of day",
+          "Say please, thank you, and excuse me",
+          "Tell someone you are learning Spanish"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "Hola", "pronunciation": "OH-lah", "english": "Hello", "notes": "Universal — works anytime, anywhere"},
+          {"spanish": "Buenos días", "pronunciation": "BWAY-nohs DEE-ahs", "english": "Good morning", "notes": "Until about noon"},
+          {"spanish": "Buenas tardes", "pronunciation": "BWAY-nahs TAR-dehs", "english": "Good afternoon", "notes": "Noon to evening"},
+          {"spanish": "Buenas noches", "pronunciation": "BWAY-nahs NOH-chehs", "english": "Good evening / Good night", "notes": "After dark"},
+          {"spanish": "Por favor", "pronunciation": "por fah-VOR", "english": "Please", "notes": ""},
+          {"spanish": "Gracias", "pronunciation": "GRAH-see-ahs", "english": "Thank you", "notes": ""},
+          {"spanish": "De nada", "pronunciation": "deh NAH-dah", "english": "You're welcome", "notes": "Literally: \"of nothing\""},
+          {"spanish": "Disculpe", "pronunciation": "dees-KOOL-peh", "english": "Excuse me", "notes": "Polite / formal"},
+          {"spanish": "Estoy aprendiendo español", "pronunciation": "ehs-TOY ah-prehn-dee-EHN-doh ehs-pah-NYOL", "english": "I am learning Spanish", "notes": "Your #1 confidence phrase!"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar",
+        "content": "Spanish has formal (usted) and informal (tú) ways to say \"you.\" At work and with strangers, use usted — it's always safe and respectful. \"Disculpe\" is the usted form of \"excuse me.\" You don't need to memorize the rules yet — just know that the phrases in this course default to polite/formal, which is perfect for work."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "Morning at Kwik Trip — a Spanish-speaking customer walks in",
+        "lines": [
+          {"speaker": "You", "spanish": "¡Hola! Buenos días.", "english": "Hello! Good morning."},
+          {"speaker": "Customer", "spanish": "Buenos días. ¿Hablas español?", "english": "Good morning. Do you speak Spanish?"},
+          {"speaker": "You", "spanish": "Estoy aprendiendo español.", "english": "I am learning Spanish."},
+          {"speaker": "Customer", "spanish": "¡Muy bien! Gracias.", "english": "Very good! Thank you."},
+          {"speaker": "You", "spanish": "De nada. ¿En qué le puedo ayudar?", "english": "You're welcome. How can I help you?"}
+        ],
+        "breakdown": [
+          {"phrase": "¿Hablas español?", "explanation": "Do you speak Spanish? — A common question you'll hear. \"Hablas\" is the informal form."},
+          {"phrase": "¡Muy bien!", "explanation": "Very good! — A common positive reaction. Muy = very, bien = good/well."},
+          {"phrase": "¿En qué le puedo ayudar?", "explanation": "How can I help you? — Literally: \"In what can I help you?\" Standard customer service phrase."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "What does the employee tell the customer about their Spanish?",
+            "options": ["I speak Spanish fluently", "I am learning Spanish", "I don't speak Spanish", "I need help"],
+            "correct": 1
+          },
+          {
+            "question": "How does the customer react?",
+            "options": ["They leave", "They get frustrated", "They say \"Very good!\"", "They switch to English"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "It's morning. How do you greet a customer?",
+        "acceptableAnswers": ["buenos días", "hola buenos días", "hola, buenos días", "buenos dias", "hola buenos dias"],
+        "hint": "Think: Good morning...",
+        "feedback": "¡Perfecto! Buenos días is warm and professional — great for work."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer says: \"¡Hola!\" — Greet them back and say good afternoon.",
+            "acceptableAnswers": ["hola buenas tardes", "hola, buenas tardes", "buenas tardes"],
+            "partialCredit": ["hola", "buenas tardes"],
+            "hint": "Hola + the afternoon greeting..."
+          },
+          {
+            "prompt": "The customer asks: \"¿Hablas español?\" — Tell them you're learning.",
+            "acceptableAnswers": ["estoy aprendiendo español", "estoy aprendiendo espanol", "sí estoy aprendiendo español"],
+            "partialCredit": ["aprendiendo", "aprendiendo español"],
+            "hint": "Estoy aprendiendo..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you say \"Thank you\" in Spanish?",
+            "options": ["De nada", "Gracias", "Por favor", "Disculpe"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "Estoy _____ español.",
+            "answer": "aprendiendo",
+            "acceptableAnswers": ["aprendiendo"]
+          },
+          {
+            "format": "multipleChoice",
+            "question": "Which greeting do you use in the evening?",
+            "options": ["Buenos días", "Buenas tardes", "Buenas noches", "Hola"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "At Kwik Trip, you don't need to be perfect. A simple \"¡Hola! Buenos días\" with a smile shows respect and effort. Most Spanish-speaking customers will appreciate it enormously — even if that's all you say. And \"Estoy aprendiendo español\" is your safety net for any moment you feel lost."
+      },
+      {
+        "type": "confidence",
+        "heading": "I Am Learning Spanish",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Estoy aprendiendo español.", "english": "I am learning Spanish."},
+          {"spanish": "Hablo un poco de español.", "english": "I speak a little Spanish."},
+          {"spanish": "¿Puede hablar más despacio?", "english": "Can you speak more slowly?"}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Hola = Hello (anytime)",
+          "Buenos días / Buenas tardes / Buenas noches for time-of-day",
+          "Por favor = Please, Gracias = Thank you, De nada = You're welcome",
+          "Disculpe = Excuse me (formal)",
+          "Estoy aprendiendo español = I am learning Spanish — your #1 phrase!"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 1,
+    "globalIndex": 2,
+    "title": "Nice to Meet You",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Introduce yourself by name",
+      "Ask someone's name",
+      "Say where you are from",
+      "Use \"Mucho gusto\" naturally"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Now that you can greet people, let's introduce yourself! Being able to share your name and ask for theirs turns a greeting into a real connection."
+      },
+      {
+        "type": "outcomes",
+        "items": ["Introduce yourself by name", "Ask someone's name", "Say where you are from", "Use \"Mucho gusto\" naturally"]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "Me llamo...", "pronunciation": "meh YAH-moh", "english": "My name is...", "notes": "Literally: \"I call myself...\""},
+          {"spanish": "¿Cómo se llama usted?", "pronunciation": "KOH-moh seh YAH-mah oo-STEHD", "english": "What is your name? (formal)", "notes": "Use at work / with strangers"},
+          {"spanish": "¿Cómo te llamas?", "pronunciation": "KOH-moh teh YAH-mahs", "english": "What is your name? (informal)", "notes": "Use with friends / peers"},
+          {"spanish": "Mucho gusto.", "pronunciation": "MOO-choh GOO-stoh", "english": "Nice to meet you.", "notes": "Literally: \"Much pleasure\""},
+          {"spanish": "Igualmente.", "pronunciation": "ee-GWAHL-mehn-teh", "english": "Likewise.", "notes": "Response to \"Mucho gusto\""},
+          {"spanish": "Soy de...", "pronunciation": "soy deh", "english": "I am from...", "notes": "Soy de Wisconsin, Soy de Estados Unidos"},
+          {"spanish": "¿De dónde es usted?", "pronunciation": "deh DOHN-deh ehs oo-STEHD", "english": "Where are you from? (formal)", "notes": ""}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar",
+        "content": "\"Me llamo\" literally means \"I call myself.\" It uses a reflexive verb — but don't worry about that yet. Just memorize the pattern: Me llamo + your name. For \"I am from,\" we use \"Soy de\" + place. Soy means \"I am\" (permanent things like identity and origin)."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A regular customer introduces themselves",
+        "lines": [
+          {"speaker": "You", "spanish": "¡Hola! Buenos días. Me llamo Simon.", "english": "Hello! Good morning. My name is Simon."},
+          {"speaker": "Customer", "spanish": "Mucho gusto, Simon. Me llamo María.", "english": "Nice to meet you, Simon. My name is María."},
+          {"speaker": "You", "spanish": "Mucho gusto, María. ¿De dónde es usted?", "english": "Nice to meet you, María. Where are you from?"},
+          {"speaker": "Customer", "spanish": "Soy de México. ¿Y tú?", "english": "I'm from Mexico. And you?"},
+          {"speaker": "You", "spanish": "Soy de aquí, de Wisconsin.", "english": "I'm from here, from Wisconsin."}
+        ],
+        "breakdown": [
+          {"phrase": "¿Y tú?", "explanation": "And you? — Short and casual. The customer switched to informal (tú) because you're becoming friendly."},
+          {"phrase": "Soy de aquí", "explanation": "I'm from here — \"aquí\" means \"here.\" Simple and natural."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Where is María from?",
+            "options": ["Guatemala", "Mexico", "Wisconsin", "Texas"],
+            "correct": 1
+          },
+          {
+            "question": "What does \"Mucho gusto\" mean?",
+            "options": ["Thank you", "Goodbye", "Nice to meet you", "How are you"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "Introduce yourself. Say: My name is... (use your own name or Simon)",
+        "acceptableAnswers": ["me llamo simon", "me llamo", "me llamo Simon"],
+        "hint": "Me llamo...",
+        "feedback": "¡Muy bien! You just introduced yourself in Spanish."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "Someone says: \"¿Cómo te llamas?\" — Tell them your name.",
+            "acceptableAnswers": ["me llamo simon", "me llamo Simon", "simon", "Simon"],
+            "partialCredit": ["me llamo"],
+            "hint": "Me llamo..."
+          },
+          {
+            "prompt": "They say: \"Mucho gusto.\" — Respond naturally.",
+            "acceptableAnswers": ["mucho gusto", "igualmente", "mucho gusto también"],
+            "partialCredit": ["gusto", "igualmente"],
+            "hint": "Nice to meet you too..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you ask someone's name formally?",
+            "options": ["¿Cómo te llamas?", "¿Cómo se llama usted?", "¿De dónde es?", "¿Cómo estás?"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "_____ de Wisconsin.",
+            "answer": "Soy",
+            "acceptableAnswers": ["Soy", "soy"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "Learning a customer's name and using it next time they visit builds real connection. \"¡Hola, María! ¿Cómo está?\" — that alone can make someone's day. You don't need to have a full conversation yet. Names matter."
+      },
+      {
+        "type": "confidence",
+        "heading": "I Am Learning Spanish",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Estoy aprendiendo español.", "english": "I am learning Spanish."},
+          {"spanish": "Todavía estoy aprendiendo.", "english": "I'm still learning."},
+          {"spanish": "Hablo un poco.", "english": "I speak a little."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Me llamo... = My name is...",
+          "¿Cómo se llama usted? = What is your name? (formal)",
+          "Mucho gusto = Nice to meet you / Igualmente = Likewise",
+          "Soy de... = I am from...",
+          "Using someone's name builds connection"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 1,
+    "globalIndex": 3,
+    "title": "Please, Thank You, and Sorry",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Use courtesy phrases in multiple contexts",
+      "Say sorry and excuse me appropriately",
+      "Combine courtesy with requests",
+      "Sound polite even with limited Spanish"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Courtesy is the backbone of good communication — especially when your Spanish is still growing. Saying \"por favor\" and \"gracias\" covers a LOT of ground. This lesson goes deeper into polite language that makes every interaction smoother."
+      },
+      {
+        "type": "outcomes",
+        "items": ["Use courtesy phrases in multiple contexts", "Say sorry and excuse me appropriately", "Combine courtesy with requests", "Sound polite even with limited Spanish"]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "Por favor", "pronunciation": "por fah-VOR", "english": "Please", "notes": "Can go at start or end of any request"},
+          {"spanish": "Gracias", "pronunciation": "GRAH-see-ahs", "english": "Thank you", "notes": ""},
+          {"spanish": "Muchas gracias", "pronunciation": "MOO-chahs GRAH-see-ahs", "english": "Thank you very much", "notes": "Extra grateful"},
+          {"spanish": "De nada", "pronunciation": "deh NAH-dah", "english": "You're welcome", "notes": "Literally: \"of nothing\""},
+          {"spanish": "Con mucho gusto", "pronunciation": "kohn MOO-choh GOO-stoh", "english": "With pleasure / Gladly", "notes": "More warm than \"de nada\""},
+          {"spanish": "Lo siento", "pronunciation": "loh see-EHN-toh", "english": "I'm sorry", "notes": "For apologies"},
+          {"spanish": "Disculpe", "pronunciation": "dees-KOOL-peh", "english": "Excuse me (formal)", "notes": "To get attention or apologize lightly"},
+          {"spanish": "Perdón", "pronunciation": "pehr-DOHN", "english": "Pardon / Sorry", "notes": "Lighter than \"lo siento\""},
+          {"spanish": "No se preocupe", "pronunciation": "noh seh preh-oh-KOO-peh", "english": "Don't worry", "notes": "Reassuring someone"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar",
+        "content": "\"Por favor\" can go at the beginning or end of a sentence — both are correct. \"Un café, por favor\" or \"Por favor, un café.\" \"Lo siento\" is for real apologies. \"Disculpe\" and \"Perdón\" are lighter — use them to get attention, excuse yourself, or for small mistakes. At work, \"Disculpe\" is your go-to."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "You accidentally bump into a customer while stocking shelves",
+        "lines": [
+          {"speaker": "You", "spanish": "¡Disculpe! Lo siento.", "english": "Excuse me! I'm sorry."},
+          {"speaker": "Customer", "spanish": "No se preocupe. No hay problema.", "english": "Don't worry. No problem."},
+          {"speaker": "You", "spanish": "Gracias. ¿Le puedo ayudar en algo?", "english": "Thank you. Can I help you with something?"},
+          {"speaker": "Customer", "spanish": "Sí, ¿dónde está la leche, por favor?", "english": "Yes, where is the milk, please?"},
+          {"speaker": "You", "spanish": "Está por allá. Al fondo.", "english": "It's over there. In the back."},
+          {"speaker": "Customer", "spanish": "Muchas gracias.", "english": "Thank you very much."},
+          {"speaker": "You", "spanish": "Con mucho gusto.", "english": "With pleasure."}
+        ],
+        "breakdown": [
+          {"phrase": "No hay problema", "explanation": "No problem — literally \"there is no problem.\" Very common and friendly."},
+          {"phrase": "¿Le puedo ayudar en algo?", "explanation": "Can I help you with something? — \"algo\" means \"something.\""},
+          {"phrase": "Al fondo", "explanation": "In the back — useful for giving directions inside a store."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Why does the employee say \"Lo siento\"?",
+            "options": ["They're greeting the customer", "They bumped into them", "They can't find a product", "They're saying goodbye"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer thanks you for your help. How do you respond warmly?",
+        "acceptableAnswers": ["de nada", "con mucho gusto", "con gusto", "no hay problema"],
+        "hint": "You're welcome / With pleasure...",
+        "feedback": "¡Excelente! Any of these responses sounds warm and professional."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "You need to get a customer's attention. What do you say?",
+            "acceptableAnswers": ["disculpe", "perdón", "disculpe, por favor"],
+            "partialCredit": ["disculpe", "perdón"],
+            "hint": "Excuse me..."
+          },
+          {
+            "prompt": "A customer says \"Gracias\" after you help them. Respond.",
+            "acceptableAnswers": ["de nada", "con mucho gusto", "con gusto", "no hay problema"],
+            "partialCredit": ["nada", "gusto"],
+            "hint": "You're welcome..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "Which phrase means \"I'm sorry\" (for a real apology)?",
+            "options": ["Disculpe", "Lo siento", "Perdón", "De nada"],
+            "correct": 1
+          },
+          {
+            "format": "multipleChoice",
+            "question": "\"Con mucho gusto\" means:",
+            "options": ["I'm sorry", "Excuse me", "With pleasure", "No problem"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "At Kwik Trip, \"Con mucho gusto\" after helping someone sounds warm and professional. It's more personal than \"De nada\" and customers notice the effort. Even if you can't answer their question in Spanish, a polite \"Disculpe, un momento por favor\" while you find someone who can — that's great customer service."
+      },
+      {
+        "type": "confidence",
+        "heading": "I Am Learning Spanish",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Disculpe, estoy aprendiendo español.", "english": "Excuse me, I'm learning Spanish."},
+          {"spanish": "Un momento, por favor.", "english": "One moment, please."},
+          {"spanish": "¿Puede repetir?", "english": "Can you repeat?"}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Por favor at start or end of requests",
+          "Gracias / Muchas gracias for thanking",
+          "De nada or Con mucho gusto for \"you're welcome\"",
+          "Lo siento for real apologies, Disculpe/Perdón for lighter ones",
+          "No se preocupe = Don't worry"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 1,
+    "globalIndex": 4,
+    "title": "Yes, No, I Don't Understand",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Confirm and deny clearly",
+      "Say you don't understand and ask for help",
+      "Ask someone to repeat or slow down",
+      "Use survival phrases under pressure"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "When a customer speaks fast and you catch nothing — what do you do? This lesson gives you the survival tools to stay calm, communicate honestly, and keep the interaction going. These are some of the most important phrases you'll learn."
+      },
+      {
+        "type": "outcomes",
+        "items": ["Confirm and deny clearly", "Say you don't understand and ask for help", "Ask someone to repeat or slow down", "Use survival phrases under pressure"]
+      },
+      {
+        "type": "phrases",
+        "heading": "Core Phrases",
+        "items": [
+          {"spanish": "Sí", "pronunciation": "see", "english": "Yes", "notes": ""},
+          {"spanish": "No", "pronunciation": "noh", "english": "No", "notes": "Same as English!"},
+          {"spanish": "No entiendo", "pronunciation": "noh ehn-tee-EHN-doh", "english": "I don't understand", "notes": "Key survival phrase"},
+          {"spanish": "No sé", "pronunciation": "noh seh", "english": "I don't know", "notes": ""},
+          {"spanish": "¿Puede repetir, por favor?", "pronunciation": "PWAY-deh reh-peh-TEER, por fah-VOR", "english": "Can you repeat, please?", "notes": "Formal — great for work"},
+          {"spanish": "¿Puede hablar más despacio?", "pronunciation": "PWAY-deh ah-BLAR mahs dehs-PAH-see-oh", "english": "Can you speak more slowly?", "notes": "When they're talking fast"},
+          {"spanish": "Un momento, por favor", "pronunciation": "oon moh-MEHN-toh, por fah-VOR", "english": "One moment, please", "notes": "Buys you time"},
+          {"spanish": "Creo que sí", "pronunciation": "KREH-oh keh see", "english": "I think so", "notes": "When you're not 100% sure"},
+          {"spanish": "Creo que no", "pronunciation": "KREH-oh keh noh", "english": "I don't think so", "notes": "Gentle way to say no"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar",
+        "content": "\"¿Puede...?\" means \"Can you...?\" (formal). It starts many polite requests: ¿Puede repetir? (Can you repeat?) ¿Puede hablar más despacio? (Can you speak more slowly?) You'll use this pattern constantly. \"Más\" means \"more\" — más despacio = more slowly."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer asks you something quickly and you don't catch it",
+        "lines": [
+          {"speaker": "Customer", "spanish": "Disculpe, ¿dónde puedo encontrar las baterías para el carro?", "english": "Excuse me, where can I find car batteries?"},
+          {"speaker": "You", "spanish": "Perdón, no entendí. ¿Puede hablar más despacio?", "english": "Sorry, I didn't understand. Can you speak more slowly?"},
+          {"speaker": "Customer", "spanish": "Sí, claro. ¿Dónde... están... las baterías?", "english": "Yes, of course. Where... are... the batteries?"},
+          {"speaker": "You", "spanish": "Ah, ¿baterías? No sé... Un momento, por favor.", "english": "Ah, batteries? I don't know... One moment, please."},
+          {"speaker": "Customer", "spanish": "Sí, gracias.", "english": "Yes, thank you."},
+          {"speaker": "You", "spanish": "Disculpe, estoy aprendiendo español. Voy a buscar a alguien que le pueda ayudar.", "english": "Excuse me, I'm learning Spanish. I'm going to find someone who can help you."}
+        ],
+        "breakdown": [
+          {"phrase": "No entendí", "explanation": "I didn't understand — past tense of \"no entiendo.\" More specific than \"no entiendo\" because it refers to what they just said."},
+          {"phrase": "Sí, claro", "explanation": "Yes, of course — A very common, friendly response to requests."},
+          {"phrase": "Voy a buscar a alguien", "explanation": "I'm going to find someone — \"Voy a\" = I'm going to. A useful preview of a pattern you'll learn later."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "What does the employee ask the customer to do?",
+            "options": ["Leave the store", "Speak more slowly", "Come back later", "Write it down"],
+            "correct": 1
+          },
+          {
+            "question": "What does the employee do when they can't answer?",
+            "options": ["Gives up", "Goes to find someone who can help", "Ignores the customer", "Speaks English"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer speaks too fast. Ask them to speak more slowly.",
+        "acceptableAnswers": ["puede hablar más despacio", "¿puede hablar más despacio?", "puede hablar mas despacio", "¿puede hablar más despacio, por favor?"],
+        "hint": "¿Puede hablar más...?",
+        "feedback": "¡Perfecto! This one phrase will save you constantly."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer asks you something you don't understand. What do you say?",
+            "acceptableAnswers": ["no entiendo", "no entendí", "perdón no entiendo", "perdón, no entendí", "disculpe no entiendo"],
+            "partialCredit": ["no entiendo", "no entendí"],
+            "hint": "I don't understand..."
+          },
+          {
+            "prompt": "You need a moment to figure something out. What do you say?",
+            "acceptableAnswers": ["un momento por favor", "un momento, por favor"],
+            "partialCredit": ["un momento", "momento"],
+            "hint": "One moment..."
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "\"¿Puede repetir?\" means:",
+            "options": ["Can you help?", "Can you wait?", "Can you repeat?", "Can you leave?"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "No _____, ¿puede hablar más despacio?",
+            "answer": "entiendo",
+            "acceptableAnswers": ["entiendo", "entendí"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "Here's the truth: saying \"No entiendo\" is NOT failure. It's communication. You're telling someone exactly what you need — and that takes courage. Native speakers are almost always happy to slow down or repeat. The worst thing you can do is freeze and say nothing. \"No entiendo, ¿puede repetir?\" keeps the conversation alive."
+      },
+      {
+        "type": "confidence",
+        "heading": "I Am Learning Spanish",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Perdón, no entendí.", "english": "Sorry, I didn't understand."},
+          {"spanish": "Estoy aprendiendo. ¿Puede repetir?", "english": "I'm learning. Can you repeat?"},
+          {"spanish": "¿Puede hablar más despacio, por favor?", "english": "Can you speak more slowly, please?"},
+          {"spanish": "Un momento, por favor.", "english": "One moment, please."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Sí / No for basic confirmation",
+          "No entiendo = I don't understand (present) / No entendí (past)",
+          "¿Puede repetir? = Can you repeat?",
+          "¿Puede hablar más despacio? = Can you speak more slowly?",
+          "Un momento, por favor = buys you time",
+          "Saying \"I don't understand\" is communication, not failure"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 1,
+    "globalIndex": 5,
+    "title": "Putting It All Together",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Combine greetings, introductions, and courtesy in one flow",
+      "Handle a full basic interaction from start to finish",
+      "Recover when you don't understand",
+      "Feel confident starting conversations"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "You've learned greetings, introductions, courtesy, and survival phrases. Now let's put them all together into real interactions. This lesson is about flow — connecting what you know into natural conversations."
+      },
+      {
+        "type": "outcomes",
+        "items": ["Combine greetings, introductions, and courtesy in one flow", "Handle a full basic interaction from start to finish", "Recover when you don't understand", "Feel confident starting conversations"]
+      },
+      {
+        "type": "phrases",
+        "heading": "Review Phrases",
+        "items": [
+          {"spanish": "¡Hola! Buenos días / Buenas tardes", "pronunciation": "", "english": "Hello! Good morning / afternoon", "notes": "Open every interaction"},
+          {"spanish": "¿En qué le puedo ayudar?", "pronunciation": "ehn keh leh PWAY-doh ah-yoo-DAR", "english": "How can I help you?", "notes": "Offer help proactively"},
+          {"spanish": "¿Algo más?", "pronunciation": "AHL-goh mahs", "english": "Anything else?", "notes": "After helping with one thing"},
+          {"spanish": "Que tenga un buen día.", "pronunciation": "keh TEHN-gah oon bwehn DEE-ah", "english": "Have a good day.", "notes": "Perfect closing phrase"},
+          {"spanish": "Hasta luego.", "pronunciation": "AHS-tah LWAY-goh", "english": "See you later.", "notes": "Casual, friendly goodbye"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar",
+        "content": "\"¿Algo más?\" literally means \"Something more?\" — use it after helping a customer with one request to check if they need anything else. \"Que tenga un buen día\" uses the subjunctive (don't worry about that yet) — just memorize it as a set phrase. It's the perfect way to end an interaction."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A complete customer interaction at Kwik Trip — afternoon shift",
+        "lines": [
+          {"speaker": "You", "spanish": "¡Hola! Buenas tardes. ¿En qué le puedo ayudar?", "english": "Hello! Good afternoon. How can I help you?"},
+          {"speaker": "Customer", "spanish": "Buenas tardes. ¿Dónde está el café?", "english": "Good afternoon. Where is the coffee?"},
+          {"speaker": "You", "spanish": "Está por allá, a la derecha.", "english": "It's over there, to the right."},
+          {"speaker": "Customer", "spanish": "Gracias. Y... ¿tienen crema?", "english": "Thank you. And... do you have cream?"},
+          {"speaker": "You", "spanish": "Perdón, no entendí. ¿Puede repetir?", "english": "Sorry, I didn't understand. Can you repeat?"},
+          {"speaker": "Customer", "spanish": "Crema. Para el café.", "english": "Cream. For the coffee."},
+          {"speaker": "You", "spanish": "¡Ah, sí! Está al lado del café.", "english": "Oh, yes! It's next to the coffee."},
+          {"speaker": "Customer", "spanish": "Perfecto. Muchas gracias.", "english": "Perfect. Thank you very much."},
+          {"speaker": "You", "spanish": "Con mucho gusto. ¿Algo más?", "english": "With pleasure. Anything else?"},
+          {"speaker": "Customer", "spanish": "No, eso es todo. Gracias.", "english": "No, that's everything. Thanks."},
+          {"speaker": "You", "spanish": "Que tenga un buen día.", "english": "Have a good day."},
+          {"speaker": "Customer", "spanish": "Igualmente. ¡Hasta luego!", "english": "Likewise. See you later!"}
+        ],
+        "breakdown": [
+          {"phrase": "Está por allá, a la derecha", "explanation": "It's over there, to the right. You'll learn more directions later — for now, \"por allá\" (over there) + pointing works great."},
+          {"phrase": "¿Tienen crema?", "explanation": "Do you have cream? — \"Tienen\" = you (plural/formal) have. Common customer question."},
+          {"phrase": "Al lado del café", "explanation": "Next to the coffee. \"Al lado de\" = next to. Useful for store directions."},
+          {"phrase": "Eso es todo", "explanation": "That's everything. — A common way customers say they're done."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "What does the customer ask for first?",
+            "options": ["Milk", "Coffee", "Cream", "Sugar"],
+            "correct": 1
+          },
+          {
+            "question": "What does the employee do when they don't understand?",
+            "options": ["Ignores the customer", "Says sorry and asks them to repeat", "Walks away", "Speaks English"],
+            "correct": 1
+          },
+          {
+            "question": "How does the employee end the interaction?",
+            "options": ["Adiós", "Que tenga un buen día", "Nos vemos", "Chao"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Guided Practice",
+        "prompt": "A customer just finished. Wish them a good day.",
+        "acceptableAnswers": ["que tenga un buen día", "que tenga un buen dia", "hasta luego", "que le vaya bien"],
+        "hint": "Have a good day...",
+        "feedback": "¡Perfecto! A warm goodbye leaves a great impression."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation — Full Flow",
+        "turns": [
+          {
+            "prompt": "A customer walks in during the afternoon. Greet them and offer help.",
+            "acceptableAnswers": ["hola buenas tardes en qué le puedo ayudar", "buenas tardes, ¿en qué le puedo ayudar?", "hola, buenas tardes. ¿en qué le puedo ayudar?"],
+            "partialCredit": ["buenas tardes", "hola", "en qué le puedo ayudar"],
+            "hint": "Greeting + How can I help you?"
+          },
+          {
+            "prompt": "They ask for something you don't understand. What do you say?",
+            "acceptableAnswers": ["perdón no entendí puede repetir", "disculpe no entiendo puede repetir por favor", "no entiendo, ¿puede repetir?", "perdón, no entendí. ¿puede repetir?"],
+            "partialCredit": ["no entiendo", "puede repetir", "no entendí"],
+            "hint": "Sorry, I didn't understand. Can you repeat?"
+          },
+          {
+            "prompt": "They say \"Muchas gracias\" as they leave. Respond and say goodbye.",
+            "acceptableAnswers": ["con mucho gusto que tenga un buen día", "de nada que tenga un buen día", "con gusto hasta luego", "de nada, hasta luego"],
+            "partialCredit": ["de nada", "con gusto", "hasta luego", "buen día"],
+            "hint": "You're welcome + Have a good day!"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Quick Check",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "\"¿Algo más?\" means:",
+            "options": ["How much?", "Where is it?", "Anything else?", "What do you need?"],
+            "correct": 2
+          },
+          {
+            "format": "multipleChoice",
+            "question": "What's the best way to end a customer interaction?",
+            "options": ["No entiendo", "Que tenga un buen día", "Estoy aprendiendo", "Sí, claro"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Tip",
+        "content": "Here's your Unit 1 interaction formula: (1) Greet, (2) Offer help, (3) Try to understand, (4) If lost — say so and ask to repeat, (5) Help if you can, (6) Ask if they need anything else, (7) Wish them a good day. That's it. That flow works for every customer, every time. You already know every phrase you need."
+      },
+      {
+        "type": "confidence",
+        "heading": "I Am Learning Spanish",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Estoy aprendiendo español, pero quiero ayudarle.", "english": "I'm learning Spanish, but I want to help you."},
+          {"spanish": "Todavía estoy aprendiendo, disculpe.", "english": "I'm still learning, excuse me."},
+          {"spanish": "Entiendo un poco.", "english": "I understand a little."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Full interaction flow: Greet → Help → Understand → Recover → Close",
+          "¿En qué le puedo ayudar? = How can I help you?",
+          "¿Algo más? = Anything else?",
+          "Que tenga un buen día = Have a good day",
+          "Hasta luego = See you later",
+          "You now have everything for basic customer interactions!"
+        ]
+      }
+    ]
+  }
+]

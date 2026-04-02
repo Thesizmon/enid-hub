@@ -1,0 +1,935 @@
+[
+  {
+    "id": 1,
+    "unitId": 3,
+    "globalIndex": 11,
+    "title": "Numbers 1\u201320",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Count from 1 to 20 in Spanish with clear pronunciation",
+      "Use numbers to tell customers prices and quantities",
+      "Recognize spoken numbers in a fast transaction"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Numbers are the backbone of every Kwik Trip shift \u2014 prices, quantities, pump numbers, change. By the end of this lesson you'll count to 20 without hesitation and start dropping numbers into real conversations."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Count from 1 to 20 in Spanish with clear pronunciation",
+          "Use numbers to tell customers prices and quantities",
+          "Recognize spoken numbers in a fast transaction"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Numbers 1\u201310",
+        "items": [
+          {"spanish": "uno", "pronunciation": "OO-noh", "english": "1 / one", "notes": "Changes to \"un\" before masculine nouns: un d\u00f3lar"},
+          {"spanish": "dos", "pronunciation": "dohs", "english": "2 / two", "notes": ""},
+          {"spanish": "tres", "pronunciation": "trehs", "english": "3 / three", "notes": "Roll the r slightly \u2014 not like English \"tress\""},
+          {"spanish": "cuatro", "pronunciation": "KWAH-troh", "english": "4 / four", "notes": ""},
+          {"spanish": "cinco", "pronunciation": "SEEN-koh", "english": "5 / five", "notes": "The c before i sounds like s in Latin America"},
+          {"spanish": "seis", "pronunciation": "says", "english": "6 / six", "notes": "Rhymes with English \"says\""},
+          {"spanish": "siete", "pronunciation": "see-EH-teh", "english": "7 / seven", "notes": ""},
+          {"spanish": "ocho", "pronunciation": "OH-choh", "english": "8 / eight", "notes": "The ch sounds like English \"ch\" in \"church\""},
+          {"spanish": "nueve", "pronunciation": "NWEH-veh", "english": "9 / nine", "notes": ""},
+          {"spanish": "diez", "pronunciation": "dee-EHS", "english": "10 / ten", "notes": "The z sounds like s in Latin American Spanish"}
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Numbers 11\u201320",
+        "items": [
+          {"spanish": "once", "pronunciation": "OHN-seh", "english": "11 / eleven", "notes": ""},
+          {"spanish": "doce", "pronunciation": "DOH-seh", "english": "12 / twelve", "notes": ""},
+          {"spanish": "trece", "pronunciation": "TREH-seh", "english": "13 / thirteen", "notes": ""},
+          {"spanish": "catorce", "pronunciation": "kah-TOR-seh", "english": "14 / fourteen", "notes": ""},
+          {"spanish": "quince", "pronunciation": "KEEN-seh", "english": "15 / fifteen", "notes": "\"qu\" in Spanish always sounds like k"},
+          {"spanish": "diecis\u00e9is", "pronunciation": "dee-eh-see-SAYS", "english": "16 / sixteen", "notes": "Diez + seis merged into one word"},
+          {"spanish": "diecisiete", "pronunciation": "dee-eh-see-see-EH-teh", "english": "17 / seventeen", "notes": ""},
+          {"spanish": "dieciocho", "pronunciation": "dee-eh-see-OH-choh", "english": "18 / eighteen", "notes": ""},
+          {"spanish": "diecinueve", "pronunciation": "dee-eh-see-NWEH-veh", "english": "19 / nineteen", "notes": ""},
+          {"spanish": "veinte", "pronunciation": "BAYN-teh", "english": "20 / twenty", "notes": "The v in Spanish sounds like a soft b"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar \u2014 Uno vs. Un",
+        "content": "When counting by itself, you say \"uno.\" But when you put it before a masculine noun, it shortens to \"un\": un d\u00f3lar (one dollar), un caf\u00e9 (one coffee). Before a feminine noun it becomes \"una\": una botella (one bottle). For now, just remember: un + thing (masculine), una + thing (feminine). Most words ending in -o are masculine, most ending in -a are feminine."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer at Kwik Trip asks about lottery tickets and items",
+        "lines": [
+          {"speaker": "Customer", "spanish": "Hola. Quiero tres boletos de loter\u00eda, por favor.", "english": "Hello. I want three lottery tickets, please."},
+          {"speaker": "You", "spanish": "\u00bfTres boletos? Claro.", "english": "Three tickets? Of course."},
+          {"speaker": "Customer", "spanish": "Y dos caf\u00e9s.", "english": "And two coffees."},
+          {"speaker": "You", "spanish": "Tres boletos y dos caf\u00e9s. Son ocho d\u00f3lares.", "english": "Three tickets and two coffees. That's eight dollars."},
+          {"speaker": "Customer", "spanish": "Aqu\u00ed tiene diez.", "english": "Here's ten."},
+          {"speaker": "You", "spanish": "Su cambio es dos d\u00f3lares. \u00a1Gracias!", "english": "Your change is two dollars. Thank you!"}
+        ],
+        "breakdown": [
+          {"phrase": "Quiero", "explanation": "I want \u2014 from the verb \"querer.\" Very common for ordering."},
+          {"phrase": "boletos de loter\u00eda", "explanation": "Lottery tickets \u2014 \"boleto\" = ticket, \"de\" = of."},
+          {"phrase": "Son ocho d\u00f3lares", "explanation": "That's eight dollars \u2014 \"son\" (they are) is used for plural amounts. For one dollar, you'd say \"es un d\u00f3lar.\""},
+          {"phrase": "Aqu\u00ed tiene", "explanation": "Here you go / Here's \u2014 literally \"here you have.\" Very common when handing something over."},
+          {"phrase": "Su cambio", "explanation": "Your change \u2014 \"su\" = your (formal), \"cambio\" = change."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "How many lottery tickets does the customer want?",
+            "options": ["Two", "Three", "Five", "Ten"],
+            "correct": 1
+          },
+          {
+            "question": "What is the total cost?",
+            "options": ["Two dollars", "Five dollars", "Eight dollars", "Ten dollars"],
+            "correct": 2
+          },
+          {
+            "question": "How much change does the customer get?",
+            "options": ["One dollar", "Two dollars", "Three dollars", "Five dollars"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Quick Practice",
+        "prompt": "A customer puts five items on the counter. How do you say \"five\" in Spanish?",
+        "acceptableAnswers": ["cinco", "Cinco"],
+        "hint": "It starts with a c and sounds like \"SEEN-koh\"",
+        "feedback": "Cinco! You'll say this one a lot at the register."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer holds up some items and asks: \"\u00bfCu\u00e1nto cuesta?\" (How much does it cost?) The total is $12. Tell them: \"Son doce d\u00f3lares.\"",
+            "acceptableAnswers": ["Son doce d\u00f3lares", "Son doce d\u00f3lares.", "son doce d\u00f3lares", "son doce dolares"],
+            "partialCredit": ["doce d\u00f3lares", "doce dolares", "12 d\u00f3lares"],
+            "hint": "Son + the number + d\u00f3lares"
+          },
+          {
+            "prompt": "The customer gives you a twenty. Their change is $8. Say: \"Su cambio es ocho d\u00f3lares.\"",
+            "acceptableAnswers": ["Su cambio es ocho d\u00f3lares", "Su cambio es ocho d\u00f3lares.", "su cambio es ocho d\u00f3lares", "su cambio es ocho dolares"],
+            "partialCredit": ["ocho d\u00f3lares", "cambio ocho", "ocho dolares"],
+            "hint": "Su cambio es + number + d\u00f3lares"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Number Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 15 in Spanish?",
+            "options": ["Trece", "Catorce", "Quince", "Diecis\u00e9is"],
+            "correct": 2
+          },
+          {
+            "format": "multipleChoice",
+            "question": "What number is \"dieciocho\"?",
+            "options": ["16", "17", "18", "19"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "Write the Spanish word for the number 7:",
+            "answer": "siete",
+            "acceptableAnswers": ["siete", "Siete"]
+          },
+          {
+            "format": "fillBlank",
+            "question": "A customer wants 1 coffee. Fill in: \"___ caf\u00e9\"",
+            "answer": "un",
+            "acceptableAnswers": ["un", "Un"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario: Kwik Trip Register",
+        "content": "Next time a Spanish-speaking customer comes through your line, try saying the total in Spanish. Even if you follow it with the English amount, saying \"Son cinco d\u00f3lares\" before \"That's five dollars\" shows effort and builds connection. Start with small, round numbers and work your way up. Pump numbers are also great practice \u2014 \"bomba n\u00famero siete\" (pump number seven)."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builders",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Son cinco d\u00f3lares.", "english": "That's five dollars."},
+          {"spanish": "Bomba n\u00famero tres.", "english": "Pump number three."},
+          {"spanish": "Dos caf\u00e9s, \u00bfverdad?", "english": "Two coffees, right?"},
+          {"spanish": "\u00bfCu\u00e1ntos quiere?", "english": "How many do you want?"}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "You can now count 1\u201320 in Spanish \u2014 uno through veinte",
+          "\"Uno\" shortens to \"un\" before masculine nouns and \"una\" before feminine nouns",
+          "Numbers 16\u201319 are compound words built from diez + the single digit",
+          "Use \"Son + number + d\u00f3lares\" to state prices at the register",
+          "\"Su cambio es...\" tells a customer their change amount"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "unitId": 3,
+    "globalIndex": 12,
+    "title": "Numbers 20\u2013100",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Count by tens from 20 to 100",
+      "Form compound numbers like treinta y cinco (35)",
+      "Say any price between $1 and $100 in Spanish"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "You've got 1\u201320 down. Now let's stretch to 100. The good news: once you learn the tens (20, 30, 40...), building every number in between is just snapping two pieces together with \"y\" (and). By the end of this lesson, every price on every shelf at Kwik Trip is something you can say in Spanish."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Count by tens from 20 to 100",
+          "Form compound numbers like treinta y cinco (35)",
+          "Say any price between $1 and $100 in Spanish"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "The Tens: 20\u2013100",
+        "items": [
+          {"spanish": "veinte", "pronunciation": "BAYN-teh", "english": "20", "notes": "Review from Lesson 1"},
+          {"spanish": "treinta", "pronunciation": "TRAYN-tah", "english": "30", "notes": "Note: treinta, not \"trenta\""},
+          {"spanish": "cuarenta", "pronunciation": "kwah-REHN-tah", "english": "40", "notes": ""},
+          {"spanish": "cincuenta", "pronunciation": "seen-KWEHN-tah", "english": "50", "notes": ""},
+          {"spanish": "sesenta", "pronunciation": "seh-SEHN-tah", "english": "60", "notes": ""},
+          {"spanish": "setenta", "pronunciation": "seh-TEHN-tah", "english": "70", "notes": ""},
+          {"spanish": "ochenta", "pronunciation": "oh-CHEHN-tah", "english": "80", "notes": ""},
+          {"spanish": "noventa", "pronunciation": "noh-BEHN-tah", "english": "90", "notes": ""},
+          {"spanish": "cien", "pronunciation": "see-EHN", "english": "100", "notes": "Use \"cien\" for exactly 100. For 101+, use \"ciento\""}
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Building Compound Numbers",
+        "items": [
+          {"spanish": "veintiuno", "pronunciation": "bayn-tee-OO-noh", "english": "21", "notes": "21\u201329 are single words: veinti + digit"},
+          {"spanish": "veintid\u00f3s", "pronunciation": "bayn-tee-DOHS", "english": "22", "notes": ""},
+          {"spanish": "veinticinco", "pronunciation": "bayn-tee-SEEN-koh", "english": "25", "notes": ""},
+          {"spanish": "treinta y uno", "pronunciation": "TRAYN-tah ee OO-noh", "english": "31", "notes": "30+ uses separate words with \"y\" (and)"},
+          {"spanish": "treinta y cinco", "pronunciation": "TRAYN-tah ee SEEN-koh", "english": "35", "notes": ""},
+          {"spanish": "cuarenta y dos", "pronunciation": "kwah-REHN-tah ee dohs", "english": "42", "notes": ""},
+          {"spanish": "cincuenta y siete", "pronunciation": "seen-KWEHN-tah ee see-EH-teh", "english": "57", "notes": ""},
+          {"spanish": "noventa y nueve", "pronunciation": "noh-BEHN-tah ee NWEH-veh", "english": "99", "notes": "The biggest before cien!"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar \u2014 The 20s Are Special",
+        "content": "Numbers 21\u201329 are written as one word: veintiuno, veintid\u00f3s, veintitr\u00e9s, veinticuatro, veinticinco, veintis\u00e9is, veintisiete, veintiocho, veintinueve. Starting at 30, you use two words connected by \"y\" (and): treinta y uno, treinta y dos, etc. This pattern stays the same all the way to noventa y nueve (99). Just remember: 21\u201329 = one word, 31\u201399 = tens + y + ones."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer is buying gas and snacks at Kwik Trip",
+        "lines": [
+          {"speaker": "You", "spanish": "\u00a1Hola! \u00bfEso es todo?", "english": "Hi! Is that everything?"},
+          {"speaker": "Customer", "spanish": "S\u00ed, y cuarenta d\u00f3lares en la bomba cinco.", "english": "Yes, and forty dollars on pump five."},
+          {"speaker": "You", "spanish": "Cuarenta en la cinco. Con los snacks, su total es cincuenta y tres d\u00f3lares.", "english": "Forty on five. With the snacks, your total is fifty-three dollars."},
+          {"speaker": "Customer", "spanish": "Aqu\u00ed tiene sesenta.", "english": "Here's sixty."},
+          {"speaker": "You", "spanish": "Su cambio es siete d\u00f3lares. \u00a1Gracias!", "english": "Your change is seven dollars. Thanks!"},
+          {"speaker": "Customer", "spanish": "\u00a1Gracias! Buenas noches.", "english": "Thanks! Good night."}
+        ],
+        "breakdown": [
+          {"phrase": "\u00bfEso es todo?", "explanation": "Is that everything? \u2014 Useful register phrase. \"Eso\" = that, \"todo\" = all/everything."},
+          {"phrase": "cuarenta d\u00f3lares en la bomba cinco", "explanation": "Forty dollars on pump five \u2014 \"bomba\" = pump, \"en\" = on."},
+          {"phrase": "Con los snacks", "explanation": "With the snacks \u2014 \"con\" = with. Borrowed English words are common in casual Mexican Spanish."},
+          {"phrase": "cincuenta y tres", "explanation": "53 \u2014 tens (cincuenta) + y + ones (tres). The standard pattern for 31\u201399."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "How much gas does the customer want?",
+            "options": ["$30", "$40", "$50", "$60"],
+            "correct": 1
+          },
+          {
+            "question": "What is the total including snacks?",
+            "options": ["$43", "$50", "$53", "$60"],
+            "correct": 2
+          },
+          {
+            "question": "Which pump is the gas for?",
+            "options": ["Pump 3", "Pump 5", "Pump 7", "Pump 10"],
+            "correct": 1
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Quick Practice",
+        "prompt": "A customer's total is $75. How do you say \"seventy-five\" in Spanish?",
+        "acceptableAnswers": ["setenta y cinco", "Setenta y cinco"],
+        "hint": "Seventy = setenta. Then add \"y cinco.\"",
+        "feedback": "Setenta y cinco \u2014 you've got the pattern down! Tens + y + ones."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer asks how much gas is on their pump. It's $35. Say: \"Treinta y cinco d\u00f3lares.\"",
+            "acceptableAnswers": ["Treinta y cinco d\u00f3lares", "Treinta y cinco d\u00f3lares.", "treinta y cinco d\u00f3lares", "treinta y cinco dolares"],
+            "partialCredit": ["treinta y cinco", "35 d\u00f3lares"],
+            "hint": "Thirty = treinta, five = cinco, connected by \"y\""
+          },
+          {
+            "prompt": "Their total with a drink is $38. Say: \"Su total es treinta y ocho d\u00f3lares.\"",
+            "acceptableAnswers": ["Su total es treinta y ocho d\u00f3lares", "Su total es treinta y ocho d\u00f3lares.", "su total es treinta y ocho d\u00f3lares", "su total es treinta y ocho dolares"],
+            "partialCredit": ["treinta y ocho d\u00f3lares", "treinta y ocho", "treinta y ocho dolares"],
+            "hint": "Su total es + treinta y ocho + d\u00f3lares"
+          },
+          {
+            "prompt": "They hand you $50. Their change is $12. Say: \"Su cambio es doce d\u00f3lares.\"",
+            "acceptableAnswers": ["Su cambio es doce d\u00f3lares", "Su cambio es doce d\u00f3lares.", "su cambio es doce d\u00f3lares", "su cambio es doce dolares"],
+            "partialCredit": ["doce d\u00f3lares", "cambio doce", "doce dolares"],
+            "hint": "Su cambio es + doce + d\u00f3lares"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Numbers Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "Which is the correct way to say 28?",
+            "options": ["Veinte y ocho", "Veintiocho", "Dos ocho", "Ochoveinte"],
+            "correct": 1
+          },
+          {
+            "format": "multipleChoice",
+            "question": "How do you say 46?",
+            "options": ["Cuarenta seis", "Cuarenta y seis", "Cuatro seis", "Cuarentais\u00e9is"],
+            "correct": 1
+          },
+          {
+            "format": "fillBlank",
+            "question": "Write \"63\" in Spanish:",
+            "answer": "sesenta y tres",
+            "acceptableAnswers": ["sesenta y tres", "Sesenta y tres"]
+          },
+          {
+            "format": "fillBlank",
+            "question": "Write \"100\" in Spanish:",
+            "answer": "cien",
+            "acceptableAnswers": ["cien", "Cien"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario: Pump Numbers & Totals",
+        "content": "At Kwik Trip, you deal with two-digit numbers constantly: pump numbers, lottery totals, gas amounts. Practice by mentally translating every price you see during your shift. See $47.00 on the register? Think \"cuarenta y siete.\" Pump 12 lights up? Think \"bomba doce.\" This silent mental practice is how numbers become automatic."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builders",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Son cuarenta y cinco d\u00f3lares.", "english": "That's $45."},
+          {"spanish": "Bomba n\u00famero veintid\u00f3s.", "english": "Pump number 22."},
+          {"spanish": "Su cambio es treinta d\u00f3lares.", "english": "Your change is $30."},
+          {"spanish": "Sesenta d\u00f3lares en la bomba ocho.", "english": "Sixty dollars on pump eight."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "The tens from 20 to 100: veinte, treinta, cuarenta, cincuenta, sesenta, setenta, ochenta, noventa, cien",
+          "Numbers 21\u201329 are one word (veintiuno, veintid\u00f3s, etc.)",
+          "Numbers 31\u201399 use the pattern: tens + y + ones (treinta y uno, cuarenta y dos, etc.)",
+          "\"Cien\" means exactly 100; \"ciento\" is used for 101 and above",
+          "Practice by silently translating prices and pump numbers during your shift"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "unitId": 3,
+    "globalIndex": 13,
+    "title": "Telling Time",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Ask and answer \"\u00bfQu\u00e9 hora es?\" (What time is it?)",
+      "Say any time using es la / son las + number",
+      "Communicate store hours and shift times in Spanish"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "\"What time do you close?\" \u2014 you'll hear this constantly. In this lesson you'll learn to tell time in Spanish so you can answer schedule questions, mention when your shift ends, and understand time references customers make. Spanish time uses a slightly different structure than English, but once you see the pattern it clicks fast."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Ask and answer \"\u00bfQu\u00e9 hora es?\" (What time is it?)",
+          "Say any time using es la / son las + number",
+          "Communicate store hours and shift times in Spanish"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Time Essentials",
+        "items": [
+          {"spanish": "\u00bfQu\u00e9 hora es?", "pronunciation": "keh OH-rah ehs", "english": "What time is it?", "notes": "The standard way to ask the time"},
+          {"spanish": "Es la una.", "pronunciation": "ehs lah OO-nah", "english": "It's one o'clock.", "notes": "\"Es la\" \u2014 singular, only for 1:00"},
+          {"spanish": "Son las dos.", "pronunciation": "sohn lahs dohs", "english": "It's two o'clock.", "notes": "\"Son las\" \u2014 plural, for 2:00 through 12:00"},
+          {"spanish": "Son las tres y media.", "pronunciation": "sohn lahs trehs ee MEH-dee-ah", "english": "It's 3:30.", "notes": "\"y media\" = and a half (30 minutes)"},
+          {"spanish": "Son las diez y cuarto.", "pronunciation": "sohn lahs dee-EHS ee KWAHR-toh", "english": "It's 10:15.", "notes": "\"y cuarto\" = and a quarter (15 minutes)"},
+          {"spanish": "de la ma\u00f1ana", "pronunciation": "deh lah mah-NYAH-nah", "english": "in the morning (a.m.)", "notes": "Used instead of \"a.m.\""},
+          {"spanish": "de la tarde", "pronunciation": "deh lah TAR-deh", "english": "in the afternoon (p.m.)", "notes": "Roughly noon to 6\u20137 p.m."},
+          {"spanish": "de la noche", "pronunciation": "deh lah NOH-cheh", "english": "at night (p.m.)", "notes": "After dark, roughly 7 p.m. onward"},
+          {"spanish": "mediod\u00eda", "pronunciation": "meh-dee-oh-DEE-ah", "english": "noon / midday", "notes": ""},
+          {"spanish": "medianoche", "pronunciation": "meh-dee-ah-NOH-cheh", "english": "midnight", "notes": ""}
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Saying Specific Minutes",
+        "items": [
+          {"spanish": "Son las cinco y diez.", "pronunciation": "sohn lahs SEEN-koh ee dee-EHS", "english": "It's 5:10.", "notes": "\"y\" + minutes for past the hour"},
+          {"spanish": "Son las ocho y veinticinco.", "pronunciation": "sohn lahs OH-choh ee bayn-tee-SEEN-koh", "english": "It's 8:25.", "notes": ""},
+          {"spanish": "Son las nueve menos diez.", "pronunciation": "sohn lahs NWEH-veh MEH-nohs dee-EHS", "english": "It's 8:50 (ten to nine).", "notes": "\"menos\" = minus/less \u2014 used for minutes before the hour"},
+          {"spanish": "Son las siete menos cuarto.", "pronunciation": "sohn lahs see-EH-teh MEH-nohs KWAHR-toh", "english": "It's 6:45 (quarter to seven).", "notes": "Common shortcut for :45"},
+          {"spanish": "\u00bfA qu\u00e9 hora?", "pronunciation": "ah keh OH-rah", "english": "At what time?", "notes": "When asking about scheduled times"},
+          {"spanish": "A las seis.", "pronunciation": "ah lahs says", "english": "At six o'clock.", "notes": "\"A las\" = at (for times 2\u201312), \"A la una\" for 1:00"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar \u2014 Es la vs. Son las",
+        "content": "Time in Spanish treats the hour as a noun, and hours are feminine: la una, las dos, las tres. Since 1:00 is singular, you use \"Es la una\" (It is the one). For every other hour (2\u201312), you use \"Son las\" (They are the...): Son las dos, Son las cinco, Son las once. To add minutes, use \"y\" (and): Son las tres y veinte (3:20). For minutes before the next hour, you can use \"menos\" (minus): Son las cuatro menos diez (3:50, literally \"four minus ten\")."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer at Kwik Trip asks about store hours and the time",
+        "lines": [
+          {"speaker": "Customer", "spanish": "Disculpe, \u00bfqu\u00e9 hora es?", "english": "Excuse me, what time is it?"},
+          {"speaker": "You", "spanish": "Son las nueve y media de la noche.", "english": "It's 9:30 at night."},
+          {"speaker": "Customer", "spanish": "\u00bfA qu\u00e9 hora cierran?", "english": "What time do you close?"},
+          {"speaker": "You", "spanish": "Estamos abiertos las veinticuatro horas.", "english": "We're open 24 hours."},
+          {"speaker": "Customer", "spanish": "\u00a1Ah, perfecto! Entonces no hay prisa.", "english": "Oh, perfect! Then there's no rush."},
+          {"speaker": "You", "spanish": "No, t\u00f3mese su tiempo.", "english": "No, take your time."}
+        ],
+        "breakdown": [
+          {"phrase": "\u00bfA qu\u00e9 hora cierran?", "explanation": "What time do you (all) close? \u2014 \"cierran\" = they/you-all close. You'll hear this constantly."},
+          {"phrase": "Estamos abiertos las veinticuatro horas", "explanation": "We're open 24 hours \u2014 \"estamos abiertos\" = we are open. Perfect for Kwik Trip!"},
+          {"phrase": "no hay prisa", "explanation": "There's no rush \u2014 \"prisa\" = hurry. A friendly expression."},
+          {"phrase": "T\u00f3mese su tiempo", "explanation": "Take your time \u2014 a polite, friendly way to put the customer at ease."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "What time is it in the dialogue?",
+            "options": ["9:00 p.m.", "9:15 p.m.", "9:30 p.m.", "10:00 p.m."],
+            "correct": 2
+          },
+          {
+            "question": "What does the customer ask about the store?",
+            "options": ["Where is the bathroom?", "What time do you close?", "Do you have coffee?", "How much is gas?"],
+            "correct": 1
+          },
+          {
+            "question": "How does the employee describe the store hours?",
+            "options": ["We close at midnight", "We close at 10", "We're open 24 hours", "We open at 6 a.m."],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Quick Practice",
+        "prompt": "It's 3:15 p.m. How would you say this in Spanish? (Use \"y cuarto\" for :15)",
+        "acceptableAnswers": ["Son las tres y cuarto de la tarde", "Son las tres y cuarto de la tarde.", "Son las tres y cuarto", "son las tres y cuarto de la tarde"],
+        "hint": "Son las tres + y cuarto + de la tarde",
+        "feedback": "Son las tres y cuarto de la tarde. The \"y cuarto\" shortcut for :15 is super common!"
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer asks: \"\u00bfQu\u00e9 hora es?\" The clock shows 7:00 p.m. Answer them.",
+            "acceptableAnswers": ["Son las siete de la noche", "Son las siete de la noche.", "Son las siete.", "son las siete de la noche"],
+            "partialCredit": ["las siete", "siete de la noche", "Son las siete"],
+            "hint": "Son las + siete + de la noche"
+          },
+          {
+            "prompt": "They ask: \"\u00bfA qu\u00e9 hora abre la farmacia?\" (What time does the pharmacy open?) It opens at 8 a.m. Say: \"A las ocho de la ma\u00f1ana.\"",
+            "acceptableAnswers": ["A las ocho de la ma\u00f1ana", "A las ocho de la ma\u00f1ana.", "a las ocho de la ma\u00f1ana", "a las ocho de la manana"],
+            "partialCredit": ["a las ocho", "las ocho de la ma\u00f1ana", "ocho de la ma\u00f1ana"],
+            "hint": "A las + ocho + de la ma\u00f1ana"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Time Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How do you say \"It's 1:00\" in Spanish?",
+            "options": ["Son las una", "Es la una", "Son la una", "Es las una"],
+            "correct": 1
+          },
+          {
+            "format": "multipleChoice",
+            "question": "What does \"Son las cinco menos cuarto\" mean?",
+            "options": ["5:15", "5:45", "4:45", "4:15"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "It's 6:30 p.m. Fill in: \"Son las seis y ___ de la tarde.\"",
+            "answer": "media",
+            "acceptableAnswers": ["media", "Media"]
+          },
+          {
+            "format": "fillBlank",
+            "question": "\"At what time?\" in Spanish is: \"\u00bfA qu\u00e9 ___?\"",
+            "answer": "hora",
+            "acceptableAnswers": ["hora", "Hora"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario: Kwik Trip Hours",
+        "content": "Since Kwik Trip is open 24/7, your go-to answer is \"Estamos abiertos las veinticuatro horas\" (We're open 24 hours). But customers might also ask about specific departments: the kitchen, the car wash, etc. Practice: \"La cocina cierra a las diez\" (The kitchen closes at ten). For your own schedule, practice telling coworkers: \"Mi turno termina a las once\" (My shift ends at eleven)."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builders",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Estamos abiertos las veinticuatro horas.", "english": "We're open 24 hours."},
+          {"spanish": "Son las ocho de la ma\u00f1ana.", "english": "It's 8:00 a.m."},
+          {"spanish": "La cocina cierra a las diez.", "english": "The kitchen closes at 10."},
+          {"spanish": "Mi turno termina a las once.", "english": "My shift ends at 11."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Ask the time with \"\u00bfQu\u00e9 hora es?\" and scheduled times with \"\u00bfA qu\u00e9 hora?\"",
+          "1:00 uses \"Es la una\" (singular); all other hours use \"Son las\" (plural)",
+          "Add minutes with \"y\" (and): Son las tres y veinte = 3:20",
+          "Subtract minutes with \"menos\" (minus): Son las cuatro menos diez = 3:50",
+          "Use \"y media\" for :30, \"y cuarto\" for :15, \"menos cuarto\" for :45",
+          "Specify time of day with de la ma\u00f1ana / de la tarde / de la noche"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "unitId": 3,
+    "globalIndex": 14,
+    "title": "Money & Prices",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Say dollar and cent amounts naturally in Spanish",
+      "State totals, give change, and handle price questions at the register",
+      "Understand common money phrases customers use"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "This is the lesson that turns your number skills into real register power. You already know the numbers \u2014 now you'll learn exactly how to wrap them around dollars and cents, state totals, announce change, and handle the money phrases you'll actually hear from customers at Kwik Trip."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Say dollar and cent amounts naturally in Spanish",
+          "State totals, give change, and handle price questions at the register",
+          "Understand common money phrases customers use"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Money Vocabulary",
+        "items": [
+          {"spanish": "d\u00f3lar", "pronunciation": "DOH-lahr", "english": "dollar", "notes": "Singular: un d\u00f3lar"},
+          {"spanish": "d\u00f3lares", "pronunciation": "DOH-lah-rehs", "english": "dollars", "notes": "Plural: dos d\u00f3lares, diez d\u00f3lares"},
+          {"spanish": "centavo", "pronunciation": "sehn-TAH-voh", "english": "cent", "notes": "Singular: un centavo"},
+          {"spanish": "centavos", "pronunciation": "sehn-TAH-vohs", "english": "cents", "notes": "Plural: cincuenta centavos"},
+          {"spanish": "el total", "pronunciation": "ehl toh-TAHL", "english": "the total", "notes": ""},
+          {"spanish": "el cambio", "pronunciation": "ehl KAHM-bee-oh", "english": "the change", "notes": ""},
+          {"spanish": "el precio", "pronunciation": "ehl PREH-see-oh", "english": "the price", "notes": ""},
+          {"spanish": "la cuenta", "pronunciation": "lah KWEHN-tah", "english": "the bill / the tab", "notes": "More common in restaurants but you may hear it"},
+          {"spanish": "efectivo", "pronunciation": "eh-fehk-TEE-voh", "english": "cash", "notes": ""},
+          {"spanish": "tarjeta", "pronunciation": "tar-HEH-tah", "english": "card", "notes": "\"\u00bfEfectivo o tarjeta?\" = Cash or card?"}
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Saying Prices",
+        "items": [
+          {"spanish": "Son tres d\u00f3lares con cincuenta centavos.", "pronunciation": "sohn trehs DOH-lah-rehs kohn seen-KWEHN-tah sehn-TAH-vohs", "english": "It's $3.50.", "notes": "\"con\" (with) connects dollars and cents"},
+          {"spanish": "Son tres cincuenta.", "pronunciation": "sohn trehs seen-KWEHN-tah", "english": "It's $3.50.", "notes": "Shortened version \u2014 more natural in casual speech"},
+          {"spanish": "Cuesta cinco d\u00f3lares.", "pronunciation": "KWEHS-tah SEEN-koh DOH-lah-rehs", "english": "It costs five dollars.", "notes": "\"Cuesta\" = it costs"},
+          {"spanish": "\u00bfCu\u00e1nto cuesta?", "pronunciation": "KWAHN-toh KWEHS-tah", "english": "How much does it cost?", "notes": "You'll hear this constantly"},
+          {"spanish": "\u00bfCu\u00e1nto es?", "pronunciation": "KWAHN-toh ehs", "english": "How much is it?", "notes": "Slightly more casual version"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar \u2014 Saying Prices with \"con\"",
+        "content": "In Spanish, prices use \"con\" (with) where English uses \"and\" or a decimal point. So $5.75 is \"cinco d\u00f3lares con setenta y cinco centavos.\" In casual speech, people shorten it: \"cinco con setenta y cinco\" or just \"cinco setenta y cinco.\" For whole dollar amounts, skip the cents entirely: \"Son diez d\u00f3lares.\" For amounts under a dollar, just say the centavos: \"Son cincuenta centavos\" ($0.50)."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A customer at Kwik Trip is buying snacks and paying cash",
+        "lines": [
+          {"speaker": "Customer", "spanish": "\u00bfCu\u00e1nto cuesta esta dona?", "english": "How much does this donut cost?"},
+          {"speaker": "You", "spanish": "Cuesta un d\u00f3lar con veinticinco centavos.", "english": "It costs $1.25."},
+          {"speaker": "Customer", "spanish": "Okay, y tambi\u00e9n quiero un caf\u00e9.", "english": "Okay, and I also want a coffee."},
+          {"speaker": "You", "spanish": "El caf\u00e9 es dos d\u00f3lares. Su total es tres d\u00f3lares con veinticinco.", "english": "The coffee is two dollars. Your total is $3.25."},
+          {"speaker": "Customer", "spanish": "\u00bfEfectivo o tarjeta?", "english": "Cash or card?"},
+          {"speaker": "You", "spanish": "Las dos. \u00bfC\u00f3mo quiere pagar?", "english": "Both. How would you like to pay?"},
+          {"speaker": "Customer", "spanish": "Efectivo. Aqu\u00ed tiene cinco.", "english": "Cash. Here's five."},
+          {"speaker": "You", "spanish": "Su cambio es un d\u00f3lar con setenta y cinco. \u00a1Gracias!", "english": "Your change is $1.75. Thank you!"}
+        ],
+        "breakdown": [
+          {"phrase": "\u00bfCu\u00e1nto cuesta esta dona?", "explanation": "How much does this donut cost? \u2014 \"esta\" = this (feminine), \"dona\" = donut."},
+          {"phrase": "un d\u00f3lar con veinticinco centavos", "explanation": "$1.25 \u2014 one dollar \"con\" (with) twenty-five cents. Natural price format."},
+          {"phrase": "tambi\u00e9n quiero", "explanation": "I also want \u2014 \"tambi\u00e9n\" = also/too."},
+          {"phrase": "\u00bfC\u00f3mo quiere pagar?", "explanation": "How would you like to pay? \u2014 Very useful register phrase."},
+          {"phrase": "un d\u00f3lar con setenta y cinco", "explanation": "$1.75 \u2014 note how \"centavos\" is dropped in casual speech."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "How much does the donut cost?",
+            "options": ["$1.00", "$1.25", "$1.50", "$2.00"],
+            "correct": 1
+          },
+          {
+            "question": "How does the customer pay?",
+            "options": ["Card", "Cash", "Both cash and card", "They don't pay"],
+            "correct": 1
+          },
+          {
+            "question": "How much change does the customer receive?",
+            "options": ["$0.75", "$1.25", "$1.75", "$2.00"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Quick Practice",
+        "prompt": "A customer's total is $7.50. Say the total in Spanish using \"con\" for the cents.",
+        "acceptableAnswers": ["Son siete d\u00f3lares con cincuenta centavos", "Son siete d\u00f3lares con cincuenta centavos.", "siete d\u00f3lares con cincuenta centavos", "Son siete d\u00f3lares con cincuenta", "siete con cincuenta", "Son siete con cincuenta"],
+        "hint": "Son + siete d\u00f3lares + con + cincuenta centavos",
+        "feedback": "Nice! Whether you said the full version or the shortcut, you communicated the price clearly."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A customer asks: \"\u00bfCu\u00e1nto cuesta?\" The item is $4.99. Say: \"Cuesta cuatro d\u00f3lares con noventa y nueve centavos.\"",
+            "acceptableAnswers": ["Cuesta cuatro d\u00f3lares con noventa y nueve centavos", "Cuesta cuatro d\u00f3lares con noventa y nueve centavos.", "cuesta cuatro d\u00f3lares con noventa y nueve centavos", "Cuesta cuatro con noventa y nueve"],
+            "partialCredit": ["cuatro con noventa y nueve", "cuatro noventa y nueve", "cuatro dolares con noventa y nueve"],
+            "hint": "Cuesta + cuatro d\u00f3lares + con + noventa y nueve + centavos"
+          },
+          {
+            "prompt": "The customer wants to pay with card. Ask: \"\u00bfEfectivo o tarjeta?\"",
+            "acceptableAnswers": ["\u00bfEfectivo o tarjeta?", "Efectivo o tarjeta?", "efectivo o tarjeta", "\u00bfEfectivo o tarjeta"],
+            "partialCredit": ["efectivo o tarjeta", "tarjeta o efectivo"],
+            "hint": "Cash = efectivo, card = tarjeta, or = o"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Money Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "How would you say $12.50 in Spanish?",
+            "options": ["Doce d\u00f3lares y cincuenta", "Doce d\u00f3lares con cincuenta centavos", "Doce con medio", "Dose d\u00f3lares cincuenta"],
+            "correct": 1
+          },
+          {
+            "format": "multipleChoice",
+            "question": "What does \"\u00bfCu\u00e1nto cuesta?\" mean?",
+            "options": ["How are you?", "What time is it?", "How much does it cost?", "Where is it?"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "\"Cash or card?\" in Spanish: \"\u00bf___ o tarjeta?\"",
+            "answer": "Efectivo",
+            "acceptableAnswers": ["Efectivo", "efectivo"]
+          },
+          {
+            "format": "fillBlank",
+            "question": "\"Your change is...\" in Spanish: \"Su ___ es...\"",
+            "answer": "cambio",
+            "acceptableAnswers": ["cambio", "Cambio"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario: The Register",
+        "content": "Here's your Kwik Trip register cheat sheet in Spanish. Memorize these three sentences and you can handle any basic transaction: (1) \"Su total es...\" (Your total is...) + the price. (2) \"\u00bfEfectivo o tarjeta?\" (Cash or card?). (3) \"Su cambio es...\" (Your change is...) + the amount. Start using these during transactions even if you finish in English. Customers appreciate it."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builders",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Su total es doce d\u00f3lares con setenta y cinco.", "english": "Your total is $12.75."},
+          {"spanish": "\u00bfEfectivo o tarjeta?", "english": "Cash or card?"},
+          {"spanish": "Cuesta dos d\u00f3lares con cincuenta.", "english": "It costs $2.50."},
+          {"spanish": "Su cambio es tres d\u00f3lares.", "english": "Your change is $3.00."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "D\u00f3lar (singular) / d\u00f3lares (plural) for dollars; centavo/centavos for cents",
+          "Use \"con\" to connect dollars and cents: tres d\u00f3lares con cincuenta centavos ($3.50)",
+          "Casual shortcut: drop \"d\u00f3lares\" and \"centavos\" \u2014 \"tres con cincuenta\" or \"tres cincuenta\"",
+          "\"\u00bfCu\u00e1nto cuesta?\" = How much? \u2014 the most common price question you'll hear",
+          "Your register trio: Su total es... / \u00bfEfectivo o tarjeta? / Su cambio es..."
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "unitId": 3,
+    "globalIndex": 15,
+    "title": "Days & Dates",
+    "estimatedMinutes": 15,
+    "outcomes": [
+      "Say all seven days of the week and twelve months in Spanish",
+      "Use hoy, ma\u00f1ana, and ayer (today, tomorrow, yesterday)",
+      "Communicate schedules and dates for appointments and work shifts"
+    ],
+    "sections": [
+      {
+        "type": "intro",
+        "content": "Schedules run your life at Kwik Trip \u2014 shift days, delivery days, when that sale starts, when a customer's prescription is ready next door. In this lesson you'll learn the days, months, and date phrases so you can talk about when things happen. Fun fact: in Spanish, days of the week and months are NOT capitalized."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          "Say all seven days of the week and twelve months in Spanish",
+          "Use hoy, ma\u00f1ana, and ayer (today, tomorrow, yesterday)",
+          "Communicate schedules and dates for appointments and work shifts"
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Days of the Week",
+        "items": [
+          {"spanish": "lunes", "pronunciation": "LOO-nehs", "english": "Monday", "notes": "Named after the moon (luna)"},
+          {"spanish": "martes", "pronunciation": "MAR-tehs", "english": "Tuesday", "notes": ""},
+          {"spanish": "mi\u00e9rcoles", "pronunciation": "mee-EHR-koh-lehs", "english": "Wednesday", "notes": "Longest day name \u2014 say it slow at first"},
+          {"spanish": "jueves", "pronunciation": "HWEH-vehs", "english": "Thursday", "notes": "The j sounds like English h"},
+          {"spanish": "viernes", "pronunciation": "vee-EHR-nehs", "english": "Friday", "notes": ""},
+          {"spanish": "s\u00e1bado", "pronunciation": "SAH-bah-doh", "english": "Saturday", "notes": ""},
+          {"spanish": "domingo", "pronunciation": "doh-MEEN-goh", "english": "Sunday", "notes": ""},
+          {"spanish": "el fin de semana", "pronunciation": "ehl feen deh seh-MAH-nah", "english": "the weekend", "notes": "Literally: the end of the week"}
+        ]
+      },
+      {
+        "type": "phrases",
+        "heading": "Months & Date Words",
+        "items": [
+          {"spanish": "enero, febrero, marzo", "pronunciation": "eh-NEH-roh, feh-BREH-roh, MAR-soh", "english": "January, February, March", "notes": "Not capitalized in Spanish"},
+          {"spanish": "abril, mayo, junio", "pronunciation": "ah-BREEL, MAH-yoh, HOO-nee-oh", "english": "April, May, June", "notes": ""},
+          {"spanish": "julio, agosto, septiembre", "pronunciation": "HOO-lee-oh, ah-GOHS-toh, sehp-tee-EHM-breh", "english": "July, August, September", "notes": ""},
+          {"spanish": "octubre, noviembre, diciembre", "pronunciation": "ohk-TOO-breh, noh-vee-EHM-breh, dee-see-EHM-breh", "english": "October, November, December", "notes": ""},
+          {"spanish": "hoy", "pronunciation": "oy", "english": "today", "notes": ""},
+          {"spanish": "ma\u00f1ana", "pronunciation": "mah-NYAH-nah", "english": "tomorrow", "notes": "Also means \"morning\" \u2014 context tells you which"},
+          {"spanish": "ayer", "pronunciation": "ah-YEHR", "english": "yesterday", "notes": ""},
+          {"spanish": "la semana que viene", "pronunciation": "lah seh-MAH-nah keh vee-EH-neh", "english": "next week", "notes": "Literally: the week that comes"}
+        ]
+      },
+      {
+        "type": "grammar",
+        "heading": "Micro Grammar \u2014 Saying Dates",
+        "content": "Spanish dates use the format: el + number + de + month. So April 15 is \"el quince de abril.\" The first of the month uses \"primero\": \"el primero de enero\" (January 1st). All other days use regular numbers: \"el dos de marzo\" (March 2nd), \"el veinte de julio\" (July 20th). To say \"on Monday\" you say \"el lunes.\" For recurring days, use \"los\": \"los lunes\" (on Mondays). Days and months are lowercase in Spanish."
+      },
+      {
+        "type": "dialogue",
+        "heading": "Core Dialogue",
+        "context": "A regular customer at Kwik Trip asks about your schedule",
+        "lines": [
+          {"speaker": "Customer", "spanish": "\u00bfTrabajas ma\u00f1ana?", "english": "Do you work tomorrow?"},
+          {"speaker": "You", "spanish": "No, ma\u00f1ana es mi d\u00eda libre. Trabajo el jueves.", "english": "No, tomorrow is my day off. I work on Thursday."},
+          {"speaker": "Customer", "spanish": "\u00bfQu\u00e9 d\u00eda es hoy?", "english": "What day is today?"},
+          {"speaker": "You", "spanish": "Hoy es martes, el primero de abril.", "english": "Today is Tuesday, April 1st."},
+          {"speaker": "Customer", "spanish": "\u00a1Ah, es verdad! Necesito pagar mi factura antes del viernes.", "english": "Oh, right! I need to pay my bill before Friday."},
+          {"speaker": "You", "spanish": "Todav\u00eda tiene tres d\u00edas.", "english": "You still have three days."}
+        ],
+        "breakdown": [
+          {"phrase": "\u00bfTrabajas ma\u00f1ana?", "explanation": "Do you work tomorrow? \u2014 \"trabajas\" = you work (informal). Common small talk."},
+          {"phrase": "mi d\u00eda libre", "explanation": "My day off \u2014 \"libre\" = free."},
+          {"phrase": "el primero de abril", "explanation": "April 1st \u2014 \"primero\" is only used for the 1st; all other days use regular numbers."},
+          {"phrase": "antes del viernes", "explanation": "Before Friday \u2014 \"antes de\" = before. \"del\" = de + el."},
+          {"phrase": "Todav\u00eda tiene tres d\u00edas", "explanation": "You still have three days \u2014 \"todav\u00eda\" = still."}
+        ]
+      },
+      {
+        "type": "comprehension",
+        "heading": "Comprehension Check",
+        "questions": [
+          {
+            "question": "Does the employee work tomorrow?",
+            "options": ["Yes, in the morning", "Yes, in the evening", "No, it's their day off", "No, they quit"],
+            "correct": 2
+          },
+          {
+            "question": "What is today's date in the dialogue?",
+            "options": ["Monday, March 31", "Tuesday, April 1", "Wednesday, April 2", "Thursday, April 3"],
+            "correct": 1
+          },
+          {
+            "question": "When does the customer need to pay their bill?",
+            "options": ["Today", "Tomorrow", "Before Friday", "Next week"],
+            "correct": 2
+          }
+        ]
+      },
+      {
+        "type": "practice",
+        "heading": "Quick Practice",
+        "prompt": "Someone asks: \"\u00bfQu\u00e9 d\u00eda es hoy?\" Today is Wednesday. Answer in Spanish.",
+        "acceptableAnswers": ["Hoy es mi\u00e9rcoles", "Hoy es mi\u00e9rcoles.", "hoy es mi\u00e9rcoles", "hoy es miercoles", "Hoy es miercoles"],
+        "hint": "Hoy es + the day name. Wednesday = mi\u00e9rcoles.",
+        "feedback": "Hoy es mi\u00e9rcoles! That\u00e9 in mi\u00e9rcoles can be tricky to type, but in speech just focus on the sound: mee-EHR-koh-lehs."
+      },
+      {
+        "type": "miniConvo",
+        "heading": "Mini Conversation",
+        "turns": [
+          {
+            "prompt": "A coworker asks when you work next week. You work Monday. Say: \"Trabajo el lunes.\"",
+            "acceptableAnswers": ["Trabajo el lunes", "Trabajo el lunes.", "trabajo el lunes"],
+            "partialCredit": ["el lunes", "lunes"],
+            "hint": "Trabajo + el + day name"
+          },
+          {
+            "prompt": "They ask: \"\u00bfQu\u00e9 fecha es hoy?\" (What's the date today?) It's March 15. Say: \"Hoy es el quince de marzo.\"",
+            "acceptableAnswers": ["Hoy es el quince de marzo", "Hoy es el quince de marzo.", "hoy es el quince de marzo", "El quince de marzo"],
+            "partialCredit": ["el quince de marzo", "quince de marzo"],
+            "hint": "Hoy es + el + number + de + month"
+          },
+          {
+            "prompt": "They mention a delivery comes on Fridays. Say: \"Las entregas llegan los viernes.\" (Deliveries arrive on Fridays.)",
+            "acceptableAnswers": ["Las entregas llegan los viernes", "Las entregas llegan los viernes.", "las entregas llegan los viernes"],
+            "partialCredit": ["los viernes", "llegan los viernes"],
+            "hint": "Las entregas llegan + los + viernes"
+          }
+        ]
+      },
+      {
+        "type": "miniQuiz",
+        "heading": "Days & Dates Quiz",
+        "questions": [
+          {
+            "format": "multipleChoice",
+            "question": "Which day is \"jueves\"?",
+            "options": ["Tuesday", "Wednesday", "Thursday", "Friday"],
+            "correct": 2
+          },
+          {
+            "format": "multipleChoice",
+            "question": "How do you say \"July 4th\" in Spanish?",
+            "options": ["El cuatro julio", "Julio cuatro", "El cuatro de julio", "De julio cuatro"],
+            "correct": 2
+          },
+          {
+            "format": "fillBlank",
+            "question": "\"Tomorrow\" in Spanish:",
+            "answer": "ma\u00f1ana",
+            "acceptableAnswers": ["ma\u00f1ana", "Ma\u00f1ana", "manana", "Manana"]
+          },
+          {
+            "format": "fillBlank",
+            "question": "\"On Mondays\" (recurring) in Spanish: \"___ lunes\"",
+            "answer": "los",
+            "acceptableAnswers": ["los", "Los"]
+          }
+        ]
+      },
+      {
+        "type": "realWorld",
+        "heading": "Real-World Scenario: Kwik Trip Scheduling",
+        "content": "Knowing days and dates is huge for Kwik Trip work life. When a Spanish-speaking coworker asks about the schedule, try: \"\u00bfTrabajas el s\u00e1bado?\" (Do you work Saturday?). When a customer asks about a sale: \"La promoci\u00f3n es hasta el domingo\" (The sale is until Sunday). For deliveries and stock: \"El pedido llega el mi\u00e9rcoles\" (The order arrives Wednesday). Even small uses like these build real rapport."
+      },
+      {
+        "type": "confidence",
+        "heading": "Confidence Builders",
+        "phase": "early",
+        "phrases": [
+          {"spanish": "Hoy es viernes.", "english": "Today is Friday."},
+          {"spanish": "Trabajo los lunes y mi\u00e9rcoles.", "english": "I work Mondays and Wednesdays."},
+          {"spanish": "Ma\u00f1ana es mi d\u00eda libre.", "english": "Tomorrow is my day off."},
+          {"spanish": "El primero de enero.", "english": "January 1st."}
+        ]
+      },
+      {
+        "type": "recap",
+        "heading": "Lesson Recap",
+        "points": [
+          "Days of the week: lunes, martes, mi\u00e9rcoles, jueves, viernes, s\u00e1bado, domingo",
+          "Months: enero through diciembre \u2014 not capitalized in Spanish",
+          "Dates use: el + number + de + month (el quince de abril = April 15)",
+          "The 1st of any month uses \"primero\": el primero de mayo",
+          "\"El lunes\" = on Monday (one time); \"los lunes\" = on Mondays (recurring)",
+          "Hoy = today, ma\u00f1ana = tomorrow, ayer = yesterday"
+        ]
+      }
+    ]
+  }
+]

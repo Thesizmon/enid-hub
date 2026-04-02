@@ -1,0 +1,97 @@
+{
+  "unitId": 2,
+  "title": "Unit 2 Review — Essential Questions",
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 1,
+      "format": "multipleChoice",
+      "question": "How do you ask \"How are you?\" formally?",
+      "options": ["¿Cómo te llamas?", "¿Cómo está usted?", "¿Qué es esto?", "¿Dónde está?"],
+      "correct": 1,
+      "explanation": "\"¿Cómo está usted?\" is the formal way to ask how someone is."
+    },
+    {
+      "id": 2,
+      "format": "fillBlank",
+      "question": "¿_____ está el baño?",
+      "answer": "Dónde",
+      "acceptableAnswers": ["Dónde", "dónde", "Donde", "donde"]
+    },
+    {
+      "id": 3,
+      "format": "bestResponse",
+      "situation": "A customer asks \"¿Cuánto cuesta esto?\" pointing at a drink.",
+      "options": [
+        "Está por allá.",
+        "Son dos dólares con cincuenta.",
+        "Estoy aprendiendo español.",
+        "Buenos días."
+      ],
+      "correct": 1,
+      "explanation": "\"¿Cuánto cuesta?\" means \"How much does it cost?\" — answer with the price."
+    },
+    {
+      "id": 4,
+      "format": "matching",
+      "instruction": "Match the question with its meaning",
+      "pairs": [
+        {"left": "¿Cómo está?", "right": "How are you?"},
+        {"left": "¿Qué es esto?", "right": "What is this?"},
+        {"left": "¿Dónde está?", "right": "Where is it?"},
+        {"left": "¿Cuánto cuesta?", "right": "How much?"}
+      ]
+    },
+    {
+      "id": 5,
+      "format": "typed",
+      "question": "How do you say \"Can you help me?\" (formal)",
+      "acceptableAnswers": ["me puede ayudar", "¿me puede ayudar?", "puede ayudarme"],
+      "hint": "¿Me puede...?"
+    },
+    {
+      "id": 6,
+      "format": "multipleChoice",
+      "question": "\"Más o menos\" means:",
+      "options": ["Very good", "More or less / So-so", "I don't know", "Thank you"],
+      "correct": 1,
+      "explanation": "\"Más o menos\" is a common response meaning \"so-so\" or \"more or less.\""
+    },
+    {
+      "id": 7,
+      "format": "sentenceBuild",
+      "instruction": "Build: \"Where is the bathroom, please?\"",
+      "words": ["está", "¿Dónde", "favor?", "baño,", "el", "por"],
+      "correctOrder": [1, 0, 4, 3, 5, 2],
+      "answer": "¿Dónde está el baño, por favor?"
+    },
+    {
+      "id": 8,
+      "format": "fillBlank",
+      "question": "¿En qué le _____ ayudar?",
+      "answer": "puedo",
+      "acceptableAnswers": ["puedo"]
+    },
+    {
+      "id": 9,
+      "format": "bestResponse",
+      "situation": "Someone asks \"¿Cómo estás?\" and you're feeling okay, not great.",
+      "options": [
+        "Muy bien, gracias.",
+        "Más o menos.",
+        "Me llamo Simon.",
+        "No entiendo."
+      ],
+      "correct": 1,
+      "explanation": "\"Más o menos\" (more or less) is perfect for when you're doing okay."
+    },
+    {
+      "id": 10,
+      "format": "multipleChoice",
+      "question": "\"¿Qué es eso?\" means:",
+      "options": ["What is that?", "Where is that?", "How much is that?", "Who is that?"],
+      "correct": 0,
+      "explanation": "\"Eso\" means \"that\" — so \"¿Qué es eso?\" = \"What is that?\""
+    }
+  ]
+}
