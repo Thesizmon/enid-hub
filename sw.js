@@ -13,6 +13,7 @@ const URLS_TO_CACHE = [
   '/enid-hub/date-items.html',
   '/enid-hub/badges.html',
   '/enid-hub/dingers.html',
+  '/enid-hub/gym.html',
   // cards.html (~4MB) intentionally omitted from pre-cache — too large for offline storage
 ];
 
