@@ -551,6 +551,92 @@
     ::-webkit-scrollbar-thumb { background: rgba(168,85,247,.18); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,.3); }
 
+    /* ── Live Dinger Feed ──────────────────────────────────────────── */
+    .feed-section { max-width:1440px; margin:0 auto; padding:0 14px 14px; }
+    .feed-panel {
+      background: var(--glass); backdrop-filter: blur(14px);
+      border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    }
+    .feed-header {
+      padding: 12px 16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
+      background: linear-gradient(135deg, rgba(232,78,160,.06), rgba(168,85,247,.08));
+      border-bottom: 1px solid var(--border);
+    }
+    .feed-title {
+      font-family: 'Dancing Script', cursive; font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--peach), var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .feed-status-pill {
+      font-size:.62rem; font-weight:800; letter-spacing:.04em;
+      padding:3px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;
+    }
+    .feed-status-pill.live { background:rgba(244,63,94,.1); border:1px solid rgba(244,63,94,.25); color:var(--hot); animation:livePulse 2s ease-in-out infinite; }
+    .feed-status-pill.final { background:rgba(110,231,183,.1); border:1px solid rgba(110,231,183,.25); color:#059669; }
+    .feed-status-pill.waiting { background:rgba(168,85,247,.08); border:1px solid var(--border); color:var(--sub); }
+    @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+    .feed-meta { font-size:.65rem; color:var(--sub); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .feed-meta-num { font-weight:800; color:var(--text); }
+
+    .feed-scroll { display:flex; gap:8px; padding:10px 14px; overflow-x:auto; scroll-behavior:smooth; align-items:stretch; }
+    .feed-scroll::-webkit-scrollbar { height:3px; }
+    .feed-scroll::-webkit-scrollbar-thumb { background:rgba(168,85,247,.2); border-radius:2px; }
+
+    .feed-item {
+      flex-shrink:0; min-width:170px; max-width:195px;
+      background:rgba(255,255,255,.6); backdrop-filter:blur(8px);
+      border:1.5px solid var(--border); border-radius:16px;
+      padding:10px 12px; position:relative; overflow:hidden;
+      transition:all .22s ease;
+      animation:feedItemIn .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .feed-item:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(168,85,247,.12); border-color:rgba(168,85,247,.3); }
+    .feed-item.is-tracked { border-color:rgba(232,78,160,.35); background:rgba(255,255,255,.78); }
+    .feed-item.is-tracked::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--pink),var(--purple)); }
+    .feed-item.new-hr { border-color:rgba(244,63,94,.4); box-shadow:0 0 16px rgba(244,63,94,.15); }
+    @keyframes feedItemIn { from{opacity:0;transform:translateY(12px) scale(.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+    .feed-item-icon { font-size:1.4rem; line-height:1; margin-bottom:3px; }
+    .feed-item-name { font-size:.78rem; font-weight:800; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .feed-item-matchup { font-size:.62rem; color:var(--purple); font-weight:600; margin-top:2px; }
+    .feed-item-ctx { font-size:.57rem; color:var(--sub); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .feed-item-badges { display:flex; gap:3px; margin-top:5px; flex-wrap:wrap; }
+    .fbadge { font-size:.5rem; font-weight:800; letter-spacing:.04em; padding:1px 6px; border-radius:6px; border:1px solid; white-space:nowrap; }
+    .fbadge.tracked { color:var(--pink); background:rgba(232,78,160,.08); border-color:rgba(232,78,160,.2); }
+    .fbadge.ai-pick { color:var(--purple); background:rgba(168,85,247,.08); border-color:rgba(168,85,247,.2); }
+    .fbadge.tmpl { color:#D97706; background:rgba(245,158,11,.08); border-color:rgba(245,158,11,.2); }
+
+    .feed-empty { text-align:center; padding:24px 16px; flex:1; }
+    .feed-empty-icon { font-size:2rem; margin-bottom:6px; }
+    .feed-empty p { font-size:.75rem; color:var(--sub); font-style:italic; }
+    .feed-empty span { font-size:.62rem; color:var(--text-light); }
+
+    .feed-footer {
+      padding:6px 14px 10px; border-top:1px solid var(--border);
+      display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    }
+    .feed-footer-stat { font-size:.62rem; color:var(--sub); display:flex; align-items:center; gap:4px; }
+    .feed-footer-stat b { color:var(--text); font-weight:800; }
+    .feed-grade-btn {
+      margin-left:auto; font-size:.62rem; font-weight:700; padding:4px 12px; border-radius:10px;
+      background:rgba(168,85,247,.07); border:1px solid var(--border); color:var(--purple);
+      cursor:pointer; transition:background .15s; font-family:inherit;
+    }
+    .feed-grade-btn:hover { background:rgba(168,85,247,.15); }
+
+    /* Parlay grade progress cards */
+    .pgb-wrap { margin-top:10px; }
+    .pgb-label { font-size:.68rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--purple); padding:0 2px 6px; }
+    .pgb-card { background:rgba(255,255,255,.55); border:1px solid var(--border); border-radius:12px; padding:9px 12px; margin-bottom:6px; }
+    .pgb-name { font-size:.68rem; font-weight:800; margin-bottom:4px; }
+    .pgb-legs { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:3px; }
+    .pgb-leg { font-size:.55rem; font-weight:700; padding:2px 7px; border-radius:7px; border:1px solid; transition:all .3s ease; }
+    .pgb-leg.hit { color:#059669; background:rgba(110,231,183,.12); border-color:rgba(110,231,183,.3); }
+    .pgb-leg.pending { color:var(--sub); background:rgba(168,85,247,.05); border-color:rgba(168,85,247,.15); }
+    .pgb-leg.miss { color:var(--hot); background:rgba(244,63,94,.07); border-color:rgba(244,63,94,.2); text-decoration:line-through; }
+    .pgb-progress { font-size:.58rem; color:var(--sub); }
+
     /* ── Dual AI Pick Section ──────────────────────────────────── */
     .ai-pick-section {
       max-width: 1440px; margin: 0 auto; padding: 0 14px 14px;
@@ -774,6 +860,43 @@
       <button class="tb-btn primary" onclick="openAddHitterModal()">⚾ Add Hitter</button>
       <button class="tb-btn" id="syncBtn" onclick="manualSync()">📊 Sync Stats</button>
       <button class="tb-btn" onclick="openModal('excludedModal')">🚫 Excluded (<span id="excludedCount">0</span>)</button>
+    </div>
+
+    <!-- Live Dinger Feed -->
+    <div class="feed-section fade-up" style="animation-delay:.17s">
+      <div class="feed-panel">
+        <div class="feed-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div class="feed-title">💥 Today's Dinger Feed</div>
+            <div class="feed-meta">
+              <span><span class="feed-meta-num" id="feedTotalHR">0</span> bombs</span>
+              <span><span class="feed-meta-num" id="feedTrackedHR">0</span> tracked</span>
+              <span><span class="feed-meta-num" id="feedAIHR">0</span> AI hits</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <div class="feed-status-pill waiting" id="feedStatusPill">⏳ Waiting for first pitch</div>
+          </div>
+        </div>
+        <div class="feed-scroll" id="feedScroll">
+          <div class="feed-empty" id="feedEmpty">
+            <div class="feed-empty-icon">⚾</div>
+            <p>Tracking today's dingers ✨</p>
+            <span>Chaos warming up…</span>
+          </div>
+        </div>
+        <div class="feed-footer">
+          <div class="feed-footer-stat">⚾ League-wide · all MLB games</div>
+          <div class="feed-footer-stat">🔄 Polls every 45s during live games</div>
+          <div class="feed-footer-stat" id="feedLastUpdated" style="opacity:.6"></div>
+          <button class="feed-grade-btn" onclick="manualFeedRefresh()">↺ Refresh &amp; Grade</button>
+        </div>
+      </div>
+      <!-- Parlay grade progress -->
+      <div id="pgbWrap" class="pgb-wrap" style="display:none">
+        <div class="pgb-label">Live Parlay Progress 📊</div>
+        <div id="pgbCards"></div>
+      </div>
     </div>
 
     <!-- 3-Column Dashboard -->
@@ -2293,6 +2416,8 @@
       renderAIPicks(); renderAIHistory();
       document.getElementById('loader').classList.add('hidden');
       setTimeout(() => document.getElementById('loader').style.display='none', 400);
+      // Start live dinger feed in background (polls MLB + Supabase)
+      startLiveFeed().catch(e => console.warn('Live feed startup error:', e));
       // Sync live stats and odds in background — upgrade picks if they improve
       const statsPromise = syncAllHitterStats().catch(e => console.warn('Stats sync error:', e));
       const oddsPromise = fetchHRPropOdds().catch(e => console.warn('Odds fetch error:', e));
@@ -2323,6 +2448,366 @@
         gradeRecentPicks();
       });
     });
+
+    /* ================================================================
+       LIVE DINGER FEED SYSTEM
+       Polls MLB live game feeds every 45s · persists to Supabase
+       Grades saved parlays + AI picks from real HR events
+
+       SUPABASE MIGRATION — run once in your Supabase SQL editor:
+       ──────────────────────────────────────────────────────────────
+       CREATE TABLE IF NOT EXISTS dinger_events (
+         id          BIGSERIAL PRIMARY KEY,
+         date        TEXT NOT NULL,
+         player_id   INTEGER,
+         player_name TEXT NOT NULL,
+         team        TEXT,
+         opponent    TEXT,
+         game_pk     TEXT NOT NULL,
+         inning      INTEGER,
+         inning_half TEXT,
+         description TEXT,
+         game_status TEXT DEFAULT 'live',
+         event_key   TEXT UNIQUE,
+         created_at  TIMESTAMPTZ DEFAULT NOW()
+       );
+       CREATE INDEX IF NOT EXISTS idx_dinger_events_date ON dinger_events(date);
+       ──────────────────────────────────────────────────────────────
+       ================================================================ */
+
+    // ── Feed state ────────────────────────────────────────────────
+    let feedEvents    = [];
+    let trackedPks    = {};   // gamePk → { awayTeam, homeTeam, abstractState }
+    let livePks       = [];
+    let feedSeenKeys  = new Set();
+    let _feedTimer    = null;
+    let _gameTimer    = null;
+
+    // ── Helpers ───────────────────────────────────────────────────
+    function escH(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // ── Supabase: dinger_events ───────────────────────────────────
+    async function sbGetFeedEvents(dateStr) {
+      try {
+        const r = await fetch(
+          `${SUPA_URL}/rest/v1/dinger_events?date=eq.${encodeURIComponent(dateStr)}&order=id.asc&limit=250`,
+          { headers:{ 'apikey':SUPA_KEY, 'Authorization':`Bearer ${SUPA_KEY}` } }
+        );
+        if (!r.ok) throw new Error(r.status);
+        return await r.json();
+      } catch(e) { console.warn('Feed fetch failed:', e); return null; }
+    }
+
+    async function sbUpsertHR(ev) {
+      try {
+        const r = await fetch(`${SUPA_URL}/rest/v1/dinger_events?on_conflict=event_key`, {
+          method: 'POST',
+          headers:{
+            'apikey':SUPA_KEY, 'Authorization':`Bearer ${SUPA_KEY}`,
+            'Content-Type':'application/json',
+            'Prefer':'return=minimal,resolution=ignore-duplicates',
+          },
+          body: JSON.stringify(ev),
+        });
+        return r.ok;
+      } catch(e) { console.warn('HR upsert failed:', e); return false; }
+    }
+
+    // ── Schedule with gamePks ─────────────────────────────────────
+    async function fetchPkSchedule() {
+      const ds = todayStr();
+      try {
+        const r = await fetch(`${MLB_API}/schedule?sportId=1&date=${ds}&hydrate=team,linescore`);
+        if (!r.ok) throw new Error('fail');
+        const data = await r.json();
+        const map = {};
+        for (const g of (data.dates?.[0]?.games || [])) {
+          const away = g.teams.away.team.abbreviation || g.teams.away.team.name.slice(0,3).toUpperCase();
+          const home = g.teams.home.team.abbreviation || g.teams.home.team.name.slice(0,3).toUpperCase();
+          map[g.gamePk] = {
+            awayTeam: away, homeTeam: home,
+            abstractState: g.status.abstractGameState, // 'Live','Final','Preview'
+            detailedState: g.status.detailedState,
+          };
+        }
+        return map;
+      } catch(e) { console.warn('PK schedule failed:', e); return {}; }
+    }
+
+    // ── Parse HRs from a live game feed ──────────────────────────
+    async function fetchGameHRs(gamePk) {
+      try {
+        const r = await fetch(
+          `${MLB_API}/game/${gamePk}/feed/live` +
+          `?fields=liveData,plays,allPlays,scoringPlays,result,eventType,description,` +
+          `about,atBatIndex,halfInning,inning,matchup,batter,id,fullName,gameData,status,detailedState`
+        );
+        if (!r.ok) throw new Error('fail');
+        const data = await r.json();
+        const allPlays   = data?.liveData?.plays?.allPlays || [];
+        const scoringSet = new Set(data?.liveData?.plays?.scoringPlays || []);
+        const gameStatus = data?.gameData?.status?.detailedState || 'Unknown';
+        const pkStr      = String(gamePk);
+        const game       = trackedPks[gamePk] || {};
+        const hrs = [];
+
+        for (const idx of scoringSet) {
+          const play = allPlays[idx];
+          if (!play || play.result?.eventType !== 'home_run') continue;
+          const batter     = play.matchup?.batter;
+          const halfInning = play.about?.halfInning || '';
+          const inning     = play.about?.inning || 0;
+          const atBatIdx   = play.about?.atBatIndex ?? idx;
+          const eventKey   = `${pkStr}|${atBatIdx}`;
+          const batting    = halfInning === 'top' ? game.awayTeam : game.homeTeam;
+          const fielding   = halfInning === 'top' ? game.homeTeam : game.awayTeam;
+          hrs.push({
+            date: todayStr(),
+            player_id:   batter?.id || null,
+            player_name: batter?.fullName || (play.result?.description||'').split(' homers')[0] || 'Unknown',
+            team:        batting  || '',
+            opponent:    fielding || '',
+            game_pk:     pkStr,
+            inning, inning_half: halfInning,
+            description: play.result?.description || '',
+            game_status: gameStatus,
+            event_key:   eventKey,
+          });
+        }
+        return hrs;
+      } catch(e) { console.warn(`Live feed failed gpk=${gamePk}:`, e); return []; }
+    }
+
+    // ── Poll all active games, upsert new HRs ─────────────────────
+    async function pollLiveGames() {
+      if (!livePks.length) return;
+      let inserted = 0;
+      for (const gpk of livePks) {
+        const hrs = await fetchGameHRs(gpk);
+        for (const hr of hrs) {
+          if (await sbUpsertHR(hr)) inserted++;
+        }
+      }
+      if (inserted > 0 || livePks.length > 0) await pullFeedAndRender();
+    }
+
+    // ── Update game states from schedule ─────────────────────────
+    async function refreshGameStates() {
+      const map = await fetchPkSchedule();
+      trackedPks = map;
+      livePks = Object.keys(map).filter(k => map[k].abstractState === 'Live').map(Number);
+      renderFeedStatusPill(map);
+    }
+
+    function renderFeedStatusPill(map) {
+      const pill = document.getElementById('feedStatusPill');
+      if (!pill) return;
+      const vals    = Object.values(map);
+      const total   = vals.length;
+      const nLive   = vals.filter(g => g.abstractState === 'Live').length;
+      const nFinal  = vals.filter(g => g.abstractState === 'Final').length;
+      if (nLive > 0) {
+        pill.className = 'feed-status-pill live';
+        pill.textContent = `🔴 ${nLive} LIVE`;
+      } else if (total > 0 && nFinal === total) {
+        pill.className = 'feed-status-pill final';
+        pill.textContent = `✅ All FINAL`;
+      } else if (total > 0) {
+        pill.className = 'feed-status-pill waiting';
+        pill.textContent = `⏳ ${total - nFinal} upcoming`;
+      } else {
+        pill.className = 'feed-status-pill waiting';
+        pill.textContent = `😴 Off day`;
+      }
+    }
+
+    // ── Pull feed from Supabase and render ────────────────────────
+    async function pullFeedAndRender() {
+      const events = await sbGetFeedEvents(todayStr());
+      if (events === null) return;
+      feedEvents = events;
+      renderFeedUI();
+      gradeParlaysFromFeed();
+      const el = document.getElementById('feedLastUpdated');
+      if (el) el.textContent = `🕐 ${new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}`;
+    }
+
+    async function manualFeedRefresh() {
+      showToast('Refreshing…');
+      await refreshGameStates();
+      await pollLiveGames();
+      await pullFeedAndRender();
+      showToast('Feed refreshed ✨');
+    }
+
+    // ── Helpers: identify tracked/AI/template hitters ─────────────
+    function isTrackedInFeed(name, pid) {
+      return hitters.some(h =>
+        (pid && h.mlbId && h.mlbId === pid) ||
+        h.name.toLowerCase() === (name||'').toLowerCase()
+      );
+    }
+    function isAIPickInFeed(name) {
+      const legs = ['skb','dbc','ubv'].flatMap(t => getTodayPick(t)?.legs || []);
+      return legs.some(l => l.name.toLowerCase() === (name||'').toLowerCase());
+    }
+    function isTemplateInFeed(name) {
+      return templates.some(t =>
+        (t.legs||[]).some(lid => {
+          const h = hitters.find(x => x.id === lid);
+          return h && h.name.toLowerCase() === (name||'').toLowerCase();
+        })
+      );
+    }
+
+    // ── Render feed cards ─────────────────────────────────────────
+    function renderFeedUI() {
+      const scroll   = document.getElementById('feedScroll');
+      const emptyEl  = document.getElementById('feedEmpty');
+      if (!scroll) return;
+
+      const tracked = feedEvents.filter(e => isTrackedInFeed(e.player_name, e.player_id)).length;
+      const aiHits  = feedEvents.filter(e => isAIPickInFeed(e.player_name)).length;
+      const setNum  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      setNum('feedTotalHR',   feedEvents.length);
+      setNum('feedTrackedHR', tracked);
+      setNum('feedAIHR',      aiHits);
+
+      if (!feedEvents.length) {
+        if (emptyEl) emptyEl.style.display = '';
+        return;
+      }
+      if (emptyEl) emptyEl.style.display = 'none';
+
+      // Only insert cards for new events (preserves animation, avoids re-render flicker)
+      const newEvs = feedEvents.filter(e => !feedSeenKeys.has(e.event_key || String(e.id)));
+      for (const ev of newEvs) {
+        const key = ev.event_key || String(ev.id);
+        feedSeenKeys.add(key);
+
+        const isT   = isTrackedInFeed(ev.player_name, ev.player_id);
+        const isAI  = isAIPickInFeed(ev.player_name);
+        const isTpl = isTemplateInFeed(ev.player_name);
+        const inn   = ev.inning ? `${ev.inning_half === 'top' ? 'T' : 'B'}${ev.inning}` : '';
+        const ctx   = [inn ? inn + ' inn.' : '', ev.game_status && ev.game_status !== 'live' && ev.game_status !== 'Unknown' ? ev.game_status : ''].filter(Boolean).join(' · ');
+
+        const badges = [
+          isT   ? '<span class="fbadge tracked">TRACKED</span>' : '',
+          isAI  ? '<span class="fbadge ai-pick">AI PICK</span>' : '',
+          isTpl ? '<span class="fbadge tmpl">TEMPLATE</span>'   : '',
+        ].filter(Boolean).join('');
+
+        const card = document.createElement('div');
+        card.className = `feed-item${isT ? ' is-tracked' : ''}`;
+        card.dataset.key = key;
+        card.innerHTML = `
+          <div class="feed-item-icon">💥</div>
+          <div class="feed-item-name">${escH(ev.player_name)}</div>
+          <div class="feed-item-matchup">${escH(ev.team||'?')} vs ${escH(ev.opponent||'?')}</div>
+          ${ctx ? `<div class="feed-item-ctx">${escH(ctx)}</div>` : ''}
+          ${badges ? `<div class="feed-item-badges">${badges}</div>` : ''}`;
+
+        // Insert newest items at front (after empty placeholder if present)
+        const ref = emptyEl && scroll.contains(emptyEl) ? emptyEl.nextSibling : scroll.firstChild;
+        scroll.insertBefore(card, ref);
+
+        // Briefly highlight new cards
+        card.classList.add('new-hr');
+        setTimeout(() => card.classList.remove('new-hr'), 3000);
+      }
+      if (newEvs.length) scroll.scrollLeft = 0;
+    }
+
+    // ── Grade saved parlays from feed data ────────────────────────
+    function gradeParlaysFromFeed() {
+      if (!feedEvents.length) return;
+      const hitNames   = new Set(feedEvents.map(e => (e.player_name||'').toLowerCase()));
+      const allFinal   = Object.values(trackedPks).length > 0 &&
+                         Object.values(trackedPks).every(g => g.abstractState === 'Final');
+      let changed = false;
+
+      for (const p of parlays) {
+        if (!p.legs?.length) continue;
+        if (p.result === 'won' || p.result === 'lost') continue;
+        const parlayDate = p.date ? p.date.slice(0,10) : todayStr();
+        if (parlayDate !== todayStr()) continue;
+
+        let hits = 0;
+        for (const leg of p.legs) {
+          const wasHit = leg.result === 'hit';
+          const nowHit = hitNames.has((leg.name||'').toLowerCase());
+          if (nowHit  && !wasHit) { leg.result = 'hit';  changed = true; }
+          if (!nowHit && allFinal && !wasHit) { leg.result = 'miss'; changed = true; }
+          if (leg.result === 'hit') hits++;
+        }
+        if (changed) {
+          p.hits = hits;
+          if (hits === p.legs.length)       { p.result = 'won'; }
+          else if (allFinal)                 { p.result = 'lost'; }
+          else                               { p.result = 'pending'; }
+        }
+      }
+
+      // Grade AI picks too
+      for (const type of ['skb','dbc','ubv']) {
+        const pick = getTodayPick(type); if (!pick) continue;
+        let hits = 0;
+        for (const leg of pick.legs) {
+          const nowHit = hitNames.has((leg.name||'').toLowerCase());
+          if (nowHit && leg.result !== 'hit') { leg.result = 'hit'; changed = true; }
+          else if (!nowHit && allFinal && !leg.result) { leg.result = 'miss'; changed = true; }
+          if (leg.result === 'hit') hits++;
+        }
+        pick.hits = hits;
+        if (hits === pick.legs.length)     pick.status = 'won';
+        else if (allFinal && hits === 0)   pick.status = 'lost';
+        else if (allFinal || hits > 0)     pick.status = 'partial';
+      }
+
+      if (changed) {
+        saveJSON(STORE.PARLAYS, parlays);
+        debouncedSave('ai_picks', aiPicks);
+        renderSavedParlays();
+        renderAIPicks(); renderAIHistory();
+      }
+      renderParlayGradeCards();
+    }
+
+    function renderParlayGradeCards() {
+      const today       = todayStr();
+      const todayParls  = parlays.filter(p => p.legs?.length && (p.date||today).slice(0,10) === today);
+      const wrap        = document.getElementById('pgbWrap');
+      const container   = document.getElementById('pgbCards');
+      if (!wrap || !container) return;
+      if (!feedEvents.length || !todayParls.length) { wrap.style.display = 'none'; return; }
+      wrap.style.display = '';
+      container.innerHTML = todayParls.map(p => {
+        const hits  = (p.legs||[]).filter(l => l.result === 'hit').length;
+        const total = (p.legs||[]).length;
+        const wc    = p.result === 'won' ? '#059669' : p.result === 'lost' ? 'var(--hot)' : 'var(--purple)';
+        const icon  = p.result === 'won' ? '🎉 WON!' : p.result === 'lost' ? '❌' : '⏳';
+        return `<div class="pgb-card">
+          <div class="pgb-name" style="color:${wc}">${escH(p.name)} · ${hits}/${total} ${icon}</div>
+          <div class="pgb-legs">${(p.legs||[]).map(l =>
+            `<span class="pgb-leg ${l.result||'pending'}">${escH(l.name)}</span>`
+          ).join('')}</div>
+          <div class="pgb-progress">${hits}/${total} legs hit${p.result==='won'?' · Full dinger parlay! 💥':p.result==='lost'?' · Better luck next time ✨':' · Tracking live…'}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Start polling loop ────────────────────────────────────────
+    async function startLiveFeed() {
+      await refreshGameStates();          // Get gamePks + initial status
+      await pullFeedAndRender();           // Load any existing events from Supabase
+      // Poll live game feeds every 45s (only meaningful when games are active)
+      _gameTimer = setInterval(async () => {
+        await refreshGameStates();
+        await pollLiveGames();
+      }, 45_000);
+      // Re-pull Supabase feed every 30s (catches any other source's inserts)
+      _feedTimer = setInterval(pullFeedAndRender, 30_000);
+    }
 
     // ── Keyboard ───────────────────────────────────────────────────
     document.addEventListener('keydown', e => {
