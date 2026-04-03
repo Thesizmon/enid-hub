@@ -2476,12 +2476,13 @@
        ================================================================ */
 
     // ── Feed state ────────────────────────────────────────────────
-    let feedEvents    = [];
-    let trackedPks    = {};   // gamePk → { awayTeam, homeTeam, abstractState }
-    let livePks       = [];
-    let feedSeenKeys  = new Set();
-    let _feedTimer    = null;
-    let _gameTimer    = null;
+    let feedEvents      = [];
+    let memFeedEvents   = [];  // in-memory fallback when Supabase table missing
+    let trackedPks      = {};  // gamePk → { awayTeam, homeTeam, abstractState }
+    let livePks         = [];
+    let feedSeenKeys    = new Set();
+    let _feedTimer      = null;
+    let _gameTimer      = null;
 
     // ── Helpers ───────────────────────────────────────────────────
     function escH(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -2499,6 +2500,10 @@
     }
 
     async function sbUpsertHR(ev) {
+      // Always write to in-memory store (deduped by event_key) as fallback
+      if (ev.event_key && !memFeedEvents.find(e => e.event_key === ev.event_key)) {
+        memFeedEvents.push(ev);
+      }
       try {
         const r = await fetch(`${SUPA_URL}/rest/v1/dinger_events?on_conflict=event_key`, {
           method: 'POST',
@@ -2534,61 +2539,60 @@
       } catch(e) { console.warn('PK schedule failed:', e); return {}; }
     }
 
-    // ── Parse HRs from a live game feed ──────────────────────────
-    async function fetchGameHRs(gamePk) {
+    // ── Scan a game's boxscore for HR data (works for Live + Final) ─
+    async function scanGameBoxscore(gamePk) {
       try {
-        const r = await fetch(
-          `${MLB_API}/game/${gamePk}/feed/live` +
-          `?fields=liveData,plays,allPlays,scoringPlays,result,eventType,description,` +
-          `about,atBatIndex,halfInning,inning,matchup,batter,id,fullName,gameData,status,detailedState`
-        );
-        if (!r.ok) throw new Error('fail');
-        const data = await r.json();
-        const allPlays   = data?.liveData?.plays?.allPlays || [];
-        const scoringSet = new Set(data?.liveData?.plays?.scoringPlays || []);
-        const gameStatus = data?.gameData?.status?.detailedState || 'Unknown';
-        const pkStr      = String(gamePk);
-        const game       = trackedPks[gamePk] || {};
-        const hrs = [];
+        const r = await fetch(`${MLB_API}/game/${gamePk}/boxscore`);
+        if (!r.ok) throw new Error(r.status);
+        const data   = await r.json();
+        const game   = trackedPks[gamePk] || {};
+        const pkStr  = String(gamePk);
+        const status = game.detailedState || 'Unknown';
+        const hrs    = [];
 
-        for (const idx of scoringSet) {
-          const play = allPlays[idx];
-          if (!play || play.result?.eventType !== 'home_run') continue;
-          const batter     = play.matchup?.batter;
-          const halfInning = play.about?.halfInning || '';
-          const inning     = play.about?.inning || 0;
-          const atBatIdx   = play.about?.atBatIndex ?? idx;
-          const eventKey   = `${pkStr}|${atBatIdx}`;
-          const batting    = halfInning === 'top' ? game.awayTeam : game.homeTeam;
-          const fielding   = halfInning === 'top' ? game.homeTeam : game.awayTeam;
-          hrs.push({
-            date: todayStr(),
-            player_id:   batter?.id || null,
-            player_name: batter?.fullName || (play.result?.description||'').split(' homers')[0] || 'Unknown',
-            team:        batting  || '',
-            opponent:    fielding || '',
-            game_pk:     pkStr,
-            inning, inning_half: halfInning,
-            description: play.result?.description || '',
-            game_status: gameStatus,
-            event_key:   eventKey,
-          });
+        for (const side of ['away', 'home']) {
+          const teamData = data.teams?.[side];
+          if (!teamData) continue;
+          const team = side === 'away' ? game.awayTeam : game.homeTeam;
+          const opp  = side === 'away' ? game.homeTeam : game.awayTeam;
+
+          for (const player of Object.values(teamData.players || {})) {
+            const hrCount = player.stats?.batting?.homeRuns || 0;
+            if (!hrCount) continue;
+            for (let i = 0; i < hrCount; i++) {
+              hrs.push({
+                date:        todayStr(),
+                player_id:   player.person?.id   || null,
+                player_name: player.person?.fullName || 'Unknown',
+                team:        team  || '',
+                opponent:    opp   || '',
+                game_pk:     pkStr,
+                inning:      null,
+                inning_half: null,
+                description: `${player.person?.fullName || 'Unknown'} HR`,
+                game_status: status,
+                event_key:   `${pkStr}|${player.person?.id}|hr${i}`,
+              });
+            }
+          }
         }
         return hrs;
-      } catch(e) { console.warn(`Live feed failed gpk=${gamePk}:`, e); return []; }
+      } catch(e) { console.warn(`Boxscore failed gpk=${gamePk}:`, e); return []; }
     }
 
-    // ── Poll all active games, upsert new HRs ─────────────────────
-    async function pollLiveGames() {
-      if (!livePks.length) return;
-      let inserted = 0;
-      for (const gpk of livePks) {
-        const hrs = await fetchGameHRs(gpk);
-        for (const hr of hrs) {
-          if (await sbUpsertHR(hr)) inserted++;
-        }
+    // ── Scan ALL today's games (Final + Live, skip Preview/Postponed) ─
+    async function scanAllTodayGames() {
+      const scanPks = Object.keys(trackedPks).map(Number)
+        .filter(gpk => {
+          const s = trackedPks[gpk].abstractState;
+          return s === 'Live' || s === 'Final';
+        });
+      if (!scanPks.length) return;
+      for (const gpk of scanPks) {
+        const hrs = await scanGameBoxscore(gpk);
+        for (const hr of hrs) await sbUpsertHR(hr);
       }
-      if (inserted > 0 || livePks.length > 0) await pullFeedAndRender();
+      await pullFeedAndRender();
     }
 
     // ── Update game states from schedule ─────────────────────────
@@ -2621,11 +2625,11 @@
       }
     }
 
-    // ── Pull feed from Supabase and render ────────────────────────
+    // ── Pull feed from Supabase (falls back to in-memory) ────────
     async function pullFeedAndRender() {
       const events = await sbGetFeedEvents(todayStr());
-      if (events === null) return;
-      feedEvents = events;
+      // If Supabase table missing/errored, use in-memory events collected this session
+      feedEvents = events !== null ? events : memFeedEvents;
       renderFeedUI();
       gradeParlaysFromFeed();
       const el = document.getElementById('feedLastUpdated');
@@ -2635,8 +2639,7 @@
     async function manualFeedRefresh() {
       showToast('Refreshing…');
       await refreshGameStates();
-      await pollLiveGames();
-      await pullFeedAndRender();
+      await scanAllTodayGames();
       showToast('Feed refreshed ✨');
     }
 
@@ -2798,15 +2801,13 @@
 
     // ── Start polling loop ────────────────────────────────────────
     async function startLiveFeed() {
-      await refreshGameStates();          // Get gamePks + initial status
-      await pullFeedAndRender();           // Load any existing events from Supabase
-      // Poll live game feeds every 45s (only meaningful when games are active)
+      await refreshGameStates();     // Build gamePk map + set status pill
+      await scanAllTodayGames();     // Immediately ingest ALL of today's HR data
+      // Every 45s: refresh states + re-scan (picks up new HRs in live games)
       _gameTimer = setInterval(async () => {
         await refreshGameStates();
-        await pollLiveGames();
+        await scanAllTodayGames();
       }, 45_000);
-      // Re-pull Supabase feed every 30s (catches any other source's inserts)
-      _feedTimer = setInterval(pullFeedAndRender, 30_000);
     }
 
     // ── Keyboard ───────────────────────────────────────────────────
