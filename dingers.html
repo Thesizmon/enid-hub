@@ -2027,6 +2027,26 @@
             if (tracked.abPerHR > 0) { score += Math.max(0, Math.min(20, (25-tracked.abPerHR)*1.5)); if (tracked.abPerHR <= 15) reasons.push(`${tracked.abPerHR} AB/HR`); }
             if (tracked.isFav || tracked.isCore) { score += 3; reasons.push('Core/Fav'); }
           }
+          // Bonus from verified live feed data (real HR events, last 7 days)
+          const feedKey  = p.name.toLowerCase().trim();
+          const feedData = recentHRMap[feedKey];
+          if (feedData) {
+            // Up to +30 for recent HR volume
+            const feedBonus = Math.min(30, feedData.total * 9);
+            score += feedBonus;
+            if (feedData.todayHR) {
+              score += 12; reasons.push('💥 HR today');
+            } else if (feedData.total >= 3) {
+              reasons.push(`🔥 ${feedData.total} HR last 7d`);
+            } else if (feedData.total >= 2) {
+              reasons.push(`⚡ ${feedData.total} HR last 7d`);
+            } else {
+              reasons.push('HR last 7d');
+            }
+            // Multi-day streak bonus
+            if (feedData.days.size >= 3) { score += 8; reasons.push(`${feedData.days.size}-day streak`); }
+            else if (feedData.days.size === 2) { score += 4; }
+          }
           // Bonus from odds (shorter odds = higher HR probability)
           if (odds) {
             score += Math.max(0, Math.min(25, (700-odds.best)/25));
@@ -2483,9 +2503,47 @@
     let feedSeenKeys    = new Set();
     let _feedTimer      = null;
     let _gameTimer      = null;
+    // Recent HR map built from feed history — feeds into pick scoring
+    // key: player_name.toLowerCase() → { total, days: Set<dateStr>, todayHR: bool }
+    let recentHRMap     = {};
 
     // ── Helpers ───────────────────────────────────────────────────
     function escH(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // ── Fetch 7-day HR history from Supabase dinger_events ────────
+    async function fetchRecentFeedHistory() {
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - 7);
+      const cutoffStr = cutoff.toISOString().slice(0, 10);
+      try {
+        const r = await fetch(
+          `${SUPA_URL}/rest/v1/dinger_events?date=gte.${cutoffStr}&select=player_name,player_id,date&limit=500`,
+          { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` } }
+        );
+        if (!r.ok) throw new Error(r.status);
+        return await r.json();
+      } catch(e) { console.warn('HR history fetch failed:', e); return []; }
+    }
+
+    // ── Build recentHRMap from Supabase history + in-memory events ─
+    function buildRecentHRMap(supaEvents = []) {
+      recentHRMap = {};
+      const today = todayStr();
+      // Merge Supabase history with current session memory (dedupe by event_key)
+      const seen = new Set();
+      const all  = [...supaEvents, ...memFeedEvents];
+      for (const ev of all) {
+        const ek = ev.event_key || `${ev.game_pk}|${ev.player_id}|${ev.date}`;
+        if (seen.has(ek)) continue;
+        seen.add(ek);
+        const key = (ev.player_name || '').toLowerCase().trim();
+        if (!key || key === 'unknown') continue;
+        if (!recentHRMap[key]) recentHRMap[key] = { total: 0, days: new Set(), todayHR: false };
+        recentHRMap[key].total++;
+        if (ev.date) recentHRMap[key].days.add(ev.date);
+        if (ev.date === today) recentHRMap[key].todayHR = true;
+      }
+    }
 
     // ── Supabase: dinger_events ───────────────────────────────────
     async function sbGetFeedEvents(dateStr) {
@@ -2630,6 +2688,8 @@
       const events = await sbGetFeedEvents(todayStr());
       // If Supabase table missing/errored, use in-memory events collected this session
       feedEvents = events !== null ? events : memFeedEvents;
+      // Keep the HR scoring map in sync so pick generation uses latest data
+      refreshRecentHRMap();
       renderFeedUI();
       gradeParlaysFromFeed();
       const el = document.getElementById('feedLastUpdated');
@@ -2801,13 +2861,25 @@
 
     // ── Start polling loop ────────────────────────────────────────
     async function startLiveFeed() {
-      await refreshGameStates();     // Build gamePk map + set status pill
-      await scanAllTodayGames();     // Immediately ingest ALL of today's HR data
-      // Every 45s: refresh states + re-scan (picks up new HRs in live games)
+      await refreshGameStates();       // Build gamePk map + set status pill
+      // Fetch 7-day HR history from Supabase and seed the scoring map
+      const history = await fetchRecentFeedHistory();
+      buildRecentHRMap(history);       // recentHRMap now ready for pick scoring
+      await scanAllTodayGames();       // Ingest all today's HR data + render feed
+      // Every 45s: re-scan live games + rebuild scoring map with latest data
       _gameTimer = setInterval(async () => {
         await refreshGameStates();
         await scanAllTodayGames();
+        const h = await fetchRecentFeedHistory();
+        buildRecentHRMap(h);
       }, 45_000);
+    }
+
+    // ── Rebuild map whenever feed data changes ────────────────────
+    // Called by pullFeedAndRender after feedEvents is updated
+    function refreshRecentHRMap() {
+      // Use current feedEvents (Supabase or memory) as a lightweight refresh
+      buildRecentHRMap(feedEvents);
     }
 
     // ── Keyboard ───────────────────────────────────────────────────
