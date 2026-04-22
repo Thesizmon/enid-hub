@@ -1,7 +1,7 @@
 // ── Enid's Service Worker 🐺 ─────────────────────────────────────────────────
 // Handles push notifications, discipline mode, and offline caching
 
-const CACHE_NAME = 'enid-hub-v3'; // bumped — discipline mode added
+const CACHE_NAME = 'enid-hub-v4'; // bumped — mtg.html added
 const URLS_TO_CACHE = [
   '/enid-hub/',
   '/enid-hub/index.html',
@@ -14,6 +14,7 @@ const URLS_TO_CACHE = [
   '/enid-hub/badges.html',
   '/enid-hub/dingers.html',
   '/enid-hub/gym.html',
+  '/enid-hub/mtg.html',
   // cards.html (~4MB) intentionally omitted from pre-cache — too large for offline storage
 ];
 

@@ -1,0 +1,3065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🐸 Glarb — Enid's Hub</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* ───────────────────────────────────────────────────────────────
+     HUB TOKENS (light, pink/purple) — used for chrome, nav, loader
+     ─────────────────────────────────────────────────────────────── */
+  :root {
+    --pink:       #E84EA0;
+    --purple:     #A855F7;
+    --mint:       #6EE7B7;
+    --amber:      #F59E0B;
+    --cream:      #FFFBF7;
+    --glass:      rgba(255,255,255,0.76);
+    --border:     rgba(168,85,247,0.13);
+    --text:       #2D1B4E;
+    --sub:        #7C6F9B;
+
+    /* ─── SULTAI TOKENS (dark-academia MTG aesthetic) ─── */
+    --swamp:            #0d1410;
+    --moss:             #1b2419;
+    --panel:            #15201a;
+    --panel-2:          #1d2a22;
+    --ink:              #ddd5be;
+    --parchment:        #ebd9a8;
+    --moss-bright:      #97b35c;
+    --frog:             #4f7c2d;
+    --amethyst:         #6b3f88;
+    --amethyst-bright:  #a87cc9;
+    --bone:             #d8cba8;
+    --rust:             #b06a3a;
+    --gold:             #d4a84b;
+    --danger:           #c75a4f;
+    --auto-win:         #d4a84b;
+    --infinite:         #a87cc9;
+    --engine:           #97b35c;
+    --rule:             rgba(235, 217, 168, 0.18);
+    --rule-strong:      rgba(235, 217, 168, 0.4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #FDF4EE;
+    min-height: 100vh;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 5%  10%,  rgba(245,158,11,.18) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 95% 15%,  rgba(59,130,246,.14) 0%, transparent 55%),
+      radial-gradient(ellipse 65% 55% at 50% 92%,  rgba(139,92,246,.19) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 45% at 15% 65%,  rgba(232,78,160,.16) 0%, transparent 50%),
+      radial-gradient(ellipse 55% 50% at 80% 50%,  rgba(110,231,183,.10) 0%, transparent 55%),
+      linear-gradient(160deg, #FFF8EE 0%, #F3E8FF 45%, #E8FBF6 75%, #FFF3EE 100%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ── Loader (mirrors hub pattern) ────────────────────────────── */
+  #loader {
+    position: fixed; inset: 0;
+    background: var(--cream);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 14px; z-index: 999;
+    transition: opacity .35s ease;
+  }
+  #loader.hidden { opacity: 0; pointer-events: none; }
+  .loader-nails-wrap {
+    position: relative;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 90px; height: 90px;
+  }
+  .loader-nails-wrap::before {
+    content: '';
+    position: absolute; inset: -14px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(232,78,160,.22) 0%, rgba(168,85,247,.12) 50%, transparent 70%);
+    animation: glowPulse 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes glowPulse {
+    0%,100% { transform: scale(1);    opacity: .65; }
+    50%     { transform: scale(1.22); opacity: 1;   }
+  }
+  .loader-wolf { width: 90px; height: 90px; object-fit: contain; animation: bounce 1.1s ease-in-out infinite, nailsShimmer 3s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  @keyframes nailsShimmer {
+    0%   { filter: drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1)    saturate(1);    }
+    20%  { filter: drop-shadow(0 8px 26px rgba(168,85,247,.72)) brightness(1.1)  saturate(1.15); }
+    40%  { filter: drop-shadow(0 9px 28px rgba(59,130,246,.62)) brightness(1.15) saturate(1.2);  }
+    60%  { filter: drop-shadow(0 8px 26px rgba(16,185,129,.65)) brightness(1.1)  saturate(1.15); }
+    80%  { filter: drop-shadow(0 7px 24px rgba(245,158,11,.65)) brightness(1.06) saturate(1.1);  }
+    100% { filter: drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1)    saturate(1);    }
+  }
+  .sp { position: absolute; line-height: 1; pointer-events: none; animation: spTwinkle 1.8s ease-in-out infinite; }
+  .sp1 { top: -13px; left:  20px;  font-size: .88rem; color: #E84EA0; animation-delay: 0s;    }
+  .sp2 { top:   4px;  right: -15px; font-size: .72rem; color: #A855F7; animation-delay: .45s; }
+  .sp3 { bottom: -9px; left: 10px;  font-size: .68rem; color: #F59E0B; animation-delay: .9s;  }
+  .sp4 { bottom:  5px; right: -11px; font-size: .82rem; color: #6EE7B7; animation-delay: 1.3s;}
+  .sp5 { top:  -5px;  left: -13px;  font-size: .62rem; color: #60A5FA; animation-delay: .65s; }
+  @keyframes spTwinkle {
+    0%,100% { opacity: 0; transform: scale(.2) rotate(0deg);   }
+    45%,55% { opacity: 1; transform: scale(1.15) rotate(72deg);}
+  }
+  .loader-text { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); letter-spacing: .03em; }
+
+  /* ── App shell ───────────────────────────────────────────────── */
+  .app { max-width: 1200px; margin: 0 auto; padding: 0 0 80px; position: relative; z-index: 2; }
+
+  /* ── Hub header (pink/purple) ────────────────────────────────── */
+  .hub-header { padding: 26px 22px 14px; text-align: center; }
+  .hub-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    background: linear-gradient(135deg, var(--amber), var(--pink) 45%, #8B5CF6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 8px rgba(232,78,160,.15));
+  }
+  .hub-sub { font-size: .78rem; color: var(--sub); margin-top: 4px; }
+  .hub-nav { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .hub-nav-link {
+    font-size: .72rem; font-weight: 700; color: var(--purple);
+    background: rgba(168,85,247,.08); border: 1px solid var(--border);
+    padding: 4px 12px; border-radius: 20px; text-decoration: none;
+    transition: background .15s;
+  }
+  .hub-nav-link:hover { background: rgba(168,85,247,.18); }
+
+  /* ── Deck header strip (persistent) ──────────────────────────── */
+  .deck-strip {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 20px;
+    margin: 6px 14px 8px;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 2px 18px rgba(168,85,247,.06);
+  }
+  .deck-strip .deck-portrait {
+    width: 56px; height: 78px;
+    border-radius: 6px; object-fit: cover;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+  }
+  .deck-strip .deck-meta { flex: 1; min-width: 0; }
+  .deck-strip .deck-name { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: .02em; }
+  .deck-strip .deck-cmdr { font-size: .74rem; color: var(--sub); font-style: italic; margin-top: 2px; }
+  .deck-strip .deck-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+  .deck-pip {
+    font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 700;
+    padding: 4px 9px; border-radius: 12px;
+    background: rgba(168,85,247,.08); color: var(--purple);
+  }
+  .deck-pip.count { background: linear-gradient(135deg, var(--pink), var(--purple)); color: #fff; }
+  .deck-pip.mana-B { background: rgba(13,20,16,.85); color: #e9d8ff; }
+  .deck-pip.mana-G { background: rgba(151,179,92,.22); color: #4a6a2a; }
+  .deck-pip.mana-U { background: rgba(96,165,250,.22); color: #1e3a8a; }
+
+  /* ── Tab bar ─────────────────────────────────────────────────── */
+  .tab-bar {
+    display: flex; gap: 4px; padding: 0 14px;
+    overflow-x: auto; scrollbar-width: none;
+    margin-top: 4px;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 0 0 auto;
+    background: rgba(168,85,247,.06);
+    border: 1px solid var(--border);
+    border-bottom: 3px solid transparent;
+    border-radius: 14px 14px 0 0;
+    padding: 9px 16px 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .78rem; font-weight: 700;
+    color: var(--sub);
+    cursor: pointer;
+    transition: all .18s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover:not(.active) { background: rgba(168,85,247,.14); color: var(--purple); }
+  .tab-btn.active {
+    color: var(--pink);
+    background: var(--glass);
+    border-bottom-color: var(--pink);
+    box-shadow: 0 -2px 10px rgba(232,78,160,.12);
+  }
+
+  /* ── Tab panes ───────────────────────────────────────────────── */
+  .tab-pane { display: none; padding: 0 14px; }
+  .tab-pane.active { display: block; }
+
+  /* ───────────────────────────────────────────────────────────────
+     SULTAI WRAPPER — dark-academia block for MTG content
+     Everything inside .sultai-wrap gets the dark theme.
+     ─────────────────────────────────────────────────────────────── */
+  .sultai-wrap {
+    background: var(--swamp);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(75, 50, 100, 0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 30%, rgba(60, 100, 50, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(40, 70, 50, 0.18) 0%, transparent 60%);
+    color: var(--ink);
+    font-family: 'EB Garamond', 'Iowan Old Style', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    border-radius: 20px;
+    padding: 28px 28px 40px;
+    border: 1px solid var(--rule);
+    box-shadow: 0 12px 40px rgba(13,20,16,.15);
+    margin-top: 4px;
+  }
+  .sultai-wrap section { margin-bottom: 52px; }
+  .sultai-wrap section:last-child { margin-bottom: 10px; }
+  .sultai-wrap h2 {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    color: var(--moss-bright);
+    margin: 0 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .sultai-wrap h2::before {
+    content: ""; width: 24px; height: 1px;
+    background: var(--moss-bright);
+  }
+  .sultai-wrap h2 .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--bone);
+    opacity: 0.6;
+    margin-left: auto;
+    letter-spacing: 0.1em;
+    text-transform: none;
+  }
+  .sultai-wrap h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--parchment);
+    margin: 28px 0 14px;
+  }
+  .sultai-wrap em { font-style: italic; color: var(--bone); }
+  .sultai-wrap strong { color: var(--parchment); font-weight: 600; }
+  .sultai-wrap a { color: var(--amethyst-bright); }
+
+  /* ── Card chip (shared by deck/combat/codex) ─────────────────── */
+  .card-chip { position: relative; display: inline-block; }
+  .card-chip img {
+    width: 110px;
+    height: 154px;   /* preserve 2.5:3.5 aspect ratio */
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: zoom-in;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%);
+  }
+  .card-chip:hover img {
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.7), 0 0 0 1px var(--moss-bright), 0 0 30px rgba(151, 179, 92, 0.4);
+    z-index: 10;
+  }
+  .card-chip.hero img { width: 150px; height: 210px; }
+  .card-chip.tiny img { width: 80px; height: 112px; }
+  .card-chip .fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--moss) 0%, var(--swamp) 100%);
+    border: 1px solid var(--moss-bright);
+    color: var(--parchment);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    text-align: center;
+    padding: 8px 6px;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    pointer-events: none;
+  }
+  .card-chip.broken .fallback { display: flex; }
+  .card-chip.broken img { opacity: 0; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TAB 1: DECK
+     ═══════════════════════════════════════════════════════════════ */
+  .deck-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .deck-overview-panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .deck-overview-panel .label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .mana-curve { display: flex; align-items: flex-end; gap: 6px; height: 120px; }
+  .mana-bar {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .mana-bar-fill {
+    width: 100%;
+    min-height: 2px;
+    background: linear-gradient(180deg, var(--moss-bright), var(--amethyst));
+    border-radius: 3px 3px 0 0;
+    transition: height .4s ease;
+  }
+  .mana-bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--bone);
+    opacity: 0.7;
+  }
+  .mana-bar-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--parchment);
+    font-weight: 600;
+  }
+  .pip-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .pip-block {
+    flex: 1; min-width: 80px;
+    text-align: center;
+    padding: 14px 10px;
+    background: var(--moss);
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+  }
+  .pip-block .pip-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--moss-bright);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pip-block .pip-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: var(--parchment);
+    font-weight: 600;
+  }
+
+  .deck-section { margin-bottom: 32px; }
+  .deck-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--parchment);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .deck-section-title .sec-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--bone);
+    opacity: 0.65;
+    letter-spacing: 0.1em;
+  }
+  .deck-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .deck-grid .card-chip img { width: 100%; height: auto; aspect-ratio: 2.5 / 3.5; }
+  .deck-grid .card-chip .name {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--bone);
+    opacity: 0.65;
+    text-align: center;
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+  .deck-loading {
+    padding: 30px; text-align: center; color: var(--bone); opacity: 0.6;
+    font-style: italic;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TAB 2: COMBAT CARD
+     ═══════════════════════════════════════════════════════════════ */
+  .combat-header {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    align-items: end;
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--rule-strong);
+    position: relative;
+  }
+  .combat-header::before {
+    content: "";
+    position: absolute;
+    inset: -20px -20px 0 -20px;
+    background: linear-gradient(180deg, rgba(168, 124, 201, 0.08) 0%, transparent 100%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .combat-header .eyebrow {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 11px;
+    color: var(--amethyst-bright);
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  .combat-header h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 0.95;
+    margin: 0 0 16px;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+  }
+  .combat-header h1 .frog { color: var(--moss-bright); font-style: normal; }
+  .combat-header .subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--bone);
+    opacity: 0.85;
+    margin: 0;
+    max-width: 600px;
+  }
+  .commander-card {
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 0 0 1px rgba(168,124,201,.25), 0 20px 40px rgba(0,0,0,.6), 0 0 60px rgba(168,124,201,.12);
+    transform: rotate(2deg);
+    transition: transform 0.4s ease;
+  }
+  .commander-card:hover { transform: rotate(0deg) scale(1.04); }
+
+  .winline {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 22px 26px 24px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .winline::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--moss-bright), var(--amethyst));
+  }
+  .winline-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+  .winline-num {
+    font-family: 'Cinzel', serif;
+    font-size: 32px; font-weight: 700;
+    color: var(--amethyst-bright);
+    line-height: 1;
+  }
+  .winline-title {
+    font-family: 'Cinzel', serif;
+    font-size: 17px; font-weight: 600;
+    color: var(--parchment);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .winline p { margin: 0 0 14px; }
+  .winline .pieces {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule);
+  }
+  .winline h3 { font-size: 11px; letter-spacing: 0.2em; color: var(--rust); margin-top: 18px; }
+
+  .card-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+  .card-row.dense { gap: 8px; }
+  .lineup { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .group {
+    background: var(--moss);
+    border-radius: 10px;
+    padding: 18px 22px;
+    border: 1px solid var(--rule);
+  }
+  .group-label {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .tutor-table {
+    display: grid;
+    grid-template-columns: 130px 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tutor-table:first-of-type { border-top: 1px solid var(--rule); }
+  .tutor-table .targets { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .threat-table {
+    display: grid; grid-template-columns: 1fr; gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .threat-row {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 20px;
+    padding: 16px 22px;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .threat-row:last-child { border-bottom: none; }
+  .threat-row:nth-child(even) { background: var(--moss); }
+  .threat-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--danger);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .threat-text { font-style: italic; color: var(--bone); font-size: 15px; }
+  .threat-cards { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+
+  .mulligan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .mulligan-card {
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 22px 26px;
+    border-top: 3px solid;
+  }
+  .mulligan-card.keep { border-color: var(--moss-bright); }
+  .mulligan-card.mull { border-color: var(--danger); }
+  .mulligan-card h4 {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 13px;
+    margin: 0 0 12px;
+    color: var(--parchment);
+  }
+  .mulligan-card.keep h4 { color: var(--moss-bright); }
+  .mulligan-card.mull h4 { color: var(--danger); }
+  .mulligan-card ul { margin: 0; padding-left: 20px; }
+  .mulligan-card li { margin-bottom: 6px; }
+
+  .reminders {
+    list-style: none; padding: 0; margin: 0;
+    counter-reset: reminder;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .reminders li {
+    counter-increment: reminder;
+    padding: 10px 0 10px 38px;
+    position: relative;
+    border-bottom: 1px dotted var(--rule);
+    break-inside: avoid;
+  }
+  .reminders li::before {
+    content: counter(reminder, decimal-leading-zero);
+    position: absolute;
+    left: 0; top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--moss-bright);
+    background: var(--panel);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--rule);
+  }
+
+  .tip {
+    background: var(--moss);
+    border-left: 3px solid var(--amethyst-bright);
+    padding: 14px 22px;
+    margin: 16px 0;
+    font-style: italic;
+    border-radius: 0 6px 6px 0;
+    color: var(--bone);
+    font-size: 15px;
+  }
+  .tip strong {
+    font-style: normal;
+    color: var(--amethyst-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+  }
+
+  .sultai-footer {
+    margin-top: 60px;
+    text-align: center;
+    font-style: italic;
+    color: var(--amethyst-bright);
+    font-size: 16px;
+    padding-top: 30px;
+    border-top: 1px solid var(--rule);
+  }
+  .sultai-footer .glyph {
+    color: var(--moss-bright);
+    font-style: normal;
+    margin: 0 8px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TAB 3: COMBO CODEX
+     ═══════════════════════════════════════════════════════════════ */
+  .codex-header {
+    padding-bottom: 36px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--rule-strong);
+    text-align: center;
+  }
+  .codex-header h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1;
+    margin: 0 0 18px;
+    color: var(--parchment);
+    letter-spacing: 0.02em;
+  }
+  .codex-header h1 .frog { color: var(--moss-bright); font-style: normal; }
+  .codex-header .eyebrow {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 11px;
+    color: var(--amethyst-bright);
+    margin: 0 0 14px;
+    font-weight: 600;
+  }
+  .codex-header .subtitle {
+    font-style: italic; font-size: 17px;
+    color: var(--bone); opacity: 0.8;
+    max-width: 720px; margin: 0 auto;
+  }
+  .legend {
+    display: flex; justify-content: center;
+    gap: 24px; margin: 30px auto 0;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot-auto     { background: var(--auto-win); box-shadow: 0 0 12px var(--auto-win); }
+  .dot-infinite { background: var(--infinite); box-shadow: 0 0 12px var(--infinite); }
+  .dot-engine   { background: var(--engine);   box-shadow: 0 0 12px var(--engine); }
+
+  .matrix {
+    background: var(--moss);
+    border-radius: 12px;
+    padding: 26px 30px;
+    border: 1px solid var(--rule);
+    margin-bottom: 30px;
+  }
+  .matrix-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 22px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .matrix-row:last-child { border-bottom: none; }
+  .matrix-row:first-child { padding-top: 0; }
+  .matrix-label {
+    font-family: 'Cinzel', serif;
+    font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--moss-bright);
+    font-weight: 600;
+  }
+  .matrix-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 26px; color: var(--parchment);
+    font-weight: 600;
+  }
+  .matrix-cards { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .combo {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 26px 30px 28px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .combo::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+  }
+  .combo.auto-win::before { background: linear-gradient(180deg, var(--auto-win), var(--rust)); }
+  .combo.infinite::before { background: linear-gradient(180deg, var(--infinite), var(--amethyst)); }
+  .combo.engine::before   { background: linear-gradient(180deg, var(--engine), var(--frog)); }
+  .combo.enabler::before  { background: linear-gradient(180deg, var(--bone), var(--rust)); }
+
+  .combo-header {
+    display: flex; align-items: baseline;
+    gap: 16px; margin-bottom: 6px; flex-wrap: wrap;
+  }
+  .combo-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--moss-bright);
+    letter-spacing: 0.1em;
+    background: var(--swamp);
+    padding: 3px 8px; border-radius: 4px;
+    border: 1px solid var(--rule);
+  }
+  .combo-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.25em;
+    padding: 4px 10px; border-radius: 3px;
+    font-weight: 600;
+  }
+  .tag-auto     { background: var(--auto-win); color: var(--swamp); }
+  .tag-infinite { background: var(--infinite); color: var(--swamp); }
+  .tag-engine   { background: var(--engine); color: var(--swamp); }
+  .tag-floating {
+    background: rgba(235,217,168,0.1);
+    color: var(--bone);
+    border: 1px solid var(--rule);
+  }
+
+  .combo-title {
+    font-family: 'Cinzel', serif;
+    font-size: 20px; font-weight: 600;
+    color: var(--parchment);
+    letter-spacing: 0.03em;
+    margin: 8px 0 4px;
+  }
+  .combo-result {
+    font-style: italic;
+    color: var(--bone); opacity: 0.75;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+  .pieces-row {
+    display: flex; flex-wrap: wrap;
+    gap: 12px;
+    margin: 16px 0 18px;
+    align-items: flex-end;
+  }
+  .plus {
+    font-family: 'Cinzel', serif;
+    font-size: 24px; font-weight: 600;
+    color: var(--amethyst-bright);
+    align-self: center;
+    margin: 0 -2px 30px;
+  }
+
+  .steps {
+    background: var(--moss);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-top: 6px;
+    border: 1px solid var(--rule);
+  }
+  .steps-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .steps ol {
+    margin: 0; padding-left: 22px;
+    counter-reset: step;
+    list-style: none;
+  }
+  .steps li {
+    counter-increment: step;
+    margin-bottom: 7px;
+    position: relative;
+    padding-left: 16px;
+    font-size: 15px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: -16px; top: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--moss-bright);
+    background: var(--swamp);
+    padding: 1px 5px; border-radius: 3px;
+    border: 1px solid var(--rule);
+    min-width: 18px; text-align: center;
+  }
+  .steps li:last-child { margin-bottom: 0; }
+  .steps em { color: var(--amethyst-bright); font-style: normal; font-weight: 500; }
+  .steps strong { color: var(--parchment); font-weight: 600; }
+
+  .needs {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(151,179,92,0.06);
+    border-left: 2px solid var(--moss-bright);
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--bone);
+  }
+  .needs strong {
+    font-family: 'Cinzel', serif;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--moss-bright);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .needs.warn {
+    background: rgba(199,90,79,0.06);
+    border-left-color: var(--danger);
+  }
+  .needs.warn strong { color: var(--danger); }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TAB 4: GAME LOG
+     ═══════════════════════════════════════════════════════════════ */
+  .log-form {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 24px 26px 28px;
+    margin-bottom: 30px;
+  }
+  .log-form-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .log-form-title {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--moss-bright);
+    font-weight: 600;
+  }
+  .log-form-toggle {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--bone);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+  }
+  .log-form-body { display: block; }
+  .log-form.collapsed .log-form-body { display: none; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field.full { grid-column: 1 / -1; }
+  .form-field label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--moss-bright);
+    font-weight: 600;
+  }
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    background: var(--moss);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    outline: none;
+    transition: border .15s;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus { border-color: var(--moss-bright); }
+  .form-field textarea { resize: vertical; min-height: 70px; }
+
+  .opp-row { display: grid; grid-template-columns: 1fr auto; gap: 6px; margin-bottom: 6px; }
+  .opp-remove {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 0 10px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+  }
+  .opp-add {
+    background: transparent;
+    color: var(--moss-bright);
+    border: 1px dashed var(--moss-bright);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .result-pills { display: flex; gap: 8px; }
+  .result-pill {
+    flex: 1;
+    background: var(--moss);
+    border: 1px solid var(--rule);
+    color: var(--bone);
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .15s;
+    font-weight: 600;
+  }
+  .result-pill:hover { background: var(--panel-2); }
+  .result-pill.active.won   { background: var(--moss-bright); color: var(--swamp); border-color: var(--moss-bright); }
+  .result-pill.active.lost  { background: var(--danger); color: var(--swamp); border-color: var(--danger); }
+  .result-pill.active.draw  { background: var(--gold); color: var(--swamp); border-color: var(--gold); }
+
+  .form-cond { display: none; }
+  .form-cond.show { display: flex; }
+
+  .save-btn {
+    display: block; width: 100%;
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 6px 20px rgba(232,78,160,0.35);
+    transition: transform .15s, box-shadow .15s, opacity .15s;
+  }
+  .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(232,78,160,0.45); }
+  .save-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+  .autocomplete { position: relative; }
+  .autocomplete-list {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--moss);
+    border: 1px solid var(--moss-bright);
+    border-radius: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 20;
+    display: none;
+  }
+  .autocomplete-list.show { display: block; }
+  .autocomplete-item {
+    padding: 6px 12px;
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .autocomplete-item:hover,
+  .autocomplete-item.sel { background: var(--panel-2); color: var(--parchment); }
+
+  /* ── History list ─────────────────────────────── */
+  .history-empty {
+    text-align: center; color: var(--bone);
+    opacity: 0.55; font-style: italic;
+    padding: 50px 20px;
+  }
+  .history-row {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .history-row:hover { border-color: var(--moss-bright); }
+  .history-head {
+    display: grid;
+    grid-template-columns: 100px 24px 110px 1fr auto 60px 40px;
+    gap: 14px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .history-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--bone);
+  }
+  .history-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .history-dot.won  { background: var(--moss-bright); box-shadow: 0 0 8px var(--moss-bright); }
+  .history-dot.lost { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+  .history-dot.draw { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+  .history-wincon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--moss-bright);
+    letter-spacing: 0.05em;
+  }
+  .history-opps { color: var(--bone); font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .history-mvp { color: var(--amethyst-bright); font-size: 12px; }
+  .history-turn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--bone); opacity: 0.8;
+    text-align: right;
+  }
+  .history-del {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--danger);
+    border-radius: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .history-details {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule);
+    font-size: 14px; color: var(--bone);
+  }
+  .history-row.expanded .history-details { display: block; }
+  .history-details .hd-row { margin-bottom: 6px; }
+  .history-details .hd-row strong {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--moss-bright);
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: 110px;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--pink); color: #fff;
+    padding: 12px 22px;
+    border-radius: 24px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity .25s, transform .25s;
+    box-shadow: 0 10px 30px rgba(232,78,160,0.4);
+    z-index: 200;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TAB 5: STATS
+     ═══════════════════════════════════════════════════════════════ */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+  .hero-stat {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 22px 20px;
+    text-align: center;
+  }
+  .hero-stat .label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .hero-stat .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px; font-weight: 600;
+    color: var(--parchment);
+  }
+  .hero-stat .value.good  { color: var(--moss-bright); }
+  .hero-stat .value.warn  { color: var(--gold); }
+  .hero-stat .value.bad   { color: var(--danger); }
+  .hero-stat .sub { font-size: 11px; color: var(--bone); opacity: 0.65; margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+
+  .stats-section {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .stats-section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--moss-bright);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .wincon-bars { display: flex; flex-direction: column; gap: 8px; }
+  .wincon-bar-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 40px;
+    gap: 12px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .wincon-bar-row .wc-label {
+    color: var(--bone);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .wincon-bar-row .wc-bar {
+    height: 10px;
+    background: var(--moss);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .wincon-bar-row .wc-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--moss-bright), var(--amethyst));
+    border-radius: 5px;
+    transition: width .4s ease;
+  }
+  .wincon-bar-row .wc-count {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--parchment);
+    font-weight: 600;
+  }
+
+  .mvp-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .mvp-item {
+    display: grid;
+    grid-template-columns: 36px 1fr 40px;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 10px;
+    background: var(--moss);
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+  }
+  .mvp-item img {
+    width: 36px; height: 50px;
+    object-fit: cover;
+    border-radius: 3px;
+    background: #1a1a1a;
+  }
+  .mvp-item .name { font-size: 13px; color: var(--ink); }
+  .mvp-item .ct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--moss-bright);
+    text-align: right;
+  }
+
+  .matchup-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .matchup-table th,
+  .matchup-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+  }
+  .matchup-table th {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 600;
+  }
+  .matchup-table td.num,
+  .matchup-table th.num { text-align: right; font-family: 'JetBrains Mono', monospace; }
+
+  .lostto-list { display: flex; flex-direction: column; gap: 6px; }
+  .lostto-row {
+    display: flex; justify-content: space-between;
+    padding: 6px 12px;
+    background: var(--moss);
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .lostto-row .ct {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--danger);
+  }
+
+  .stats-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--bone);
+    font-style: italic;
+    opacity: 0.65;
+  }
+  .stats-empty a { color: var(--amethyst-bright); font-style: normal; font-weight: 600; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MODAL (for deck card zoom)
+     ═══════════════════════════════════════════════════════════════ */
+  .modal-bd {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(13,20,16,0.78);
+    backdrop-filter: blur(6px);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-bd.open { display: flex; }
+  .modal-inner {
+    max-width: 720px;
+    background: var(--panel);
+    border: 1px solid var(--moss-bright);
+    border-radius: 16px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+    position: relative;
+    color: var(--ink);
+    font-family: 'EB Garamond', serif;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+  .modal-inner img {
+    width: 240px; height: 336px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px var(--moss-bright), 0 20px 40px rgba(0,0,0,0.6);
+    object-fit: cover;
+    background: #1a1a1a;
+  }
+  .modal-inner .modal-name {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    color: var(--parchment);
+    margin-bottom: 10px;
+  }
+  .modal-inner .modal-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--bone);
+    opacity: 0.75;
+    margin-bottom: 14px;
+    letter-spacing: 0.1em;
+  }
+  .modal-inner .modal-oracle {
+    white-space: pre-wrap;
+    line-height: 1.55;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .modal-close {
+    position: absolute; top: 12px; right: 14px;
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--bone);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 1100px) {
+    .combat-header { grid-template-columns: 1fr; gap: 24px; }
+    .combat-header h1 { font-size: 42px; }
+    .threat-row { grid-template-columns: 1fr; }
+    .threat-cards { justify-content: flex-start; }
+    .deck-overview { grid-template-columns: 1fr; }
+    .mvp-list { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .sultai-wrap { padding: 18px 16px 28px; font-size: 16px; }
+    .hub-title { font-size: 1.9rem; }
+    .deck-strip { padding: 12px 14px; gap: 10px; }
+    .deck-strip .deck-portrait { width: 44px; height: 62px; }
+    .combat-header h1 { font-size: 32px; }
+    .codex-header h1 { font-size: 32px; }
+    .mulligan-grid { grid-template-columns: 1fr; }
+    .reminders { columns: 1; }
+    .tutor-table { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .history-head {
+      grid-template-columns: 80px 14px 1fr 50px;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .history-wincon, .history-mvp { display: none; }
+    .deck-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+    .modal-inner { grid-template-columns: 1fr; }
+    .modal-inner img { width: 100%; height: auto; aspect-ratio: 2.5/3.5; }
+  }
+  @media (max-width: 420px) {
+    .deck-grid { grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); }
+    .wincon-bar-row { grid-template-columns: 110px 1fr 34px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LOADER
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="loader">
+  <div class="loader-nails-wrap">
+    <img src="nails.png" class="loader-wolf" alt="Loading...">
+    <span class="sp sp1">&#10022;</span>
+    <span class="sp sp2">&#10022;</span>
+    <span class="sp sp3">&#10022;</span>
+    <span class="sp sp4">&#10022;</span>
+    <span class="sp sp5">&#10022;</span>
+  </div>
+  <span class="loader-text" id="loader-text">Consulting the top of the library…</span>
+</div>
+
+<div class="app">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HUB HEADER
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="hub-header">
+    <div class="hub-title">🐸 Glarb</div>
+    <div class="hub-sub">cEDH command center · Sultai Hulk-Pile Turbo Combo</div>
+    <div class="hub-nav">
+      <a href="index.html" class="hub-nav-link">🐺 Hub Home</a>
+      <a href="plan.html"  class="hub-nav-link">🗓️ Planner</a>
+      <a href="gym.html"   class="hub-nav-link">💪 Gym</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PERSISTENT DECK STRIP
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="deck-strip">
+    <img class="deck-portrait"
+         referrerpolicy="no-referrer"
+         src="https://api.scryfall.com/cards/named?exact=Glarb%2C+Calamity%27s+Augur&format=image&version=small"
+         alt="Glarb, Calamity's Augur">
+    <div class="deck-meta">
+      <div class="deck-name" id="deck-name">Glarb cEDH</div>
+      <div class="deck-cmdr" id="deck-cmdr">Glarb, Calamity's Augur · commander</div>
+    </div>
+    <div class="deck-stats">
+      <div class="deck-pip count" id="pip-count">100</div>
+      <div class="deck-pip mana-B">{B}</div>
+      <div class="deck-pip mana-G">{G}</div>
+      <div class="deck-pip mana-U">{U}</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TAB BAR
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" data-tab="deck"   role="tab">🃏 Deck</button>
+    <button class="tab-btn"        data-tab="combat" role="tab">⚔️ Combat Card</button>
+    <button class="tab-btn"        data-tab="combos" role="tab">📖 Combo Codex</button>
+    <button class="tab-btn"        data-tab="log"    role="tab">📓 Game Log</button>
+    <button class="tab-btn"        data-tab="stats"  role="tab">📊 Stats</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TAB 1: DECK
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="tab-pane active" id="tab-deck" role="tabpanel">
+    <div class="sultai-wrap">
+
+      <section>
+        <h2>Deck Overview <span class="count">100 cards · Sultai commander</span></h2>
+        <div class="deck-overview">
+          <div class="deck-overview-panel">
+            <div class="label">Mana Curve</div>
+            <div class="mana-curve" id="mana-curve"></div>
+          </div>
+          <div class="deck-overview-panel">
+            <div class="label">Color Pip Breakdown</div>
+            <div class="pip-row" id="pip-row"></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>The 100 <span class="count" id="deck-loaded-count">loading…</span></h2>
+        <div id="deck-render">
+          <div class="deck-loading">Fetching card images from Scryfall…</div>
+        </div>
+      </section>
+
+      <div class="sultai-footer">
+        "You may look at the top card of your library any time."
+        <span class="glyph">✦</span>
+        Know your deck.
+        <span class="glyph">✦</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TAB 2: COMBAT CARD (ported verbatim from glarb_combat_card.html)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="tab-pane" id="tab-combat" role="tabpanel">
+    <div class="sultai-wrap">
+
+      <header class="combat-header">
+        <div>
+          <p class="eyebrow">Sultai Hulk-Pile Turbo Combo</p>
+          <h1>Glarb<span class="frog">.</span><br>The Combat Card</h1>
+          <p class="subtitle">"You may look at the top card of your library any time." Use this. Always. Cast Glarb safely, then assemble a clean Oracle win.</p>
+        </div>
+        <div>
+          <img class="commander-card" referrerpolicy="no-referrer"
+               src="https://api.scryfall.com/cards/named?exact=Glarb%2C+Calamity%27s+Augur&format=image&version=normal"
+               alt="Glarb, Calamity's Augur">
+        </div>
+      </header>
+
+      <!-- ── WIN LINES ── -->
+      <section>
+        <h2>The Four Win Lines</h2>
+
+        <article class="winline">
+          <div class="winline-header">
+            <div class="winline-num">01</div>
+            <div class="winline-title">Naked Thoracle</div>
+          </div>
+          <p>Cast <em>Thassa's Oracle</em>, then <em>Demonic Consultation</em> or <em>Tainted Pact</em> naming a card not in your deck. Library exiles. Oracle's trigger wins on the spot. <strong>Glarb's top-of-library peek means you NEVER lose Oracle to Consult.</strong></p>
+          <div class="pieces" data-chips='["Thassa&apos;s Oracle|hero","Demonic Consultation|hero","Tainted Pact|hero"]'></div>
+        </article>
+
+        <article class="winline">
+          <div class="winline-header">
+            <div class="winline-num">02</div>
+            <div class="winline-title">Protean Hulk Pile — The Main Engine</div>
+          </div>
+          <p>Get <em>Hulk</em> into the graveyard (Entomb / Buried Alive effect / Culling the Weak sac), reanimate it, then kill it with a sac outlet.</p>
+          <p>Hulk's death triggers fetches <strong>Body Snatcher + Carrion Feeder</strong>. Snatcher reanimates Hulk → sac again → fetch <strong>Thassa's Oracle + Dosan the Falling Leaf</strong>. Dosan locks counters. Cast Oracle. Win.</p>
+
+          <h3>Get Hulk in the yard</h3>
+          <div class="card-row dense" data-chips='["Protean Hulk","Entomb","Culling the Weak"]'></div>
+
+          <h3>Reanimate</h3>
+          <div class="card-row dense" data-chips='["Reanimate","Animate Dead","Necromancy","Exhume","Dance of the Dead","Shallow Grave"]'></div>
+
+          <h3>Sac outlets</h3>
+          <div class="card-row dense" data-chips='["Carrion Feeder","Viscera Seer","Warren Soultrader","Phyrexian Tower"]'></div>
+
+          <h3>Hulk fetches → win</h3>
+          <div class="card-row dense" data-chips='["Body Snatcher","Carrion Feeder","Thassa&apos;s Oracle","Dosan the Falling Leaf"]'></div>
+        </article>
+
+        <article class="winline">
+          <div class="winline-header">
+            <div class="winline-num">03</div>
+            <div class="winline-title">Hulk Direct-to-Battlefield</div>
+          </div>
+          <p>Skip the graveyard step entirely. These tutor Hulk straight into play, triggering the same pile when it dies.</p>
+          <div class="pieces" data-chips='["Natural Order","Pattern of Rebirth","Chord of Calling","Finale of Devastation"]'></div>
+        </article>
+
+        <article class="winline">
+          <div class="winline-header">
+            <div class="winline-num">04</div>
+            <div class="winline-title">Floodcaller Infinite</div>
+          </div>
+          <p>Valley Floodcaller untaps Glarb whenever you cast a non-creature spell. Loop: tap Glarb (surveil 2) → cast a non-creature off the top → untap → repeat. Mill the deck, then cast Oracle from the top for the win.</p>
+          <div class="pieces" data-chips='["Valley Floodcaller|hero","Glarb, Calamity&apos;s Augur|hero","Thassa&apos;s Oracle|hero"]'></div>
+        </article>
+      </section>
+
+      <!-- ── PROTECTION ── -->
+      <section>
+        <h2>Protection &amp; Stax Answers</h2>
+
+        <div class="lineup">
+          <div class="group">
+            <div class="group-label">Free Counters</div>
+            <div class="card-row dense" data-chips='["Force of Will","Pact of Negation","Fierce Guardianship","Mental Misstep","Mindbreak Trap","Snuff Out","Commandeer"]'></div>
+          </div>
+
+          <div class="group">
+            <div class="group-label">Soft Counters</div>
+            <div class="card-row dense" data-chips='["Flusterstorm","Swan Song","Mana Drain"]'></div>
+          </div>
+
+          <div class="group">
+            <div class="group-label">Removal vs. Stax &amp; Hatebears</div>
+            <div class="card-row dense" data-chips='["Abrupt Decay","Chain of Vapor","Into the Flood Maw","Boseiju, Who Endures","Otawara, Soaring City"]'></div>
+          </div>
+
+          <div class="group">
+            <div class="group-label">Wraths When Desperate</div>
+            <div class="card-row dense" data-chips='["Massacre","Culling Ritual"]'></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TUTORS ── -->
+      <section>
+        <h2>Tutors — Know What You're Getting</h2>
+
+        <div class="tutor-table">
+          <div data-chips='["Demonic Tutor"]'></div>
+          <div><strong>Any card in the deck.</strong><br><em>Usually Hulk, a reanimator, or Oracle.</em></div>
+          <div class="targets" data-chips='["Protean Hulk|tiny|small","Necropotence|tiny|small"]'></div>
+        </div>
+        <div class="tutor-table">
+          <div data-chips='["Vampiric Tutor"]'></div>
+          <div><strong>Any card to top of library.</strong><br><em>Glarb sees it. Drawn next turn.</em></div>
+          <div class="targets" data-chips='["Imperial Seal|tiny|small","Beseech the Mirror|tiny|small"]'></div>
+        </div>
+        <div class="tutor-table">
+          <div data-chips='["Mystical Tutor"]'></div>
+          <div><strong>Instant or sorcery to top.</strong><br><em>Usually Consultation or Pact.</em></div>
+          <div class="targets" data-chips='["Demonic Consultation|tiny|small","Tainted Pact|tiny|small"]'></div>
+        </div>
+        <div class="tutor-table">
+          <div data-chips='["Worldly Tutor"]'></div>
+          <div><strong>Creature to top.</strong><br><em>Almost always Hulk.</em></div>
+          <div class="targets" data-chips='["Protean Hulk|tiny|small"]'></div>
+        </div>
+        <div class="tutor-table">
+          <div data-chips='["Entomb"]'></div>
+          <div><strong>Creature to graveyard.</strong><br><em>Hulk every time. Reanimate next.</em></div>
+          <div class="targets" data-chips='["Protean Hulk|tiny|small"]'></div>
+        </div>
+        <div class="tutor-table">
+          <div data-chips='["Crop Rotation"]'></div>
+          <div><strong>Sac a land, get any land.</strong><br><em>Cradle for mana. Phyrexian Tower for sac outlet.</em></div>
+          <div class="targets" data-chips='["Gaea&apos;s Cradle|tiny|small","Phyrexian Tower|tiny|small"]'></div>
+        </div>
+        <div class="tutor-table">
+          <div data-chips='["Cabal Therapy"]'></div>
+          <div><strong>Strip a key card from a known threat.</strong><br><em>Sac a creature to flash it back.</em></div>
+          <div class="targets">
+            <em style="color:var(--bone); opacity:0.6;">name what you fear</em>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── THREATS ── -->
+      <section>
+        <h2>Threat Assessment — Know What Kills You</h2>
+        <div class="threat-table">
+          <div class="threat-row">
+            <div class="threat-name">Opposition Agent / Aven Mindcensor</div>
+            <div class="threat-text">Hijacks your tutors. Cripples Hulk pile.</div>
+            <div class="threat-cards" data-chips='["Abrupt Decay|tiny|small","Snuff Out|tiny|small","Chain of Vapor|tiny|small"]'></div>
+          </div>
+          <div class="threat-row">
+            <div class="threat-name">Notion Thief on the Stack</div>
+            <div class="threat-text">Counter it. Or your Necro / Wheel becomes their hand.</div>
+            <div class="threat-cards" data-chips='["Force of Will|tiny|small","Pact of Negation|tiny|small","Mental Misstep|tiny|small"]'></div>
+          </div>
+          <div class="threat-row">
+            <div class="threat-name">Drannith Magistrate</div>
+            <div class="threat-text">Locks Glarb out of casting from the top. Kill it now.</div>
+            <div class="threat-cards" data-chips='["Abrupt Decay|tiny|small","Snuff Out|tiny|small"]'></div>
+          </div>
+          <div class="threat-row">
+            <div class="threat-name">Cursed Totem / Collector Ouphe</div>
+            <div class="threat-text">Disables sac outlets. Pivot to direct Thoracle.</div>
+            <div class="threat-cards" data-chips='["Abrupt Decay|tiny|small","Thassa&apos;s Oracle|tiny|small"]'></div>
+          </div>
+          <div class="threat-row">
+            <div class="threat-name">Rest in Peace / Leyline of the Void</div>
+            <div class="threat-text">Kills reanimator. Pivot to Hulk-direct or Thoracle.</div>
+            <div class="threat-cards" data-chips='["Abrupt Decay|tiny|small","Natural Order|tiny|small"]'></div>
+          </div>
+          <div class="threat-row">
+            <div class="threat-name">Their Thoracle on the Stack</div>
+            <div class="threat-text">Counter or watch them win. No middle ground.</div>
+            <div class="threat-cards" data-chips='["Force of Will|tiny|small","Mindbreak Trap|tiny|small","Flusterstorm|tiny|small"]'></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── MULLIGAN ── -->
+      <section>
+        <h2>Mulligan Guide</h2>
+        <div class="mulligan-grid">
+          <div class="mulligan-card keep">
+            <h4>Snap-Keeps</h4>
+            <ul>
+              <li><strong>Land + fast mana + interaction</strong> → ideal opener</li>
+              <li><strong>Hand with Necropotence + B source</strong> → it's your engine, protect it</li>
+              <li><strong>Glarb + interaction + ramp</strong> → grindy but stable</li>
+              <li><strong>Tutor + ritual + protection</strong> → can fast-combo</li>
+            </ul>
+          </div>
+          <div class="mulligan-card mull">
+            <h4>Mulligan</h4>
+            <ul>
+              <li>No mana acceleration AT ALL</li>
+              <li>No interaction in a known fast pod</li>
+              <li>All 4+ cost cards with no Glarb or ramp</li>
+              <li>Only basics vs. a fast pod that needs T1 plays</li>
+              <li>Two copies of any tutor (redundant)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip">
+          <strong>Tip:</strong> &nbsp;Fast mana = Sol Ring, Mana Vault, Mox Diamond, Chrome Mox, Lotus Petal, Dark Ritual, Cabal Ritual, Elvish Spirit Guide. You want at least one in your opener almost always.
+        </div>
+      </section>
+
+      <!-- ── REMINDERS ── -->
+      <section>
+        <h2>Pilot Reminders</h2>
+        <ol class="reminders">
+          <li>Surveil <em>every turn</em> Glarb is in play. Free filtering is the whole engine.</li>
+          <li>Look at the top <em>before</em> casting Consult or Pact. Pick a name you just saw.</li>
+          <li>Glarb is a 2/4 deathtoucher. Hold protection up before casting him.</li>
+          <li>Counterbalance + Glarb = reveal-on-demand soft lock on chosen CMCs.</li>
+          <li>Orcish Bowmasters in response to Thrasios / Kinnan card draw triggers.</li>
+          <li>Sylvan Safekeeper protects Hulk / Glarb from targeted removal.</li>
+          <li>Talon Gates of Madara exiles a permanent to blank a critical threat.</li>
+          <li>Necropotence: pay BIG. Drawing 8+ in a turn wins games.</li>
+          <li>Don't forget Pact of Negation costs WUBRG on your next upkeep — only fire if you'll win that turn.</li>
+          <li>Cabal Therapy hits twice — cast it, then flash it back for free off a sac.</li>
+        </ol>
+      </section>
+
+      <div class="sultai-footer">
+        "You may look at the top card of your library any time."
+        <span class="glyph">✦</span>
+        Use this. <em>Always.</em>
+        <span class="glyph">✦</span>
+        — Glarb 4:20
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TAB 3: COMBO CODEX (rendered from data)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="tab-pane" id="tab-combos" role="tabpanel">
+    <div class="sultai-wrap">
+
+      <header class="codex-header">
+        <p class="eyebrow">A Deck Audit · Every Combo, Counted</p>
+        <h1>Glarb<span class="frog">.</span> The Combo Codex</h1>
+        <p class="subtitle">Every winning interaction in the 100-card list. Auto-wins, true infinites, and value engines — what's actually in your deck right now, and exactly how to assemble each one at the table.</p>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot dot-auto"></span> Auto-win (game ends on resolution)</div>
+          <div class="legend-item"><span class="legend-dot dot-infinite"></span> Infinite loop (assemble, then close)</div>
+          <div class="legend-item"><span class="legend-dot dot-engine"></span> Value engine (wins over 1-2 turns)</div>
+        </div>
+      </header>
+
+      <section>
+        <h2>The Tally <span class="count">at a glance</span></h2>
+        <div class="matrix">
+          <div class="matrix-row">
+            <div>
+              <div class="matrix-label">Auto-wins</div>
+              <div class="matrix-count">2 lines</div>
+            </div>
+            <div class="matrix-cards" data-chips='["Thassa&apos;s Oracle||small","Demonic Consultation||small","Tainted Pact||small"]'></div>
+          </div>
+          <div class="matrix-row">
+            <div>
+              <div class="matrix-label">True Infinites</div>
+              <div class="matrix-count">3 loops</div>
+            </div>
+            <div class="matrix-cards" data-chips='["Protean Hulk||small","Body Snatcher||small","Carrion Feeder||small","Valley Floodcaller||small"]'></div>
+          </div>
+          <div class="matrix-row">
+            <div>
+              <div class="matrix-label">Value Engines</div>
+              <div class="matrix-count">4 engines</div>
+            </div>
+            <div class="matrix-cards" data-chips='["Necropotence||small","Glarb, Calamity&apos;s Augur||small","Rhystic Study||small","Counterbalance||small"]'></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Auto-Wins <span class="count">2 cards required</span></h2>
+        <div id="codex-auto-wins"></div>
+      </section>
+
+      <section>
+        <h2>True Infinite Loops <span class="count">multi-piece engines</span></h2>
+        <div id="codex-infinites"></div>
+      </section>
+
+      <section>
+        <h2>Value Engines <span class="count">grindy wins over 1-2 turns</span></h2>
+        <div id="codex-engines"></div>
+      </section>
+
+      <section>
+        <h2>Combo Enablers <span class="count">how to assemble pieces</span></h2>
+        <div id="codex-enablers"></div>
+      </section>
+
+      <section>
+        <h2>What's NOT in this deck <span class="count">honest gaps</span></h2>
+        <div class="combo" style="border: 1px dashed var(--rule-strong);">
+          <div class="combo-header">
+            <span class="combo-id">!</span>
+            <span class="combo-tag tag-floating" style="color: var(--danger); border-color: var(--danger);">Famous combos absent</span>
+          </div>
+          <div class="combo-title">Combos other Glarb decks run that yours doesn't</div>
+          <div class="combo-result">For when you want to upgrade Phase 2 or sideboard differently.</div>
+          <div class="steps">
+            <div class="steps-label">Cards that would unlock more lines</div>
+            <ol>
+              <li><strong>Doomsday</strong> — assembles a 5-card pile for an instant win. Major cEDH staple, NOT in this list. Adding it gives you a 1-card win condition (with mana).</li>
+              <li><strong>Bolas's Citadel + Aetherflux Reservoir</strong> — alternate "cast everything off the top" wincon with infinite life-drain. NOT in this list.</li>
+              <li><strong>Witherbloom Apprentice + Chain of Smog</strong> — 2-card infinite drain win. NOT in this list (would give you a 3rd auto-win line).</li>
+              <li><strong>Sensei's Divining Top + Eye of Duskmantle + Aetherflux Reservoir</strong> — Floodcaller infinite damage loop. Top is missing from this list.</li>
+              <li><strong>Hermit Druid</strong> — auto-mills your whole deck for Oracle, IF you remove all basics from the deck. The list runs basics so this wouldn't work as-is.</li>
+            </ol>
+          </div>
+          <div class="needs">
+            <strong>What this means</strong>
+            Your deck has a tight, focused win plan — Oracle/Consult as the primary, Hulk pile as backup, Floodcaller as a finisher engine. Three solid lines is plenty. More combos = more fragile to disruption. This list trades raw combo count for redundancy in tutors and protection.
+          </div>
+        </div>
+      </section>
+
+      <div class="sultai-footer">
+        "You may look at the top card of your library any time."
+        <span class="glyph">✦</span>
+        Plan two turns ahead.
+        <span class="glyph">✦</span>
+        — Glarb 4:20
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TAB 4: GAME LOG
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="tab-pane" id="tab-log" role="tabpanel">
+    <div class="sultai-wrap">
+
+      <section>
+        <h2>Log a Game <span class="count">save to Supabase</span></h2>
+
+        <form class="log-form" id="log-form" autocomplete="off" onsubmit="return false">
+          <div class="log-form-header">
+            <div class="log-form-title">New Game</div>
+            <button type="button" class="log-form-toggle" id="log-form-toggle">Collapse</button>
+          </div>
+          <div class="log-form-body">
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Date</label>
+                <input type="date" id="f-date">
+              </div>
+              <div class="form-field">
+                <label>Venue</label>
+                <input type="text" id="f-venue" placeholder="Landmark Lanes, home pod, SCG Milwaukee…">
+              </div>
+
+              <div class="form-field">
+                <label>Format</label>
+                <select id="f-format">
+                  <option value="cEDH">cEDH</option>
+                  <option value="Bracket 5">Bracket 5</option>
+                  <option value="Bracket 4">Bracket 4</option>
+                  <option value="Bracket 3">Bracket 3</option>
+                  <option value="Casual">Casual</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Pod Size</label>
+                <select id="f-pod-size">
+                  <option value="4" selected>4 players</option>
+                  <option value="3">3 players</option>
+                  <option value="2">2 players (1v1)</option>
+                </select>
+              </div>
+
+              <div class="form-field full">
+                <label>Opponents <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0;text-transform:none;color:var(--bone);opacity:0.6;">— commander names</span></label>
+                <div id="opp-list"></div>
+                <button type="button" class="opp-add" id="opp-add">+ Add opponent</button>
+              </div>
+
+              <div class="form-field full">
+                <label>Result</label>
+                <div class="result-pills">
+                  <div class="result-pill won"  data-result="won">Won</div>
+                  <div class="result-pill lost" data-result="lost">Lost</div>
+                  <div class="result-pill draw" data-result="draw">Draw</div>
+                </div>
+              </div>
+
+              <div class="form-field full form-cond" id="wincon-wrap">
+                <label>Win Condition</label>
+                <select id="f-wincon">
+                  <option value="A-01">A-01 · Thoracle + Consultation</option>
+                  <option value="A-02">A-02 · Thoracle + Tainted Pact</option>
+                  <option value="I-01">I-01 · Hulk Pile (Body Snatcher)</option>
+                  <option value="I-02">I-02 · Hulk Pile (Activated Sleeper)</option>
+                  <option value="I-03">I-03 · Floodcaller Mill</option>
+                  <option value="E-01">E-01 · Necropotence spiral</option>
+                  <option value="combat">Combat damage</option>
+                  <option value="scoop">Opponent scooped</option>
+                  <option value="other">Other…</option>
+                </select>
+                <input type="text" id="f-wincon-other" placeholder="Describe the win condition" style="display:none;margin-top:6px;">
+              </div>
+
+              <div class="form-field full form-cond" id="lostto-wrap">
+                <label>Lost to</label>
+                <input type="text" id="f-lost-to" placeholder="Their Thoracle · combat from Najeela · stax lock…">
+              </div>
+
+              <div class="form-field">
+                <label>MVP Card</label>
+                <div class="autocomplete">
+                  <input type="text" id="f-mvp" placeholder="Start typing a card name…">
+                  <div class="autocomplete-list" id="mvp-ac"></div>
+                </div>
+              </div>
+              <div class="form-field">
+                <label>Turn Count</label>
+                <input type="number" id="f-turns" min="1" max="30" placeholder="7">
+              </div>
+
+              <div class="form-field full">
+                <label>Notes</label>
+                <textarea id="f-notes" rows="3" placeholder="What happened? What should you remember?"></textarea>
+              </div>
+            </div>
+
+            <button class="save-btn" id="save-btn" type="submit">💾 Save Game</button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <h2>Game History <span class="count" id="history-count">0 games</span></h2>
+        <div id="history-list">
+          <div class="history-empty">No games logged yet. Play a pod, then come back!</div>
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TAB 5: STATS
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="tab-pane" id="tab-stats" role="tabpanel">
+    <div class="sultai-wrap">
+      <div id="stats-body">
+        <div class="stats-empty">Loading…</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.app -->
+
+<!-- ── Toast ─────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── Card zoom modal ───────────────────────────────────── -->
+<div class="modal-bd" id="card-modal" onclick="if(event.target===this)closeCardModal()">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeCardModal()">&times;</button>
+    <img id="modal-img" src="" alt="" referrerpolicy="no-referrer">
+    <div>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-meta" id="modal-meta"></div>
+      <div class="modal-oracle" id="modal-oracle">Loading oracle text…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   SUPABASE
+   ═══════════════════════════════════════════════════════════════════ */
+const SUPA_URL = 'https://oebxxurgxvzjnunjaujh.supabase.co';
+const SUPA_KEY = 'sb_publishable_x0QWqeNaNAFf7vN7Ky0Mzw_c_FMBAAP';
+const USER_ID  = 'ENID';
+const SB_HEADS = {
+  'apikey':        SUPA_KEY,
+  'Authorization': `Bearer ${SUPA_KEY}`,
+  'Content-Type':  'application/json',
+};
+async function sbGet(path) {
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, { headers: SB_HEADS });
+    return r.ok ? r.json() : [];
+  } catch (e) { return []; }
+}
+async function sbInsert(table, body) {
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: { ...SB_HEADS, 'Prefer': 'return=representation' },
+      body: JSON.stringify(body),
+    });
+    return r.ok ? r.json() : null;
+  } catch (e) { return null; }
+}
+async function sbDelete(table, qs) {
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/${table}?${qs}`, {
+      method: 'DELETE', headers: SB_HEADS,
+    });
+    return r.ok;
+  } catch (e) { return false; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DECKLIST (hardcoded verbatim from glarb_cedh_clean.txt)
+   ═══════════════════════════════════════════════════════════════════ */
+const DECKLIST = [
+  "Glarb, Calamity's Augur",
+  "Narset, Parter of Veils",
+  "Birds of Paradise","Carrion Feeder","Deathrite Shaman","Elves of Deep Shadow","Forsaken Miner","Mockingbird","Sylvan Safekeeper","Viscera Seer","Blood Artist","Orcish Bowmasters","Thassa's Oracle","Activated Sleeper","Dosan the Falling Leaf","Elvish Spirit Guide","The Cabbage Merchant","Valley Floodcaller","Warren Soultrader","Body Snatcher","Protean Hulk",
+  "Cabal Therapy","Imperial Seal","Reanimate","Demonic Tutor","Exhume","Finale of Devastation","Nature's Rhythm","Beseech the Mirror","Culling Ritual","Massacre","Natural Order","Pact of Negation",
+  "Chain of Vapor","Crop Rotation","Culling the Weak","Dark Ritual","Demonic Consultation","Entomb","Flusterstorm","Into the Flood Maw","March of Swirling Mist","Mental Misstep","Mystical Tutor","Swan Song","Vampiric Tutor","Worldly Tutor","Abrupt Decay","Cabal Ritual","Mana Drain","Shallow Grave","Tainted Pact","Chord of Calling","Fierce Guardianship","Mindbreak Trap","Snuff Out","Force of Will","Commandeer",
+  "Chrome Mox","Lotus Petal","Mox Diamond","Mana Vault","Sol Ring","Mystic Remora","Animate Dead","Counterbalance","Dance of the Dead","Copy Enchantment","Necromancy","Necropotence","Rhystic Study","Pattern of Rebirth",
+  "Ancient Tomb","Bayou","Bloodstained Mire","Boseiju, Who Endures","Breeding Pool","City of Brass","Command Tower","Flooded Strand","Gaea's Cradle","Gemstone Caverns","Lake of the Dead","Lazotep Quarry","Marsh Flats","Misty Rainforest","Otawara, Soaring City","Overgrown Tomb","Phyrexian Tower","Polluted Delta","Scalding Tarn","Shifting Woodland","Talon Gates of Madara","Tropical Island","Underground Sea","Urborg, Tomb of Yawgmoth","Verdant Catacombs","Watery Grave","Windswept Heath","Wooded Foothills"
+];
+
+/* ═══════════════════════════════════════════════════════════════════
+   COMBO CODEX (structured data for rendering)
+   ═══════════════════════════════════════════════════════════════════ */
+const COMBO_CODEX = [
+  {
+    id: 'A-01', tier: 'auto-win',
+    title: 'Thoracle + Consultation',
+    tagline: '2 cards · BBB total',
+    result: 'The cleanest win in cEDH. Two cards, three mana, game over.',
+    pieces: ["Thassa's Oracle", 'Demonic Consultation'],
+    piecesDisplay: 'hero-with-plus',
+    stepsLabel: 'How to Execute',
+    steps: [
+      "Cast <strong>Thassa's Oracle</strong>. ETB trigger goes on the stack.",
+      'In response to the ETB, cast <strong>Demonic Consultation</strong> naming a card you KNOW isn\'t in your deck (e.g., "Black Lotus").',
+      'Consultation exiles your entire library. Empty library = 0 cards.',
+      'Oracle\'s ETB resolves. <em>"If you have no cards in your library, you win the game."</em>',
+    ],
+    callouts: [
+      { type: 'needs', label: 'Glarb interaction',
+        text: "Peek the top before casting Consult — if you've already seen the top card, name it. Zero risk of clipping a key piece." }
+    ]
+  },
+  {
+    id: 'A-02', tier: 'auto-win',
+    title: 'Thoracle + Tainted Pact',
+    tagline: '2 cards · UB',
+    result: 'Same outcome, different exile mechanic. Insurance against Mindbreak Trap.',
+    pieces: ["Thassa's Oracle", 'Tainted Pact'],
+    piecesDisplay: 'hero-with-plus',
+    stepsLabel: 'How to Execute',
+    steps: [
+      "Cast <strong>Thassa's Oracle</strong>. ETB on the stack.",
+      'In response, cast <strong>Tainted Pact</strong>. Exile cards from the top until you reveal a card with a name already exiled by Pact.',
+      "Since your deck is singleton (no two cards share a name), you'll exile your entire library. Library = 0.",
+      'Oracle resolves → win.',
+    ],
+    callouts: [
+      { type: 'warn', label: 'Deck Restriction',
+        text: "Tainted Pact can fizzle if you have <em>multiple basics of the same name</em>. Your list has only 1 of each basic land variant, so you're safe — but never run more than one of any basic." }
+    ]
+  },
+  {
+    id: 'I-01', tier: 'infinite',
+    title: 'The Hulk Pile — Body Snatcher Loop into Oracle',
+    tagline: 'Hulk pile · 1 trigger',
+    result: 'Resolves with Oracle on the stack and Dosan locking down counters. The default Hulk line.',
+    pieces: ['Protean Hulk', 'Body Snatcher', 'Carrion Feeder', "Thassa's Oracle", 'Dosan the Falling Leaf'],
+    piecesDisplay: 'row',
+    stepsLabel: 'How to Execute · Single Hulk trigger',
+    steps: [
+      'Get Hulk into the graveyard (Entomb → reanimate, OR Culling the Weak sac, OR Natural Order, OR Pattern of Rebirth).',
+      'Hulk dies. Trigger goes on stack: search for creatures totaling ≤ 6 mana value.',
+      'Fetch <strong>Body Snatcher</strong> (3) + <strong>Carrion Feeder</strong> (1) = 4 MV. ETB Snatcher.',
+      "Snatcher's ETB triggers — return Hulk from grave. <em>In response</em>, sacrifice Snatcher to Carrion Feeder.",
+      "Snatcher's death → exile a creature from your yard (Hulk if needed). Snatcher's ETB resolves — Hulk back to play.",
+      'Sacrifice Hulk to Carrion Feeder. Second Hulk death trigger.',
+      "Search for <strong>Thassa's Oracle</strong> (2) + <strong>Dosan the Falling Leaf</strong> (3) = 5 MV.",
+      "Dosan's static = opponents can only cast at sorcery speed → no counters. Oracle ETB → no library check available, but you survive responses. Cast a 0-mana spell to draw out responses if needed.",
+      '<strong>To actually win:</strong> after fetching Oracle/Dosan, cast Demonic Consultation (or have it already up) naming a card not in deck → library = 0 → Oracle wins.',
+    ],
+    callouts: [
+      { type: 'needs', label: 'Pro tip',
+        text: "If you're pre-Hulk and have Oracle in hand instead, fetch <strong>Body Snatcher + Carrion Feeder</strong> the first time, then on the SECOND Hulk death fetch <strong>Spellseeker-equivalents</strong> — but this list runs the simpler line: have Consultation/Pact ready." }
+    ]
+  },
+  {
+    id: 'I-02', tier: 'infinite',
+    title: 'Hulk Pile — Activated Sleeper Variant',
+    tagline: 'Hulk pile · backup',
+    result: "Use when Body Snatcher's been exiled or countered. Same destination, different driver.",
+    pieces: ['Protean Hulk', 'Activated Sleeper', 'Carrion Feeder', 'Viscera Seer'],
+    piecesDisplay: 'row',
+    stepsLabel: 'How to Execute',
+    steps: [
+      'Hulk dies. Fetch <strong>Activated Sleeper</strong> (3) + <strong>Carrion Feeder</strong> (1) + <strong>Viscera Seer</strong> (1) = 5 MV.',
+      'ETB Activated Sleeper, reanimating Hulk from the graveyard.',
+      'Sacrifice Hulk to Carrion Feeder. Second Hulk trigger.',
+      "Fetch <strong>Thassa's Oracle</strong> (2) + <strong>Dosan</strong> (3) + remaining slot for any 1-drop creature.",
+      'Win via Consultation/Pact already in hand. Same closer as I-01.',
+    ],
+    callouts: []
+  },
+  {
+    id: 'I-03', tier: 'infinite',
+    title: 'Floodcaller Mill-and-Win',
+    tagline: 'requires Glarb · non-summoning-sick',
+    result: 'Mill your deck via free spells off the top, then close with Oracle.',
+    pieces: ["Glarb, Calamity's Augur", 'Valley Floodcaller'],
+    piecesDisplay: 'hero-with-plus',
+    stepsLabel: 'How to Execute',
+    steps: [
+      'Glarb in play, NOT summoning-sick. Valley Floodcaller in play. You need a sustainable mana source for spells with MV ≥ 4.',
+      'Tap Glarb → surveil 2. Look at top of library.',
+      'If top card is a non-creature spell with MV ≥ 4 you can pay for: cast it from the top.',
+      'Floodcaller triggers (you cast a non-creature) → untaps Glarb (Frog).',
+      'Tap Glarb again → surveil 2. Repeat from step 3.',
+      '<em>Practical note:</em> not strictly infinite — bottlenecked by mana and by what\'s on top. Use surveil to dump dead cards into yard, sculpt for spells you can cast. The goal is to mill yourself thin enough to set up a clean Oracle win, OR to keep finding ramp/mana to fuel more casts.',
+    ],
+    callouts: [
+      { type: 'needs', label: 'What "win" looks like here',
+        text: "You're not looping for damage. You're looping for value: fix your top deck, mill into Oracle/Consult, and end the turn with the auto-win primed." }
+    ]
+  },
+  {
+    id: 'E-01', tier: 'engine',
+    title: 'Necropotence Death Spiral',
+    tagline: 'draw → win in 1-2 turns',
+    result: 'Pay life, draw 8+ cards, find the auto-win. Often THE turn you win the game.',
+    pieces: ['Necropotence'],
+    piecesDisplay: 'hero',
+    stepsLabel: 'How to Execute',
+    steps: [
+      'Resolve Necropotence (BBB). Protect it — losing this loses the game.',
+      'End of turn: pay 6-12 life to exile that many cards face down.',
+      'Cleanup step → those cards go to your hand.',
+      'Untap. With ~10 new cards, you almost certainly have: tutor + Oracle + Consult, or Hulk + reanimator, or Glarb + Floodcaller.',
+      'Win the same turn you untap. Hold counter backup with the rest.',
+    ],
+    callouts: [
+      { type: 'warn', label: 'Watch out',
+        text: "If <strong>Notion Thief</strong> hits the table while Necro is up, you DRAW NOTHING and your opponent draws everything. Counter Notion Thief on sight." }
+    ]
+  },
+  {
+    id: 'E-02', tier: 'engine',
+    title: 'Glarb Top-Deck Engine',
+    tagline: 'free cards every turn',
+    result: "Glarb himself. The reason you're playing this deck. A persistent advantage engine that turns every surveil into a real card.",
+    pieces: ["Glarb, Calamity's Augur"],
+    piecesDisplay: 'hero',
+    stepsLabel: 'How It Works',
+    steps: [
+      'Glarb in play (3 mana, deathtouch 2/4 — protect with Fierce Guardianship etc.).',
+      'Look at top card of library at any time. Free information.',
+      'Tap Glarb → surveil 2. Bury cards you don\'t want, set up cards you do.',
+      'Cast lands or 4+ MV spells <strong>directly off the top of your library</strong> — your library becomes an extension of your hand.',
+      'Combine with Vampiric Tutor / Imperial Seal / Mystical Tutor (which all put cards on top): Glarb just casts them next turn for free.',
+    ],
+    callouts: [
+      { type: 'needs', label: 'The synergy stack',
+        text: "Vampiric Tutor → top → Glarb peeks → cast for free next turn. You're effectively saving 2-3 mana per tutor, every turn. This is why Glarb is broken." }
+    ]
+  },
+  {
+    id: 'E-03', tier: 'engine',
+    title: 'Rhystic Study / Mystic Remora',
+    tagline: 'free cards every spell · taxes opponents',
+    result: 'Tax engines that draw you cards every time opponents do anything. Slow win condition all by themselves.',
+    pieces: ['Rhystic Study', 'Mystic Remora'],
+    piecesDisplay: 'row',
+    stepsLabel: 'When to Cast Each',
+    steps: [
+      '<strong>Mystic Remora</strong> — cast turn 1 if possible. Pay cumulative upkeep until it stops being worth it (usually 2-3 turns), then let it die. Often draws 4-6 cards.',
+      '<strong>Rhystic Study</strong> — cast turn 2-3 once you have interaction. Slows the entire table. Either everyone pays 1 every spell (mana tax), or you draw infinite cards.',
+      'Both of these <strong>extend the game in your favor</strong>. The longer Glarb has to grind, the better your odds of finding the auto-win.',
+    ],
+    callouts: []
+  },
+  {
+    id: 'E-04', tier: 'engine',
+    title: 'Counterbalance + Glarb Soft Lock',
+    tagline: '2 cards · synergistic with Glarb',
+    result: "Reveal-on-demand counterspell. Glarb's top peek lets you confirm what'll get countered before opponents commit.",
+    pieces: ['Counterbalance', "Glarb, Calamity's Augur"],
+    piecesDisplay: 'hero-with-plus',
+    stepsLabel: 'How to Use',
+    steps: [
+      'Counterbalance in play. Glarb in play. You can see top of library at any time.',
+      'Opponent casts a spell. Look at the top of your library before deciding to trigger Counterbalance.',
+      'If the top card matches the MV of their spell — fire Counterbalance. Counter it.',
+      'Use surveil 2 between turns to put a chosen-MV card on top, primed for the next opponent\'s turn.',
+      'This is essentially a recurring counterspell that doesn\'t cost a card from hand.',
+    ],
+    callouts: []
+  },
+];
+
+const CODEX_ENABLERS = [
+  {
+    id: '+', title: 'Tutor Targets — Quick Reference',
+    tag: 'tutor density',
+    result: "If you draw a tutor, here's what to grab based on what's missing.",
+    stepsLabel: 'Decision Tree',
+    steps: [
+      '<em>Have Oracle in hand, need exile?</em> → Mystical Tutor → Demonic Consultation.',
+      '<em>Have Consult/Pact, need Oracle?</em> → Worldly Tutor → Thassa\'s Oracle (top); Vampiric Tutor → Oracle (top); Demonic Tutor → Oracle (hand).',
+      '<em>Going Hulk plan?</em> → Entomb → Protean Hulk (graveyard); Worldly Tutor → Hulk (top, then Reanimate or cast); Natural Order → tutor Hulk into play.',
+      '<em>Need a sac outlet?</em> → Crop Rotation → <strong>Phyrexian Tower</strong>.',
+      '<em>Need explosive mana?</em> → Crop Rotation → <strong>Gaea\'s Cradle</strong>.',
+      '<em>Drawing dead, need to dig?</em> → Beseech the Mirror → Necropotence.',
+    ],
+    pieces: [],
+    callouts: []
+  },
+  {
+    id: '+', title: 'Reanimation Suite',
+    tag: 'reanimation pieces',
+    result: 'Six ways to bring Hulk back. Redundancy is why this engine works.',
+    pieces: ['Reanimate', 'Animate Dead', 'Necromancy', 'Exhume', 'Dance of the Dead', 'Shallow Grave'],
+    piecesDisplay: 'row',
+    callouts: [
+      { type: 'needs', label: 'Speed ranking',
+        text: '<strong>Shallow Grave</strong> (instant) > <strong>Reanimate</strong> (1B, lose life) > <strong>Animate Dead / Dance / Necromancy</strong> (enchantments, 2-3 mana) > <strong>Exhume</strong> (gives opponents free reanimations too — careful).' }
+    ]
+  },
+  {
+    id: '+', title: 'Sac Outlets — Killing Hulk on Demand',
+    tag: 'sac outlets',
+    result: "Hulk needs to die for the trigger. Free sac outlets are best — they don't cost mana.",
+    pieces: ['Carrion Feeder', 'Viscera Seer', 'Warren Soultrader', 'Phyrexian Tower', 'Culling the Weak'],
+    piecesDisplay: 'row',
+    callouts: [
+      { type: 'needs', label: 'Sneaky alternative',
+        text: '<strong>Culling the Weak</strong> sacs a creature AND nets you BBBB — perfect for casting Hulk via reanimate without needing extra mana sources first.' }
+    ]
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════════════
+   SCRYFALL HELPERS
+   ═══════════════════════════════════════════════════════════════════ */
+const CARD_CACHE_KEY = 'enid_mtg_card_cache';
+const CARD_CACHE_TTL = 24 * 60 * 60 * 1000;  // 24 hours
+
+function loadCardCache() {
+  try {
+    const raw = localStorage.getItem(CARD_CACHE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    const now = Date.now();
+    for (const k of Object.keys(parsed)) {
+      if (!parsed[k].ts || now - parsed[k].ts > CARD_CACHE_TTL) delete parsed[k];
+    }
+    return parsed;
+  } catch (e) { return {}; }
+}
+function saveCardCache(cache) {
+  try { localStorage.setItem(CARD_CACHE_KEY, JSON.stringify(cache)); } catch (e) {}
+}
+const cardCache = loadCardCache();
+
+function scryImg(name, version) {
+  version = version || 'normal';
+  return `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}&format=image&version=${version}`;
+}
+
+async function fetchCardData(name) {
+  if (cardCache[name] && cardCache[name].data) return cardCache[name].data;
+  try {
+    const r = await fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}`);
+    if (!r.ok) return null;
+    const j = await r.json();
+    const minimal = {
+      name: j.name,
+      type_line: j.type_line,
+      mana_cost: j.mana_cost || '',
+      cmc: j.cmc,
+      oracle_text: j.oracle_text || (j.card_faces && j.card_faces[0] && j.card_faces[0].oracle_text) || '',
+      colors: j.colors || [],
+      color_identity: j.color_identity || [],
+      image_uri: (j.image_uris && j.image_uris.normal) ||
+                 (j.card_faces && j.card_faces[0] && j.card_faces[0].image_uris && j.card_faces[0].image_uris.normal) ||
+                 '',
+      scryfall_uri: j.scryfall_uri,
+    };
+    cardCache[name] = { ts: Date.now(), data: minimal };
+    saveCardCache(cardCache);
+    return minimal;
+  } catch (e) { return null; }
+}
+
+function setupImage(img) {
+  const chip = img.closest('.card-chip') || img.closest('.commander-card')?.parentElement;
+  let triedRetry = false;
+  img.addEventListener('error', function() {
+    if (!triedRetry) {
+      triedRetry = true;
+      setTimeout(function() {
+        const src = img.src;
+        img.src = src + (src.indexOf('?') >= 0 ? '&' : '?') + '_retry=' + Date.now();
+      }, 800 + Math.random() * 1500);
+    } else if (chip) {
+      chip.classList.add('broken');
+    }
+  });
+  img.addEventListener('load', function() {
+    if (chip) chip.classList.remove('broken');
+  });
+}
+
+/* Render chips inside containers that have data-chips attribute */
+function chipHTML(name, classMod, version) {
+  classMod = classMod || '';
+  version = version || 'normal';
+  const safeName = name.replace(/"/g, '&quot;');
+  return `<div class="card-chip ${classMod}"><img loading="lazy" referrerpolicy="no-referrer" src="${scryImg(name, version)}" alt="${safeName}" data-cardname="${safeName}"><span class="fallback">${safeName}</span></div>`;
+}
+function renderDataChips(root) {
+  (root || document).querySelectorAll('[data-chips]').forEach(el => {
+    let arr;
+    try { arr = JSON.parse(el.getAttribute('data-chips')); } catch (e) { return; }
+    el.innerHTML = arr.map(entry => {
+      const parts = entry.split('|');
+      const name = parts[0].replace(/&apos;/g, "'");
+      const mod  = parts[1] || '';
+      const ver  = parts[2] || 'normal';
+      return chipHTML(name, mod, ver);
+    }).join('');
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDERING
+   ═══════════════════════════════════════════════════════════════════ */
+function $(id) { return document.getElementById(id); }
+
+/* ── TABS ── */
+const VALID_TABS = ['deck','combat','combos','log','stats'];
+function switchTab(name) {
+  if (!VALID_TABS.includes(name)) name = 'deck';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === `tab-${name}`));
+  if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
+  if (name === 'stats') renderStats();
+  if (name === 'log')   renderHistory();
+}
+document.querySelectorAll('.tab-btn').forEach(b => {
+  b.addEventListener('click', () => switchTab(b.dataset.tab));
+});
+window.addEventListener('hashchange', () => switchTab((location.hash || '#deck').slice(1)));
+
+/* ── COMBO CODEX RENDERING ── */
+function renderCombo(c) {
+  const tierClass = c.tier || 'enabler';
+  const tagClass = c.tier === 'auto-win' ? 'tag-auto' :
+                   c.tier === 'infinite' ? 'tag-infinite' :
+                   c.tier === 'engine'   ? 'tag-engine' : 'tag-floating';
+  const tagText =  c.tier === 'auto-win' ? 'Auto-win' :
+                   c.tier === 'infinite' ? 'Infinite' :
+                   c.tier === 'engine'   ? (c.id === 'E-04' ? 'Soft lock' : 'Engine') : (c.tag || '');
+
+  let piecesHTML = '';
+  if (c.pieces && c.pieces.length) {
+    if (c.piecesDisplay === 'hero-with-plus' && c.pieces.length === 2) {
+      piecesHTML = `<div class="pieces-row">
+        ${chipHTML(c.pieces[0], 'hero')}
+        <div class="plus">+</div>
+        ${chipHTML(c.pieces[1], 'hero')}
+      </div>`;
+    } else if (c.piecesDisplay === 'hero') {
+      piecesHTML = `<div class="pieces-row">${c.pieces.map(n => chipHTML(n, 'hero')).join('')}</div>`;
+    } else {
+      piecesHTML = `<div class="pieces-row">${c.pieces.map(n => chipHTML(n)).join('')}</div>`;
+    }
+  }
+
+  const stepsHTML = c.steps && c.steps.length
+    ? `<div class="steps">
+         <div class="steps-label">${c.stepsLabel || 'How to Execute'}</div>
+         <ol>${c.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+       </div>`
+    : '';
+
+  const calloutsHTML = (c.callouts || []).map(cb =>
+    `<div class="needs ${cb.type === 'warn' ? 'warn' : ''}">
+       <strong>${cb.label}</strong>
+       ${cb.text}
+     </div>`
+  ).join('');
+
+  let tagsRow;
+  if (c.tier) {
+    tagsRow = `<span class="combo-tag ${tagClass}">${tagText}</span>
+               <span class="combo-tag tag-floating">${c.tagline || ''}</span>`;
+  } else {
+    tagsRow = `<span class="combo-tag tag-floating">${c.tag || ''}</span>`;
+  }
+
+  return `<article class="combo ${tierClass}">
+    <div class="combo-header">
+      <span class="combo-id">${c.id}</span>
+      ${tagsRow}
+    </div>
+    <div class="combo-title">${c.title}</div>
+    <div class="combo-result">${c.result}</div>
+    ${piecesHTML}
+    ${stepsHTML}
+    ${calloutsHTML}
+  </article>`;
+}
+function renderCodex() {
+  const byTier = (t) => COMBO_CODEX.filter(c => c.tier === t).map(renderCombo).join('');
+  $('codex-auto-wins').innerHTML = byTier('auto-win');
+  $('codex-infinites').innerHTML = byTier('infinite');
+  $('codex-engines').innerHTML   = byTier('engine');
+  $('codex-enablers').innerHTML  = CODEX_ENABLERS.map(renderCombo).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DECK TAB — render + compute curve/pips
+   ═══════════════════════════════════════════════════════════════════ */
+function groupOf(typeLine) {
+  if (!typeLine) return 'Other';
+  const t = typeLine.toLowerCase();
+  if (t.includes('legendary creature')) return 'Commander';
+  if (t.includes('planeswalker'))       return 'Planeswalker';
+  if (t.includes('creature'))           return 'Creature';
+  if (t.includes('instant'))            return 'Instant';
+  if (t.includes('sorcery'))            return 'Sorcery';
+  if (t.includes('artifact'))           return 'Artifact';
+  if (t.includes('enchantment'))        return 'Enchantment';
+  if (t.includes('land'))               return 'Land';
+  return 'Other';
+}
+const GROUP_ORDER = ['Commander','Planeswalker','Creature','Sorcery','Instant','Artifact','Enchantment','Land','Other'];
+
+async function renderDeck() {
+  const grid = $('deck-render');
+  const deckData = [];
+
+  // Always render chips synchronously first (images load async).
+  const groups = {};
+  for (const name of DECKLIST) groups[name] = null;
+
+  // Attempt to fetch type lines in parallel (small batches to be kind to Scryfall).
+  const batchSize = 10;
+  for (let i = 0; i < DECKLIST.length; i += batchSize) {
+    const batch = DECKLIST.slice(i, i + batchSize);
+    await Promise.all(batch.map(async n => {
+      const d = await fetchCardData(n);
+      if (d) deckData.push(d);
+      else deckData.push({ name: n, type_line: 'Other' });
+    }));
+  }
+
+  // Group by type
+  const grouped = {};
+  for (const c of deckData) {
+    const g = groupOf(c.type_line);
+    (grouped[g] = grouped[g] || []).push(c);
+  }
+  for (const g of Object.keys(grouped)) grouped[g].sort((a,b) => a.name.localeCompare(b.name));
+
+  // Render
+  let html = '';
+  for (const g of GROUP_ORDER) {
+    if (!grouped[g] || !grouped[g].length) continue;
+    html += `<div class="deck-section">
+      <div class="deck-section-title"><span>${g}${grouped[g].length > 1 ? 's' : ''}</span><span class="sec-count">· ${grouped[g].length}</span></div>
+      <div class="deck-grid">
+        ${grouped[g].map(c => {
+          const safe = c.name.replace(/"/g, '&quot;');
+          return `<div class="card-chip" data-cardname="${safe}">
+            <img loading="lazy" referrerpolicy="no-referrer" src="${scryImg(c.name)}" alt="${safe}" data-cardname="${safe}">
+            <span class="fallback">${safe}</span>
+            <span class="name">${safe}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html || '<div class="deck-loading">No cards to display.</div>';
+  $('deck-loaded-count').textContent = `${deckData.length} cards`;
+
+  // Attach retry + click-to-zoom
+  grid.querySelectorAll('.card-chip img').forEach(setupImage);
+  grid.querySelectorAll('.card-chip').forEach(chip => {
+    chip.addEventListener('click', () => openCardModal(chip.dataset.cardname));
+  });
+
+  // Compute mana curve
+  renderManaCurve(deckData);
+  renderPipBreakdown(deckData);
+}
+
+function renderManaCurve(cards) {
+  const nonLands = cards.filter(c => !/land/i.test(c.type_line || ''));
+  const buckets = [0,0,0,0,0,0,0,0];  // 0..6, 7+
+  for (const c of nonLands) {
+    const cmc = Math.floor(c.cmc || 0);
+    const b = Math.min(7, cmc);
+    buckets[b]++;
+  }
+  const max = Math.max(1, ...buckets);
+  const el = $('mana-curve');
+  el.innerHTML = buckets.map((n, i) => {
+    const h = Math.round((n / max) * 92) + 4;
+    return `<div class="mana-bar">
+      <div class="mana-bar-count">${n}</div>
+      <div class="mana-bar-fill" style="height:${h}px"></div>
+      <div class="mana-bar-label">${i === 7 ? '7+' : i}</div>
+    </div>`;
+  }).join('');
+}
+function renderPipBreakdown(cards) {
+  const pips = { B:0, G:0, U:0 };
+  for (const c of cards) {
+    const mc = c.mana_cost || '';
+    const matches = mc.match(/\{[^}]+\}/g) || [];
+    for (const m of matches) {
+      if (m.includes('B')) pips.B++;
+      if (m.includes('G')) pips.G++;
+      if (m.includes('U')) pips.U++;
+    }
+  }
+  $('pip-row').innerHTML = [
+    ['B','Black',pips.B],
+    ['G','Green',pips.G],
+    ['U','Blue', pips.U],
+  ].map(([sym,lbl,ct]) => `<div class="pip-block">
+    <div class="pip-label">{${sym}} · ${lbl}</div>
+    <div class="pip-count">${ct}</div>
+  </div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CARD ZOOM MODAL
+   ═══════════════════════════════════════════════════════════════════ */
+async function openCardModal(name) {
+  if (!name) return;
+  const bd = $('card-modal');
+  bd.classList.add('open');
+  $('modal-img').src = scryImg(name);
+  $('modal-img').alt = name;
+  $('modal-name').textContent = name;
+  $('modal-meta').textContent = 'Loading…';
+  $('modal-oracle').textContent = '';
+
+  const d = await fetchCardData(name);
+  if (d) {
+    $('modal-meta').textContent = `${d.type_line || ''} ${d.mana_cost || ''}`.trim();
+    $('modal-oracle').innerHTML = (d.oracle_text || '').replace(/\n/g, '<br>');
+  }
+}
+function closeCardModal() { $('card-modal').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCardModal(); });
+window.closeCardModal = closeCardModal;
+
+/* ═══════════════════════════════════════════════════════════════════
+   GAME LOG — form state + save + history
+   ═══════════════════════════════════════════════════════════════════ */
+const WINCON_LABEL = {
+  'A-01': 'A-01 Thoracle+Consult',
+  'A-02': 'A-02 Thoracle+Pact',
+  'I-01': 'I-01 Hulk/Snatcher',
+  'I-02': 'I-02 Hulk/Sleeper',
+  'I-03': 'I-03 Floodcaller',
+  'E-01': 'E-01 Necropotence',
+  'combat': 'Combat',
+  'scoop': 'Scoop',
+  'other': 'Other',
+};
+
+let GAMES = [];
+let CURRENT_RESULT = null;
+let DECK_ID = null;  // set after first-run seed
+
+const PENDING_KEY = 'enid_mtg_pending_games';
+function getPending() {
+  try { return JSON.parse(localStorage.getItem(PENDING_KEY)) || []; } catch (e) { return []; }
+}
+function setPending(arr) {
+  try { localStorage.setItem(PENDING_KEY, JSON.stringify(arr)); } catch (e) {}
+}
+
+function initForm() {
+  $('f-date').value = new Date().toISOString().slice(0,10);
+  // Opponent rows: start with 3 for 4-pod
+  rebuildOpponentRows(3);
+
+  // Result pills
+  document.querySelectorAll('.result-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.result-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      CURRENT_RESULT = pill.dataset.result;
+      $('wincon-wrap').classList.toggle('show', CURRENT_RESULT === 'won');
+      $('lostto-wrap').classList.toggle('show', CURRENT_RESULT === 'lost');
+    });
+  });
+
+  // Wincon "other" text field
+  $('f-wincon').addEventListener('change', e => {
+    $('f-wincon-other').style.display = e.target.value === 'other' ? 'block' : 'none';
+  });
+
+  // Pod size → rebuild opp rows
+  $('f-pod-size').addEventListener('change', e => {
+    rebuildOpponentRows(Math.max(0, parseInt(e.target.value, 10) - 1));
+  });
+
+  // Add opponent row
+  $('opp-add').addEventListener('click', () => addOpponentRow(''));
+
+  // MVP autocomplete
+  const mvpInput = $('f-mvp');
+  const mvpAC = $('mvp-ac');
+  mvpInput.addEventListener('input', () => {
+    const q = mvpInput.value.trim().toLowerCase();
+    if (!q) { mvpAC.classList.remove('show'); return; }
+    const matches = DECKLIST.filter(n => n.toLowerCase().includes(q)).slice(0, 8);
+    if (!matches.length) { mvpAC.classList.remove('show'); return; }
+    mvpAC.innerHTML = matches.map(m => `<div class="autocomplete-item">${m}</div>`).join('');
+    mvpAC.classList.add('show');
+  });
+  mvpAC.addEventListener('click', e => {
+    const it = e.target.closest('.autocomplete-item');
+    if (!it) return;
+    mvpInput.value = it.textContent;
+    mvpAC.classList.remove('show');
+  });
+  mvpInput.addEventListener('blur', () => setTimeout(() => mvpAC.classList.remove('show'), 150));
+
+  // Collapse toggle
+  $('log-form-toggle').addEventListener('click', () => {
+    const f = $('log-form');
+    f.classList.toggle('collapsed');
+    $('log-form-toggle').textContent = f.classList.contains('collapsed') ? 'Expand' : 'Collapse';
+  });
+
+  // Save
+  $('save-btn').addEventListener('click', saveGame);
+}
+function rebuildOpponentRows(n) {
+  const list = $('opp-list');
+  list.innerHTML = '';
+  for (let i = 0; i < n; i++) addOpponentRow('');
+}
+function addOpponentRow(val) {
+  const list = $('opp-list');
+  const div = document.createElement('div');
+  div.className = 'opp-row';
+  div.innerHTML = `
+    <input type="text" class="opp-input" placeholder="Opposing commander (e.g. Kinnan, Thrasios+Rograkh)" value="${(val||'').replace(/"/g,'&quot;')}">
+    <button type="button" class="opp-remove" title="Remove">×</button>
+  `;
+  div.querySelector('.opp-remove').addEventListener('click', () => div.remove());
+  list.appendChild(div);
+}
+
+function collectForm() {
+  const opponents = Array.from(document.querySelectorAll('.opp-input'))
+    .map(i => i.value.trim()).filter(Boolean);
+  const wincon = CURRENT_RESULT === 'won' ? $('f-wincon').value : null;
+  const winconOther = (wincon === 'other') ? $('f-wincon-other').value.trim() : null;
+  return {
+    user_id:    USER_ID,
+    deck_id:    DECK_ID,
+    played_at:  $('f-date').value || new Date().toISOString().slice(0,10),
+    venue:      $('f-venue').value.trim() || null,
+    format:     $('f-format').value,
+    pod_size:   parseInt($('f-pod-size').value, 10) || 4,
+    opponents,
+    result:     CURRENT_RESULT,
+    wincon,
+    wincon_other: winconOther,
+    lost_to:    CURRENT_RESULT === 'lost' ? ($('f-lost-to').value.trim() || null) : null,
+    mvp_card:   $('f-mvp').value.trim() || null,
+    turn_count: parseInt($('f-turns').value, 10) || null,
+    notes:      $('f-notes').value.trim() || null,
+  };
+}
+function resetForm() {
+  $('f-date').value = new Date().toISOString().slice(0,10);
+  $('f-venue').value = '';
+  $('f-format').value = 'cEDH';
+  $('f-pod-size').value = '4';
+  rebuildOpponentRows(3);
+  document.querySelectorAll('.result-pill').forEach(p => p.classList.remove('active'));
+  CURRENT_RESULT = null;
+  $('wincon-wrap').classList.remove('show');
+  $('lostto-wrap').classList.remove('show');
+  $('f-wincon').value = 'A-01';
+  $('f-wincon-other').value = '';
+  $('f-wincon-other').style.display = 'none';
+  $('f-lost-to').value = '';
+  $('f-mvp').value = '';
+  $('f-turns').value = '';
+  $('f-notes').value = '';
+}
+function showToast(msg, ms) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), ms || 2200);
+}
+async function saveGame() {
+  const btn = $('save-btn');
+  if (!CURRENT_RESULT) { showToast('Pick a result first'); return; }
+  btn.disabled = true; btn.textContent = '💾 Saving…';
+  const body = collectForm();
+
+  // Optimistic local
+  const optimistic = { ...body, id: 'local-' + Date.now(), created_at: new Date().toISOString() };
+  GAMES.unshift(optimistic);
+  renderHistory();
+
+  // Sync to Supabase
+  let saved = null;
+  try { saved = await sbInsert('mtg_games', body); } catch (e) {}
+  if (saved && saved[0]) {
+    // Replace optimistic with real
+    const idx = GAMES.findIndex(g => g.id === optimistic.id);
+    if (idx >= 0) GAMES[idx] = saved[0];
+    renderHistory();
+    showToast('Game saved');
+  } else {
+    // Queue for later
+    const pending = getPending();
+    pending.push(body);
+    setPending(pending);
+    showToast('Saved offline · will sync on reload');
+  }
+
+  resetForm();
+  btn.disabled = false; btn.textContent = '💾 Save Game';
+}
+async function flushPending() {
+  const pending = getPending();
+  if (!pending.length) return;
+  const remaining = [];
+  for (const p of pending) {
+    const r = await sbInsert('mtg_games', p);
+    if (!r || !r[0]) remaining.push(p);
+    else GAMES.unshift(r[0]);
+  }
+  setPending(remaining);
+}
+
+function renderHistory() {
+  const list = $('history-list');
+  $('history-count').textContent = GAMES.length + ' game' + (GAMES.length === 1 ? '' : 's');
+  if (!GAMES.length) {
+    list.innerHTML = '<div class="history-empty">No games logged yet. Play a pod, then come back!</div>';
+    return;
+  }
+  // Newest first (already sorted)
+  list.innerHTML = GAMES.map(renderHistoryRow).join('');
+  list.querySelectorAll('.history-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.history-del')) return;
+      row.classList.toggle('expanded');
+    });
+  });
+  list.querySelectorAll('.history-del').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      if (!confirm('Delete this game?')) return;
+      GAMES = GAMES.filter(g => g.id !== id);
+      renderHistory();
+      if (!String(id).startsWith('local-')) await sbDelete('mtg_games', `id=eq.${id}&user_id=eq.${USER_ID}`);
+      renderStats();
+    });
+  });
+}
+
+function renderHistoryRow(g) {
+  const dot = g.result || 'draw';
+  const wc = g.wincon ? (WINCON_LABEL[g.wincon] || g.wincon) : (g.result === 'won' ? '?' : '—');
+  const opps = (g.opponents || []).join(', ');
+  const date = g.played_at ? g.played_at : '—';
+  const mvp = g.mvp_card || '';
+  const turns = g.turn_count ? 'T' + g.turn_count : '';
+  const detailRows = [];
+  if (g.venue) detailRows.push(['Venue', g.venue]);
+  if (g.format) detailRows.push(['Format', g.format]);
+  detailRows.push(['Pod size', g.pod_size || 4]);
+  if (opps) detailRows.push(['Opponents', opps]);
+  detailRows.push(['Result', g.result || '—']);
+  if (g.wincon) {
+    const label = g.wincon === 'other' && g.wincon_other ? g.wincon_other : (WINCON_LABEL[g.wincon] || g.wincon);
+    detailRows.push(['Win condition', label]);
+  }
+  if (g.lost_to) detailRows.push(['Lost to', g.lost_to]);
+  if (g.mvp_card) detailRows.push(['MVP', g.mvp_card]);
+  if (g.turn_count) detailRows.push(['Turn count', g.turn_count]);
+  if (g.notes) detailRows.push(['Notes', g.notes]);
+  const details = detailRows.map(([l,v]) => `<div class="hd-row"><strong>${l}:</strong> ${String(v).replace(/</g,'&lt;')}</div>`).join('');
+
+  return `<div class="history-row" data-id="${g.id}">
+    <div class="history-head">
+      <span class="history-date">${date}</span>
+      <span class="history-dot ${dot}"></span>
+      <span class="history-wincon">${wc}</span>
+      <span class="history-opps">${(opps || 'no opponents logged').replace(/</g,'&lt;')}</span>
+      <span class="history-mvp">${mvp ? '★ ' + mvp.replace(/</g,'&lt;') : ''}</span>
+      <span class="history-turn">${turns}</span>
+      <button class="history-del" data-id="${g.id}" title="Delete">✕</button>
+    </div>
+    <div class="history-details">${details}</div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   STATS
+   ═══════════════════════════════════════════════════════════════════ */
+function renderStats() {
+  const body = $('stats-body');
+  const games = GAMES.slice();  // newest first
+  const n = games.length;
+  if (n === 0) {
+    body.innerHTML = `<div class="stats-empty">Log some games to unlock stats! <br><br><a href="#log">→ Go to Game Log</a></div>`;
+    return;
+  }
+
+  const wins   = games.filter(g => g.result === 'won');
+  const losses = games.filter(g => g.result === 'lost');
+  const draws  = games.filter(g => g.result === 'draw');
+  const wr = n > 0 ? (wins.length / n) * 100 : 0;
+  const wrClass = wr > 25 ? 'good' : wr >= 10 ? 'warn' : 'bad';
+  const avgWinTurn  = wins.length ? (wins.reduce((s,g) => s + (g.turn_count || 0), 0) / wins.filter(g => g.turn_count).length) : 0;
+  const avgLossTurn = losses.length ? (losses.reduce((s,g) => s + (g.turn_count || 0), 0) / losses.filter(g => g.turn_count).length) : 0;
+
+  let html = `<section>
+    <h2>Overall Record <span class="count">${n} game${n===1?'':'s'}</span></h2>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="label">Win Rate</div><div class="value ${wrClass}">${wr.toFixed(1)}%</div><div class="sub">${wins.length}W · ${losses.length}L · ${draws.length}D</div></div>
+      <div class="hero-stat"><div class="label">Games Played</div><div class="value">${n}</div><div class="sub">all-time</div></div>
+      <div class="hero-stat"><div class="label">Avg Win Turn</div><div class="value good">${isFinite(avgWinTurn) && avgWinTurn ? avgWinTurn.toFixed(1) : '—'}</div><div class="sub">when we win</div></div>
+      <div class="hero-stat"><div class="label">Avg Loss Turn</div><div class="value bad">${isFinite(avgLossTurn) && avgLossTurn ? avgLossTurn.toFixed(1) : '—'}</div><div class="sub">when we lose</div></div>
+    </div>
+  </section>`;
+
+  // Section 2 — recent form (>=3 games)
+  if (n >= 3) {
+    const last10 = games.slice(0, 10);
+    const last10W = last10.filter(g => g.result === 'won').length;
+    const last10Rate = (last10W / last10.length) * 100;
+    // Streak: count consecutive same-result from newest
+    let streakType = games[0].result;
+    let streakCount = 1;
+    for (let i = 1; i < games.length; i++) {
+      if (games[i].result === streakType) streakCount++;
+      else break;
+    }
+    const trend = last10Rate > wr ? '↗ up' : last10Rate < wr ? '↘ down' : '→ flat';
+    html += `<section>
+      <h2>Recent Form <span class="count">${n < 10 ? 'playing last ' + n + ' of 10' : 'last 10 games'}</span></h2>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="label">Last-10 WR</div><div class="value ${last10Rate > 25 ? 'good' : last10Rate >= 10 ? 'warn' : 'bad'}">${last10Rate.toFixed(0)}%</div><div class="sub">${last10W} of ${last10.length}</div></div>
+        <div class="hero-stat"><div class="label">Current Streak</div><div class="value ${streakType === 'won' ? 'good' : streakType === 'lost' ? 'bad' : 'warn'}">${streakCount}${(streakType||'?')[0].toUpperCase()}</div><div class="sub">${streakType || '—'}</div></div>
+        <div class="hero-stat"><div class="label">Trend</div><div class="value">${trend}</div><div class="sub">vs. lifetime</div></div>
+      </div>
+    </section>`;
+  }
+
+  // Section 3 — wincon breakdown (always)
+  const winconCounts = {};
+  for (const g of wins) {
+    const key = g.wincon || 'unknown';
+    winconCounts[key] = (winconCounts[key] || 0) + 1;
+  }
+  const winconEntries = Object.entries(winconCounts).sort((a,b) => b[1] - a[1]);
+  const winconMax = Math.max(1, ...winconEntries.map(([,c]) => c));
+  html += `<section>
+    <h2>Win Condition Breakdown <span class="count">${wins.length} win${wins.length===1?'':'s'}</span></h2>
+    <div class="stats-section">
+      ${winconEntries.length ? `<div class="wincon-bars">
+        ${winconEntries.map(([k,c]) => `<div class="wincon-bar-row">
+          <div class="wc-label">${WINCON_LABEL[k] || k}</div>
+          <div class="wc-bar"><div class="wc-fill" style="width:${(c / winconMax) * 100}%"></div></div>
+          <div class="wc-count">${c}</div>
+        </div>`).join('')}
+      </div>` : '<div class="history-empty">No recorded wins yet.</div>'}
+    </div>
+  </section>`;
+
+  // Section 4 — MVP frequency (need >= 3 games for a meaningful list)
+  if (n >= 3) {
+    const mvpCounts = {};
+    for (const g of games) if (g.mvp_card) mvpCounts[g.mvp_card] = (mvpCounts[g.mvp_card] || 0) + 1;
+    const mvpEntries = Object.entries(mvpCounts).sort((a,b) => b[1] - a[1]).slice(0, 10);
+    if (mvpEntries.length) {
+      html += `<section>
+        <h2>MVP Cards <span class="count">top 10</span></h2>
+        <div class="stats-section">
+          <div class="mvp-list">
+            ${mvpEntries.map(([name, ct]) => {
+              const safe = name.replace(/"/g, '&quot;');
+              return `<div class="mvp-item">
+                <img loading="lazy" referrerpolicy="no-referrer" src="${scryImg(name, 'small')}" alt="${safe}">
+                <div class="name">${safe}</div>
+                <div class="ct">${ct}</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </section>`;
+    }
+  }
+
+  // Section 5 — matchup record (>= 3 games)
+  if (n >= 3) {
+    const matchups = {};
+    for (const g of games) {
+      for (const o of (g.opponents || [])) {
+        const key = o.trim();
+        if (!key) continue;
+        if (!matchups[key]) matchups[key] = { games: 0, won: 0, lost: 0, draw: 0 };
+        matchups[key].games++;
+        if (g.result === 'won')  matchups[key].won++;
+        if (g.result === 'lost') matchups[key].lost++;
+        if (g.result === 'draw') matchups[key].draw++;
+      }
+    }
+    const rows = Object.entries(matchups).sort((a,b) => b[1].games - a[1].games)
+                   .filter(([,v]) => v.games >= 2);
+    if (rows.length) {
+      html += `<section>
+        <h2>Matchup Record <span class="count">commanders faced ≥2×</span></h2>
+        <div class="stats-section">
+          <table class="matchup-table">
+            <thead><tr>
+              <th>Opposing commander</th><th class="num">Games</th><th class="num">W</th><th class="num">L</th><th class="num">D</th><th class="num">WR</th>
+            </tr></thead>
+            <tbody>
+              ${rows.map(([name, v]) => `<tr>
+                <td>${name.replace(/</g,'&lt;')}</td>
+                <td class="num">${v.games}</td>
+                <td class="num">${v.won}</td>
+                <td class="num">${v.lost}</td>
+                <td class="num">${v.draw}</td>
+                <td class="num">${((v.won / v.games) * 100).toFixed(0)}%</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>`;
+    }
+  }
+
+  // Section 6 — Lost-to frequency
+  if (losses.length) {
+    const lostCounts = {};
+    for (const g of losses) {
+      const k = (g.lost_to || 'unknown').trim();
+      if (!k) continue;
+      lostCounts[k] = (lostCounts[k] || 0) + 1;
+    }
+    const entries = Object.entries(lostCounts).sort((a,b) => b[1] - a[1]);
+    if (entries.length) {
+      html += `<section>
+        <h2>What's Killing You <span class="count">${losses.length} loss${losses.length===1?'':'es'}</span></h2>
+        <div class="stats-section">
+          <div class="lostto-list">
+            ${entries.map(([k,v]) => `<div class="lostto-row"><span>${k.replace(/</g,'&lt;')}</span><span class="ct">×${v}</span></div>`).join('')}
+          </div>
+        </div>
+      </section>`;
+    }
+  }
+
+  body.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FIRST-RUN SEED + INITIAL LOAD
+   ═══════════════════════════════════════════════════════════════════ */
+async function ensureDeckSeeded() {
+  const rows = await sbGet(`mtg_decks?user_id=eq.${USER_ID}&is_active=eq.true&order=created_at.asc&limit=1`);
+  if (Array.isArray(rows) && rows.length) {
+    DECK_ID = rows[0].id;
+    if (rows[0].name)      $('deck-name').textContent = rows[0].name;
+    if (rows[0].commander) $('deck-cmdr').textContent = rows[0].commander + ' · ' + (rows[0].format || 'commander');
+    return;
+  }
+  // Seed
+  const seed = await sbInsert('mtg_decks', {
+    user_id:  USER_ID,
+    name:     'Glarb cEDH',
+    commander: "Glarb, Calamity's Augur",
+    format:   'commander',
+    decklist: DECKLIST,
+    is_active: true,
+    notes:    'Tournament-proven Sultai Hulk pile. Three win lines: Oracle/Consult, Hulk pile, Floodcaller mill.',
+  });
+  if (seed && seed[0]) {
+    DECK_ID = seed[0].id;
+  }
+}
+
+async function loadGames() {
+  const rows = await sbGet(`mtg_games?user_id=eq.${USER_ID}&order=played_at.desc,created_at.desc&limit=500`);
+  if (Array.isArray(rows)) GAMES = rows;
+}
+
+async function boot() {
+  const loader = $('loader');
+  const loaderText = $('loader-text');
+
+  try {
+    renderDataChips();  // Renders chips in combat card + matrix
+    renderCodex();      // Renders combo codex from data
+
+    loaderText.textContent = 'Consulting the top of the library…';
+    await ensureDeckSeeded();
+
+    loaderText.textContent = 'Surveilling game history…';
+    await loadGames();
+    await flushPending();
+
+    initForm();
+
+    loaderText.textContent = 'Dealing opening hand…';
+    renderDeck();  // async; don't await so tabs can switch while images load
+
+    // Hook retry to any static images on the page
+    document.querySelectorAll('.card-chip img, .commander-card').forEach(setupImage);
+
+    // Initial tab from hash
+    switchTab((location.hash || '#deck').slice(1));
+  } catch (e) {
+    console.error('mtg.html boot error', e);
+  } finally {
+    setTimeout(() => loader.classList.add('hidden'), 400);
+  }
+}
+
+/* Register service worker (PWA, if sw.js is at /enid-hub/sw.js) */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
+boot();
+</script>
+</body>
+</html>

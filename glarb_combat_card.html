@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glarb cEDH — Combat Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --swamp: #0d1410;
+    --moss: #1b2419;
+    --panel: #15201a;
+    --panel-2: #1d2a22;
+    --ink: #ddd5be;
+    --parchment: #ebd9a8;
+    --moss-bright: #97b35c;
+    --frog: #4f7c2d;
+    --amethyst: #6b3f88;
+    --amethyst-bright: #a87cc9;
+    --bone: #d8cba8;
+    --rust: #b06a3a;
+    --danger: #c75a4f;
+    --rule: rgba(235, 217, 168, 0.18);
+    --rule-strong: rgba(235, 217, 168, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--swamp);
+    color: var(--ink);
+    font-family: 'EB Garamond', 'Iowan Old Style', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(75, 50, 100, 0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 30%, rgba(60, 100, 50, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(40, 70, 50, 0.18) 0%, transparent 60%);
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+  }
+
+  /* ───────────  HEADER  ─────────── */
+  header {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    align-items: end;
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--rule-strong);
+    position: relative;
+  }
+  header::before {
+    content: "";
+    position: absolute;
+    inset: -20px -20px 0 -20px;
+    background: linear-gradient(180deg, rgba(168, 124, 201, 0.08) 0%, transparent 100%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 11px;
+    color: var(--amethyst-bright);
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 0.95;
+    margin: 0 0 16px;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+  }
+  h1 .frog {
+    color: var(--moss-bright);
+    font-style: normal;
+  }
+
+  .subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--bone);
+    opacity: 0.85;
+    margin: 0;
+    max-width: 600px;
+  }
+
+  .commander-card {
+    width: 100%;
+    border-radius: 14px;
+    box-shadow:
+      0 0 0 1px rgba(168, 124, 201, 0.25),
+      0 20px 40px rgba(0, 0, 0, 0.6),
+      0 0 60px rgba(168, 124, 201, 0.12);
+    transform: rotate(2deg);
+    transition: transform 0.4s ease;
+  }
+  .commander-card:hover { transform: rotate(0deg) scale(1.04); }
+
+  /* ───────────  SECTIONS  ─────────── */
+  section { margin-bottom: 56px; }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    color: var(--moss-bright);
+    margin: 0 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  h2::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--moss-bright);
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--parchment);
+    margin: 28px 0 14px;
+  }
+
+  /* ───────────  WIN LINES  ─────────── */
+  .winline {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 22px 26px 24px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .winline::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--moss-bright), var(--amethyst));
+  }
+  .winline-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .winline-num {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--amethyst-bright);
+    line-height: 1;
+  }
+  .winline-title {
+    font-family: 'Cinzel', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--parchment);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .winline p { margin: 0 0 14px; }
+  .winline .pieces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule);
+  }
+
+  /* ───────────  CARD CHIPS  ─────────── */
+  .card-chip {
+    position: relative;
+    display: inline-block;
+  }
+  .card-chip img {
+    width: 110px;
+    height: 154px;                 /* reserve MTG card aspect (2.5:3.5) so broken imgs don't collapse */
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: zoom-in;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%);
+    position: relative;
+  }
+  .card-chip:hover img {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.7), 0 0 0 1px var(--moss-bright), 0 0 30px rgba(151, 179, 92, 0.4);
+    z-index: 10;
+  }
+  .card-chip.hero img { width: 150px; height: 210px; }
+  .card-chip.tiny img { width: 80px; height: 112px; }
+
+  /* Fallback placeholder when an image fails to load - shows card name */
+  .card-chip {
+    position: relative;
+  }
+  .card-chip .fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--moss) 0%, var(--swamp) 100%);
+    border: 1px solid var(--moss-bright);
+    color: var(--parchment);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    text-align: center;
+    padding: 8px 6px;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    pointer-events: none;
+  }
+  .card-chip.broken .fallback { display: flex; }
+  .card-chip.broken img { opacity: 0; }
+  .card-chip .label {
+    display: none;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--bone);
+    white-space: nowrap;
+    background: var(--swamp);
+    padding: 2px 6px;
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  .card-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .card-row.dense { gap: 8px; }
+
+  .lineup {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .group {
+    background: var(--moss);
+    border-radius: 10px;
+    padding: 18px 22px;
+    border: 1px solid var(--rule);
+  }
+  .group-label {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  /* ───────────  TUTORS TABLE  ─────────── */
+  .tutor-table {
+    display: grid;
+    grid-template-columns: 130px 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tutor-table:first-of-type { border-top: 1px solid var(--rule); }
+  .tutor-table .arrow {
+    font-family: 'Cinzel', serif;
+    color: var(--amethyst-bright);
+    text-align: center;
+    font-size: 14px;
+  }
+  .tutor-table .targets {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* ───────────  THREAT TABLE  ─────────── */
+  .threat-table {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .threat-row {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 20px;
+    padding: 16px 22px;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .threat-row:last-child { border-bottom: none; }
+  .threat-row:nth-child(even) { background: var(--moss); }
+  .threat-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--danger);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .threat-text {
+    font-style: italic;
+    color: var(--bone);
+    font-size: 15px;
+  }
+  .threat-cards {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  /* ───────────  MULLIGAN  ─────────── */
+  .mulligan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .mulligan-card {
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 22px 26px;
+    border-top: 3px solid;
+  }
+  .mulligan-card.keep { border-color: var(--moss-bright); }
+  .mulligan-card.mull { border-color: var(--danger); }
+  .mulligan-card h4 {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 13px;
+    margin: 0 0 12px;
+    color: var(--parchment);
+  }
+  .mulligan-card.keep h4 { color: var(--moss-bright); }
+  .mulligan-card.mull h4 { color: var(--danger); }
+  .mulligan-card ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .mulligan-card li {
+    margin-bottom: 6px;
+  }
+
+  /* ───────────  REMINDERS  ─────────── */
+  .reminders {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: reminder;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .reminders li {
+    counter-increment: reminder;
+    padding: 10px 0 10px 38px;
+    position: relative;
+    border-bottom: 1px dotted var(--rule);
+    break-inside: avoid;
+  }
+  .reminders li::before {
+    content: counter(reminder, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--moss-bright);
+    background: var(--panel);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--rule);
+  }
+
+  /* ───────────  CALLOUTS / FOOTER  ─────────── */
+  .footer {
+    margin-top: 60px;
+    text-align: center;
+    font-style: italic;
+    color: var(--amethyst-bright);
+    font-size: 16px;
+    padding-top: 30px;
+    border-top: 1px solid var(--rule);
+  }
+  .footer .glyph {
+    color: var(--moss-bright);
+    font-style: normal;
+    margin: 0 8px;
+  }
+
+  /* ───────────  TIP BAR  ─────────── */
+  .tip {
+    background: var(--moss);
+    border-left: 3px solid var(--amethyst-bright);
+    padding: 14px 22px;
+    margin: 16px 0;
+    font-style: italic;
+    border-radius: 0 6px 6px 0;
+    color: var(--bone);
+    font-size: 15px;
+  }
+  .tip strong {
+    font-style: normal;
+    color: var(--amethyst-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+  }
+
+  /* ───────────  RESPONSIVE  ─────────── */
+  @media (max-width: 900px) {
+    header { grid-template-columns: 1fr; gap: 24px; }
+    h1 { font-size: 44px; }
+    .threat-row { grid-template-columns: 1fr; }
+    .threat-cards { justify-content: flex-start; }
+    .mulligan-grid { grid-template-columns: 1fr; }
+    .reminders { columns: 1; }
+    .tutor-table { grid-template-columns: 1fr; }
+  }
+
+  /* ───────────  PRINT  ─────────── */
+  @media print {
+    body {
+      background: white;
+      color: black;
+      background-image: none;
+    }
+    .commander-card:hover { transform: rotate(2deg); }
+    .card-chip:hover img { transform: none; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    h1 { color: #2a1a3a; }
+    h2 { color: #4a6a2a; border-bottom-color: #ccc; }
+    .winline { background: #f5f3ec; border-color: #ccc; }
+    .group { background: #f0eee5; border-color: #ccc; }
+    .threat-row { background: white !important; }
+    .mulligan-card { background: #f5f3ec; }
+    .tip { background: #f5f0ee; color: #333; }
+    .reminders li::before { background: #f0eee5; color: #4a6a2a; }
+    section { page-break-inside: avoid; margin-bottom: 30px; }
+    .footer { color: #5d3a6b; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ─────────  HEADER  ───────── -->
+  <header>
+    <div>
+      <p class="eyebrow">Sultai Hulk-Pile Turbo Combo</p>
+      <h1>Glarb<span class="frog">.</span><br>The Combat Card</h1>
+      <p class="subtitle">"You may look at the top card of your library any time." Use this. Always. Cast Glarb safely, then assemble a clean Oracle win.</p>
+    </div>
+    <div>
+      <img class="commander-card" referrerpolicy="no-referrer"
+           src="https://api.scryfall.com/cards/named?exact=Glarb%2C+Calamity%27s+Augur&format=image&version=normal"
+           alt="Glarb, Calamity's Augur" />
+    </div>
+  </header>
+
+  <!-- ─────────  WIN LINES  ───────── -->
+  <section>
+    <h2>The Four Win Lines</h2>
+
+    <article class="winline">
+      <div class="winline-header">
+        <div class="winline-num">01</div>
+        <div class="winline-title">Naked Thoracle</div>
+      </div>
+      <p>Cast <em>Thassa's Oracle</em>, then <em>Demonic Consultation</em> or <em>Tainted Pact</em> naming a card not in your deck. Library exiles. Oracle's trigger wins on the spot. <strong>Glarb's top-of-library peek means you NEVER lose Oracle to Consult.</strong></p>
+      <div class="pieces">
+        <div class="card-chip hero"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Thassa%27s+Oracle&format=image&version=normal" alt="Thassa's Oracle"><span class="fallback">Thassa's Oracle</span></div>
+        <div class="card-chip hero"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Demonic+Consultation&format=image&version=normal" alt="Demonic Consultation"><span class="fallback">Demonic Consultation</span></div>
+        <div class="card-chip hero"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Tainted+Pact&format=image&version=normal" alt="Tainted Pact"><span class="fallback">Tainted Pact</span></div>
+      </div>
+    </article>
+
+    <article class="winline">
+      <div class="winline-header">
+        <div class="winline-num">02</div>
+        <div class="winline-title">Protean Hulk Pile — The Main Engine</div>
+      </div>
+      <p>Get <em>Hulk</em> into the graveyard (Entomb / Buried Alive effect / Culling the Weak sac), reanimate it, then kill it with a sac outlet.</p>
+      <p>Hulk's death triggers fetches <strong>Body Snatcher + Carrion Feeder</strong>. Snatcher reanimates Hulk → sac again → fetch <strong>Thassa's Oracle + Dosan the Falling Leaf</strong>. Dosan locks counters. Cast Oracle. Win.</p>
+
+      <h3 style="font-size:11px;letter-spacing:0.2em;color:var(--rust);margin-top:18px;">Get Hulk in the yard</h3>
+      <div class="card-row dense">
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Protean+Hulk&format=image&version=normal" alt="Protean Hulk"><span class="fallback">Protean Hulk</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Entomb&format=image&version=normal" alt="Entomb"><span class="fallback">Entomb</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Culling+the+Weak&format=image&version=normal" alt="Culling the Weak"><span class="fallback">Culling the Weak</span></div>
+      </div>
+
+      <h3 style="font-size:11px;letter-spacing:0.2em;color:var(--rust);">Reanimate</h3>
+      <div class="card-row dense">
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Reanimate&format=image&version=normal" alt="Reanimate"><span class="fallback">Reanimate</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Animate+Dead&format=image&version=normal" alt="Animate Dead"><span class="fallback">Animate Dead</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Necromancy&format=image&version=normal" alt="Necromancy"><span class="fallback">Necromancy</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Exhume&format=image&version=normal" alt="Exhume"><span class="fallback">Exhume</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Dance+of+the+Dead&format=image&version=normal" alt="Dance of the Dead"><span class="fallback">Dance of the Dead</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Shallow+Grave&format=image&version=normal" alt="Shallow Grave"><span class="fallback">Shallow Grave</span></div>
+      </div>
+
+      <h3 style="font-size:11px;letter-spacing:0.2em;color:var(--rust);">Sac outlets</h3>
+      <div class="card-row dense">
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Carrion+Feeder&format=image&version=normal" alt="Carrion Feeder"><span class="fallback">Carrion Feeder</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Viscera+Seer&format=image&version=normal" alt="Viscera Seer"><span class="fallback">Viscera Seer</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Warren+Soultrader&format=image&version=normal" alt="Warren Soultrader"><span class="fallback">Warren Soultrader</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Phyrexian+Tower&format=image&version=normal" alt="Phyrexian Tower"><span class="fallback">Phyrexian Tower</span></div>
+      </div>
+
+      <h3 style="font-size:11px;letter-spacing:0.2em;color:var(--rust);">Hulk fetches → win</h3>
+      <div class="card-row dense">
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Body+Snatcher&format=image&version=normal" alt="Body Snatcher"><span class="fallback">Body Snatcher</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Carrion+Feeder&format=image&version=normal" alt="Carrion Feeder"><span class="fallback">Carrion Feeder</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Thassa%27s+Oracle&format=image&version=normal" alt="Thassa's Oracle"><span class="fallback">Thassa's Oracle</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Dosan+the+Falling+Leaf&format=image&version=normal" alt="Dosan the Falling Leaf"><span class="fallback">Dosan the Falling Leaf</span></div>
+      </div>
+    </article>
+
+    <article class="winline">
+      <div class="winline-header">
+        <div class="winline-num">03</div>
+        <div class="winline-title">Hulk Direct-to-Battlefield</div>
+      </div>
+      <p>Skip the graveyard step entirely. These tutor Hulk straight into play, triggering the same pile when it dies.</p>
+      <div class="pieces">
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Natural+Order&format=image&version=normal" alt="Natural Order"><span class="fallback">Natural Order</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Pattern+of+Rebirth&format=image&version=normal" alt="Pattern of Rebirth"><span class="fallback">Pattern of Rebirth</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Chord+of+Calling&format=image&version=normal" alt="Chord of Calling"><span class="fallback">Chord of Calling</span></div>
+        <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Finale+of+Devastation&format=image&version=normal" alt="Finale of Devastation"><span class="fallback">Finale of Devastation</span></div>
+      </div>
+    </article>
+
+    <article class="winline">
+      <div class="winline-header">
+        <div class="winline-num">04</div>
+        <div class="winline-title">Floodcaller Infinite</div>
+      </div>
+      <p>Valley Floodcaller untaps Glarb whenever you cast a non-creature spell. Loop: tap Glarb (surveil 2) → cast a non-creature off the top → untap → repeat. Mill the deck, then cast Oracle from the top for the win.</p>
+      <div class="pieces">
+        <div class="card-chip hero"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Valley+Floodcaller&format=image&version=normal" alt="Valley Floodcaller"><span class="fallback">Valley Floodcaller</span></div>
+        <div class="card-chip hero"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Glarb%2C+Calamity%27s+Augur&format=image&version=normal" alt="Glarb, Calamity's Augur"><span class="fallback">Glarb, Calamity's Augur</span></div>
+        <div class="card-chip hero"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Thassa%27s+Oracle&format=image&version=normal" alt="Thassa's Oracle"><span class="fallback">Thassa's Oracle</span></div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ─────────  PROTECTION  ───────── -->
+  <section>
+    <h2>Protection &amp; Stax Answers</h2>
+
+    <div class="lineup">
+      <div class="group">
+        <div class="group-label">Free Counters</div>
+        <div class="card-row dense">
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Force+of+Will&format=image&version=normal" alt="Force of Will"><span class="fallback">Force of Will</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Pact+of+Negation&format=image&version=normal" alt="Pact of Negation"><span class="fallback">Pact of Negation</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Fierce+Guardianship&format=image&version=normal" alt="Fierce Guardianship"><span class="fallback">Fierce Guardianship</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Mental+Misstep&format=image&version=normal" alt="Mental Misstep"><span class="fallback">Mental Misstep</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Mindbreak+Trap&format=image&version=normal" alt="Mindbreak Trap"><span class="fallback">Mindbreak Trap</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Snuff+Out&format=image&version=normal" alt="Snuff Out"><span class="fallback">Snuff Out</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Commandeer&format=image&version=normal" alt="Commandeer"><span class="fallback">Commandeer</span></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Soft Counters</div>
+        <div class="card-row dense">
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Flusterstorm&format=image&version=normal" alt="Flusterstorm"><span class="fallback">Flusterstorm</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Swan+Song&format=image&version=normal" alt="Swan Song"><span class="fallback">Swan Song</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Mana+Drain&format=image&version=normal" alt="Mana Drain"><span class="fallback">Mana Drain</span></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Removal vs. Stax &amp; Hatebears</div>
+        <div class="card-row dense">
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Abrupt+Decay&format=image&version=normal" alt="Abrupt Decay"><span class="fallback">Abrupt Decay</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Chain+of+Vapor&format=image&version=normal" alt="Chain of Vapor"><span class="fallback">Chain of Vapor</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Into+the+Flood+Maw&format=image&version=normal" alt="Into the Flood Maw"><span class="fallback">Into the Flood Maw</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Boseiju%2C+Who+Endures&format=image&version=normal" alt="Boseiju, Who Endures"><span class="fallback">Boseiju, Who Endures</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Otawara%2C+Soaring+City&format=image&version=normal" alt="Otawara, Soaring City"><span class="fallback">Otawara, Soaring City</span></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Wraths When Desperate</div>
+        <div class="card-row dense">
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Massacre&format=image&version=normal" alt="Massacre"><span class="fallback">Massacre</span></div>
+          <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Culling+Ritual&format=image&version=normal" alt="Culling Ritual"><span class="fallback">Culling Ritual</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────  TUTORS  ───────── -->
+  <section>
+    <h2>Tutors — Know What You're Getting</h2>
+
+    <div class="tutor-table">
+      <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Demonic+Tutor&format=image&version=normal" alt="Demonic Tutor"><span class="fallback">Demonic Tutor</span></div>
+      <div><strong>Any card in the deck.</strong><br><em>Usually Hulk, a reanimator, or Oracle.</em></div>
+      <div class="targets">
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Protean+Hulk&format=image&version=small" alt="Protean Hulk"><span class="fallback">Protean Hulk</span></div>
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Necropotence&format=image&version=small" alt="Necropotence"><span class="fallback">Necropotence</span></div>
+      </div>
+    </div>
+
+    <div class="tutor-table">
+      <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Vampiric+Tutor&format=image&version=normal" alt="Vampiric Tutor"><span class="fallback">Vampiric Tutor</span></div>
+      <div><strong>Any card to top of library.</strong><br><em>Glarb sees it. Drawn next turn.</em></div>
+      <div class="targets">
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Imperial+Seal&format=image&version=small" alt="Imperial Seal"><span class="fallback">Imperial Seal</span></div>
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Beseech+the+Mirror&format=image&version=small" alt="Beseech the Mirror"><span class="fallback">Beseech the Mirror</span></div>
+      </div>
+    </div>
+
+    <div class="tutor-table">
+      <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Mystical+Tutor&format=image&version=normal" alt="Mystical Tutor"><span class="fallback">Mystical Tutor</span></div>
+      <div><strong>Instant or sorcery to top.</strong><br><em>Usually Consultation or Pact.</em></div>
+      <div class="targets">
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Demonic+Consultation&format=image&version=small" alt="Demonic Consultation"><span class="fallback">Demonic Consultation</span></div>
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Tainted+Pact&format=image&version=small" alt="Tainted Pact"><span class="fallback">Tainted Pact</span></div>
+      </div>
+    </div>
+
+    <div class="tutor-table">
+      <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Worldly+Tutor&format=image&version=normal" alt="Worldly Tutor"><span class="fallback">Worldly Tutor</span></div>
+      <div><strong>Creature to top.</strong><br><em>Almost always Hulk.</em></div>
+      <div class="targets">
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Protean+Hulk&format=image&version=small" alt="Protean Hulk"><span class="fallback">Protean Hulk</span></div>
+      </div>
+    </div>
+
+    <div class="tutor-table">
+      <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Entomb&format=image&version=normal" alt="Entomb"><span class="fallback">Entomb</span></div>
+      <div><strong>Creature to graveyard.</strong><br><em>Hulk every time. Reanimate next.</em></div>
+      <div class="targets">
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Protean+Hulk&format=image&version=small" alt="Protean Hulk"><span class="fallback">Protean Hulk</span></div>
+      </div>
+    </div>
+
+    <div class="tutor-table">
+      <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Crop+Rotation&format=image&version=normal" alt="Crop Rotation"><span class="fallback">Crop Rotation</span></div>
+      <div><strong>Sac a land, get any land.</strong><br><em>Cradle for mana. Phyrexian Tower for sac outlet.</em></div>
+      <div class="targets">
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Gaea%27s+Cradle&format=image&version=small" alt="Gaea's Cradle"><span class="fallback">Gaea's Cradle</span></div>
+        <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Phyrexian+Tower&format=image&version=small" alt="Phyrexian Tower"><span class="fallback">Phyrexian Tower</span></div>
+      </div>
+    </div>
+
+    <div class="tutor-table">
+      <div class="card-chip"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Cabal+Therapy&format=image&version=normal" alt="Cabal Therapy"><span class="fallback">Cabal Therapy</span></div>
+      <div><strong>Strip a key card from a known threat.</strong><br><em>Sac a creature to flash it back.</em></div>
+      <div class="targets">
+        <em style="color:var(--bone); opacity:0.6;">name what you fear</em>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────  THREATS  ───────── -->
+  <section>
+    <h2>Threat Assessment — Know What Kills You</h2>
+
+    <div class="threat-table">
+      <div class="threat-row">
+        <div class="threat-name">Opposition Agent / Aven Mindcensor</div>
+        <div class="threat-text">Hijacks your tutors. Cripples Hulk pile.</div>
+        <div class="threat-cards">
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Abrupt+Decay&format=image&version=small" alt="Abrupt Decay"><span class="fallback">Abrupt Decay</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Snuff+Out&format=image&version=small" alt="Snuff Out"><span class="fallback">Snuff Out</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Chain+of+Vapor&format=image&version=small" alt="Chain of Vapor"><span class="fallback">Chain of Vapor</span></div>
+        </div>
+      </div>
+
+      <div class="threat-row">
+        <div class="threat-name">Notion Thief on the Stack</div>
+        <div class="threat-text">Counter it. Or your Necro / Wheel becomes their hand.</div>
+        <div class="threat-cards">
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Force+of+Will&format=image&version=small" alt="Force of Will"><span class="fallback">Force of Will</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Pact+of+Negation&format=image&version=small" alt="Pact of Negation"><span class="fallback">Pact of Negation</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Mental+Misstep&format=image&version=small" alt="Mental Misstep"><span class="fallback">Mental Misstep</span></div>
+        </div>
+      </div>
+
+      <div class="threat-row">
+        <div class="threat-name">Drannith Magistrate</div>
+        <div class="threat-text">Locks Glarb out of casting from the top. Kill it now.</div>
+        <div class="threat-cards">
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Abrupt+Decay&format=image&version=small" alt="Abrupt Decay"><span class="fallback">Abrupt Decay</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Snuff+Out&format=image&version=small" alt="Snuff Out"><span class="fallback">Snuff Out</span></div>
+        </div>
+      </div>
+
+      <div class="threat-row">
+        <div class="threat-name">Cursed Totem / Collector Ouphe</div>
+        <div class="threat-text">Disables sac outlets. Pivot to direct Thoracle.</div>
+        <div class="threat-cards">
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Abrupt+Decay&format=image&version=small" alt="Abrupt Decay"><span class="fallback">Abrupt Decay</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Thassa%27s+Oracle&format=image&version=small" alt="Thassa's Oracle"><span class="fallback">Thassa's Oracle</span></div>
+        </div>
+      </div>
+
+      <div class="threat-row">
+        <div class="threat-name">Rest in Peace / Leyline of the Void</div>
+        <div class="threat-text">Kills reanimator. Pivot to Hulk-direct or Thoracle.</div>
+        <div class="threat-cards">
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Abrupt+Decay&format=image&version=small" alt="Abrupt Decay"><span class="fallback">Abrupt Decay</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Natural+Order&format=image&version=small" alt="Natural Order"><span class="fallback">Natural Order</span></div>
+        </div>
+      </div>
+
+      <div class="threat-row">
+        <div class="threat-name">Their Thoracle on the Stack</div>
+        <div class="threat-text">Counter or watch them win. No middle ground.</div>
+        <div class="threat-cards">
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Force+of+Will&format=image&version=small" alt="Force of Will"><span class="fallback">Force of Will</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Mindbreak+Trap&format=image&version=small" alt="Mindbreak Trap"><span class="fallback">Mindbreak Trap</span></div>
+          <div class="card-chip tiny"><img loading="lazy" referrerpolicy="no-referrer" src="https://api.scryfall.com/cards/named?exact=Flusterstorm&format=image&version=small" alt="Flusterstorm"><span class="fallback">Flusterstorm</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────  MULLIGAN  ───────── -->
+  <section>
+    <h2>Mulligan Guide</h2>
+
+    <div class="mulligan-grid">
+      <div class="mulligan-card keep">
+        <h4>Snap-Keeps</h4>
+        <ul>
+          <li><strong>Land + fast mana + interaction</strong> → ideal opener</li>
+          <li><strong>Hand with Necropotence + B source</strong> → it's your engine, protect it</li>
+          <li><strong>Glarb + interaction + ramp</strong> → grindy but stable</li>
+          <li><strong>Tutor + ritual + protection</strong> → can fast-combo</li>
+        </ul>
+      </div>
+
+      <div class="mulligan-card mull">
+        <h4>Mulligan</h4>
+        <ul>
+          <li>No mana acceleration AT ALL</li>
+          <li>No interaction in a known fast pod</li>
+          <li>All 4+ cost cards with no Glarb or ramp</li>
+          <li>Only basics vs. a fast pod that needs T1 plays</li>
+          <li>Two copies of any tutor (redundant)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>Tip:</strong> &nbsp;Fast mana = Sol Ring, Mana Vault, Mox Diamond, Chrome Mox, Lotus Petal, Dark Ritual, Cabal Ritual, Elvish Spirit Guide. You want at least one in your opener almost always.
+    </div>
+  </section>
+
+  <!-- ─────────  REMINDERS  ───────── -->
+  <section>
+    <h2>Pilot Reminders</h2>
+
+    <ol class="reminders">
+      <li>Surveil <em>every turn</em> Glarb is in play. Free filtering is the whole engine.</li>
+      <li>Look at the top <em>before</em> casting Consult or Pact. Pick a name you just saw.</li>
+      <li>Glarb is a 2/4 deathtoucher. Hold protection up before casting him.</li>
+      <li>Counterbalance + Glarb = reveal-on-demand soft lock on chosen CMCs.</li>
+      <li>Orcish Bowmasters in response to Thrasios / Kinnan card draw triggers.</li>
+      <li>Sylvan Safekeeper protects Hulk / Glarb from targeted removal.</li>
+      <li>Talon Gates of Madara exiles a permanent to blank a critical threat.</li>
+      <li>Necropotence: pay BIG. Drawing 8+ in a turn wins games.</li>
+      <li>Don't forget Pact of Negation costs WUBRG on your next upkeep — only fire if you'll win that turn.</li>
+      <li>Cabal Therapy hits twice — cast it, then flash it back for free off a sac.</li>
+    </ol>
+  </section>
+
+  <!-- ─────────  FOOTER  ───────── -->
+  <div class="footer">
+    "You may look at the top card of your library any time."
+    <span class="glyph">✦</span>
+    Use this. <em>Always.</em>
+    <span class="glyph">✦</span>
+    — Glarb 4:20
+  </div>
+
+</div>
+
+<script>
+(function() {
+  // Retry failed card images once after a delay, then mark as broken to show fallback.
+  function setupImage(img) {
+    var chip = img.closest('.card-chip');
+    var triedRetry = false;
+    img.addEventListener('error', function() {
+      if (!triedRetry) {
+        triedRetry = true;
+        // Wait a bit for any rate limiting to clear, then retry
+        setTimeout(function() {
+          var src = img.src;
+          // Cache-bust to force a fresh request
+          img.src = src + (src.indexOf('?') >= 0 ? '&' : '?') + '_retry=' + Date.now();
+        }, 800 + Math.random() * 1500);
+      } else if (chip) {
+        chip.classList.add('broken');
+      }
+    });
+    img.addEventListener('load', function() {
+      if (chip) chip.classList.remove('broken');
+    });
+  }
+  document.querySelectorAll('.card-chip img').forEach(setupImage);
+  var commander = document.querySelector('.commander-card');
+  if (commander) setupImage(commander);
+})();
+</script>
+
+</body>
+</html>

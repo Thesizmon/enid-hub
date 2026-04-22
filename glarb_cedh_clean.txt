@@ -1,0 +1,100 @@
+Glarb, Calamity's Augur
+Narset, Parter of Veils
+Birds of Paradise
+Carrion Feeder
+Deathrite Shaman
+Elves of Deep Shadow
+Forsaken Miner
+Mockingbird
+Sylvan Safekeeper
+Viscera Seer
+Blood Artist
+Orcish Bowmasters
+Thassa's Oracle
+Activated Sleeper
+Dosan the Falling Leaf
+Elvish Spirit Guide
+The Cabbage Merchant
+Valley Floodcaller
+Warren Soultrader
+Body Snatcher
+Protean Hulk
+Cabal Therapy
+Imperial Seal
+Reanimate
+Demonic Tutor
+Exhume
+Finale of Devastation
+Nature's Rhythm
+Beseech the Mirror
+Culling Ritual
+Massacre
+Natural Order
+Pact of Negation
+Chain of Vapor
+Crop Rotation
+Culling the Weak
+Dark Ritual
+Demonic Consultation
+Entomb
+Flusterstorm
+Into the Flood Maw
+March of Swirling Mist
+Mental Misstep
+Mystical Tutor
+Swan Song
+Vampiric Tutor
+Worldly Tutor
+Abrupt Decay
+Cabal Ritual
+Mana Drain
+Shallow Grave
+Tainted Pact
+Chord of Calling
+Fierce Guardianship
+Mindbreak Trap
+Snuff Out
+Force of Will
+Commandeer
+Chrome Mox
+Lotus Petal
+Mox Diamond
+Mana Vault
+Sol Ring
+Mystic Remora
+Animate Dead
+Counterbalance
+Dance of the Dead
+Copy Enchantment
+Necromancy
+Necropotence
+Rhystic Study
+Pattern of Rebirth
+Ancient Tomb
+Bayou
+Bloodstained Mire
+Boseiju, Who Endures
+Breeding Pool
+City of Brass
+Command Tower
+Flooded Strand
+Gaea's Cradle
+Gemstone Caverns
+Lake of the Dead
+Lazotep Quarry
+Marsh Flats
+Misty Rainforest
+Otawara, Soaring City
+Overgrown Tomb
+Phyrexian Tower
+Polluted Delta
+Scalding Tarn
+Shifting Woodland
+Talon Gates of Madara
+Tropical Island
+Underground Sea
+Urborg, Tomb of Yawgmoth
+Verdant Catacombs
+Watery Grave
+Windswept Heath
+Wooded Foothills
