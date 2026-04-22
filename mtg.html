@@ -50,53 +50,64 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: #FDF4EE;
+    font-family: 'EB Garamond', 'DM Sans', sans-serif;
+    background: #050c0e;
     min-height: 100vh;
-    color: var(--text);
+    color: var(--ink);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
+  /* Layer 1 — twilight-lake wash: deep teal water, moss shoreline, amethyst dusk */
   body::before {
     content: '';
     position: fixed; inset: 0; z-index: 0;
     background:
-      radial-gradient(ellipse 70% 55% at 5%  10%,  rgba(245,158,11,.18) 0%, transparent 55%),
-      radial-gradient(ellipse 60% 50% at 95% 15%,  rgba(59,130,246,.14) 0%, transparent 55%),
-      radial-gradient(ellipse 65% 55% at 50% 92%,  rgba(139,92,246,.19) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 45% at 15% 65%,  rgba(232,78,160,.16) 0%, transparent 50%),
-      radial-gradient(ellipse 55% 50% at 80% 50%,  rgba(110,231,183,.10) 0%, transparent 55%),
-      linear-gradient(160deg, #FFF8EE 0%, #F3E8FF 45%, #E8FBF6 75%, #FFF3EE 100%);
+      radial-gradient(ellipse 60% 50% at 10% 0%,   rgba(107, 63, 136, 0.28) 0%, transparent 55%),
+      radial-gradient(ellipse 75% 60% at 90% 15%,  rgba(30,  75, 80,  0.32) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 60% at 50% 95%,  rgba(55, 100, 70,  0.28) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 45% at 15% 70%,  rgba(79, 124, 45,  0.18) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 85% 55%,  rgba(168,124,201,  0.10) 0%, transparent 55%),
+      linear-gradient(175deg, #0a1e24 0%, #0b2028 30%, #0d1c19 60%, #0a1812 100%);
     pointer-events: none;
   }
+  /* Layer 2 — lily pad motifs + subtle grain */
   body::after {
     content: '';
     position: fixed; inset: 0; z-index: 0;
     pointer-events: none;
-    opacity: 0.038;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.32;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%234f7c2d' stroke-opacity='0.35'%3E%3C!-- Lily pad 1 --%3E%3Cpath d='M60,70 A55,48 0 1 1 60,71 Z M60,70 L115,60' stroke-width='1.2'/%3E%3Cpath d='M58,68 A52,46 0 0 1 108,64' stroke='%2397b35c' stroke-opacity='0.25'/%3E%3C!-- Lily pad 2 --%3E%3Cpath d='M330,260 A70,60 0 1 1 330,261 Z M330,260 L400,245' stroke-width='1.2'/%3E%3Cpath d='M325,255 A65,56 0 0 1 390,248' stroke='%2397b35c' stroke-opacity='0.25'/%3E%3C!-- Lily pad 3 --%3E%3Cpath d='M190,350 A45,40 0 1 1 190,351 Z M190,350 L235,342' stroke-width='1.1'/%3E%3C!-- Ripples --%3E%3Cellipse cx='270' cy='110' rx='30' ry='6' stroke='%236b3f88' stroke-opacity='0.22'/%3E%3Cellipse cx='270' cy='110' rx='48' ry='10' stroke='%236b3f88' stroke-opacity='0.14'/%3E%3Cellipse cx='100' cy='220' rx='24' ry='5' stroke='%23a87cc9' stroke-opacity='0.18'/%3E%3Cellipse cx='100' cy='220' rx='40' ry='8' stroke='%23a87cc9' stroke-opacity='0.12'/%3E%3C/g%3E%3C!-- Cattail silhouettes --%3E%3Cg fill='%23304028' fill-opacity='0.25'%3E%3Crect x='25' y='180' width='2' height='60' rx='1'/%3E%3Cellipse cx='26' cy='200' rx='3' ry='12'/%3E%3Crect x='380' y='130' width='2' height='70' rx='1'/%3E%3Cellipse cx='381' cy='148' rx='3' ry='14'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+    background-size: 420px 420px, 300px 300px;
+    background-position: 0 0, 0 0;
+    mix-blend-mode: screen;
   }
 
-  /* ── Loader (mirrors hub pattern) ────────────────────────────── */
+  /* ── Loader — frog on a lily pad ─────────────────────────────── */
   #loader {
     position: fixed; inset: 0;
-    background: var(--cream);
+    background: #081614;
+    background-image:
+      radial-gradient(ellipse 60% 50% at 50% 40%, rgba(79,124,45,0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(13,20,16,0.9) 0%, transparent 70%);
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 14px; z-index: 999;
+    gap: 16px; z-index: 999;
     transition: opacity .35s ease;
   }
   #loader.hidden { opacity: 0; pointer-events: none; }
-  .loader-nails-wrap {
+  .loader-pad-wrap {
     position: relative;
     display: inline-flex; align-items: center; justify-content: center;
-    width: 90px; height: 90px;
+    width: 120px; height: 120px;
   }
-  .loader-nails-wrap::before {
+  /* Water ripples under the pad */
+  .loader-pad-wrap::before {
     content: '';
-    position: absolute; inset: -14px;
+    position: absolute; inset: -18px;
     border-radius: 50%;
-    background: radial-gradient(ellipse at center, rgba(232,78,160,.22) 0%, rgba(168,85,247,.12) 50%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(151,179,92,0.22) 0%, rgba(107,63,136,0.12) 50%, transparent 70%);
     animation: glowPulse 2s ease-in-out infinite;
     pointer-events: none;
   }
@@ -104,110 +115,158 @@
     0%,100% { transform: scale(1);    opacity: .65; }
     50%     { transform: scale(1.22); opacity: 1;   }
   }
-  .loader-wolf { width: 90px; height: 90px; object-fit: contain; animation: bounce 1.1s ease-in-out infinite, nailsShimmer 3s ease-in-out infinite; }
-  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-  @keyframes nailsShimmer {
-    0%   { filter: drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1)    saturate(1);    }
-    20%  { filter: drop-shadow(0 8px 26px rgba(168,85,247,.72)) brightness(1.1)  saturate(1.15); }
-    40%  { filter: drop-shadow(0 9px 28px rgba(59,130,246,.62)) brightness(1.15) saturate(1.2);  }
-    60%  { filter: drop-shadow(0 8px 26px rgba(16,185,129,.65)) brightness(1.1)  saturate(1.15); }
-    80%  { filter: drop-shadow(0 7px 24px rgba(245,158,11,.65)) brightness(1.06) saturate(1.1);  }
-    100% { filter: drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1)    saturate(1);    }
+  /* Lily pad — a pure CSS disc with a wedge notch */
+  .lily-pad {
+    position: absolute;
+    width: 108px; height: 96px;
+    background: radial-gradient(ellipse at 35% 30%, #6b8c3a 0%, #4f7c2d 40%, #324d1c 95%);
+    border-radius: 55% 55% 50% 50% / 55% 55% 50% 50%;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 -4px 12px rgba(0,0,0,0.35), inset 0 2px 4px rgba(151,179,92,0.5);
+    clip-path: polygon(50% 0%, 100% 18%, 100% 78%, 82% 100%, 56% 100%, 48% 78%, 40% 100%, 0% 95%, 0% 20%);
+    transform: translateY(6px) rotate(-8deg);
+    animation: padBob 3.2s ease-in-out infinite;
+  }
+  .lily-pad::before,
+  .lily-pad::after {
+    content: '';
+    position: absolute;
+    background: rgba(50, 77, 28, 0.55);
+    border-radius: 2px;
+  }
+  .lily-pad::before { top: 30%; left: 12%; width: 75%; height: 1.5px; transform: rotate(-6deg); }
+  .lily-pad::after  { top: 50%; left: 20%; width: 65%; height: 1.5px; transform: rotate(3deg); }
+  @keyframes padBob { 0%,100%{transform:translateY(6px) rotate(-8deg)} 50%{transform:translateY(2px) rotate(-5deg)} }
+  /* The frog: a single 🐸 emoji, animated */
+  .loader-frog {
+    position: absolute;
+    font-size: 56px;
+    line-height: 1;
+    animation: frogHop 1.4s ease-in-out infinite, frogShimmer 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 10px rgba(151,179,92,.5));
+  }
+  @keyframes frogHop   { 0%,100%{transform:translateY(-4px)} 50%{transform:translateY(-12px)} }
+  @keyframes frogShimmer {
+    0%,100% { filter: drop-shadow(0 4px 12px rgba(151,179,92,.6)) brightness(1)   saturate(1); }
+    33%     { filter: drop-shadow(0 6px 16px rgba(168,124,201,.55)) brightness(1.05) saturate(1.15); }
+    66%     { filter: drop-shadow(0 5px 14px rgba(212,168, 75,.45)) brightness(1.05) saturate(1.1);  }
   }
   .sp { position: absolute; line-height: 1; pointer-events: none; animation: spTwinkle 1.8s ease-in-out infinite; }
-  .sp1 { top: -13px; left:  20px;  font-size: .88rem; color: #E84EA0; animation-delay: 0s;    }
-  .sp2 { top:   4px;  right: -15px; font-size: .72rem; color: #A855F7; animation-delay: .45s; }
-  .sp3 { bottom: -9px; left: 10px;  font-size: .68rem; color: #F59E0B; animation-delay: .9s;  }
-  .sp4 { bottom:  5px; right: -11px; font-size: .82rem; color: #6EE7B7; animation-delay: 1.3s;}
-  .sp5 { top:  -5px;  left: -13px;  font-size: .62rem; color: #60A5FA; animation-delay: .65s; }
+  .sp1 { top: -10px; left:  30px; font-size: .88rem; color: #97B35C; animation-delay: 0s;    }
+  .sp2 { top:  14px; right: -8px; font-size: .72rem; color: #A87CC9; animation-delay: .45s; }
+  .sp3 { bottom: 0px; left: 18px; font-size: .68rem; color: #D4A84B; animation-delay: .9s;  }
+  .sp4 { bottom: 20px; right: -2px; font-size: .82rem; color: #6b8c3a; animation-delay: 1.3s;}
+  .sp5 { top:   5px; left: -8px;  font-size: .62rem; color: #a87cc9; animation-delay: .65s; }
   @keyframes spTwinkle {
     0%,100% { opacity: 0; transform: scale(.2) rotate(0deg);   }
     45%,55% { opacity: 1; transform: scale(1.15) rotate(72deg);}
   }
-  .loader-text { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); letter-spacing: .03em; }
+  .loader-text {
+    font-family: 'Cinzel', serif;
+    font-size: .95rem; color: var(--amethyst-bright);
+    letter-spacing: .22em; text-transform: uppercase; font-weight: 600;
+  }
 
   /* ── App shell ───────────────────────────────────────────────── */
   .app { max-width: 1200px; margin: 0 auto; padding: 0 0 80px; position: relative; z-index: 2; }
 
-  /* ── Hub header (pink/purple) ────────────────────────────────── */
-  .hub-header { padding: 26px 22px 14px; text-align: center; }
+  /* ── Hub header (lake / frog theme) ──────────────────────────── */
+  .hub-header { padding: 32px 22px 10px; text-align: center; }
   .hub-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(1.9rem, 5vw, 2.8rem);
-    background: linear-gradient(135deg, var(--amber), var(--pink) 45%, #8B5CF6 100%);
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.1rem, 6vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(135deg, #97b35c 0%, #a87cc9 55%, #d4a84b 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 2px 8px rgba(232,78,160,.15));
+    filter: drop-shadow(0 2px 10px rgba(151,179,92,.25));
   }
-  .hub-sub { font-size: .78rem; color: var(--sub); margin-top: 4px; }
-  .hub-nav { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
-  .hub-nav-link {
-    font-size: .72rem; font-weight: 700; color: var(--purple);
-    background: rgba(168,85,247,.08); border: 1px solid var(--border);
-    padding: 4px 12px; border-radius: 20px; text-decoration: none;
-    transition: background .15s;
+  .hub-title .dot { color: var(--moss-bright); -webkit-text-fill-color: var(--moss-bright); }
+  .hub-title .emoji {
+    /* Render the frog emoji in its native colors, bypassing the gradient clip */
+    -webkit-text-fill-color: initial;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    display: inline-block;
+    filter: drop-shadow(0 2px 6px rgba(79,124,45,.5));
   }
-  .hub-nav-link:hover { background: rgba(168,85,247,.18); }
+  .hub-sub {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: .9rem;
+    color: var(--bone);
+    opacity: 0.75;
+    margin-top: 6px;
+    letter-spacing: 0.03em;
+  }
 
   /* ── Deck header strip (persistent) ──────────────────────────── */
   .deck-strip {
     display: flex; align-items: center; gap: 14px;
     padding: 14px 20px;
-    margin: 6px 14px 8px;
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    box-shadow: 0 2px 18px rgba(168,85,247,.06);
+    margin: 14px 14px 8px;
+    background: rgba(21, 32, 26, 0.72);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(168,124,201,0.08);
   }
   .deck-strip .deck-portrait {
     width: 56px; height: 78px;
     border-radius: 6px; object-fit: cover;
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 0 1px var(--rule);
     flex-shrink: 0;
   }
   .deck-strip .deck-meta { flex: 1; min-width: 0; }
-  .deck-strip .deck-name { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: .02em; }
-  .deck-strip .deck-cmdr { font-size: .74rem; color: var(--sub); font-style: italic; margin-top: 2px; }
-  .deck-strip .deck-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+  .deck-strip .deck-name { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; color: var(--parchment); letter-spacing: .02em; }
+  .deck-strip .deck-cmdr { font-size: .78rem; color: var(--bone); opacity: 0.7; font-style: italic; margin-top: 2px; }
+  .deck-strip .deck-stats { display: flex; gap: 8px; flex-wrap: wrap; }
   .deck-pip {
     font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 700;
-    padding: 4px 9px; border-radius: 12px;
-    background: rgba(168,85,247,.08); color: var(--purple);
+    padding: 4px 10px; border-radius: 12px;
+    background: rgba(235,217,168,0.08); color: var(--bone);
+    border: 1px solid var(--rule);
   }
-  .deck-pip.count { background: linear-gradient(135deg, var(--pink), var(--purple)); color: #fff; }
-  .deck-pip.mana-B { background: rgba(13,20,16,.85); color: #e9d8ff; }
-  .deck-pip.mana-G { background: rgba(151,179,92,.22); color: #4a6a2a; }
-  .deck-pip.mana-U { background: rgba(96,165,250,.22); color: #1e3a8a; }
+  .deck-pip.count {
+    background: linear-gradient(135deg, var(--moss-bright), var(--amethyst-bright));
+    color: var(--swamp); border-color: transparent;
+    box-shadow: 0 2px 8px rgba(151,179,92,.3);
+  }
+  .deck-pip.mana-B { background: rgba(13,20,16,0.88); color: #e9d8ff; border-color: rgba(168,124,201,0.4); }
+  .deck-pip.mana-G { background: rgba(79,124,45,0.28); color: #c8e29a; border-color: rgba(151,179,92,0.4); }
+  .deck-pip.mana-U { background: rgba(60,110,130,0.28); color: #9ec5d8; border-color: rgba(100,165,200,0.4); }
 
   /* ── Tab bar ─────────────────────────────────────────────────── */
   .tab-bar {
     display: flex; gap: 4px; padding: 0 14px;
     overflow-x: auto; scrollbar-width: none;
-    margin-top: 4px;
+    margin-top: 6px;
   }
   .tab-bar::-webkit-scrollbar { display: none; }
   .tab-btn {
     flex: 0 0 auto;
-    background: rgba(168,85,247,.06);
-    border: 1px solid var(--border);
+    background: rgba(21, 32, 26, 0.5);
+    border: 1px solid var(--rule);
     border-bottom: 3px solid transparent;
     border-radius: 14px 14px 0 0;
-    padding: 9px 16px 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: .78rem; font-weight: 700;
-    color: var(--sub);
+    padding: 10px 18px 9px;
+    font-family: 'Cinzel', serif;
+    font-size: .78rem; font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone);
     cursor: pointer;
-    transition: all .18s;
+    transition: all .2s;
     white-space: nowrap;
   }
-  .tab-btn:hover:not(.active) { background: rgba(168,85,247,.14); color: var(--purple); }
+  .tab-btn:hover:not(.active) { background: rgba(79,124,45,0.2); color: var(--moss-bright); }
   .tab-btn.active {
-    color: var(--pink);
-    background: var(--glass);
-    border-bottom-color: var(--pink);
-    box-shadow: 0 -2px 10px rgba(232,78,160,.12);
+    color: var(--parchment);
+    background: rgba(29, 42, 34, 0.9);
+    border-bottom-color: var(--moss-bright);
+    box-shadow: 0 -2px 14px rgba(151,179,92,.2), 0 -1px 0 rgba(168,124,201,0.2);
   }
 
   /* ── Tab panes ───────────────────────────────────────────────── */
@@ -1008,9 +1067,9 @@
 
   .save-btn {
     display: block; width: 100%;
-    background: var(--pink);
-    color: #fff;
-    border: none;
+    background: linear-gradient(135deg, var(--moss-bright) 0%, var(--frog) 100%);
+    color: var(--swamp);
+    border: 1px solid rgba(151,179,92,0.55);
     border-radius: 10px;
     padding: 14px;
     font-family: 'Cinzel', serif;
@@ -1020,10 +1079,10 @@
     text-transform: uppercase;
     cursor: pointer;
     margin-top: 20px;
-    box-shadow: 0 6px 20px rgba(232,78,160,0.35);
+    box-shadow: 0 6px 20px rgba(151,179,92,0.28), inset 0 1px 0 rgba(255,255,255,0.2);
     transition: transform .15s, box-shadow .15s, opacity .15s;
   }
-  .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(232,78,160,0.45); }
+  .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(151,179,92,0.4); }
   .save-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 
   .autocomplete { position: relative; }
@@ -1127,7 +1186,8 @@
     position: fixed;
     bottom: 30px; left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: var(--pink); color: #fff;
+    background: linear-gradient(135deg, var(--moss-bright), var(--amethyst-bright));
+    color: var(--swamp);
     padding: 12px 22px;
     border-radius: 24px;
     font-family: 'Cinzel', serif;
@@ -1136,7 +1196,7 @@
     text-transform: uppercase;
     opacity: 0;
     transition: opacity .25s, transform .25s;
-    box-shadow: 0 10px 30px rgba(232,78,160,0.4);
+    box-shadow: 0 10px 30px rgba(151,179,92,0.4);
     z-index: 200;
     pointer-events: none;
   }
@@ -1408,8 +1468,9 @@
      LOADER
      ═══════════════════════════════════════════════════════════════ -->
 <div id="loader">
-  <div class="loader-nails-wrap">
-    <img src="nails.png" class="loader-wolf" alt="Loading...">
+  <div class="loader-pad-wrap">
+    <div class="lily-pad"></div>
+    <span class="loader-frog">🐸</span>
     <span class="sp sp1">&#10022;</span>
     <span class="sp sp2">&#10022;</span>
     <span class="sp sp3">&#10022;</span>
@@ -1422,16 +1483,11 @@
 <div class="app">
 
   <!-- ═══════════════════════════════════════════════════════════
-       HUB HEADER
+       HEADER
        ═══════════════════════════════════════════════════════════ -->
   <div class="hub-header">
-    <div class="hub-title">🐸 Glarb</div>
-    <div class="hub-sub">cEDH command center · Sultai Hulk-Pile Turbo Combo</div>
-    <div class="hub-nav">
-      <a href="index.html" class="hub-nav-link">🐺 Hub Home</a>
-      <a href="plan.html"  class="hub-nav-link">🗓️ Planner</a>
-      <a href="gym.html"   class="hub-nav-link">💪 Gym</a>
-    </div>
+    <div class="hub-title"><span class="emoji">🐸</span> Glarb<span class="dot">.</span></div>
+    <div class="hub-sub">cEDH command center — Sultai Hulk-Pile Turbo Combo</div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
@@ -2252,9 +2308,12 @@ const CODEX_ENABLERS = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════
-   SCRYFALL HELPERS
+   SCRYFALL HELPERS — uses /cards/collection (one bulk request, direct
+   CDN URLs from response). Avoids the ERR_BLOCKED_BY_ORB / rate-limit
+   issues that hit with hundreds of parallel /cards/named?format=image
+   requests.
    ═══════════════════════════════════════════════════════════════════ */
-const CARD_CACHE_KEY = 'enid_mtg_card_cache';
+const CARD_CACHE_KEY = 'enid_mtg_card_cache_v2';
 const CARD_CACHE_TTL = 24 * 60 * 60 * 1000;  // 24 hours
 
 function loadCardCache() {
@@ -2274,33 +2333,77 @@ function saveCardCache(cache) {
 }
 const cardCache = loadCardCache();
 
+function extractCardData(c) {
+  const face = c.card_faces && c.card_faces[0];
+  const imgs = c.image_uris || (face && face.image_uris) || {};
+  return {
+    name: c.name,
+    type_line: c.type_line || (face && face.type_line) || '',
+    mana_cost: c.mana_cost || (face && face.mana_cost) || '',
+    cmc: c.cmc || 0,
+    oracle_text: c.oracle_text || (face && face.oracle_text) || '',
+    colors: c.colors || (face && face.colors) || [],
+    color_identity: c.color_identity || [],
+    image_normal: imgs.normal || imgs.large || '',
+    image_small: imgs.small || imgs.normal || '',
+    scryfall_uri: c.scryfall_uri,
+  };
+}
+
+/* Return a URL for a card image.
+   - If we have it in cache (from the bulk fetch), return the direct CDN URL.
+   - Otherwise fall back to the ?format=image redirect endpoint. */
 function scryImg(name, version) {
   version = version || 'normal';
+  const cached = cardCache[name] && cardCache[name].data;
+  if (cached) {
+    return version === 'small' ? (cached.image_small || cached.image_normal) : cached.image_normal;
+  }
   return `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}&format=image&version=${version}`;
 }
 
+/* Bulk prefetch — uses /cards/collection (POST, up to 75 identifiers/req).
+   Cached per-name with 24h TTL; only cards missing from cache are requested. */
+async function prefetchCards(names) {
+  const needed = [];
+  const seen = new Set();
+  for (const n of names) {
+    if (seen.has(n)) continue;
+    seen.add(n);
+    if (!cardCache[n] || !cardCache[n].data || !cardCache[n].data.image_normal) needed.push(n);
+  }
+  if (!needed.length) return;
+
+  const BATCH = 70;
+  for (let i = 0; i < needed.length; i += BATCH) {
+    const slice = needed.slice(i, i + BATCH);
+    try {
+      const r = await fetch('https://api.scryfall.com/cards/collection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifiers: slice.map(n => ({ name: n })) })
+      });
+      if (!r.ok) continue;
+      const j = await r.json();
+      for (const c of (j.data || [])) {
+        const d = extractCardData(c);
+        cardCache[c.name] = { ts: Date.now(), data: d };
+      }
+    } catch (e) { /* ignore; scryImg() will fall back */ }
+  }
+  saveCardCache(cardCache);
+}
+
+/* On-demand single-card fetch for the modal oracle text. */
 async function fetchCardData(name) {
   if (cardCache[name] && cardCache[name].data) return cardCache[name].data;
   try {
     const r = await fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}`);
     if (!r.ok) return null;
-    const j = await r.json();
-    const minimal = {
-      name: j.name,
-      type_line: j.type_line,
-      mana_cost: j.mana_cost || '',
-      cmc: j.cmc,
-      oracle_text: j.oracle_text || (j.card_faces && j.card_faces[0] && j.card_faces[0].oracle_text) || '',
-      colors: j.colors || [],
-      color_identity: j.color_identity || [],
-      image_uri: (j.image_uris && j.image_uris.normal) ||
-                 (j.card_faces && j.card_faces[0] && j.card_faces[0].image_uris && j.card_faces[0].image_uris.normal) ||
-                 '',
-      scryfall_uri: j.scryfall_uri,
-    };
-    cardCache[name] = { ts: Date.now(), data: minimal };
+    const d = extractCardData(await r.json());
+    cardCache[name] = { ts: Date.now(), data: d };
     saveCardCache(cardCache);
-    return minimal;
+    return d;
   } catch (e) { return null; }
 }
 
@@ -2449,26 +2552,15 @@ function groupOf(typeLine) {
 }
 const GROUP_ORDER = ['Commander','Planeswalker','Creature','Sorcery','Instant','Artifact','Enchantment','Land','Other'];
 
-async function renderDeck() {
+function renderDeck() {
   const grid = $('deck-render');
-  const deckData = [];
+  // All deck data comes from cardCache (populated by prefetchCards in boot()).
+  // Falls back to a minimal record if anything's missing so chips still render.
+  const deckData = DECKLIST.map(n => {
+    const cached = cardCache[n] && cardCache[n].data;
+    return cached || { name: n, type_line: 'Other', cmc: 0, mana_cost: '' };
+  });
 
-  // Always render chips synchronously first (images load async).
-  const groups = {};
-  for (const name of DECKLIST) groups[name] = null;
-
-  // Attempt to fetch type lines in parallel (small batches to be kind to Scryfall).
-  const batchSize = 10;
-  for (let i = 0; i < DECKLIST.length; i += batchSize) {
-    const batch = DECKLIST.slice(i, i + batchSize);
-    await Promise.all(batch.map(async n => {
-      const d = await fetchCardData(n);
-      if (d) deckData.push(d);
-      else deckData.push({ name: n, type_line: 'Other' });
-    }));
-  }
-
-  // Group by type
   const grouped = {};
   for (const c of deckData) {
     const g = groupOf(c.type_line);
@@ -3025,22 +3117,34 @@ async function boot() {
   const loaderText = $('loader-text');
 
   try {
-    renderDataChips();  // Renders chips in combat card + matrix
-    renderCodex();      // Renders combo codex from data
-
     loaderText.textContent = 'Consulting the top of the library…';
-    await ensureDeckSeeded();
+    // ONE bulk request for all card data up front → direct CDN image URLs in cache.
+    await prefetchCards(DECKLIST);
+
+    // Swap the two hardcoded Scryfall-redirect URLs (deck portrait + commander card)
+    // to direct CDN URLs from the prefetch cache.
+    const glarbData = cardCache["Glarb, Calamity's Augur"] && cardCache["Glarb, Calamity's Augur"].data;
+    if (glarbData) {
+      const portrait = document.querySelector('.deck-strip .deck-portrait');
+      if (portrait && glarbData.image_small) portrait.src = glarbData.image_small;
+      const commander = document.querySelector('.commander-card');
+      if (commander && glarbData.image_normal) commander.src = glarbData.image_normal;
+    }
+
+    renderDataChips();  // Combat card + codex matrix chips (now use cached CDN URLs)
+    renderCodex();      // Combo codex from data
 
     loaderText.textContent = 'Surveilling game history…';
+    await ensureDeckSeeded();
     await loadGames();
     await flushPending();
 
     initForm();
 
     loaderText.textContent = 'Dealing opening hand…';
-    renderDeck();  // async; don't await so tabs can switch while images load
+    renderDeck();
 
-    // Hook retry to any static images on the page
+    // Hook retry to any static images on the page (commander portrait, etc.)
     document.querySelectorAll('.card-chip img, .commander-card').forEach(setupImage);
 
     // Initial tab from hash
