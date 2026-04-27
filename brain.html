@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inside Enid's Brain 🧠💖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;500;600;700&family=Shrikhand&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1: #FFE5F1;
+    --bg-2: #E8DAFF;
+    --bg-3: #D0F0FF;
+    --bg-4: #FFF0F5;
+    --ink: #3D2659;
+    --ink-soft: #6B4E8C;
+    --pink-hot: #FF4FA3;
+    --pink-soft: #FFB7D6;
+    --lilac: #C589FF;
+    --mint: #7BDFB5;
+    --gold: #FFCB5C;
+    --cyan: #5FE0D5;
+    --card: #FFFFFF;
+    --card-border: rgba(255, 79, 163, 0.25);
+    --shadow: 0 12px 40px rgba(197, 137, 255, 0.25), 0 4px 12px rgba(255, 79, 163, 0.18);
+    --glow: 0 0 30px rgba(255, 175, 219, 0.6);
+  }
+
+  [data-theme="night"] {
+    --bg-1: #1A0B2E;
+    --bg-2: #2D1B4E;
+    --bg-3: #1F0F3A;
+    --bg-4: #15082A;
+    --ink: #FFE5F1;
+    --ink-soft: #C589FF;
+    --pink-hot: #FF6FB5;
+    --pink-soft: #C589FF;
+    --card: #2A1547;
+    --card-border: rgba(255, 111, 181, 0.4);
+    --shadow: 0 12px 40px rgba(255, 79, 163, 0.35), 0 0 30px rgba(197, 137, 255, 0.4);
+    --glow: 0 0 40px rgba(255, 79, 163, 0.7);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    position: relative;
+    background:
+      radial-gradient(circle at 15% 20%, var(--bg-1) 0%, transparent 45%),
+      radial-gradient(circle at 85% 30%, var(--bg-2) 0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, var(--bg-3) 0%, transparent 50%),
+      radial-gradient(circle at 20% 90%, var(--bg-4) 0%, transparent 40%),
+      var(--bg-4);
+    background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+    animation: meshDrift 30s ease-in-out infinite;
+    cursor: default;
+  }
+
+  @keyframes meshDrift {
+    0%, 100% { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 100%, 0 0; }
+    50% { background-position: 30% 20%, 70% 30%, 60% 60%, 20% 80%, 0 0; }
+  }
+
+  /* ------- Decorative floating particles in BG ------- */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    font-size: 18px;
+    opacity: 0.35;
+    animation: floatUp linear infinite;
+    user-select: none;
+  }
+  [data-theme="night"] .particle {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 6px rgba(255, 111, 181, 0.6));
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) translateX(0) rotate(0); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) translateX(40px) rotate(360deg); opacity: 0; }
+  }
+
+  /* ------- Cursor sparkle trail ------- */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    font-size: 14px;
+    animation: sparkleFade 0.8s ease-out forwards;
+    user-select: none;
+  }
+  @keyframes sparkleFade {
+    0% { transform: scale(0.4) rotate(0); opacity: 1; }
+    100% { transform: scale(1.2) rotate(180deg) translateY(20px); opacity: 0; }
+  }
+
+  /* ------- Header ------- */
+  header {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 50px 24px 20px;
+  }
+  .title-stack {
+    display: inline-block;
+    position: relative;
+  }
+  h1 {
+    font-family: 'Shrikhand', cursive;
+    font-size: clamp(40px, 7vw, 76px);
+    color: var(--pink-hot);
+    line-height: 0.95;
+    letter-spacing: -1px;
+    text-shadow:
+      3px 3px 0 var(--lilac),
+      6px 6px 0 rgba(197, 137, 255, 0.3);
+    transform: rotate(-2deg);
+    margin-bottom: 8px;
+  }
+  h1 .heart {
+    display: inline-block;
+    animation: heartbeat 1.4s ease-in-out infinite;
+    color: var(--pink-hot);
+    text-shadow: none;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.18); }
+    50% { transform: scale(0.95); }
+  }
+  .subtitle {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(18px, 2.4vw, 26px);
+    color: var(--ink-soft);
+    max-width: 600px;
+    margin: 0 auto;
+    transform: rotate(-1deg);
+  }
+
+  /* ------- Top controls ------- */
+  .controls {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 18px 16px 8px;
+  }
+  .ctrl-btn {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 18px;
+    border: 2px solid var(--card-border);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(197, 137, 255, 0.15);
+  }
+  .ctrl-btn:hover {
+    transform: translateY(-2px) rotate(-1deg);
+    border-color: var(--pink-hot);
+    box-shadow: 0 8px 20px rgba(255, 79, 163, 0.3);
+  }
+  .ctrl-btn.random {
+    background: linear-gradient(135deg, var(--pink-hot), var(--lilac));
+    color: white;
+    border-color: transparent;
+  }
+  .practice-counter {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--pink-hot);
+    background: var(--card);
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 2px dashed var(--pink-soft);
+  }
+  [data-theme="night"] .practice-counter { color: var(--pink-soft); }
+
+  /* ------- Filter pills ------- */
+  .filters {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 14px 16px 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .filter-pill {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 14px;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 6px rgba(197, 137, 255, 0.12);
+  }
+  .filter-pill:hover {
+    transform: translateY(-2px);
+  }
+  .filter-pill.active {
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 79, 163, 0.4);
+  }
+
+  /* ------- Brain canvas ------- */
+  .canvas-wrap {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 220vh;
+    padding: 40px 0 100px;
+  }
+  .brain-canvas {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 200vh;
+    padding: 20px;
+  }
+
+  /* ------- Bubbles ------- */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px;
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease, opacity 0.5s ease;
+    user-select: none;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.85), rgba(255,255,255,0.4) 60%, transparent);
+    backdrop-filter: blur(4px);
+    border: 2px solid;
+    will-change: transform;
+  }
+  [data-theme="night"] .bubble {
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), rgba(255,255,255,0.05) 60%, transparent);
+  }
+  .bubble::before {
+    content: '';
+    position: absolute;
+    top: 12%;
+    left: 18%;
+    width: 28%;
+    height: 22%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.9), transparent 70%);
+    pointer-events: none;
+  }
+  .bubble .b-emoji {
+    font-size: 1.6em;
+    line-height: 1;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+  }
+  .bubble .b-num {
+    font-family: 'Shrikhand', cursive;
+    font-size: 0.85em;
+    color: var(--ink);
+    opacity: 0.85;
+  }
+  [data-theme="night"] .bubble .b-num { color: var(--ink); opacity: 0.95; }
+  .bubble:hover {
+    transform: scale(1.18) rotate(3deg) !important;
+    box-shadow: var(--glow), 0 8px 24px rgba(255, 79, 163, 0.4) !important;
+    z-index: 50;
+  }
+  .bubble.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.4) !important;
+  }
+  .bubble.practicing::after {
+    content: '✓';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 22px;
+    height: 22px;
+    background: var(--pink-hot);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(255, 79, 163, 0.5);
+    animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn {
+    0% { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  /* drift animations - several variants */
+  @keyframes drift1 { 0%,100% { transform: translate(0,0) rotate(0); } 25% { transform: translate(20px, -15px) rotate(3deg); } 50% { transform: translate(-10px, -25px) rotate(-2deg); } 75% { transform: translate(-25px, 10px) rotate(2deg); } }
+  @keyframes drift2 { 0%,100% { transform: translate(0,0) rotate(0); } 33% { transform: translate(-22px, 18px) rotate(-3deg); } 66% { transform: translate(15px, 25px) rotate(4deg); } }
+  @keyframes drift3 { 0%,100% { transform: translate(0,0) rotate(0); } 50% { transform: translate(18px, -22px) rotate(5deg); } }
+  @keyframes drift4 { 0%,100% { transform: translate(0,0) rotate(-1deg); } 25% { transform: translate(-15px, -10px) rotate(2deg); } 50% { transform: translate(10px, -20px) rotate(-3deg); } 75% { transform: translate(20px, 8px) rotate(1deg); } }
+  @keyframes drift5 { 0%,100% { transform: translate(0,0) rotate(2deg); } 50% { transform: translate(-25px, 22px) rotate(-4deg); } }
+
+  /* ------- Modal ------- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 27, 78, 0.55);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal {
+    background: var(--card);
+    border-radius: 32px;
+    max-width: 540px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 36px 32px 28px;
+    position: relative;
+    transform: scale(0.7) rotate(-3deg);
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: var(--shadow);
+    border: 3px solid var(--card-border);
+  }
+  .modal-overlay.active .modal {
+    transform: scale(1) rotate(-1deg);
+  }
+  .modal::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border-radius: 36px;
+    background: linear-gradient(135deg, var(--pink-hot), var(--lilac), var(--cyan));
+    z-index: -1;
+    opacity: 0.4;
+    filter: blur(20px);
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--card-border);
+    background: var(--card);
+    color: var(--ink);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  .modal-close:hover {
+    transform: rotate(90deg) scale(1.1);
+    background: var(--pink-hot);
+    color: white;
+    border-color: var(--pink-hot);
+  }
+  .modal-cat {
+    display: inline-block;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    color: white;
+    margin-bottom: 14px;
+    transform: rotate(-2deg);
+    font-weight: 700;
+  }
+  .modal-num {
+    font-family: 'Shrikhand', cursive;
+    color: var(--pink-hot);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+  .modal-title {
+    font-family: 'Shrikhand', cursive;
+    font-size: 28px;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .modal-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .modal-mantra {
+    background: linear-gradient(135deg, rgba(255, 79, 163, 0.12), rgba(197, 137, 255, 0.12));
+    border-left: 4px solid var(--pink-hot);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    line-height: 1.3;
+    color: var(--ink);
+    position: relative;
+  }
+  [data-theme="night"] .modal-mantra {
+    background: linear-gradient(135deg, rgba(255, 79, 163, 0.2), rgba(197, 137, 255, 0.2));
+  }
+  .modal-mantra::before {
+    content: '"';
+    position: absolute;
+    top: -18px;
+    left: 8px;
+    font-size: 56px;
+    font-family: 'Shrikhand', cursive;
+    color: var(--pink-hot);
+    opacity: 0.4;
+  }
+  .modal-practice {
+    background: rgba(123, 223, 181, 0.18);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 22px;
+    border: 2px dashed var(--mint);
+  }
+  [data-theme="night"] .modal-practice {
+    background: rgba(123, 223, 181, 0.12);
+  }
+  .modal-practice .label {
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    color: var(--mint);
+    font-weight: 700;
+    margin-bottom: 4px;
+    filter: brightness(0.85);
+  }
+  [data-theme="night"] .modal-practice .label { filter: brightness(1.2); }
+  .modal-practice .text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .practice-toggle {
+    width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+    border: 2px solid var(--card-border);
+    background: var(--card);
+    color: var(--ink);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .practice-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 79, 163, 0.25);
+  }
+  .practice-toggle.active {
+    background: linear-gradient(135deg, var(--pink-hot), var(--lilac));
+    color: white;
+    border-color: transparent;
+  }
+
+  /* ------- Footer ------- */
+  footer {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 40px 20px 60px;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--ink-soft);
+  }
+  footer .heart-line {
+    color: var(--pink-hot);
+    font-size: 28px;
+  }
+
+  /* ------- Scrollbar ------- */
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: var(--bg-2); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--pink-hot), var(--lilac));
+    border-radius: 999px;
+    border: 2px solid var(--bg-2);
+  }
+
+  /* ------- Mobile ------- */
+  @media (max-width: 600px) {
+    .canvas-wrap { min-height: 320vh; }
+    .brain-canvas { min-height: 300vh; }
+    h1 { text-shadow: 2px 2px 0 var(--lilac), 4px 4px 0 rgba(197, 137, 255, 0.3); }
+    .modal { padding: 28px 22px 22px; border-radius: 24px; }
+    .modal-title { font-size: 24px; }
+    .filters { gap: 6px; padding: 10px 12px 20px; }
+    .filter-pill { font-size: 12px; padding: 6px 11px; }
+  }
+</style>
+</head>
+<body data-theme="day">
+
+<div class="particles" id="particles"></div>
+
+<header>
+  <div class="title-stack">
+    <h1>Inside Enid's Brain <span class="heart">💖</span></h1>
+    <div class="subtitle">53 little thoughts floating around — tap one to listen in ✨</div>
+  </div>
+</header>
+
+<div class="controls">
+  <button class="ctrl-btn random" id="randomBtn">🎲 Random thought</button>
+  <button class="ctrl-btn" id="themeBtn">🌙 Night mode</button>
+  <div class="practice-counter" id="counter">0 / 53 practicing</div>
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="canvas-wrap">
+  <div class="brain-canvas" id="canvas"></div>
+</div>
+
+<footer>
+  <div>your nervous system, attention &amp; energy<br>are the actual scarce resources <span class="heart-line">💖</span></div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const CATEGORIES = [
+  { id: 'attention',    name: 'Attention',    emoji: '🔉', color: '#FF4FA3' },
+  { id: 'sleep',        name: 'Sleep',        emoji: '🌙', color: '#9B6BFF' },
+  { id: 'body',         name: 'Body',         emoji: '🐾', color: '#3DCB94' },
+  { id: 'food',         name: 'Food',         emoji: '🍽️', color: '#FF8A5C' },
+  { id: 'work',         name: 'Work',         emoji: '🚀', color: '#3B9EFF' },
+  { id: 'relationships',name: 'Relationships',emoji: '💞', color: '#FF3D88' },
+  { id: 'money',        name: 'Money',        emoji: '💸', color: '#E8B43A' },
+  { id: 'learning',     name: 'Learning',     emoji: '📚', color: '#1FCDC2' },
+  { id: 'decisions',    name: 'Decisions',    emoji: '🔍', color: '#A076FF' },
+  { id: 'identity',     name: 'Identity',     emoji: '🦋', color: '#FF6F9E' },
+];
+
+const RULES = [
+  { n:1, cat:'attention', emoji:'🌅', title:"The first and last hour belong to you",
+    desc:"Not your phone, not your inbox, not the news. The first hour sets your nervous system's tone for the day; the last hour determines your sleep quality. Anything you give to a screen during those windows is taken from you.",
+    mantra:"Bookend your day with you, sparklepup. The world can wait an hour on both sides — it really, really can.",
+    practice:"Tonight, plug your phone in across the room (not on the nightstand). When you wake up, do one analog thing — stretch, drink water, look out the window — before unlocking it." },
+  { n:2, cat:'attention', emoji:'🔉', title:"One input at a time",
+    desc:"No TV-plus-laptop-plus-phone stacks. Media multitasking is associated with measurably worse attention, memory, and task-switching — you literally degrade your cognition by doing it.",
+    mantra:"Your brain is not a browser with seventeen tabs open, glowbug. Close some of them.",
+    practice:"Tonight when you watch TV, leave your phone in another room. Notice the urge to grab it. Don't act on it." },
+  { n:3, cat:'attention', emoji:'🔕', title:"Notifications are an inbox, not an alert system",
+    desc:"Default everything to silent. Check on your schedule, not theirs. The only things allowed to interrupt you in real time are humans you love and emergencies. Slack and email are not emergencies, even when they feel like it.",
+    mantra:"If everything's urgent, nothing is. Slack will live, I promise on my werewolf honor.",
+    practice:"Right now, open Settings → Notifications and turn off banners and badges for every app except calls, texts, and calendar. Takes 5 minutes." },
+  { n:4, cat:'attention', emoji:'🗑️', title:"Curate your inputs like they shape you",
+    desc:"Unfollow, mute, or unsubscribe from anything that consistently leaves you feeling worse. You're not obligated to consume content out of loyalty, FOMO, or guilt. Your feed is a diet.",
+    mantra:"You wouldn't eat from a trash can, Roomie. Don't scroll from one either.",
+    practice:"Open Instagram, TikTok, or X right now. Unfollow or mute 5 accounts that consistently make you feel worse. No deliberation — gut call." },
+  { n:5, cat:'attention', emoji:'🌙', title:"Default to silence in transitions",
+    desc:"Walking somewhere, driving short distances, doing dishes, showering — let it be quiet sometimes. These moments aren't dead time to be filled; they're where your brain processes everything else.",
+    mantra:"Quiet isn't empty — it's where your brain catches up with your life.",
+    practice:"Tomorrow, do one routine task (commute, dishes, shower) with no audio at all. Just notice what comes up." },
+  { n:6, cat:'attention', emoji:'📵', title:"The phone has rooms it isn't allowed in",
+    desc:"Pick yours and hold the line. At minimum: not at meals, not in the bedroom overnight, not in the bathroom. The phone-creep into every corner of life is the single biggest attention leak most people have.",
+    mantra:"Some rooms are sacred, sparklepup. Make a list. Hold the line.",
+    practice:"Pick one room (bathroom is the easy starter) and make it phone-free for one full week. Leave the phone outside the door before going in." },
+
+  { n:7, cat:'sleep', emoji:'⏰', title:"Anchor your wake time, not your bedtime",
+    desc:"Within an hour or so, every day, including weekends. Your circadian rhythm is set by when you wake up and see light, not when you go to bed. Variable wake times produce a low-grade jet-lag effect.",
+    mantra:"Same wake-up, every day. Your body LOVES a ritual. Treat it like one.",
+    practice:"Set one alarm time for the next 7 days — including the weekend — within 30 minutes of your weekday wake-up. Hold it." },
+  { n:8, cat:'sleep', emoji:'🛏️', title:"The bedroom is for sleep",
+    desc:"Not work, not scrolling, not eating. Your brain pattern-matches environments to behaviors — make the bedroom mean one thing and falling asleep gets dramatically easier.",
+    mantra:"Train your bed like a good little habit — it should mean ONE thing to your brain.",
+    practice:"Move any work-from-bed activity (laptop, etc.) somewhere else. If you have to work from bed sometimes, at least never do it under the covers." },
+  { n:9, cat:'sleep', emoji:'🌒', title:"If you can't sleep in 20 minutes, get up",
+    desc:"Lying in bed frustrated teaches your brain that the bed is a place for being awake and frustrated. Go read something boring in dim light until sleepy, then return.",
+    mantra:"Don't marinate in frustration, glowbug. Get up, dim the lights, come back when you're sleepy.",
+    practice:"Pre-stage a 'boring book' on your couch tonight — physical book, dim lamp nearby. Future-you will thank present-you next time you're staring at the ceiling." },
+  { n:10, cat:'sleep', emoji:'☕', title:"Caffeine has a 6–8 hour functional half-life",
+    desc:"Even if you can fall asleep on caffeine, it degrades sleep architecture (less deep sleep). Soda, energy drinks, some teas, and a lot of preworkouts all count.",
+    mantra:"Afternoon caffeine is a love letter to tomorrow's exhaustion. Don't send it.",
+    practice:"Make 2pm your hard cutoff for any caffeinated drinks. Set a recurring 1:45pm phone reminder for the first two weeks." },
+  { n:11, cat:'sleep', emoji:'💤', title:"Sleep is the foundation, not the leftover",
+    desc:"When something has to give, it should almost never be sleep. One bad night costs you the next day. Chronic underslept costs you years.",
+    mantra:"You don't borrow from sleep — you steal from yourself, with interest.",
+    practice:"Tonight, work backward from your wake time and set a 'start winding down' alarm 8.5 hours before. When it goes off, that's your signal." },
+
+  { n:12, cat:'body', emoji:'🐾', title:"Move every day, even badly",
+    desc:"A 10-minute walk you don't feel like taking beats a 60-minute workout you keep skipping. Consistency compounds; intensity without consistency doesn't.",
+    mantra:"Ten messy minutes beats sixty perfect ones you didn't do, Roomie. Always.",
+    practice:"Define your floor: 'every day I will at minimum walk 10 min, do 20 pushups, or stretch 5 min.' Write it down. The floor is non-negotiable." },
+  { n:13, cat:'body', emoji:'💪', title:"Lift heavy things twice a week",
+    desc:"This is the rule that pays the longest dividends. Strength training is the closest thing to a longevity drug we have — bone density, metabolic health, injury prevention, mood. Skip cardio before you skip lifting.",
+    mantra:"Future-you wants strong bones and good vibes. Pick up the heavy stuff.",
+    practice:"You already have the 12-week program in the Hub. Pick the two days this week — put them in your calendar as actual events, not vibes." },
+  { n:14, cat:'body', emoji:'🌿', title:"Walking is the underrated cheat code",
+    desc:"Most 'I can't think clearly' problems are walking problems. Most 'I'm in a bad mood' problems are walking problems. The bar is genuinely just: outside, no destination, 20 minutes.",
+    mantra:"When in doubt: walk it out. The answer is almost always outside, glowbug.",
+    practice:"Next time you feel stuck on a problem at BBS, set a 15-minute timer and walk outside before trying to solve it. No phone. Watch what happens." },
+  { n:15, cat:'body', emoji:'☀️', title:"Get morning sunlight in your eyes",
+    desc:"Within an hour of waking if possible, even through clouds. This is the single biggest lever for sleeping well that night. Five to ten minutes is enough.",
+    mantra:"Sunlight is the cheat code your circadian rhythm has been BEGGING for.",
+    practice:"Tomorrow morning, drink your first glass of water outside (or by an open window if it's brutal out). Five minutes is plenty." },
+  { n:16, cat:'body', emoji:'🦴', title:"Posture is a body-wide setting",
+    desc:"Slumped posture changes breathing depth, hormone profiles, and even mood. Don't try to hold 'good posture' — try to move often enough that no posture sticks.",
+    mantra:"Don't HOLD a posture, sparklepup — just keep moving so none of them stick.",
+    practice:"Set a recurring 45-minute timer during work hours. When it dings: stand up, roll your shoulders, look out a window for 30 seconds. Sit back down." },
+
+  { n:17, cat:'food', emoji:'🍽️', title:"Eat enough",
+    desc:"Chronically under-eating spikes cortisol, wrecks sleep, tanks mood, and makes everything else on this list harder. If you're trying to 'be disciplined' with food and feeling worse — eat more, not less.",
+    mantra:"You can't shrink your way into feeling good, Roomie. Fuel the wolf.",
+    practice:"For one week, log roughly what you eat (notes app is fine). If you're consistently coming in low or skipping meals, that's your data." },
+  { n:18, cat:'food', emoji:'🥩', title:"Protein at every meal",
+    desc:"It's the macronutrient most people accidentally skip and the one that affects satiety, recovery, and body composition the most. Aim higher than feels necessary; you're probably still under.",
+    mantra:"If your plate doesn't have a protein, your plate isn't done. Period.",
+    practice:"Before eating any meal, do the 'protein check' out loud: 'Where's the protein?' If you can't point at it, add some before you sit down." },
+  { n:19, cat:'food', emoji:'🪑', title:"Don't eat standing up",
+    desc:"Sit down. Use a plate. This isn't about etiquette — it's about telling your nervous system you're safe enough to digest. Rest and digest is a literal physiological state.",
+    mantra:"Sit. Plate. Pause. Tell your nervous system: we are SAFE and we are EATING.",
+    practice:"One meal a day this week, eat at an actual table, with an actual plate, sitting down. Lunch is usually the easiest target." },
+  { n:20, cat:'food', emoji:'💧', title:"Hydrate before you stimulate",
+    desc:"First thing in the morning: water before anything caffeinated. You wake up dehydrated; caffeine on top of that is rough on your nervous system and contributes to that wired-but-tired feeling later.",
+    mantra:"Water before everything fun, glowbug. Your morning brain will thank you.",
+    practice:"Tonight, fill a 20oz glass and put it on your kitchen counter. Rule: drink it before any other morning beverage." },
+  { n:21, cat:'food', emoji:'🍳', title:"Cook more than you eat out",
+    desc:"Cooking is leverage: it's cheaper, healthier, and forces a screen-free pause. Aiming for 'most meals' beats aiming for 'all meals' because the latter cracks the first time life gets busy.",
+    mantra:"Cooking is leverage, not punishment. Aim for most, not all.",
+    practice:"Pick one weeknight this week and cook something — even if it's pasta with jar sauce and frozen vegetables. The bar is low. The point is the habit." },
+
+  { n:22, cat:'work', emoji:'🚪', title:"Hard start, hard stop",
+    desc:"A clear 'the day has begun' and 'the day is done' signal is what lets your nervous system actually rest in between. Endless workdays don't produce more output; they produce worse output spread thinner.",
+    mantra:"Open the day, close the day. The middle only works if both ends do.",
+    practice:"Pick your stop time tomorrow (e.g., 5:30pm). Set a 5:15pm alarm called 'Wrap.' When it goes off, write tomorrow's top 3 tasks, close the laptop, walk away." },
+  { n:23, cat:'work', emoji:'🧠', title:"Hard problems get the morning",
+    desc:"Cognitive capacity is highest in the first few hours of focused work. Don't burn that window on email, Slack, or admin. Save shallow work for the post-lunch dip.",
+    mantra:"Don't waste your sharpest brain hours on email, sparklepup. That's a CRIME.",
+    practice:"Tomorrow morning, do NOT open Slack or email until you've spent 60 minutes on the hardest thing on your plate. Start the day with the boss fight." },
+  { n:24, cat:'work', emoji:'⏳', title:"Single-task in 60–90 min blocks",
+    desc:"Not 'break to check Twitter.' Stand up, walk, look out a window, get water. Your prefrontal cortex needs actual recovery between focused work, not different stimulation.",
+    mantra:"A scroll break is not a break — it's a costume change for the same exhaustion.",
+    practice:"Try one 75-minute focus block tomorrow with phone in another room. When it ends, stand up and walk outside or to a window for 5 minutes. No phone on the break." },
+  { n:25, cat:'work', emoji:'🚀', title:"Done beats perfect for most things",
+    desc:"Most work is shipped, not enshrined. Spending 80% more time for 5% more polish is usually a bad trade. But for the few things that ARE the showcase, go all the way.",
+    mantra:"Ship the 95%. Polish the showcase. Know which is which, Roomie.",
+    practice:"Pick one BBS or Hub task you've been polishing past the point of return. Ship it today as-is. Notice that the world doesn't end." },
+  { n:26, cat:'work', emoji:'📓', title:"Track your wins weekly",
+    desc:"Friday afternoon, write down what you actually shipped this week. The brain remembers unfinished work and forgets completed work — Zeigarnik effect.",
+    mantra:"Your brain is a LIAR about how productive you were. Write it down so it can't gaslight you.",
+    practice:"Friday at 4pm, set a recurring calendar event: 'Wins log — 5 min.' Open a note, dump everything you shipped that week, close the note." },
+  { n:27, cat:'work', emoji:'🚫', title:"Say no more often than feels comfortable",
+    desc:"Every yes is a no to something else, including rest. The cost of a bad yes is much higher than the cost of a slightly awkward no. Default to 'let me think about it' rather than reflexive yes.",
+    mantra:"Every yes is a no to something else, glowbug. Make sure the trade is worth it.",
+    practice:"Next time someone asks for your time or help, say 'Let me check and get back to you' instead of yes. Sit with it for 4 hours before responding." },
+
+  { n:28, cat:'relationships', emoji:'📲', title:"Initiate",
+    desc:"Most people are waiting for someone else to. The reason you're remembered as the social ambassador isn't magic — it's that you actually do the thing.",
+    mantra:"Be the text-first friend. Be the plan-maker. The world rewards the people who go first.",
+    practice:"Right now, text three people you haven't talked to in a while. One sentence each. Don't overthink the message." },
+  { n:29, cat:'relationships', emoji:'📅', title:"Specific plans beat 'we should hang sometime'",
+    desc:"'Want to grab dinner Thursday at 7?' gets a yes or no. 'We should hang' gets nothing. Vagueness is the enemy of follow-through.",
+    mantra:"Vague plans are fake plans, sparklepup. Pick a day, pick a time, send the text.",
+    practice:"Of the three texts above, at least one should propose a specific day and time. 'Want to grab dinner Thursday at 7?' — actual format." },
+  { n:30, cat:'relationships', emoji:'👂', title:"Be a good audience",
+    desc:"Most people need to be heard more than advised. The instinct to fix or relate-it-back-to-yourself is almost always the wrong instinct in the moment.",
+    mantra:"Most people don't need you to fix it — they need you to HEAR it. Sit in it with them.",
+    practice:"Next conversation where someone vents — before offering anything, ask 'Do you want me to just listen, or do you want my take?' Then honor the answer." },
+  { n:31, cat:'relationships', emoji:'🌷', title:"Tell people you appreciate them",
+    desc:"Not in a weird forced way — just don't save it for eulogies. Specific is better than generic ('the way you handled that thing on Tuesday was impressive' beats 'you're awesome').",
+    mantra:"Don't save the good stuff for eulogies. Say it Tuesday, glowbug.",
+    practice:"This week, send one specific appreciation text. Format: 'Hey, I was thinking about [specific thing] and just wanted to say [why it mattered].' Send it. Don't over-edit." },
+  { n:32, cat:'relationships', emoji:'💬', title:"Hard conversations get easier with practice",
+    desc:"The thing you don't want to say usually gets more expensive the longer you wait. Most relationships die from accumulated small unsaid things, not from one big rupture.",
+    mantra:"The thing you're avoiding is GAINING interest. Pay it now while it's cheap.",
+    practice:"Identify the one conversation you've been avoiding. Set a deadline this week to have it. Write down the opening sentence so you don't fumble the start." },
+  { n:33, cat:'relationships', emoji:'💞', title:"Frequency builds intimacy",
+    desc:"Quality matters more, but quantity matters more than you think. Five short interactions a week beats one long one a month for actually feeling connected to someone.",
+    mantra:"Five little touches beat one big hangout. Frequency is the secret sauce, Roomie.",
+    practice:"Pick three people you want closer to. Set a recurring weekly reminder to send each one a low-effort text — meme, link, 'thinking of you,' whatever." },
+
+  { n:34, cat:'money', emoji:'🏦', title:"Pay yourself first, automatically",
+    desc:"The day money hits your account, a fixed percentage moves to savings before you see it. Willpower fails; automation doesn't. Single biggest financial lever most people have.",
+    mantra:"Automate it before willpower has a chance to negotiate, sparklepup.",
+    practice:"This weekend, set up an auto-transfer from checking to savings the day after each paycheck hits. Even $50. The amount matters less than the system existing." },
+  { n:35, cat:'money', emoji:'👀', title:"Track for awareness, not punishment",
+    desc:"A spending review once a month — not to feel guilty, but to notice patterns. Awareness alone changes behavior more than rules do.",
+    mantra:"You're not on trial, Roomie — you're just gathering intel. Soft eyes, clear head.",
+    practice:"Last day of the month, set a 20-minute calendar block called 'Money look.' Open your bank app, scroll through transactions, notice patterns. No rules, just looking." },
+  { n:36, cat:'money', emoji:'🧮', title:"Quality once for daily use, cheap for rare use",
+    desc:"Mattress, shoes, knives, headphones, chair — pay up. Specialty tools you'll touch twice a year — buy the cheap one. Cost-per-use math beats sticker price.",
+    mantra:"Cost-per-use beats sticker price every single time. Math it, glowbug.",
+    practice:"Next purchase over $50, do the math out loud: 'I'll use this X times, so it costs $Y per use.' If the per-use is high, sleep on it." },
+  { n:37, cat:'money', emoji:'💸', title:"Lifestyle creep is invisible until it isn't",
+    desc:"Every raise, every new income source — bank a meaningful chunk of it before lifestyle absorbs it. The feeling of 'I make more but somehow have the same amount' is creep working as designed.",
+    mantra:"Bank the raise BEFORE your life absorbs it. Otherwise it just disappears.",
+    practice:"Next time income jumps (raise, freelance windfall, Kalshi profit), increase your auto-transfer by at least half the bump that same week." },
+  { n:38, cat:'money', emoji:'⏳', title:"Time and attention are currencies too",
+    desc:"Spend them with the same care you'd spend money. A 'free' thing that costs four hours of your weekend isn't free.",
+    mantra:"Free things that cost a Saturday aren't free, Roomie. Read the fine print.",
+    practice:"Before saying yes to anything optional this week, ask: 'What does this cost me in time, attention, or energy?' Then decide." },
+
+  { n:39, cat:'learning', emoji:'📚', title:"Read more than you scroll",
+    desc:"The information density and cognitive engagement of a book is on a different planet than a feed. Even 20 pages a day compounds into something significant over a year.",
+    mantra:"Twenty pages a day, sparklepup. That's a whole new brain by next year.",
+    practice:"Tonight, put one physical book on your nightstand. The bar is 10 pages before bed — that's it. Most nights you'll do more once you start." },
+  { n:40, cat:'learning', emoji:'🛠️', title:"Build something with what you learn",
+    desc:"Passive consumption gives you the feeling of learning without the actual transfer. Apply, write about it, teach it, ship something with it. Otherwise it leaks out.",
+    mantra:"Consumption isn't comprehension. Make the thing — that's where it locks in.",
+    practice:"Next time you finish a tutorial, article, or course module — immediately spend 15 minutes applying it. Even badly. Even pointlessly. The application is the point." },
+  { n:41, cat:'learning', emoji:'🎓', title:"Teach what you know",
+    desc:"It's the fastest way to find your gaps. The moment you have to explain something to someone else, you discover what you actually understand and what you were just nodding along to.",
+    mantra:"You don't really know it until you can explain it to a confused friend, glowbug.",
+    practice:"Next thing you learn this week, write a 3-paragraph explanation of it as if teaching a friend. Don't post it anywhere. Just write it. The gaps will jump out." },
+  { n:42, cat:'learning', emoji:'😬', title:"Embarrassment is the tax on learning in public",
+    desc:"Pay it. The people who learn fastest are the ones willing to look stupid more often. Privacy about your learning is comfortable and slow.",
+    mantra:"Pay the cringe tax, Roomie. The people who go fastest are the ones willing to look silly.",
+    practice:"Ask one 'obvious' question this week that you'd normally pretend to know the answer to. In a meeting, in a chat, anywhere. Notice nothing bad happens." },
+  { n:43, cat:'learning', emoji:'💭', title:"Boredom is the precondition for original thought",
+    desc:"The Default Mode Network in your brain only fully activates when you're not task-focused. It's where memory consolidation, creative connections, and self-reflection happen. Constant input starves it.",
+    mantra:"Protect some boredom on PURPOSE. That's where the good ideas live.",
+    practice:"Pick one daily 10-minute window (waiting in line, between meetings, after lunch) and do nothing. No phone, no audio, no task. Just stand there." },
+
+  { n:44, cat:'decisions', emoji:'🚪', title:"Reversible: decide fast. Irreversible: decide slow",
+    desc:"Most decisions are reversible. Treating reversible decisions like irreversible ones is one of the biggest sources of self-inflicted stress.",
+    mantra:"Most doors swing both ways, sparklepup. Stop treating them all like one-way exits.",
+    practice:"Next decision you're stuck on, ask: 'Is this reversible?' If yes, give yourself 10 minutes max to decide. If no, give it days." },
+  { n:45, cat:'decisions', emoji:'🌙', title:"Sleep on big decisions",
+    desc:"Cortisol and tiredness distort perception of risk and stakes. Something that feels urgent at 11pm rarely feels urgent at 8am. Big decisions made tired are usually wrong.",
+    mantra:"Nothing important should be decided after 10pm, Roomie. EVER. That's a rule.",
+    practice:"Hard rule: any decision involving more than $200 or affecting your week ahead doesn't get made after 10pm. Notes app: 'Decide tomorrow.' Done." },
+  { n:46, cat:'decisions', emoji:'🔍', title:"The 10/10/10 test",
+    desc:"How will I feel about this in 10 minutes, 10 months, 10 years? Cuts through both impulse decisions and overblown small-stakes ones.",
+    mantra:"Ten minutes, ten months, ten years. If it doesn't matter at year ten, breathe.",
+    practice:"Next time you feel a stress spike, run the test out loud or on paper. Most of the time, the 10-year answer is 'I won't even remember this.'" },
+  { n:47, cat:'decisions', emoji:'🎯', title:"Hell yes or no for opportunities",
+    desc:"Optional things — say no unless you're genuinely excited. Existing commitments — show up even when you don't feel like it. People mix these up and end up flaky on real obligations and overcommitted on optional ones.",
+    mantra:"Optional? Be picky. Promised? Show up. Don't mix those up, glowbug.",
+    practice:"Next invite that lands in your inbox or messages, ask: 'Is this a hell yes?' If hesitant, decline. If you already said yes — go, even if you don't feel like it." },
+  { n:48, cat:'decisions', emoji:'🤔', title:"Stuck = info problem or honesty problem",
+    desc:"Either you don't have enough information yet (gather more), or you already know the answer and don't want to admit it (admit it). Real ambiguity is rarer than it feels.",
+    mantra:"You either need more info, or you already know the answer. Be honest about which.",
+    practice:"Next time you're 'stuck,' write at the top of a page: 'Do I need more information, or am I avoiding the answer?' Answer honestly. Act accordingly." },
+
+  { n:49, cat:'identity', emoji:'🦋', title:"Behave like the person you want to become",
+    desc:"Identity follows action, not the other way around. You don't think your way into being someone new; you act your way there and your self-concept catches up.",
+    mantra:"You don't think your way into being new, Roomie — you act, and identity catches up.",
+    practice:"Pick one trait you want ('I'm a person who [X]'). Pick one action this week that someone with that identity would obviously do. Do it before you 'feel ready.'" },
+  { n:50, cat:'identity', emoji:'🚨', title:"Pay attention to what you avoid",
+    desc:"Avoidance is data. Sometimes it's pointing at fear worth pushing through; sometimes it's pointing at something genuinely not for you. Either way, the avoidance itself is information.",
+    mantra:"Avoidance is a SIGN, sparklepup. Read it before you ignore it.",
+    practice:"Right now, write down 3 things you've been avoiding. Next to each, write one word: 'fear' (push through) or 'no' (it's not for you, drop it)." },
+  { n:51, cat:'identity', emoji:'💖', title:"Past you was doing their best",
+    desc:"Be generous with them. Self-flagellation about old decisions is a tax on the present that produces nothing. Learn the lesson, drop the shame.",
+    mantra:"Be soft with old-you, glowbug. They were figuring it out without your current map.",
+    practice:"Next time you catch yourself replaying an old cringe moment, say out loud: 'Past me was doing their best.' Move on. It feels silly. It works." },
+  { n:52, cat:'identity', emoji:'🔄', title:"You're allowed to change your mind",
+    desc:"Consistency is overrated as a virtue. Updating beliefs based on new information is what intelligent, growing people do. The only people who never change their minds are people who've stopped paying attention.",
+    mantra:"Consistency isn't a personality, Roomie. Updating is what smart people DO.",
+    practice:"This week, identify one opinion you hold mostly out of habit. Steel-man the opposite. You don't have to switch — just see if it still holds up." },
+  { n:53, cat:'identity', emoji:'🎳', title:"Notice what makes you feel like yourself",
+    desc:"Not what you think should make you feel that way — what actually does. For you that's bowling, conventions, building weird projects, being the social ambassador, storm chasing, the Hub. The list is data; protect it.",
+    mantra:"Bowling, conventions, weird projects, storms, being the connector — that's the LIST. Protect it.",
+    practice:"Today, write your 'feels like me' list — top 10 things. Stick it somewhere visible. Anytime your week is missing 3+ of them, course-correct." },
+];
+
+const catMap = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const STATE = {
+  practicing: new Set(),    // rule numbers
+  activeFilter: 'all',
+  activeRule: null,
+};
+
+/* Storage: uses window.storage if available (artifact preview),
+   easily swappable with Supabase in your Hub. */
+async function loadPracticing() {
+  try {
+    if (window.storage && window.storage.get) {
+      const r = await window.storage.get('enid_brain_practicing');
+      if (r && r.value) {
+        const arr = JSON.parse(r.value);
+        STATE.practicing = new Set(arr);
+      }
+    }
+  } catch (e) { /* first load, no key yet */ }
+}
+async function savePracticing() {
+  try {
+    if (window.storage && window.storage.set) {
+      await window.storage.set('enid_brain_practicing', JSON.stringify([...STATE.practicing]));
+    }
+  } catch (e) {}
+}
+
+/* =========================================================
+   PARTICLES BACKGROUND
+   ========================================================= */
+function spawnParticles() {
+  const container = document.getElementById('particles');
+  const glyphs = ['💖','✨','🌸','💫','🦋','🌟','💕','🐾','⭐'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (16 + Math.random() * 18) + 's';
+    p.style.animationDelay = (Math.random() * -30) + 's';
+    p.style.fontSize = (12 + Math.random() * 16) + 'px';
+    container.appendChild(p);
+  }
+}
+
+/* =========================================================
+   CURSOR SPARKLES
+   ========================================================= */
+let lastSparkle = 0;
+function initCursorSparkles() {
+  const glyphs = ['✨','💖','⭐','💫'];
+  document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastSparkle < 60) return;
+    lastSparkle = now;
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    s.style.left = (e.clientX - 6 + (Math.random() * 16 - 8)) + 'px';
+    s.style.top = (e.clientY - 6 + (Math.random() * 16 - 8)) + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
+  });
+}
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+function renderFilters() {
+  const wrap = document.getElementById('filters');
+  const all = { id: 'all', name: 'All', emoji: '🧠', color: 'linear-gradient(135deg, #FF4FA3, #C589FF)' };
+  const list = [all, ...CATEGORIES];
+  wrap.innerHTML = '';
+  list.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'filter-pill' + (c.id === STATE.activeFilter ? ' active' : '');
+    b.dataset.cat = c.id;
+    b.innerHTML = `<span>${c.emoji}</span> ${c.name}`;
+    if (c.id === STATE.activeFilter) {
+      b.style.background = c.color.startsWith('linear') ? c.color : c.color;
+      b.style.borderColor = 'transparent';
+    }
+    b.addEventListener('click', () => {
+      STATE.activeFilter = c.id;
+      renderFilters();
+      applyFilter();
+    });
+    wrap.appendChild(b);
+  });
+}
+
+function applyFilter() {
+  document.querySelectorAll('.bubble').forEach(el => {
+    const cat = el.dataset.cat;
+    if (STATE.activeFilter === 'all' || cat === STATE.activeFilter) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+}
+
+/* =========================================================
+   BUBBLES
+   ========================================================= */
+function placeBubbles() {
+  const canvas = document.getElementById('canvas');
+  canvas.innerHTML = '';
+  const isMobile = window.innerWidth < 600;
+  const cols = isMobile ? 3 : 6;
+  const rowHeight = isMobile ? 130 : 160;
+  const cellW = 100 / cols;
+  const drifts = ['drift1','drift2','drift3','drift4','drift5'];
+
+  RULES.forEach((r, idx) => {
+    const cat = catMap[r.cat];
+    const b = document.createElement('div');
+    b.className = 'bubble' + (STATE.practicing.has(r.n) ? ' practicing' : '');
+    b.dataset.cat = r.cat;
+    b.dataset.n = r.n;
+
+    // Grid-ish placement with jitter so it feels organic
+    const row = Math.floor(idx / cols);
+    const col = idx % cols;
+    const jitterX = (Math.random() - 0.5) * (cellW * 0.5);
+    const jitterY = (Math.random() - 0.5) * 50;
+    const leftPct = (col + 0.5) * cellW + jitterX;
+    const top = 40 + row * rowHeight + jitterY;
+    const size = isMobile ? (78 + Math.random() * 18) : (88 + Math.random() * 30);
+
+    b.style.left = `calc(${leftPct}% - ${size/2}px)`;
+    b.style.top = `${top}px`;
+    b.style.width = `${size}px`;
+    b.style.height = `${size}px`;
+    b.style.borderColor = cat.color;
+    b.style.boxShadow = `0 6px 18px ${cat.color}55, inset 0 -8px 18px ${cat.color}22`;
+
+    const drift = drifts[idx % drifts.length];
+    const dur = 9 + Math.random() * 8;
+    const delay = -Math.random() * 10;
+    b.style.animation = `${drift} ${dur}s ease-in-out ${delay}s infinite`;
+
+    b.innerHTML = `
+      <div class="b-emoji">${r.emoji}</div>
+      <div class="b-num">#${r.n}</div>
+    `;
+    b.addEventListener('click', () => openRule(r.n));
+    canvas.appendChild(b);
+  });
+
+  // adjust canvas height to fit grid
+  const totalRows = Math.ceil(RULES.length / cols);
+  canvas.style.minHeight = (40 + totalRows * rowHeight + 100) + 'px';
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+function openRule(n) {
+  const r = RULES.find(x => x.n === n);
+  if (!r) return;
+  const cat = catMap[r.cat];
+  STATE.activeRule = n;
+  const c = document.getElementById('modalContent');
+  const isPracticing = STATE.practicing.has(n);
+  c.innerHTML = `
+    <span class="modal-cat" style="background:${cat.color};">${cat.emoji} ${cat.name}</span>
+    <div class="modal-num">RULE #${r.n}</div>
+    <div class="modal-title">${escapeHtml(r.title)}</div>
+    <div class="modal-desc">${escapeHtml(r.desc)}</div>
+    <div class="modal-mantra">${escapeHtml(r.mantra)}</div>
+    <div class="modal-practice">
+      <div class="label">try this 🌷</div>
+      <div class="text">${escapeHtml(r.practice)}</div>
+    </div>
+    <button class="practice-toggle ${isPracticing ? 'active' : ''}" id="practiceToggle">
+      ${isPracticing ? '✓ Practicing this — tap to remove' : '+ I\'m practicing this'}
+    </button>
+  `;
+  document.getElementById('practiceToggle').addEventListener('click', togglePracticing);
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  STATE.activeRule = null;
+}
+
+function togglePracticing() {
+  const n = STATE.activeRule;
+  if (!n) return;
+  if (STATE.practicing.has(n)) STATE.practicing.delete(n);
+  else STATE.practicing.add(n);
+  savePracticing();
+  updateCounter();
+  // update bubble visual
+  const bubble = document.querySelector(`.bubble[data-n="${n}"]`);
+  if (bubble) bubble.classList.toggle('practicing', STATE.practicing.has(n));
+  // re-render modal toggle state
+  openRule(n);
+}
+
+function updateCounter() {
+  document.getElementById('counter').textContent = `${STATE.practicing.size} / 53 practicing`;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* =========================================================
+   RANDOM
+   ========================================================= */
+function randomRule() {
+  const r = RULES[Math.floor(Math.random() * RULES.length)];
+  openRule(r.n);
+}
+
+/* =========================================================
+   THEME TOGGLE
+   ========================================================= */
+function toggleTheme() {
+  const cur = document.body.dataset.theme;
+  const next = cur === 'day' ? 'night' : 'day';
+  document.body.dataset.theme = next;
+  document.getElementById('themeBtn').innerHTML = next === 'day' ? '🌙 Night mode' : '☀️ Day mode';
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+async function init() {
+  await loadPracticing();
+  spawnParticles();
+  initCursorSparkles();
+  renderFilters();
+  placeBubbles();
+  updateCounter();
+
+  document.getElementById('randomBtn').addEventListener('click', randomRule);
+  document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'modalOverlay') closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // re-place on resize (debounced)
+  let rt;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => {
+      placeBubbles();
+      applyFilter();
+    }, 200);
+  });
+}
+
+init();
+</script>
+</body>
+</html>
