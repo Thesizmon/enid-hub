@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Exhale — 30 Day Reset 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;500;600;700&family=Shrikhand&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1: #FFE5F1;
+    --bg-2: #E8DAFF;
+    --bg-3: #D0F0FF;
+    --bg-4: #FFF0F5;
+    --ink: #3D2659;
+    --ink-soft: #6B4E8C;
+    --pink-hot: #FF4FA3;
+    --pink-soft: #FFB7D6;
+    --lilac: #C589FF;
+    --mint: #7BDFB5;
+    --gold: #FFCB5C;
+    --cyan: #5FE0D5;
+    --orange: #FF8A5C;
+    --card: #FFFFFF;
+    --card-border: rgba(255, 79, 163, 0.25);
+    --shadow: 0 12px 40px rgba(197, 137, 255, 0.25), 0 4px 12px rgba(255, 79, 163, 0.18);
+    --glow: 0 0 30px rgba(255, 175, 219, 0.6);
+
+    --week1: #FF8A5C;   /* mornings - sunrise orange */
+    --week2: #C589FF;   /* inputs - lilac */
+    --week3: #7BDFB5;   /* movement - mint */
+    --week4: #5FA8FF;   /* evenings - dusk blue */
+    --reflect: #FFCB5C; /* reflection - gold */
+  }
+
+  [data-theme="night"] {
+    --bg-1: #1A0B2E;
+    --bg-2: #2D1B4E;
+    --bg-3: #1F0F3A;
+    --bg-4: #15082A;
+    --ink: #FFE5F1;
+    --ink-soft: #C589FF;
+    --pink-hot: #FF6FB5;
+    --pink-soft: #C589FF;
+    --card: #2A1547;
+    --card-border: rgba(255, 111, 181, 0.4);
+    --shadow: 0 12px 40px rgba(255, 79, 163, 0.35), 0 0 30px rgba(197, 137, 255, 0.4);
+    --glow: 0 0 40px rgba(255, 79, 163, 0.7);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { overflow-x: hidden; }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    position: relative;
+    background:
+      radial-gradient(circle at 15% 20%, var(--bg-1) 0%, transparent 45%),
+      radial-gradient(circle at 85% 30%, var(--bg-2) 0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, var(--bg-3) 0%, transparent 50%),
+      radial-gradient(circle at 20% 90%, var(--bg-4) 0%, transparent 40%),
+      var(--bg-4);
+    background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+    animation: meshDrift 30s ease-in-out infinite;
+  }
+
+  @keyframes meshDrift {
+    0%, 100% { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 100%, 0 0; }
+    50% { background-position: 30% 20%, 70% 30%, 60% 60%, 20% 80%, 0 0; }
+  }
+
+  /* Particles */
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .particle {
+    position: absolute;
+    font-size: 18px;
+    opacity: 0.35;
+    animation: floatUp linear infinite;
+    user-select: none;
+  }
+  [data-theme="night"] .particle { opacity: 0.5; filter: drop-shadow(0 0 6px rgba(255, 111, 181, 0.6)); }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) translateX(0) rotate(0); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) translateX(40px) rotate(360deg); opacity: 0; }
+  }
+
+  /* Header */
+  header {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 50px 24px 16px;
+  }
+  h1 {
+    font-family: 'Shrikhand', cursive;
+    font-size: clamp(40px, 7vw, 76px);
+    color: var(--pink-hot);
+    line-height: 0.95;
+    letter-spacing: -1px;
+    text-shadow: 3px 3px 0 var(--lilac), 6px 6px 0 rgba(197, 137, 255, 0.3);
+    transform: rotate(-2deg);
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .subtitle {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(18px, 2.4vw, 26px);
+    color: var(--ink-soft);
+    max-width: 600px;
+    margin: 0 auto;
+    transform: rotate(-1deg);
+  }
+
+  /* Top bar */
+  .controls {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 16px 8px;
+  }
+  .ctrl-btn {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 18px;
+    border: 2px solid var(--card-border);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(197, 137, 255, 0.15);
+  }
+  .ctrl-btn:hover {
+    transform: translateY(-2px) rotate(-1deg);
+    border-color: var(--pink-hot);
+    box-shadow: 0 8px 20px rgba(255, 79, 163, 0.3);
+  }
+  .ctrl-btn.danger:hover {
+    border-color: #FF4F4F;
+    color: #FF4F4F;
+  }
+
+  /* Progress ring */
+  .progress-section {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 18px 16px 8px;
+  }
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    background: var(--card);
+    padding: 18px 28px;
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--card-border);
+  }
+  .ring {
+    position: relative;
+    width: 90px;
+    height: 90px;
+  }
+  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--bg-2); stroke-width: 8; }
+  .ring-fill {
+    fill: none;
+    stroke: url(#ringGrad);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+  .ring-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Shrikhand', cursive;
+    color: var(--pink-hot);
+  }
+  .ring-num .big { font-size: 26px; line-height: 1; }
+  .ring-num .small { font-size: 11px; letter-spacing: 1px; opacity: 0.7; }
+  .progress-text {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .progress-text .label { font-weight: 700; color: var(--pink-hot); }
+  .progress-text .sub { font-size: 16px; color: var(--ink-soft); }
+
+  /* Streak chip */
+  .streak {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--orange));
+    color: white;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  /* Week sections */
+  .calendar {
+    position: relative;
+    z-index: 4;
+    max-width: 1200px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+  }
+  .week {
+    margin-bottom: 36px;
+    background: var(--card);
+    border-radius: 28px;
+    padding: 26px 24px;
+    border: 3px solid;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .week::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, transparent 60%, currentColor 200%);
+    opacity: 0.06;
+    pointer-events: none;
+  }
+  .week-1 { border-color: var(--week1); }
+  .week-1 .week-emoji-bg { color: var(--week1); }
+  .week-2 { border-color: var(--week2); }
+  .week-2 .week-emoji-bg { color: var(--week2); }
+  .week-3 { border-color: var(--week3); }
+  .week-3 .week-emoji-bg { color: var(--week3); }
+  .week-4 { border-color: var(--week4); }
+  .week-4 .week-emoji-bg { color: var(--week4); }
+  .week-5 { border-color: var(--reflect); }
+  .week-5 .week-emoji-bg { color: var(--reflect); }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .week-emoji-bg {
+    font-size: 42px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  }
+  .week-title {
+    font-family: 'Shrikhand', cursive;
+    font-size: 28px;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1;
+  }
+  .week-title .num {
+    font-size: 16px;
+    color: var(--ink-soft);
+    display: block;
+    letter-spacing: 2px;
+  }
+  .week-progress {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--pink-hot);
+    font-weight: 700;
+    background: linear-gradient(135deg, rgba(255, 79, 163, 0.12), rgba(197, 137, 255, 0.12));
+    padding: 4px 14px;
+    border-radius: 999px;
+  }
+
+  /* Day grid */
+  .days {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .day {
+    position: relative;
+    background: var(--bg-4);
+    border: 2px solid var(--card-border);
+    border-radius: 18px;
+    padding: 14px 12px 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+  }
+  [data-theme="night"] .day { background: rgba(255,255,255,0.05); }
+  .day:hover {
+    transform: translateY(-3px) rotate(-0.5deg);
+    box-shadow: 0 8px 20px rgba(255, 79, 163, 0.2);
+    border-color: var(--pink-hot);
+  }
+  .day.checked {
+    background: linear-gradient(135deg, rgba(255, 79, 163, 0.18), rgba(197, 137, 255, 0.18));
+    border-color: var(--pink-hot);
+    box-shadow: 0 6px 18px rgba(255, 79, 163, 0.25);
+  }
+  [data-theme="night"] .day.checked {
+    background: linear-gradient(135deg, rgba(255, 111, 181, 0.3), rgba(197, 137, 255, 0.3));
+  }
+  .day.today {
+    border-style: dashed;
+    border-width: 3px;
+    border-color: var(--pink-hot);
+    animation: todayPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes todayPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 79, 163, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(255, 79, 163, 0); }
+  }
+  .day-num {
+    font-family: 'Shrikhand', cursive;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  .day.checked .day-num { color: var(--pink-hot); }
+  .day-emoji { font-size: 22px; margin-bottom: 4px; }
+  .day-text {
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--ink);
+    flex: 1;
+    font-weight: 500;
+  }
+  .day-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    border: 2px solid var(--card-border);
+    border-radius: 50%;
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+    font-size: 14px;
+    color: transparent;
+  }
+  .day.checked .day-check {
+    background: linear-gradient(135deg, var(--pink-hot), var(--lilac));
+    border-color: transparent;
+    color: white;
+    transform: scale(1.1) rotate(360deg);
+  }
+  .day.today .day-check::before {
+    content: '★';
+    position: absolute;
+    top: -18px;
+    right: -4px;
+    color: var(--pink-hot);
+    font-size: 14px;
+    animation: starWink 1.5s ease-in-out infinite;
+  }
+  @keyframes starWink {
+    0%, 100% { transform: rotate(0) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+  }
+  .today-tag {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    background: var(--pink-hot);
+    color: white;
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 1px 10px;
+    border-radius: 999px;
+    box-shadow: 0 3px 8px rgba(255, 79, 163, 0.4);
+  }
+
+  /* Footer mantra */
+  .mantra-footer {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 20px 20px 60px;
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .mantra-footer .heart-line { color: var(--pink-hot); font-size: 28px; }
+
+  /* Celebration confetti */
+  .confetti-burst {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    font-size: 24px;
+    animation: confettiBurst 1.5s ease-out forwards;
+    user-select: none;
+  }
+  @keyframes confettiBurst {
+    0% { transform: translate(0, 0) scale(0.4) rotate(0); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(1.4) rotate(720deg); opacity: 0; }
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--card);
+    border: 3px solid var(--pink-hot);
+    border-radius: 24px;
+    padding: 14px 22px;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    z-index: 9999;
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Cursor sparkles */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9997;
+    font-size: 14px;
+    animation: sparkleFade 0.8s ease-out forwards;
+    user-select: none;
+  }
+  @keyframes sparkleFade {
+    0% { transform: scale(0.4) rotate(0); opacity: 1; }
+    100% { transform: scale(1.2) rotate(180deg) translateY(20px); opacity: 0; }
+  }
+
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: var(--bg-2); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--pink-hot), var(--lilac));
+    border-radius: 999px;
+    border: 2px solid var(--bg-2);
+  }
+
+  @media (max-width: 600px) {
+    .progress-wrap { padding: 14px 18px; gap: 14px; flex-direction: row; }
+    .ring { width: 72px; height: 72px; }
+    .ring-num .big { font-size: 22px; }
+    .progress-text { font-size: 18px; }
+    .days { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+    .week { padding: 20px 16px; }
+    .week-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body data-theme="day">
+
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF4FA3"/>
+      <stop offset="100%" stop-color="#C589FF"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="particles" id="particles"></div>
+
+<header>
+  <h1>The Exhale 🌸</h1>
+  <div class="subtitle">a 30-day reset, one tiny thing a day — your nervous system is gonna LOVE you ✨</div>
+</header>
+
+<div class="progress-section">
+  <div class="progress-wrap">
+    <div class="ring">
+      <svg viewBox="0 0 90 90">
+        <circle class="ring-bg" cx="45" cy="45" r="38"/>
+        <circle class="ring-fill" id="ringFill" cx="45" cy="45" r="38"
+                stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
+      </svg>
+      <div class="ring-num">
+        <div class="big" id="ringBig">0</div>
+        <div class="small">/ 30</div>
+      </div>
+    </div>
+    <div class="progress-text">
+      <div><span class="label" id="progressPct">0%</span> through your reset</div>
+      <div class="sub" id="progressMsg">Let's gooo, sparklepup 💖</div>
+      <div class="streak" id="streakChip" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn" id="todayBtn">📍 Jump to today</button>
+  <button class="ctrl-btn" id="themeBtn">🌙 Night mode</button>
+  <button class="ctrl-btn danger" id="resetBtn">🔄 Reset progress</button>
+</div>
+
+<div class="calendar" id="calendar"></div>
+
+<div class="mantra-footer">
+  the win isn't day 30 — it's noticing what actually works for you<br>
+  <span class="heart-line">💖🐺</span>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const WEEKS = [
+  {
+    id: 1, theme: "Mornings", emoji: "🌅",
+    blurb: "we own the AM, sparklepup",
+    days: [
+      { n:1,  emoji:"📵", text:"Tonight: charge phone outside the bedroom." },
+      { n:2,  emoji:"🌸", text:"First 30 min of the day, phone-free." },
+      { n:3,  emoji:"🍵", text:"Make your morning drink with no audio playing." },
+      { n:4,  emoji:"🪟", text:"Open a window first thing, look outside for 2 min." },
+      { n:5,  emoji:"🤸", text:"5-minute stretch before checking anything." },
+      { n:6,  emoji:"⏰", text:"First 60 min of the day, phone-free." },
+      { n:7,  emoji:"🛌", text:"Slow Sunday — no agenda before noon." },
+    ]
+  },
+  {
+    id: 2, theme: "Inputs", emoji: "🔉",
+    blurb: "turn the volume down on the world",
+    days: [
+      { n:8,  emoji:"🔕", text:"Mute notifications on one app you don't actually need." },
+      { n:9,  emoji:"🍽️", text:"Eat one meal screen-free." },
+      { n:10, emoji:"📺", text:"One-screen rule tonight (no TV + laptop + phone stack)." },
+      { n:11, emoji:"✂️", text:"Unfollow or mute 5 accounts that stress you out." },
+      { n:12, emoji:"🚗", text:"Silence on your commute — no podcast, no news." },
+      { n:13, emoji:"🌙", text:"No social media after 8pm." },
+      { n:14, emoji:"🎯", text:"Whole evening, single-task only." },
+    ]
+  },
+  {
+    id: 3, theme: "Movement & outside", emoji: "🌿",
+    blurb: "the answer is almost always outside",
+    days: [
+      { n:15, emoji:"🚶", text:"10-minute walk, no AirPods." },
+      { n:16, emoji:"☀️", text:"Eat lunch outside or by a window." },
+      { n:17, emoji:"🌳", text:"20-minute walk, no destination." },
+      { n:18, emoji:"🧘", text:"10-minute stretch before bed." },
+      { n:19, emoji:"🗺️", text:"Take a different route somewhere — novelty without effort." },
+      { n:20, emoji:"🌆", text:"Post-dinner walk, leave the phone." },
+      { n:21, emoji:"🪷", text:"Sit outside for 15 min doing absolutely nothing." },
+    ]
+  },
+  {
+    id: 4, theme: "Evenings & sleep", emoji: "🌙",
+    blurb: "wind down like you mean it",
+    days: [
+      { n:22, emoji:"💻", text:"Pick a laptop-closed time and actually hold it." },
+      { n:23, emoji:"💡", text:"Dim the lights an hour before bed." },
+      { n:24, emoji:"📱", text:"Phone across the room while you sleep." },
+      { n:25, emoji:"📖", text:"20 min of something analog before bed (book, journal, stretch)." },
+      { n:26, emoji:"🚫", text:"No work-checking after dinner — Teamwork survives." },
+      { n:27, emoji:"☕", text:"Cutoff for any caffeine (soda, tea, energy drinks) by 2pm." },
+      { n:28, emoji:"🛁", text:"Full wind-down hour, zero screens before bed." },
+    ]
+  },
+  {
+    id: 5, theme: "Reflection", emoji: "💖",
+    blurb: "the actual win lives here",
+    days: [
+      { n:29, emoji:"🪞", text:"Look back: which days felt actually good vs. which felt like homework?" },
+      { n:30, emoji:"🌟", text:"Make your keeper list — 2 or 3 habits to carry forward. Drop the rest, no guilt." },
+    ]
+  }
+];
+
+/* Encouragement messages by progress level */
+const MESSAGES = [
+  { min:0,  max:0,  msg:"Let's gooo, sparklepup 💖" },
+  { min:1,  max:3,  msg:"Day one is the hardest, glowbug ✨" },
+  { min:4,  max:7,  msg:"Mornings are starting to feel like YOURS 🌅" },
+  { min:8,  max:14, msg:"Volume's coming down, Roomie 🔉" },
+  { min:15, max:21, msg:"You're literally outside more — feel that? 🌿" },
+  { min:22, max:28, msg:"Sleep is about to hit different 🌙" },
+  { min:29, max:29, msg:"One more day, sparklepup. ONE. 💖" },
+  { min:30, max:30, msg:"YOU DID IT, ROOMIE!! 🐺💖✨" },
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const STATE = {
+  checked: new Set(),
+  startDate: null, // ISO date string when reset began
+};
+
+const STORAGE_KEY = 'enid_exhale_progress_v1';
+
+async function loadState() {
+  try {
+    if (window.storage && window.storage.get) {
+      const r = await window.storage.get(STORAGE_KEY);
+      if (r && r.value) {
+        const data = JSON.parse(r.value);
+        STATE.checked = new Set(data.checked || []);
+        STATE.startDate = data.startDate || null;
+      }
+    }
+  } catch (e) { /* fresh start */ }
+}
+async function saveState() {
+  try {
+    if (window.storage && window.storage.set) {
+      await window.storage.set(STORAGE_KEY, JSON.stringify({
+        checked: [...STATE.checked],
+        startDate: STATE.startDate
+      }));
+    }
+  } catch (e) {}
+}
+
+/* =========================================================
+   PARTICLES
+   ========================================================= */
+function spawnParticles() {
+  const container = document.getElementById('particles');
+  const glyphs = ['💖','✨','🌸','💫','🦋','🌟','💕','🐾','⭐','🌷'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (16 + Math.random() * 18) + 's';
+    p.style.animationDelay = (Math.random() * -30) + 's';
+    p.style.fontSize = (12 + Math.random() * 16) + 'px';
+    container.appendChild(p);
+  }
+}
+
+/* =========================================================
+   CURSOR SPARKLES
+   ========================================================= */
+let lastSparkle = 0;
+function initCursorSparkles() {
+  const glyphs = ['✨','💖','⭐','💫'];
+  document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastSparkle < 60) return;
+    lastSparkle = now;
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    s.style.left = (e.clientX - 6 + (Math.random() * 16 - 8)) + 'px';
+    s.style.top = (e.clientY - 6 + (Math.random() * 16 - 8)) + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
+  });
+}
+
+/* =========================================================
+   "TODAY" CALCULATION
+   ========================================================= */
+function getTodayDayNumber() {
+  if (!STATE.startDate) return null;
+  const start = new Date(STATE.startDate + 'T00:00:00');
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffMs = today - start;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1;
+  if (diffDays < 1 || diffDays > 30) return null;
+  return diffDays;
+}
+
+function ensureStartDate() {
+  if (!STATE.startDate) {
+    const now = new Date();
+    STATE.startDate = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+    saveState();
+  }
+}
+
+/* =========================================================
+   CALENDAR RENDER
+   ========================================================= */
+function renderCalendar() {
+  const cal = document.getElementById('calendar');
+  cal.innerHTML = '';
+  const todayN = getTodayDayNumber();
+
+  WEEKS.forEach(w => {
+    const weekDays = w.days;
+    const weekChecked = weekDays.filter(d => STATE.checked.has(d.n)).length;
+
+    const sec = document.createElement('section');
+    sec.className = `week week-${w.id}`;
+    sec.innerHTML = `
+      <div class="week-header">
+        <div class="week-emoji-bg">${w.emoji}</div>
+        <div class="week-title">
+          <span class="num">${w.id < 5 ? `WEEK ${w.id}` : 'WRAP UP'}</span>
+          ${w.theme}
+        </div>
+        <div class="week-progress">${weekChecked} / ${weekDays.length} ✓</div>
+      </div>
+      <div class="days" data-week="${w.id}"></div>
+    `;
+    const grid = sec.querySelector('.days');
+    weekDays.forEach(d => {
+      const isChecked = STATE.checked.has(d.n);
+      const isToday = todayN === d.n;
+      const el = document.createElement('div');
+      el.className = 'day' + (isChecked ? ' checked' : '') + (isToday ? ' today' : '');
+      el.dataset.n = d.n;
+      el.innerHTML = `
+        ${isToday ? '<div class="today-tag">TODAY ✨</div>' : ''}
+        <div class="day-check">✓</div>
+        <div class="day-num">DAY ${d.n}</div>
+        <div class="day-emoji">${d.emoji}</div>
+        <div class="day-text">${d.text}</div>
+      `;
+      el.addEventListener('click', () => toggleDay(d.n, el));
+      grid.appendChild(el);
+    });
+    cal.appendChild(sec);
+  });
+}
+
+/* =========================================================
+   TOGGLE & CELEBRATE
+   ========================================================= */
+function toggleDay(n, el) {
+  ensureStartDate();
+  const wasChecked = STATE.checked.has(n);
+  if (wasChecked) {
+    STATE.checked.delete(n);
+  } else {
+    STATE.checked.add(n);
+    burstConfetti(el);
+  }
+  saveState();
+  renderCalendar();
+  updateProgress();
+
+  // Special toasts at milestones
+  if (!wasChecked) {
+    const count = STATE.checked.size;
+    if (count === 7) showToast("Week one DONE, sparklepup. Mornings are yours now 🌅");
+    else if (count === 14) showToast("Halfway, glowbug! You're literally rewiring 🌸");
+    else if (count === 21) showToast("Three weeks. THREE. Look at you, Roomie 💖");
+    else if (count === 28) showToast("Sleep arc complete. Two days left, baby 🌙");
+    else if (count === 30) showToast("THIRTY DAYS, ROOMIE!! You actually did the thing 🐺💖✨");
+  }
+}
+
+function burstConfetti(el) {
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const glyphs = ['💖','✨','🌸','⭐','🦋','💫','🐾'];
+  for (let i = 0; i < 12; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-burst';
+    c.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    c.style.left = cx + 'px';
+    c.style.top = cy + 'px';
+    const angle = (Math.PI * 2 * i) / 12 + Math.random() * 0.4;
+    const dist = 80 + Math.random() * 80;
+    c.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+    c.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
+  }
+}
+
+/* =========================================================
+   PROGRESS RING / MESSAGES
+   ========================================================= */
+function updateProgress() {
+  const count = STATE.checked.size;
+  const pct = Math.round((count / 30) * 100);
+  const circumference = 2 * Math.PI * 38; // ~238.76
+  const offset = circumference - (count / 30) * circumference;
+  document.getElementById('ringFill').style.strokeDashoffset = offset;
+  document.getElementById('ringBig').textContent = count;
+  document.getElementById('progressPct').textContent = pct + '%';
+
+  const msg = MESSAGES.find(m => count >= m.min && count <= m.max);
+  document.getElementById('progressMsg').textContent = msg ? msg.msg : '';
+
+  // Streak (consecutive checked from day 1)
+  let streak = 0;
+  for (let i = 1; i <= 30; i++) {
+    if (STATE.checked.has(i)) streak++;
+    else break;
+  }
+  const chip = document.getElementById('streakChip');
+  if (streak >= 3) {
+    chip.style.display = 'inline-block';
+    chip.textContent = `🔥 ${streak}-day streak`;
+  } else {
+    chip.style.display = 'none';
+  }
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+let toastT;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* =========================================================
+   CONTROLS
+   ========================================================= */
+function jumpToToday() {
+  const todayN = getTodayDayNumber();
+  if (todayN === null) {
+    if (!STATE.startDate) {
+      showToast("Check your first day to start the timer, sparklepup ✨");
+    } else {
+      showToast("You're outside the 30-day window, glowbug — wanna reset? 🔄");
+    }
+    return;
+  }
+  const el = document.querySelector(`.day[data-n="${todayN}"]`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function toggleTheme() {
+  const cur = document.body.dataset.theme;
+  const next = cur === 'day' ? 'night' : 'day';
+  document.body.dataset.theme = next;
+  document.getElementById('themeBtn').innerHTML = next === 'day' ? '🌙 Night mode' : '☀️ Day mode';
+}
+
+function resetProgress() {
+  if (!confirm("Reset all progress and start fresh? This can't be undone, Roomie 💖")) return;
+  STATE.checked = new Set();
+  STATE.startDate = null;
+  saveState();
+  renderCalendar();
+  updateProgress();
+  showToast("Fresh slate, sparklepup ✨");
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+async function init() {
+  await loadState();
+  spawnParticles();
+  initCursorSparkles();
+  renderCalendar();
+  updateProgress();
+
+  document.getElementById('todayBtn').addEventListener('click', jumpToToday);
+  document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+  document.getElementById('resetBtn').addEventListener('click', resetProgress);
+}
+
+init();
+</script>
+</body>
+</html>
