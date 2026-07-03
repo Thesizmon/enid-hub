@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Enid's 120-Day Glow-Up ✨🐺</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Design tokens ─────────────────────────────────────────────── */
+:root {
+  --pink:       #E84EA0;
+  --purple:     #A855F7;
+  --mint:       #6EE7B7;
+  --amber:      #F59E0B;
+  --cream:      #FFFBF7;
+  --glass:      rgba(255,255,255,0.76);
+  --border:     rgba(168,85,247,0.13);
+  --text:       #2D1B4E;
+  --sub:        #7C6F9B;
+  --teal:       #14B8A6;
+  --text-light: #9C8FC4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #FDF4EE;
+  min-height: 100vh;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 5%  10%,  rgba(245,158,11,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 95% 15%,  rgba(59,130,246,.14) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 55% at 50% 92%,  rgba(139,92,246,.19) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 15% 65%,  rgba(232,78,160,.16) 0%, transparent 50%),
+    radial-gradient(ellipse 55% 50% at 80% 50%,  rgba(110,231,183,.10) 0%, transparent 55%),
+    linear-gradient(160deg, #FFF8EE 0%, #F3E8FF 45%, #E8FBF6 75%, #FFF3EE 100%);
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Loader ────────────────────────────────────────────────────── */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--cream);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px; z-index: 999;
+  transition: opacity .35s ease;
+}
+#loader.hidden { opacity: 0; pointer-events: none; }
+.loader-nails-wrap {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 90px; height: 90px;
+}
+.loader-nails-wrap::before {
+  content: '';
+  position: absolute; inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(232,78,160,.22) 0%, rgba(168,85,247,.12) 50%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes glowPulse {
+  0%,100% { transform: scale(1);    opacity: .65; }
+  50%      { transform: scale(1.22); opacity: 1;   }
+}
+.loader-wolf { width: 90px; height: 90px; object-fit: contain; animation: bounce 1.1s ease-in-out infinite, nailsShimmer 3s ease-in-out infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes nailsShimmer {
+  0%   { filter: drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1)    saturate(1);    }
+  20%  { filter: drop-shadow(0 8px 26px rgba(168,85,247,.72)) brightness(1.1)  saturate(1.15); }
+  40%  { filter: drop-shadow(0 9px 28px rgba(59,130,246,.62)) brightness(1.15) saturate(1.2);  }
+  60%  { filter: drop-shadow(0 8px 26px rgba(16,185,129,.65)) brightness(1.1)  saturate(1.15); }
+  80%  { filter: drop-shadow(0 7px 24px rgba(245,158,11,.65)) brightness(1.06) saturate(1.1);  }
+  100% { filter: drop-shadow(0 6px 22px rgba(232,78,160,.65)) brightness(1)    saturate(1);    }
+}
+.sp {
+  position: absolute; line-height: 1; pointer-events: none;
+  animation: spTwinkle 1.8s ease-in-out infinite;
+}
+.sp1 { top: -13px; left:  20px;  font-size: .88rem; color: #E84EA0; animation-delay: 0s;    }
+.sp2 { top:   4px;  right: -15px; font-size: .72rem; color: #A855F7; animation-delay: .45s; }
+.sp3 { bottom: -9px; left: 10px;  font-size: .68rem; color: #F59E0B; animation-delay: .9s;  }
+.sp4 { bottom:  5px; right: -11px; font-size: .82rem; color: #6EE7B7; animation-delay: 1.3s;}
+.sp5 { top:  -5px;  left: -13px;  font-size: .62rem; color: #60A5FA; animation-delay: .65s; }
+@keyframes spTwinkle {
+  0%,100% { opacity: 0; transform: scale(.2) rotate(0deg);   }
+  45%,55% { opacity: 1; transform: scale(1.15) rotate(72deg);}
+}
+.loader-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; color: var(--purple);
+  letter-spacing: .03em;
+}
+
+/* ── App shell ────────────────────────────────────────────────── */
+.app { max-width: 1060px; margin: 0 auto; padding: 0 0 60px; position: relative; z-index: 2; }
+
+/* ── Header ───────────────────────────────────────────────────── */
+.header { padding: 28px 22px 18px; text-align: center; }
+.header-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  background: linear-gradient(135deg, var(--pink), var(--purple), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-sub { font-size: .78rem; color: var(--sub); margin-top: 4px; }
+.header-nav {
+  display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 14px;
+}
+.header-nav-link {
+  font-size: .72rem; font-weight: 700; color: var(--purple);
+  background: rgba(168,85,247,.08);
+  border: 1px solid var(--border);
+  padding: 4px 12px; border-radius: 20px;
+  text-decoration: none; transition: background .15s;
+}
+.header-nav-link:hover { background: rgba(168,85,247,.18); }
+
+/* ── Section cards ────────────────────────────────────────────── */
+.sections { display: flex; flex-direction: column; gap: 14px; padding: 0 14px; }
+.section-card {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 2px 18px rgba(168,85,247,.06);
+  overflow: hidden;
+}
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.sec-title { font-size: .92rem; font-weight: 700; }
+.sec-icon  { font-size: 1.1rem; margin-right: 8px; }
+.sec-side  { font-size: .68rem; color: var(--sub); font-weight: 600; }
+
+/* ── Setup card ───────────────────────────────────────────────── */
+.setup-body { padding: 18px; }
+.setup-lead { font-size: .8rem; color: var(--sub); line-height: 1.55; margin-bottom: 16px; }
+.setup-row  { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.setup-label { font-size: .74rem; font-weight: 700; min-width: 90px; }
+.setup-input {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 12px;
+  font-family: 'DM Sans', sans-serif; font-size: .78rem; color: var(--text);
+  background: rgba(255,255,255,.6); outline: none;
+}
+.track-btn {
+  padding: 8px 16px; border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(168,85,247,.06); color: var(--sub);
+  font-family: 'DM Sans', sans-serif; font-size: .76rem; font-weight: 700;
+  cursor: pointer; transition: all .16s;
+}
+.track-btn.active {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff; border-color: transparent;
+  box-shadow: 0 3px 12px rgba(168,85,247,.3);
+}
+
+/* ── Glance / progress ────────────────────────────────────────── */
+.glance-body { padding: 16px 18px 18px; }
+.glance-top  { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+.glance-day  {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.glance-phase { font-size: .74rem; font-weight: 700; color: var(--teal); }
+.glance-week  { font-size: .7rem; color: var(--sub); }
+.progress-track {
+  height: 14px; border-radius: 10px;
+  background: rgba(168,85,247,.1);
+  overflow: hidden; position: relative;
+}
+.progress-fill {
+  height: 100%; border-radius: 10px;
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--teal));
+  transition: width .6s ease;
+}
+.progress-marks { display: flex; justify-content: space-between; margin-top: 5px; }
+.progress-mark  { font-size: .6rem; color: var(--text-light); font-weight: 600; }
+.progress-mark.hit { color: var(--purple); }
+.glance-banner {
+  margin-top: 12px;
+  padding: 10px 14px; border-radius: 12px;
+  font-size: .74rem; font-weight: 600; line-height: 1.45;
+  background: rgba(245,158,11,.12); color: #92600A;
+  border: 1px solid rgba(245,158,11,.25);
+}
+.glance-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 14px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid var(--border);
+  font-size: .7rem; font-weight: 700;
+}
+.chip .chip-val { color: var(--purple); }
+
+/* ── Today card ───────────────────────────────────────────────── */
+.today-body { padding: 16px 18px 18px; }
+.today-session {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 14px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid var(--border);
+}
+.today-emoji { font-size: 1.6rem; }
+.today-name  { font-size: .88rem; font-weight: 700; }
+.today-meta  { font-size: .7rem; color: var(--sub); margin-top: 2px; }
+.today-go {
+  margin-left: auto;
+  padding: 8px 16px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff; font-family: 'DM Sans', sans-serif;
+  font-size: .74rem; font-weight: 700; cursor: pointer;
+  box-shadow: 0 3px 12px rgba(168,85,247,.3);
+  white-space: nowrap;
+}
+.today-go:hover { opacity: .9; }
+.today-done-note { font-size: .72rem; color: var(--teal); font-weight: 700; margin-top: 10px; }
+
+/* ── Phase tabs ───────────────────────────────────────────────── */
+.phase-tabs { display: flex; gap: 4px; padding: 14px 18px 0; }
+.phase-tab {
+  flex: 1; padding: 10px 8px;
+  border: none; border-radius: 14px 14px 0 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .75rem; font-weight: 700; cursor: pointer;
+  transition: all .18s;
+  background: rgba(168,85,247,.06); color: var(--sub);
+}
+.phase-tab.active {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(168,85,247,.32);
+}
+.phase-tab:hover:not(.active) { background: rgba(168,85,247,.14); }
+.phase-meta { font-size: .62rem; font-weight: 500; opacity: .8; display: block; margin-top: 2px; }
+
+.phase-content { display: none; padding: 14px 18px 18px; }
+.phase-content.active { display: block; }
+.phase-desc { font-size: .78rem; color: var(--sub); margin-bottom: 8px; line-height: 1.5; }
+.phase-rules {
+  font-size: .7rem; color: var(--teal); line-height: 1.5;
+  background: rgba(20,184,166,.07);
+  border: 1px solid rgba(20,184,166,.16);
+  border-radius: 12px; padding: 10px 14px; margin-bottom: 14px;
+}
+
+/* ── Day cards ────────────────────────────────────────────────── */
+.day-card {
+  background: rgba(255,255,255,.5);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 10px; overflow: hidden;
+  transition: box-shadow .18s;
+}
+.day-card:hover { box-shadow: 0 4px 16px rgba(168,85,247,.1); }
+.day-card.today-hl { border-color: rgba(232,78,160,.45); box-shadow: 0 0 0 2px rgba(232,78,160,.18); }
+.day-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; cursor: pointer; user-select: none;
+}
+.day-label { font-size: .82rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.day-emoji { font-size: 1rem; }
+.day-tag {
+  font-size: .58rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  background: rgba(232,78,160,.12); color: var(--pink);
+}
+.day-toggle { font-size: .7rem; color: var(--sub); transition: transform .2s; }
+.day-card.open .day-toggle { transform: rotate(180deg); }
+.day-body { display: none; padding: 0 16px 16px; }
+.day-card.open .day-body { display: block; }
+
+/* ── Exercise list ────────────────────────────────────────────── */
+.exercise-row {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(168,85,247,.07);
+}
+.exercise-row:last-child { border-bottom: none; }
+.ex-check {
+  width: 22px; height: 22px; border-radius: 7px;
+  border: 2px solid rgba(168,85,247,.28);
+  flex-shrink: 0; cursor: pointer; transition: all .18s;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.ex-check.done {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(232,78,160,.38);
+}
+.ex-check.done::after { content: '\2713'; color: #fff; font-size: .7rem; font-weight: 700; }
+.ex-info { flex: 1; min-width: 0; }
+.ex-name { font-size: .82rem; font-weight: 600; margin-bottom: 3px; }
+.ex-detail { font-size: .68rem; color: var(--sub); line-height: 1.4; }
+.ex-cue { font-size: .64rem; color: var(--teal); font-style: italic; margin-top: 3px; }
+
+/* ── Set logger ───────────────────────────────────────────────── */
+.set-logger { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.set-input-group {
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(168,85,247,.05);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 4px 8px;
+}
+.set-label { font-size: .6rem; font-weight: 700; color: var(--sub); white-space: nowrap; }
+.set-input {
+  width: 42px; border: none; background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .74rem; font-weight: 600; color: var(--text);
+  text-align: center; outline: none;
+}
+.set-input::placeholder { color: var(--text-light); }
+.set-input.wide { width: 54px; }
+
+/* ── Session footer ───────────────────────────────────────────── */
+.session-footer { padding: 14px 0 0; }
+.session-notes {
+  width: 100%;
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif; font-size: .76rem; color: var(--text);
+  background: rgba(255,255,255,.5);
+  resize: vertical; min-height: 56px; outline: none;
+  transition: border-color .2s;
+}
+.session-notes:focus { border-color: var(--purple); }
+.session-notes::placeholder { color: var(--text-light); }
+.save-btn {
+  margin-top: 10px; width: 100%; padding: 11px;
+  border: none; border-radius: 12px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff; font-family: 'DM Sans', sans-serif;
+  font-size: .82rem; font-weight: 700; cursor: pointer;
+  transition: opacity .15s, box-shadow .15s;
+  box-shadow: 0 4px 14px rgba(168,85,247,.32);
+}
+.save-btn:hover { opacity: .9; }
+.save-btn:active { transform: scale(.98); }
+.save-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── Metrics grid ─────────────────────────────────────────────── */
+.metrics-body { padding: 16px 18px 18px; }
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.metric-cell {
+  background: rgba(255,255,255,.5);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 12px 14px;
+}
+.metric-label { font-size: .64rem; font-weight: 700; color: var(--sub); margin-bottom: 6px; }
+.metric-input {
+  width: 100%; border: none; background: transparent;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; font-weight: 700; color: var(--text);
+  outline: none;
+}
+.metric-input::placeholder { color: var(--text-light); font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 500; }
+.metric-target { font-size: .58rem; color: var(--text-light); margin-top: 3px; }
+.metric-cell.ok { border-color: rgba(20,184,166,.4); background: rgba(20,184,166,.06); }
+.metric-toggle {
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; user-select: none;
+  font-size: .74rem; font-weight: 600; padding: 4px 0;
+}
+
+/* ── Benchmarks ───────────────────────────────────────────────── */
+.bench-body { padding: 16px 18px 18px; }
+.bench-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.bench-chip {
+  padding: 7px 14px; border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(168,85,247,.06); color: var(--sub);
+  font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 700;
+  cursor: pointer; transition: all .16s;
+}
+.bench-chip.active {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff; border-color: transparent;
+}
+.bench-chip.saved::after { content: ' \2713'; color: var(--mint); }
+.bench-chip.active.saved::after { color: #fff; }
+.bench-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px; margin-bottom: 12px;
+}
+.bench-compare { overflow-x: auto; margin-top: 16px; }
+.bench-table { width: 100%; border-collapse: collapse; font-size: .7rem; }
+.bench-table th, .bench-table td {
+  padding: 7px 10px; text-align: left;
+  border-bottom: 1px solid rgba(168,85,247,.09);
+  white-space: nowrap;
+}
+.bench-table th { color: var(--purple); font-size: .64rem; }
+.bench-table td:first-child { font-weight: 700; }
+.bench-delta { color: var(--teal); font-weight: 700; }
+
+/* ── Rules grid ───────────────────────────────────────────────── */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px; padding: 14px 18px 18px;
+}
+.rule-card {
+  background: rgba(255,255,255,.5);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 16px;
+  transition: transform .14s, box-shadow .14s;
+}
+.rule-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(168,85,247,.1); }
+.rule-icon  { font-size: 1.3rem; margin-bottom: 6px; }
+.rule-title { font-size: .78rem; font-weight: 700; margin-bottom: 4px; }
+.rule-desc  { font-size: .68rem; color: var(--sub); line-height: 1.45; }
+
+/* ── History ──────────────────────────────────────────────────── */
+.history-list { padding: 8px 18px 18px; }
+.history-empty { text-align: center; padding: 28px 14px; font-size: .78rem; color: var(--sub); }
+.history-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(168,85,247,.07);
+}
+.history-row:last-child { border-bottom: none; }
+.hist-date  { font-size: .74rem; font-weight: 700; min-width: 80px; }
+.hist-phase {
+  font-size: .62rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  background: rgba(168,85,247,.1); color: var(--purple);
+  white-space: nowrap;
+}
+.hist-day {
+  font-size: .74rem; font-weight: 500; color: var(--sub);
+  flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.hist-note {
+  font-size: .66rem; color: var(--teal);
+  max-width: 180px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.hist-exercises-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 3px 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .62rem; font-weight: 600; color: var(--purple);
+  cursor: pointer; transition: background .15s;
+}
+.hist-exercises-btn:hover { background: rgba(168,85,247,.1); }
+
+/* ── Toast ─────────────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text); color: #fff;
+  padding: 10px 22px; border-radius: 14px;
+  font-size: .78rem; font-weight: 600;
+  box-shadow: 0 4px 20px rgba(45,27,78,.35);
+  z-index: 500;
+  transition: transform .3s ease, opacity .3s ease;
+  opacity: 0; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ── Detail modal ─────────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(45,27,78,.35);
+  backdrop-filter: blur(3px);
+  z-index: 50; display: none;
+  align-items: center; justify-content: center;
+}
+.modal-backdrop.open { display: flex; }
+.modal-box {
+  background: var(--cream);
+  border-radius: 20px;
+  max-width: 500px; width: 90%; max-height: 80vh;
+  overflow-y: auto; padding: 22px;
+  box-shadow: 0 8px 40px rgba(45,27,78,.25);
+}
+.modal-title { font-size: .92rem; font-weight: 700; margin-bottom: 14px; }
+.modal-close { float: right; background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--sub); }
+.modal-exercise { padding: 8px 0; border-bottom: 1px solid var(--border); }
+.modal-exercise:last-child { border-bottom: none; }
+.modal-ex-name { font-size: .78rem; font-weight: 600; margin-bottom: 4px; }
+.modal-set { font-size: .68rem; color: var(--sub); padding-left: 12px; }
+.modal-set.completed { color: var(--teal); }
+
+/* ── Footer ───────────────────────────────────────────────────── */
+.footer { text-align: center; padding: 20px; font-size: .68rem; color: var(--text-light); }
+.footer a { color: var(--purple); text-decoration: none; }
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .sections { padding: 0 8px; }
+  .phase-tabs { padding: 10px 12px 0; flex-wrap: wrap; }
+  .phase-tab { min-width: 45%; border-radius: 12px; }
+  .phase-content { padding: 10px 12px 14px; }
+  .rules-grid { grid-template-columns: 1fr; padding: 10px 12px 14px; }
+  .history-row { flex-wrap: wrap; gap: 6px; }
+  .hist-note { max-width: 100%; }
+  .set-logger { flex-direction: column; }
+  .header { padding: 20px 14px 14px; }
+  .today-session { flex-wrap: wrap; }
+  .today-go { margin-left: 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Loader ─────────────────────────────────────────────────── -->
+<div id="loader">
+  <div class="loader-nails-wrap">
+    <img src="nails.png" class="loader-wolf" alt="Loading...">
+    <span class="sp sp1">&#10022;</span>
+    <span class="sp sp2">&#10022;</span>
+    <span class="sp sp3">&#10022;</span>
+    <span class="sp sp4">&#10022;</span>
+    <span class="sp sp5">&#10022;</span>
+  </div>
+  <span class="loader-text">Loading the glow-up...</span>
+</div>
+
+<div class="app">
+  <!-- ── Header ────────────────────────────────────────────────── -->
+  <div class="header">
+    <div class="header-title">The 120-Day Glow-Up ✨</div>
+    <div class="header-sub">Strength + yoga + conditioning · visible, testable growth by Day 120</div>
+    <div class="header-nav">
+      <a href="index.html" class="header-nav-link">🐺 Hub Home</a>
+      <a href="gym.html"   class="header-nav-link">💪 Gym</a>
+      <a href="plan.html"  class="header-nav-link">🗓️ Planner</a>
+    </div>
+  </div>
+
+  <div class="sections">
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- SETUP (shown until start date is saved)                   -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card" id="setup-card" style="display:none">
+      <div class="section-header">
+        <span><span class="sec-icon">🌱</span><span class="sec-title">Start the Protocol</span></span>
+      </div>
+      <div class="setup-body">
+        <div class="setup-lead">
+          120 days. 4 phases. 6 active days a week, nothing over 45 minutes.
+          Pick your Day 1 and your equipment track — then run the Day 0 baseline
+          in the Benchmarks section below before your first session. Day 1 starts when you say it starts, roomie. 🐺
+        </div>
+        <div class="setup-row">
+          <span class="setup-label">Day 1 date</span>
+          <input type="date" class="setup-input" id="setup-date">
+        </div>
+        <div class="setup-row">
+          <span class="setup-label">Track</span>
+          <button class="track-btn active" data-track="home" onclick="pickTrack(this)">🏠 Home</button>
+          <button class="track-btn" data-track="gym" onclick="pickTrack(this)">🏋️ Gym</button>
+        </div>
+        <button class="save-btn" onclick="saveSetup()">Begin the Glow-Up ✨</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- GLANCE / PROGRESS                                          -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card" id="glance-card" style="display:none">
+      <div class="section-header">
+        <span><span class="sec-icon">🌟</span><span class="sec-title">Protocol Progress</span></span>
+        <span class="sec-side" id="glance-track"></span>
+      </div>
+      <div class="glance-body">
+        <div class="glance-top">
+          <span class="glance-day" id="glance-day">Day 0 of 120</span>
+          <span class="glance-phase" id="glance-phase"></span>
+          <span class="glance-week" id="glance-week"></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        <div class="progress-marks" id="progress-marks">
+          <span class="progress-mark" data-day="0">Day 0</span>
+          <span class="progress-mark" data-day="30">30</span>
+          <span class="progress-mark" data-day="60">60</span>
+          <span class="progress-mark" data-day="90">90</span>
+          <span class="progress-mark" data-day="120">120 👑</span>
+        </div>
+        <div class="glance-banner" id="glance-banner" style="display:none"></div>
+        <div class="glance-chips" id="glance-chips"></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- TODAY                                                      -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card" id="today-card" style="display:none">
+      <div class="section-header">
+        <span><span class="sec-icon">📍</span><span class="sec-title">Today's Session</span></span>
+        <span class="sec-side" id="today-date"></span>
+      </div>
+      <div class="today-body" id="today-body"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- DAILY METRICS (Concurrent Protocols A + B)                 -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card">
+      <div class="section-header">
+        <span><span class="sec-icon">🥩</span><span class="sec-title">Daily Metrics</span></span>
+        <span class="sec-side">protein · sleep · steps · weight</span>
+      </div>
+      <div class="metrics-body">
+        <div class="metrics-grid">
+          <div class="metric-cell" id="mc-protein">
+            <div class="metric-label">🥩 PROTEIN (g)</div>
+            <input class="metric-input" type="number" id="m-protein" placeholder="—" inputmode="numeric">
+            <div class="metric-target">target 130g (120–140)</div>
+          </div>
+          <div class="metric-cell" id="mc-sleep">
+            <div class="metric-label">😴 SLEEP (hrs)</div>
+            <input class="metric-input" type="number" step="0.5" id="m-sleep" placeholder="—" inputmode="decimal">
+            <div class="metric-target">7–8 hrs · 7 hard floor</div>
+          </div>
+          <div class="metric-cell" id="mc-steps">
+            <div class="metric-label">👟 STEPS</div>
+            <input class="metric-input" type="number" id="m-steps" placeholder="—" inputmode="numeric">
+            <div class="metric-target" id="steps-target">phase target</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">⚖️ WEIGHT (lbs)</div>
+            <input class="metric-input" type="number" step="0.1" id="m-weight" placeholder="—" inputmode="decimal">
+            <div class="metric-target">3–4 mornings/week · weekly avg</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">⏰ WAKE TIME</div>
+            <input class="metric-input" type="time" id="m-wake">
+            <div class="metric-target">same time ±1 hr, every day</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-label">✅ CHECKLIST</div>
+            <label class="metric-toggle"><input type="checkbox" id="m-caffeine"> ☕ caffeine cutoff kept</label>
+            <label class="metric-toggle"><input type="checkbox" id="m-winddown"> 🌙 wind-down done</label>
+          </div>
+        </div>
+        <button class="save-btn" onclick="saveMetrics()">Save Today's Metrics 💾</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- BENCHMARKS                                                 -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card">
+      <div class="section-header">
+        <span><span class="sec-icon">📏</span><span class="sec-title">Benchmarks</span></span>
+        <span class="sec-side">the receipts — Day 0 · 30 · 60 · 90 · 120</span>
+      </div>
+      <div class="bench-body">
+        <div class="bench-chips" id="bench-chips">
+          <button class="bench-chip active" data-cp="0"   onclick="pickCheckpoint(this)">Day 0</button>
+          <button class="bench-chip" data-cp="30"  onclick="pickCheckpoint(this)">Day 30</button>
+          <button class="bench-chip" data-cp="60"  onclick="pickCheckpoint(this)">Day 60</button>
+          <button class="bench-chip" data-cp="90"  onclick="pickCheckpoint(this)">Day 90</button>
+          <button class="bench-chip" data-cp="120" onclick="pickCheckpoint(this)">Day 120 👑</button>
+        </div>
+        <div class="bench-grid" id="bench-grid"></div>
+        <button class="save-btn" onclick="saveBenchmark()">Save Checkpoint 💾</button>
+        <div class="bench-compare" id="bench-compare"></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- THE PROGRAM                                                -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card" id="program-card">
+      <div class="section-header">
+        <span><span class="sec-icon">🏋️</span><span class="sec-title">The Program</span></span>
+        <span class="sec-side" id="program-track-side"></span>
+      </div>
+
+      <div class="phase-tabs">
+        <button class="phase-tab active" data-phase="1">
+          Phase 1: Foundation
+          <span class="phase-meta">Days 1–30 · learn it</span>
+        </button>
+        <button class="phase-tab" data-phase="2">
+          Phase 2: Building
+          <span class="phase-meta">Days 31–60 · load it</span>
+        </button>
+        <button class="phase-tab" data-phase="3">
+          Phase 3: Strength &amp; Engine
+          <span class="phase-meta">Days 61–90 · split it</span>
+        </button>
+        <button class="phase-tab" data-phase="4">
+          Phase 4: Peak
+          <span class="phase-meta">Days 91–120 · final form</span>
+        </button>
+      </div>
+
+      <div class="phase-content active" id="phase-1"></div>
+      <div class="phase-content" id="phase-2"></div>
+      <div class="phase-content" id="phase-3"></div>
+      <div class="phase-content" id="phase-4"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- HISTORY                                                    -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card">
+      <div class="section-header">
+        <span><span class="sec-icon">📈</span><span class="sec-title">Session History</span></span>
+      </div>
+      <div class="history-list" id="history-list">
+        <div class="history-empty">Loading sessions...</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- THE PROGRESSION ENGINE                                     -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card">
+      <div class="section-header">
+        <span><span class="sec-icon">⚙️</span><span class="sec-title">The Progression Engine</span></span>
+      </div>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon">📈</div>
+          <div class="rule-title">Double Progression</div>
+          <div class="rule-desc">Hit the top of the rep range on every set with solid form → add weight or a harder variation next session, and reset to the bottom of the range.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🪜</div>
+          <div class="rule-title">Bodyweight Ladders</div>
+          <div class="rule-desc">Push-up: counter → low incline → floor → feet up → weighted. Pull: dead hang → scap pulls → negatives → first chin-up → rep sets.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🛑</div>
+          <div class="rule-title">The 2-Rep Rule</div>
+          <div class="rule-desc">Can't match last session's numbers two sessions running? You're under-recovered. Audit sleep FIRST, protein second, program never 😌.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🧘</div>
+          <div class="rule-title">Yoga: Depth, Never Force</div>
+          <div class="rule-desc">Sink slightly deeper each week. Track forward-fold reach weekly — the most satisfying line on the whole chart.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🐾</div>
+          <div class="rule-title">Never Miss Twice</div>
+          <div class="rule-desc">Miss a day? Fine, life happens. Never miss the same session two weeks running.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">😴</div>
+          <div class="rule-title">Week 13 = Deload</div>
+          <div class="rule-desc">All strength at 2 easy sets, top of rep range. Your body grows during recovery — do not skip it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- CONCURRENT PROTOCOLS                                       -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-card">
+      <div class="section-header">
+        <span><span class="sec-icon">🥩</span><span class="sec-title">Protocol A — Protein (every day, all 120)</span></span>
+      </div>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon">🎯</div>
+          <div class="rule-title">130g / Day</div>
+          <div class="rule-desc">Range 120–140g, spread as 25–40g across 3–4 feedings. One 100g dinner ≠ four 30g meals. Hit it 6+ days/week — rest days included, Sunday is a growth day.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🍳</div>
+          <div class="rule-title">Anchor Breakfast</div>
+          <div class="rule-desc">30g+ by 10am and the day basically wins itself. 40g total by dinner and you've already lost.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🥤</div>
+          <div class="rule-title">Shake = Tool, Not Crutch</div>
+          <div class="rule-desc">One scoop/day to plug a gap is smart. Three scoops/day means fix your meals. And don't drink your calories otherwise.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">⚖️</div>
+          <div class="rule-title">Scale Rule</div>
+          <div class="rule-desc">Maintenance to +200 kcal. Weigh 3–4 mornings/week, use the weekly average. Gaining &gt;0.5 lb/week? Trim ~150 kcal. Daily fluctuations are noise.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🐺</div>
+          <div class="rule-title">Weekly Scorecard</div>
+          <div class="rule-desc">7/7 apex predator · 6/7 the sustainable standard · 5/7 progress slows · ≤4/7 the Day 120 photos will tell on you.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">💧</div>
+          <div class="rule-title">Water</div>
+          <div class="rule-desc">~3L/day, +0.5–1L on conditioning/HIIT days.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header">
+        <span><span class="sec-icon">🌙</span><span class="sec-title">Protocol B — Sleep (every day, all 120)</span></span>
+      </div>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon">⏰</div>
+          <div class="rule-title">Tier 1: Fixed Wake Time</div>
+          <div class="rule-desc">Days 1–60. Pick a wake time and defend it — weekends too (±1 hr grace). 7-hour minimum: count backward and that's lights-out. Caffeine curfew: nothing within 8 hrs of bed.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🌙</div>
+          <div class="rule-title">Tier 2: Wind-Down Ramp</div>
+          <div class="rule-desc">Days 61–120. T-30: screens down, dim room, 5 min box breathing. T-15: light stretching or reading. Cool (65–68°F), dark, phone across the room.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🏋️</div>
+          <div class="rule-title">Hard Day = Sleep Priority</div>
+          <div class="rule-desc">Lower-body and HIIT days especially — that's when the repair bill is biggest.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🩹</div>
+          <div class="rule-title">Bad Night Protocol</div>
+          <div class="rule-desc">No naps past 20 min, no caffeine after the cutoff to compensate — just protect the next night. One bad night costs little; two in a row costs a workout.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">🔄</div>
+          <div class="rule-title">Shift-Week Rule</div>
+          <div class="rule-desc">Weird schedule? Keep the wake anchor as close as you can and hit the 7-hour total even if the window moves. Duration consistency beats timing perfection.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">📊</div>
+          <div class="rule-title">Weekly Scorecard</div>
+          <div class="rule-desc">7-hr nights: 6–7/week. Wake-time consistency: 6–7/week. Wind-down (Tier 2 on): 5+/week.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sections -->
+
+  <div class="footer">
+    Built with 💜 for <a href="index.html">Enid's Hub</a> 🐺 · Day 1 starts when you say it starts, roomie.
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Detail modal for history -->
+<div class="modal-backdrop" id="detail-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-title" id="modal-title"></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   SUPABASE
+   ═══════════════════════════════════════════════════════════════════ */
+const SUPA_URL = 'https://oebxxurgxvzjnunjaujh.supabase.co';
+const SUPA_KEY = 'sb_publishable_x0QWqeNaNAFf7vN7Ky0Mzw_c_FMBAAP';
+const USER_ID  = 'ENID';
+const SB_HEADS = {
+  'apikey':        SUPA_KEY,
+  'Authorization': `Bearer ${SUPA_KEY}`,
+  'Content-Type':  'application/json',
+};
+
+async function sbGet(path) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, { headers: SB_HEADS });
+  return r.ok ? r.json() : [];
+}
+async function sbPost(table, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+    method: 'POST', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  return r.ok;
+}
+async function sbUpsert(table, body, conflict) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?on_conflict=${conflict}`, {
+    method: 'POST',
+    headers: { ...SB_HEADS, 'Prefer': 'resolution=merge-duplicates' },
+    body: JSON.stringify(body),
+  });
+  return r.ok;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROGRAM DATA — The 120-Day Glow-Up Protocol
+   Every strength exercise: {name, home, gym, sets, reps, rest, hold?}
+   hold: true → set inputs log seconds instead of lbs × reps
+   ═══════════════════════════════════════════════════════════════════ */
+const PROGRAM = {
+  1: {
+    name: 'Phase 1: Foundation',
+    days: 'Days 1–30',
+    desc: 'Learn the movements. Build the habit. Wake the body up. Strength 3×/week full body (Fri repeats A, next Fri repeats B), yoga 2×/week (~20 min), one conditioning day.',
+    rules: 'Week 1: learn form, stay at the LOW end of rep ranges, film yourself once per exercise. Weeks 2–4: add 1–2 reps per set each week. Top of range on all sets → hold there, Phase 2 adds load. Yoga: sink slightly deeper each week.',
+    stepsTarget: 6000,
+    strength: {
+      strength_a: {
+        label: 'Strength A', emoji: '💪',
+        exercises: [
+          { name: 'Squat', home: 'Bodyweight squat (to box/chair if needed)', gym: 'Goblet squat, light DB', sets: 2, reps: '8–12', rest: '90s' },
+          { name: 'Horizontal push', home: 'Incline push-up (counter/table height)', gym: 'Incline push-up or light DB bench', sets: 2, reps: '8–12', rest: '90s' },
+          { name: 'Horizontal pull', home: 'Doorway row / towel row', gym: '1-arm DB row', sets: 2, reps: '8–12', rest: '90s' },
+          { name: 'Hinge', home: 'Glute bridge', gym: 'Glute bridge or light DB RDL', sets: 2, reps: '10–15', rest: '60s' },
+          { name: 'Core — Plank', home: 'Plank', gym: 'Plank', sets: 2, reps: '20–40s', rest: '60s', hold: true },
+        ],
+      },
+      strength_b: {
+        label: 'Strength B', emoji: '🔥',
+        exercises: [
+          { name: 'Split stance', home: 'Static split squat (hold support)', gym: 'Static split squat', sets: 2, reps: '6–10/leg', rest: '90s' },
+          { name: 'Vertical push', home: 'Pike push-up (elevated hips)', gym: 'Seated DB shoulder press, light', sets: 2, reps: '6–10', rest: '90s' },
+          { name: 'Vertical pull', home: 'Dead hang → scapular pulls', gym: 'Lat pulldown, light', sets: 2, reps: '8–12 (or max hang)', rest: '90s' },
+          { name: 'Hinge', home: 'Hip hinge drill w/ dowel or broomstick', gym: 'DB RDL, light', sets: 2, reps: '10–12', rest: '90s' },
+          { name: 'Core — Dead bug', home: 'Dead bug', gym: 'Dead bug', sets: 2, reps: '8/side', rest: '60s' },
+        ],
+      },
+    },
+    yoga: {
+      name: 'Wake Up Wolf', emoji: '🧘', duration: '20 min',
+      desc: 'Foundational sun salutations + basics. Breathe through the nose. Never bounce into a stretch. Discomfort OK, pain never.',
+      poses: [
+        'Seated breathing, box breath 4-4-4-4 — 2 min',
+        'Cat-cow — 10 slow rounds',
+        'Downward dog (pedal the feet) — 5 breaths × 2',
+        'Sun Salutation A, slow tempo — 4 rounds',
+        'Low lunge (each side) — 5 breaths',
+        'Standing forward fold, soft knees — 5 breaths',
+        'Cobra — 5 breaths × 2',
+        "Child's pose — 1 min",
+        'Supine twist (each side) — 5 breaths',
+        'Savasana — 2 min',
+      ],
+    },
+    conditioning: {
+      emoji: '👟',
+      desc: '30-minute brisk walk. Weeks 3–4: add 4 × 1-minute fast-walk intervals. Daily target: 6,000 steps.',
+    },
+  },
+  2: {
+    name: 'Phase 2: Building',
+    days: 'Days 31–60',
+    desc: 'Add volume and load — first real strength gains land here. Strength 3×/week full body A/B at 3 sets, yoga 2×/week (25–30 min), interval conditioning.',
+    rules: 'DOUBLE PROGRESSION BEGINS: top of the rep range on ALL sets → next session add load (5 lb DBs, +5–10 lb backpack, or harder variation) and drop to the bottom of the range. Chin-up negatives: +1 second lowering each week — goal 5 × 5s by Day 60. Yoga: hold lizard and pigeon 1 breath longer each week.',
+    stepsTarget: 7500,
+    strength: {
+      strength_a: {
+        label: 'Strength A', emoji: '💪',
+        exercises: [
+          { name: 'Squat', home: 'Bodyweight squat → tempo squat (3s down)', gym: 'Goblet squat, progressive load', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Horizontal push', home: 'Push-up (full, or lowest incline you can do)', gym: 'DB bench press', sets: 3, reps: '6–10', rest: '90s' },
+          { name: 'Horizontal pull', home: 'Backpack row (loaded backpack)', gym: '1-arm DB row, progressive', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Hinge', home: 'Single-leg glute bridge', gym: 'DB RDL', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Core — Plank', home: 'Plank (add time)', gym: 'Weighted plank or plank', sets: 3, reps: '30–60s', rest: '60s', hold: true },
+        ],
+      },
+      strength_b: {
+        label: 'Strength B', emoji: '🔥',
+        exercises: [
+          { name: 'Lunge', home: 'Reverse lunge, bodyweight', gym: 'DB reverse lunge', sets: 3, reps: '8–10/leg', rest: '90s' },
+          { name: 'Vertical push', home: 'Pike push-up, feet elevated', gym: 'Seated DB shoulder press', sets: 3, reps: '6–10', rest: '90s' },
+          { name: 'Vertical pull', home: 'Chin-up negatives (jump up, 3–5s lower)', gym: 'Lat pulldown or assisted pull-up', sets: 3, reps: '3–5 negatives / 8–12', rest: '120s' },
+          { name: 'Arms', home: 'Backpack curl + bench dips', gym: 'DB curl + triceps rope/DB extension', sets: 2, reps: '10–15 each', rest: '60s' },
+          { name: 'Core — Side plank', home: 'Side plank', gym: 'Side plank', sets: 2, reps: '20–40s/side', rest: '60s', hold: true },
+        ],
+      },
+    },
+    yoga: {
+      name: "Hips Don't Lie", emoji: '🧘', duration: '25–30 min',
+      desc: 'Sun salutations + hip openers + first balance work.',
+      poses: [
+        'Box breathing — 2 min',
+        'Cat-cow + thread the needle — 8 rounds',
+        'Sun Salutation A — 3 rounds, then Sun Salutation B — 2 rounds (adds chair + warrior 1)',
+        'Warrior 2 → side angle (each side) — 5 breaths each',
+        'Lizard pose (each side) — 8 breaths — the hip opener that changes everything',
+        'Pigeon prep / figure-4 stretch (each side) — 8 breaths',
+        'Tree pose (each side) — 5 breaths (first balance pose!)',
+        'Seated forward fold — 8 breaths',
+        'Bridge pose — 5 breaths × 2',
+        'Savasana — 3 min',
+      ],
+    },
+    conditioning: {
+      emoji: '🏃',
+      desc: 'Walk/jog intervals — 5 min warm-up walk, then 8 × (1 min jog / 2 min walk), 5 min cool-down. Daily target: 7,500 steps.',
+    },
+  },
+  3: {
+    name: 'Phase 3: Strength & Engine',
+    days: 'Days 61–90',
+    desc: "You're not a beginner anymore. Split training begins: Mon Upper A · Wed Lower A · Fri Full Body C. Yoga 2×/week (~30 min), HIIT conditioning. Sleep Tier 2 (wind-down ramp) starts now.",
+    rules: 'Continue double progression on all lifts. Pull-up milestone: first full unassisted chin-up expected Days 70–90 — when you get 1, start max-rep sets. WEEK 13 IS A DELOAD: all strength at 2 easy sets, top of rep range. Do not skip it.',
+    stepsTarget: 8500,
+    strength: {
+      upper_a: {
+        label: 'Upper A', emoji: '💪',
+        exercises: [
+          { name: 'Push', home: 'Push-up (add backpack when >12 reps easy)', gym: 'DB bench press', sets: 3, reps: '6–10', rest: '2min' },
+          { name: 'Pull', home: 'Chin-up negatives → first full chin-ups', gym: 'Assisted pull-up → pull-up', sets: 3, reps: 'max (aim 1–5)', rest: '2min' },
+          { name: 'Push', home: 'Pike push-up, elevated', gym: 'DB shoulder press', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Pull', home: 'Backpack row, heavy', gym: 'Chest-supported DB row', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Arms', home: 'Curl + dip superset', gym: 'DB curl + overhead triceps ext superset', sets: 3, reps: '10–15', rest: '60s' },
+        ],
+      },
+      lower_a: {
+        label: 'Lower A', emoji: '🦵',
+        exercises: [
+          { name: 'Squat', home: 'Backpack goblet squat / tempo squat', gym: 'Goblet or DB front squat', sets: 3, reps: '8–12', rest: '2min' },
+          { name: 'Hinge', home: 'Single-leg RDL, bodyweight or loaded', gym: 'DB RDL, heavy', sets: 3, reps: '8–10', rest: '2min' },
+          { name: 'Lunge', home: 'Bulgarian split squat (rear foot on couch/bench)', gym: 'DB Bulgarian split squat', sets: 3, reps: '8–10/leg', rest: '90s' },
+          { name: 'Calves', home: 'Single-leg calf raise on step', gym: 'Same, hold DB', sets: 3, reps: '12–15/leg', rest: '60s' },
+          { name: 'Core', home: 'Hollow body hold', gym: 'Hanging knee raise', sets: 3, reps: '20–40s / 8–12', rest: '60s', hold: true },
+        ],
+      },
+      strength_c: {
+        label: 'Full Body C', emoji: '⚡',
+        exercises: [
+          { name: 'Squat variation', home: 'Jump squat (controlled landings)', gym: 'Goblet squat, moderate', sets: 3, reps: '6–8 / 8–10', rest: '90s' },
+          { name: 'Push', home: 'Decline push-up (feet elevated)', gym: 'Incline DB press', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Pull', home: 'Towel row / backpack row', gym: 'Lat pulldown or cable row', sets: 3, reps: '10–12', rest: '90s' },
+          { name: 'Shoulders', home: 'Lateral raise (water jugs/light DB)', gym: 'DB lateral raise', sets: 3, reps: '12–15', rest: '60s' },
+          { name: 'Core', home: 'Plank shoulder taps', gym: 'Ab wheel or cable crunch', sets: 3, reps: '10/side / 10–12', rest: '60s' },
+        ],
+      },
+    },
+    yoga: {
+      name: 'Balance & Backbends', emoji: '🧘', duration: '30 min',
+      desc: 'Balance under fatigue, first backbends. Measure your forward-fold reach!',
+      poses: [
+        'Breathing + cat-cow warm-up — 4 min',
+        'Sun Salutation B — 4 rounds',
+        'Warrior 3 (each side) — 5 breaths — balance under fatigue',
+        'Half moon prep at wall (each side) — 5 breaths',
+        'Lizard → half splits flow (each side) — 8 breaths each',
+        'Full pigeon (each side) — 10 breaths',
+        'Camel pose prep (hands on low back) — 5 breaths × 2',
+        'Bridge → optional full wheel attempt — 5 breaths × 2',
+        'Seated forward fold — 10 breaths (measure your reach!)',
+        'Legs up the wall + savasana — 4 min',
+      ],
+    },
+    conditioning: {
+      emoji: '🔥',
+      desc: 'HIIT: 5 min warm-up, then 10 × (30s hard effort — run, bike, burpees, or jump rope / 90s easy), 5 min cool-down. Weeks 11–13: cut recovery to 60s. Daily target: 8,500 steps.',
+    },
+  },
+  4: {
+    name: 'Phase 4: Peak',
+    days: 'Days 91–120',
+    desc: 'Aesthetic focus. Intensity. The final form reveal. Mon Upper A (push) · Wed Lower A · Fri Upper B (pull). Yoga 2×/week (35–40 min), mixed conditioning.',
+    rules: 'Push every lift to the top of its range with clean form — the last 2 reps of each set should be genuinely hard. WEEK 17 (Days 115–120): light week + FINAL TESTING. Repeat the full Day 0 assessment on Day 119 or 120. Take the photos. 👑',
+    stepsTarget: 10000,
+    strength: {
+      upper_a: {
+        label: 'Upper A — Push emphasis', emoji: '💥',
+        exercises: [
+          { name: 'Push', home: 'Weighted push-up (backpack)', gym: 'DB bench press', sets: 4, reps: '6–10', rest: '2min' },
+          { name: 'Push', home: 'Pike push-up → wall handstand hold', gym: 'DB shoulder press', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Shoulders', home: 'Lateral raise', gym: 'DB lateral raise', sets: 3, reps: '12–20', rest: '60s' },
+          { name: 'Chest', home: 'Push-up drop set (max, rest 15s, max again)', gym: 'DB fly or cable fly', sets: 2, reps: 'drop set', rest: '90s' },
+          { name: 'Triceps', home: 'Bench dips, feet elevated', gym: 'Overhead DB extension', sets: 3, reps: '10–15', rest: '60s' },
+        ],
+      },
+      lower_a: {
+        label: 'Lower A', emoji: '🦵',
+        exercises: [
+          { name: 'Squat', home: 'Heavy backpack squat or pistol squat progression', gym: 'Goblet/DB front squat, heavy', sets: 4, reps: '6–10', rest: '2min' },
+          { name: 'Hinge', home: 'Loaded single-leg RDL', gym: 'Heavy DB RDL', sets: 3, reps: '8–10', rest: '2min' },
+          { name: 'Lunge', home: 'Bulgarian split squat, loaded', gym: 'Same, heavier', sets: 3, reps: '8–10/leg', rest: '90s' },
+          { name: 'Glutes', home: 'Single-leg hip thrust (shoulders on couch)', gym: 'DB hip thrust', sets: 3, reps: '10–12', rest: '90s' },
+          { name: 'Calves + Core', home: 'Calf raises + hollow hold superset', gym: 'Same', sets: 3, reps: '15 / 30s', rest: '60s' },
+        ],
+      },
+      upper_b: {
+        label: 'Upper B — Pull emphasis', emoji: '🧲',
+        exercises: [
+          { name: 'Pull', home: 'Chin-ups, max sets', gym: 'Pull-ups or weighted-assist ladder', sets: 4, reps: 'max', rest: '2min' },
+          { name: 'Pull', home: 'Backpack row, heavy', gym: 'Chest-supported row', sets: 3, reps: '8–12', rest: '90s' },
+          { name: 'Rear delts', home: 'Reverse fly, bent over (jugs/DB)', gym: 'Reverse DB fly', sets: 3, reps: '12–15', rest: '60s' },
+          { name: 'Biceps', home: 'Curl 21s (7 bottom + 7 top + 7 full)', gym: 'Same with DBs', sets: 2, reps: '21', rest: '90s' },
+          { name: 'Core', home: 'Hanging knee raise or V-ups', gym: 'Hanging leg raise', sets: 3, reps: '8–15', rest: '60s' },
+        ],
+      },
+    },
+    yoga: {
+      name: 'Full Moon', emoji: '🌕', duration: '35–40 min',
+      desc: "Everything you've built, integrated.",
+      poses: [
+        'Breathing — 3 min',
+        'Sun Salutation A × 2 + B × 3, flowing tempo',
+        'Standing sequence: Warrior 1 → 2 → reverse warrior → side angle (each side) — 3 breaths per pose',
+        'Balance block: tree → warrior 3 → half moon (each side) — 5 breaths each',
+        'Crow pose attempts — 3 × 30s of play — the party trick pose',
+        'Lizard → pigeon → half splits (each side) — 8 breaths each',
+        'Camel or wheel — 5 breaths × 2',
+        'Seated forward fold — 10 breaths',
+        'Reclined butterfly — 2 min',
+        'Savasana — 5 min',
+      ],
+    },
+    conditioning: {
+      emoji: '⚡',
+      desc: 'Alternate weekly: (a) 20-min HIIT (30s on / 60s off) or (b) 3-mile brisk walk/jog for time. Daily target: 10,000 steps.',
+    },
+  },
+};
+
+// Mon..Sun session type per phase (JS getDay(): 0=Sun)
+function scheduleFor(phase, weekNum) {
+  const friP12 = (weekNum % 2 === 1) ? 'strength_a' : 'strength_b'; // odd weeks repeat A
+  const map = {
+    1: { 1: 'strength_a', 2: 'yoga', 3: 'strength_b', 4: 'conditioning', 5: friP12, 6: 'yoga', 0: 'rest' },
+    2: { 1: 'strength_a', 2: 'yoga', 3: 'strength_b', 4: 'conditioning', 5: friP12, 6: 'yoga', 0: 'rest' },
+    3: { 1: 'upper_a', 2: 'yoga', 3: 'lower_a', 4: 'conditioning', 5: 'strength_c', 6: 'yoga', 0: 'rest' },
+    4: { 1: 'upper_a', 2: 'yoga', 3: 'lower_a', 4: 'conditioning', 5: 'upper_b', 6: 'yoga', 0: 'rest' },
+  };
+  return map[phase];
+}
+
+const SESSION_META = {
+  yoga:         { emoji: '🧘', label: 'Yoga' },
+  conditioning: { emoji: '🏃', label: 'Conditioning' },
+  rest:         { emoji: '🛋️', label: 'Full Rest — growth day' },
+};
+
+/* ═══════════════════════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════════════════════ */
+let SETTINGS   = null;   // {start_date, track}
+let BENCHMARKS = {};     // checkpoint_day → row
+let CURRENT_CP = 0;
+let setupTrack = 'home';
+
+const todayStr = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
+
+function programDay() {
+  if (!SETTINGS) return null;
+  const start = new Date(SETTINGS.start_date + 'T00:00:00');
+  const now   = new Date(todayStr() + 'T00:00:00');
+  return Math.floor((now - start) / 86400000) + 1;
+}
+function phaseForDay(d)  { return Math.max(1, Math.min(4, Math.ceil(d / 30))); }
+function weekForDay(d)   { return Math.max(1, Math.ceil(d / 7)); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   SETUP
+   ═══════════════════════════════════════════════════════════════════ */
+function pickTrack(btn) {
+  document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  setupTrack = btn.dataset.track;
+}
+
+async function saveSetup() {
+  const date = document.getElementById('setup-date').value;
+  if (!date) { showToast('Pick your Day 1 first 🐺'); return; }
+  const ok = await sbUpsert('glowup_settings',
+    { user_id: USER_ID, start_date: date, track: setupTrack, updated_at: new Date().toISOString() },
+    'user_id');
+  if (ok) {
+    SETTINGS = { start_date: date, track: setupTrack };
+    document.getElementById('setup-card').style.display = 'none';
+    renderGlance();
+    renderToday();
+    renderAllPhases();
+    showToast('The glow-up begins ✨ Run your Day 0 baseline!');
+  } else {
+    showToast('Failed to save. Check your connection.');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GLANCE / PROGRESS
+   ═══════════════════════════════════════════════════════════════════ */
+async function renderGlance() {
+  if (!SETTINGS) return;
+  const card = document.getElementById('glance-card');
+  card.style.display = 'block';
+
+  const d = programDay();
+  const dayEl   = document.getElementById('glance-day');
+  const phaseEl = document.getElementById('glance-phase');
+  const weekEl  = document.getElementById('glance-week');
+  const banner  = document.getElementById('glance-banner');
+  document.getElementById('glance-track').textContent =
+    SETTINGS.track === 'gym' ? '🏋️ Gym track' : '🏠 Home track';
+
+  let pct = 0;
+  if (d < 1) {
+    dayEl.textContent = `Day 1 in ${1 - d} day${1 - d === 1 ? '' : 's'}`;
+    phaseEl.textContent = 'Pre-season — run the Day 0 baseline!';
+    weekEl.textContent = '';
+  } else if (d > 120) {
+    dayEl.textContent = 'Day 120 — COMPLETE 👑';
+    phaseEl.textContent = 'Final form achieved';
+    weekEl.textContent = '';
+    pct = 100;
+  } else {
+    const ph = phaseForDay(d), wk = weekForDay(d);
+    dayEl.textContent   = `Day ${d} of 120`;
+    phaseEl.textContent = PROGRAM[ph].name;
+    weekEl.textContent  = `Week ${wk} · ${PROGRAM[ph].days}`;
+    pct = Math.round((d / 120) * 100);
+
+    if (wk === 13) {
+      banner.style.display = 'block';
+      banner.textContent = '😴 Week 13 is a DELOAD — all strength at 2 easy sets, top of rep range. Your body grows during recovery. Do not skip this.';
+    } else if (d >= 115) {
+      banner.style.display = 'block';
+      banner.textContent = '👑 Final testing week! Light sessions only. Repeat the full Day 0 assessment on Day 119 or 120 and take the photos.';
+    } else if ([30, 60, 90].includes(d)) {
+      banner.style.display = 'block';
+      banner.textContent = `📏 Day ${d} checkpoint! Retest everything in the Benchmarks section — these are the receipts.`;
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+  document.getElementById('progress-fill').style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  document.querySelectorAll('.progress-mark').forEach(m => {
+    m.classList.toggle('hit', d >= parseInt(m.dataset.day));
+  });
+
+  // streak chips from recent data
+  const [metrics, workouts] = await Promise.all([
+    sbGet(`glowup_daily_metrics?user_id=eq.${USER_ID}&order=metric_date.desc&limit=130`),
+    sbGet(`glowup_workouts?user_id=eq.${USER_ID}&select=session_date,session_type&order=session_date.desc&limit=200`),
+  ]);
+
+  const byDate = {};
+  metrics.forEach(m => { byDate[m.metric_date] = m; });
+  const streak = (pred) => {
+    let n = 0;
+    const cur = new Date(todayStr() + 'T00:00:00');
+    // today counts if logged and passing; otherwise start from yesterday
+    for (let i = 0; i < 130; i++) {
+      const key = cur.toISOString().slice(0, 10);
+      const row = byDate[key];
+      if (row && pred(row)) { n++; }
+      else if (i === 0 && !row) { /* today not logged yet — don't break */ }
+      else break;
+      cur.setDate(cur.getDate() - 1);
+    }
+    return n;
+  };
+  const proteinStreak = streak(r => (r.protein_g || 0) >= 120);
+  const sleepStreak   = streak(r => (r.sleep_hrs || 0) >= 7);
+  const totalSessions = workouts.filter(w => w.session_type !== 'rest').length;
+
+  document.getElementById('glance-chips').innerHTML = `
+    <span class="chip">🥩 protein streak <span class="chip-val">${proteinStreak}d</span></span>
+    <span class="chip">😴 sleep streak <span class="chip-val">${sleepStreak}d</span></span>
+    <span class="chip">🏋️ sessions logged <span class="chip-val">${totalSessions}</span></span>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TODAY'S SESSION
+   ═══════════════════════════════════════════════════════════════════ */
+let TODAY_TYPE = null, TODAY_PHASE = null;
+
+async function renderToday() {
+  if (!SETTINGS) return;
+  const card = document.getElementById('today-card');
+  const body = document.getElementById('today-body');
+  card.style.display = 'block';
+
+  const now = new Date();
+  document.getElementById('today-date').textContent =
+    now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+
+  const d = programDay();
+  if (d < 1 || d > 120) {
+    body.innerHTML = `<div class="today-session">
+      <span class="today-emoji">${d < 1 ? '🌱' : '👑'}</span>
+      <div><div class="today-name">${d < 1 ? 'Pre-season' : 'Protocol complete!'}</div>
+      <div class="today-meta">${d < 1 ? 'Baseline testing + gathering equipment. Day 1 is coming.' : '120 days done. Retest, take the photos, and flex.'}</div></div>
+    </div>`;
+    return;
+  }
+
+  const ph  = phaseForDay(d);
+  const wk  = weekForDay(d);
+  const dow = now.getDay();
+  const type = scheduleFor(ph, wk)[dow];
+  TODAY_TYPE = type; TODAY_PHASE = ph;
+
+  let emoji, name, meta;
+  if (PROGRAM[ph].strength[type]) {
+    const s = PROGRAM[ph].strength[type];
+    emoji = s.emoji; name = s.label;
+    meta  = `${PROGRAM[ph].name} · ${s.exercises.length} exercises · ${SETTINGS.track} track`;
+  } else if (type === 'yoga') {
+    const y = PROGRAM[ph].yoga;
+    emoji = y.emoji; name = `Yoga — "${y.name}"`;
+    meta  = `${y.duration} · ${y.desc}`;
+  } else if (type === 'conditioning') {
+    emoji = PROGRAM[ph].conditioning.emoji; name = 'Conditioning';
+    meta  = PROGRAM[ph].conditioning.desc;
+  } else {
+    emoji = '🛋️'; name = 'Full Rest';
+    meta  = 'Muscle is built on rest days. Hit the protein target anyway — Sunday is a growth day.';
+  }
+
+  // already logged today?
+  const logged = await sbGet(`glowup_workouts?user_id=eq.${USER_ID}&session_date=eq.${todayStr()}&select=session_type`);
+  const doneNote = logged.length
+    ? `<div class="today-done-note">✓ Already logged today: ${logged.map(l => l.session_type.replace(/_/g, ' ')).join(', ')}</div>` : '';
+
+  const goBtn = type === 'rest' ? '' :
+    `<button class="today-go" onclick="jumpToSession(${ph}, '${type}')">Open session →</button>`;
+
+  body.innerHTML = `<div class="today-session">
+    <span class="today-emoji">${emoji}</span>
+    <div><div class="today-name">${name}</div><div class="today-meta">${meta}</div></div>
+    ${goBtn}
+  </div>${doneNote}`;
+}
+
+function jumpToSession(phase, type) {
+  // activate phase tab
+  document.querySelectorAll('.phase-tab').forEach(t => t.classList.toggle('active', t.dataset.phase == phase));
+  document.querySelectorAll('.phase-content').forEach(c => c.classList.remove('active'));
+  document.getElementById(`phase-${phase}`).classList.add('active');
+  const card = document.getElementById(`p${phase}-${type}`);
+  if (card) {
+    card.classList.add('open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER PROGRAM PHASES
+   ═══════════════════════════════════════════════════════════════════ */
+function renderAllPhases() {
+  const track = SETTINGS ? SETTINGS.track : 'home';
+  document.getElementById('program-track-side').textContent =
+    track === 'gym' ? '🏋️ Gym track' : '🏠 Home track';
+  [1, 2, 3, 4].forEach(p => renderPhase(p, track));
+  highlightToday();
+}
+
+function renderPhase(pNum, track) {
+  const ph = PROGRAM[pNum];
+  const el = document.getElementById(`phase-${pNum}`);
+  let html = `<div class="phase-desc">${ph.desc}</div>
+    <div class="phase-rules">⚙️ ${ph.rules}</div>`;
+
+  // strength day cards
+  Object.entries(ph.strength).forEach(([type, day]) => {
+    const cardId = `p${pNum}-${type}`;
+    html += `<div class="day-card" id="${cardId}">
+      <div class="day-header" onclick="toggleDay('${cardId}')">
+        <span class="day-label"><span class="day-emoji">${day.emoji}</span> ${day.label}
+          <span class="day-tag" id="tag-${cardId}" style="display:none">TODAY</span></span>
+        <span class="day-toggle">&#9660;</span>
+      </div>
+      <div class="day-body">`;
+
+    day.exercises.forEach((ex, ei) => {
+      const variant = track === 'gym' ? ex.gym : ex.home;
+      html += `<div class="exercise-row" data-ex="${ei}">
+        <div class="ex-check" onclick="toggleCheck(this)"></div>
+        <div class="ex-info">
+          <div class="ex-name">${ex.name}</div>
+          <div class="ex-detail">${variant} · ${ex.sets} × ${ex.reps} · rest ${ex.rest}</div>
+          <div class="set-logger">`;
+      for (let s = 0; s < ex.sets; s++) {
+        if (ex.hold) {
+          html += `<div class="set-input-group">
+            <span class="set-label">S${s + 1}</span>
+            <input class="set-input wide" type="number" placeholder="sec" data-field="secs" data-set="${s}" inputmode="numeric">
+          </div>`;
+        } else {
+          html += `<div class="set-input-group">
+            <span class="set-label">S${s + 1}</span>
+            <input class="set-input" type="number" placeholder="lbs" data-field="weight" data-set="${s}" inputmode="decimal">
+            <span class="set-label">&times;</span>
+            <input class="set-input" type="number" placeholder="reps" data-field="reps" data-set="${s}" inputmode="numeric">
+          </div>`;
+        }
+      }
+      html += `</div></div></div>`;
+    });
+
+    html += `<div class="session-footer">
+        <textarea class="session-notes" placeholder="Session notes... how did it feel? any PRs?"></textarea>
+        <button class="save-btn" onclick="saveStrength(${pNum}, '${type}')">Save Session 💾</button>
+      </div>
+      </div></div>`;
+  });
+
+  // yoga card
+  const y = ph.yoga;
+  const yId = `p${pNum}-yoga`;
+  html += `<div class="day-card" id="${yId}">
+    <div class="day-header" onclick="toggleDay('${yId}')">
+      <span class="day-label"><span class="day-emoji">${y.emoji}</span> Yoga — "${y.name}" · ${y.duration}
+        <span class="day-tag" id="tag-${yId}" style="display:none">TODAY</span></span>
+      <span class="day-toggle">&#9660;</span>
+    </div>
+    <div class="day-body">
+      <div class="phase-desc" style="margin:10px 0 4px">${y.desc}</div>`;
+  y.poses.forEach((p, pi) => {
+    html += `<div class="exercise-row" data-pose="${pi}">
+      <div class="ex-check" onclick="toggleCheck(this)"></div>
+      <div class="ex-info"><div class="ex-name" style="font-weight:500">${p}</div></div>
+    </div>`;
+  });
+  html += `<div class="session-footer">
+      <div class="set-logger" style="margin-bottom:10px">
+        <div class="set-input-group">
+          <span class="set-label">🙆 forward-fold reach (in, − = short of toes)</span>
+          <input class="set-input wide" type="number" step="0.5" data-field="fold" inputmode="decimal">
+        </div>
+        <div class="set-input-group">
+          <span class="set-label">⏱ duration (min)</span>
+          <input class="set-input wide" type="number" data-field="dur" inputmode="numeric">
+        </div>
+      </div>
+      <textarea class="session-notes" placeholder="How deep did you get? Which pose fought back?"></textarea>
+      <button class="save-btn" onclick="saveYoga(${pNum})">Save Yoga Session 💾</button>
+    </div>
+  </div></div>`;
+
+  // conditioning card
+  const c = ph.conditioning;
+  const cId = `p${pNum}-conditioning`;
+  html += `<div class="day-card" id="${cId}">
+    <div class="day-header" onclick="toggleDay('${cId}')">
+      <span class="day-label"><span class="day-emoji">${c.emoji}</span> Conditioning
+        <span class="day-tag" id="tag-${cId}" style="display:none">TODAY</span></span>
+      <span class="day-toggle">&#9660;</span>
+    </div>
+    <div class="day-body">
+      <div class="phase-desc" style="margin:10px 0 4px">${c.desc}</div>
+      <div class="session-footer">
+        <div class="set-logger" style="margin-bottom:10px">
+          <div class="set-input-group">
+            <span class="set-label">⏱ duration (min)</span>
+            <input class="set-input wide" type="number" data-field="dur" inputmode="numeric">
+          </div>
+        </div>
+        <textarea class="session-notes" placeholder="Route, rounds, how the engine felt..."></textarea>
+        <button class="save-btn" onclick="saveConditioning(${pNum})">Save Conditioning 💾</button>
+      </div>
+    </div></div>`;
+
+  el.innerHTML = html;
+}
+
+function highlightToday() {
+  if (!SETTINGS || !TODAY_TYPE || TODAY_TYPE === 'rest') return;
+  const id = `p${TODAY_PHASE}-${TODAY_TYPE}`;
+  const card = document.getElementById(id);
+  const tag  = document.getElementById(`tag-${id}`);
+  if (card) card.classList.add('today-hl');
+  if (tag)  tag.style.display = 'inline-block';
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   UI INTERACTIONS
+   ═══════════════════════════════════════════════════════════════════ */
+function toggleDay(id)    { document.getElementById(id).classList.toggle('open'); }
+function toggleCheck(el)  { el.classList.toggle('done'); }
+
+document.querySelectorAll('.phase-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.phase-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(`phase-${tab.dataset.phase}`).classList.add('active');
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   SAVE SESSIONS
+   ═══════════════════════════════════════════════════════════════════ */
+function baseWorkout(pNum, type, label) {
+  const d = programDay();
+  return {
+    user_id: USER_ID,
+    session_date: todayStr(),
+    program_day: (d >= 1 && d <= 120) ? d : null,
+    phase: pNum,
+    session_type: type,
+    session_label: label,
+    track: SETTINGS ? SETTINGS.track : 'home',
+    completed: true,
+  };
+}
+
+async function saveStrength(pNum, type) {
+  const day  = PROGRAM[pNum].strength[type];
+  const card = document.getElementById(`p${pNum}-${type}`);
+  const btn  = card.querySelector('.save-btn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+
+  const exercises = day.exercises.map((ex, ei) => {
+    const row = card.querySelector(`.exercise-row[data-ex="${ei}"]`);
+    const sets = [];
+    for (let s = 0; s < ex.sets; s++) {
+      if (ex.hold) {
+        const secs = row.querySelector(`input[data-field="secs"][data-set="${s}"]`);
+        sets.push({ duration_sec: parseInt(secs.value) || 0,
+                    completed: row.querySelector('.ex-check').classList.contains('done') });
+      } else {
+        const w = row.querySelector(`input[data-field="weight"][data-set="${s}"]`);
+        const r = row.querySelector(`input[data-field="reps"][data-set="${s}"]`);
+        sets.push({ weight: parseFloat(w.value) || 0, reps: parseInt(r.value) || 0,
+                    completed: row.querySelector('.ex-check').classList.contains('done') });
+      }
+    }
+    const variant = (SETTINGS && SETTINGS.track === 'gym') ? ex.gym : ex.home;
+    return { name: ex.name, variant, sets };
+  });
+
+  const payload = {
+    ...baseWorkout(pNum, type, day.label),
+    exercises,
+    notes: card.querySelector('.session-notes').value.trim() || null,
+  };
+  const ok = await sbPost('glowup_workouts', payload);
+  btn.disabled = false; btn.textContent = 'Save Session 💾';
+  if (ok) { showToast('Session saved! Constant incremental progression 📈'); loadHistory(); renderToday(); renderGlance(); }
+  else showToast('Failed to save. Check your connection.');
+}
+
+async function saveYoga(pNum) {
+  const y    = PROGRAM[pNum].yoga;
+  const card = document.getElementById(`p${pNum}-yoga`);
+  const btn  = card.querySelector('.save-btn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+
+  const posesDone = [];
+  card.querySelectorAll('.exercise-row[data-pose]').forEach((row, i) => {
+    if (row.querySelector('.ex-check').classList.contains('done')) posesDone.push(y.poses[i]);
+  });
+  const fold = card.querySelector('input[data-field="fold"]').value;
+  const dur  = card.querySelector('input[data-field="dur"]').value;
+
+  const payload = {
+    ...baseWorkout(pNum, 'yoga', `Yoga — ${y.name}`),
+    duration_min: parseInt(dur) || null,
+    yoga: {
+      flow_name: y.name,
+      poses_completed: posesDone,
+      forward_fold_reach_in: fold === '' ? null : parseFloat(fold),
+    },
+    notes: card.querySelector('.session-notes').value.trim() || null,
+  };
+  const ok = await sbPost('glowup_workouts', payload);
+  btn.disabled = false; btn.textContent = 'Save Yoga Session 💾';
+  if (ok) { showToast('Namaste, wolf 🧘🐺'); loadHistory(); renderToday(); renderGlance(); }
+  else showToast('Failed to save. Check your connection.');
+}
+
+async function saveConditioning(pNum) {
+  const card = document.getElementById(`p${pNum}-conditioning`);
+  const btn  = card.querySelector('.save-btn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+
+  const dur = card.querySelector('input[data-field="dur"]').value;
+  const payload = {
+    ...baseWorkout(pNum, 'conditioning', 'Conditioning'),
+    duration_min: parseInt(dur) || null,
+    notes: card.querySelector('.session-notes').value.trim() || null,
+  };
+  const ok = await sbPost('glowup_workouts', payload);
+  btn.disabled = false; btn.textContent = 'Save Conditioning 💾';
+  if (ok) { showToast('Engine work logged 🔥'); loadHistory(); renderToday(); renderGlance(); }
+  else showToast('Failed to save. Check your connection.');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DAILY METRICS
+   ═══════════════════════════════════════════════════════════════════ */
+async function loadMetrics() {
+  const rows = await sbGet(`glowup_daily_metrics?user_id=eq.${USER_ID}&metric_date=eq.${todayStr()}`);
+  if (rows.length) {
+    const m = rows[0];
+    document.getElementById('m-protein').value = m.protein_g ?? '';
+    document.getElementById('m-sleep').value   = m.sleep_hrs ?? '';
+    document.getElementById('m-steps').value   = m.steps ?? '';
+    document.getElementById('m-weight').value  = m.weight_lbs ?? '';
+    document.getElementById('m-wake').value    = m.wake_time ?? '';
+    document.getElementById('m-caffeine').checked = !!m.caffeine_cutoff_ok;
+    document.getElementById('m-winddown').checked = !!m.wind_down_done;
+  }
+  paintMetricCells();
+  // phase step target
+  const d = programDay();
+  const tgt = (SETTINGS && d >= 1 && d <= 120) ? PROGRAM[phaseForDay(d)].stepsTarget : 6000;
+  document.getElementById('steps-target').textContent = `target ${tgt.toLocaleString()}/day`;
+}
+
+function paintMetricCells() {
+  const p = parseFloat(document.getElementById('m-protein').value);
+  const s = parseFloat(document.getElementById('m-sleep').value);
+  const st = parseFloat(document.getElementById('m-steps').value);
+  const d = programDay();
+  const stepTgt = (SETTINGS && d >= 1 && d <= 120) ? PROGRAM[phaseForDay(d)].stepsTarget : 6000;
+  document.getElementById('mc-protein').classList.toggle('ok', p >= 120);
+  document.getElementById('mc-sleep').classList.toggle('ok', s >= 7);
+  document.getElementById('mc-steps').classList.toggle('ok', st >= stepTgt);
+}
+['m-protein', 'm-sleep', 'm-steps'].forEach(id =>
+  document.getElementById(id).addEventListener('input', paintMetricCells));
+
+async function saveMetrics() {
+  const val = id => { const v = document.getElementById(id).value; return v === '' ? null : v; };
+  const num = id => { const v = val(id); return v === null ? null : parseFloat(v); };
+  const payload = {
+    user_id: USER_ID,
+    metric_date: todayStr(),
+    protein_g:  num('m-protein'),
+    sleep_hrs:  num('m-sleep'),
+    steps:      num('m-steps'),
+    weight_lbs: num('m-weight'),
+    wake_time:  val('m-wake'),
+    caffeine_cutoff_ok: document.getElementById('m-caffeine').checked,
+    wind_down_done:     document.getElementById('m-winddown').checked,
+    updated_at: new Date().toISOString(),
+  };
+  const ok = await sbUpsert('glowup_daily_metrics', payload, 'user_id,metric_date');
+  if (ok) { showToast('Metrics saved 🥩😴'); renderGlance(); }
+  else showToast('Failed to save. Check your connection.');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BENCHMARKS
+   ═══════════════════════════════════════════════════════════════════ */
+const BENCH_FIELDS = [
+  { key: 'bodyweight_lbs', label: '⚖️ Bodyweight (lbs)',   step: '0.1' },
+  { key: 'pushup_max',     label: '💪 Push-up max' },
+  { key: 'squat_2min_max', label: '🦵 Squats in 2 min' },
+  { key: 'plank_sec',      label: '🧱 Plank (sec)' },
+  { key: 'dead_hang_sec',  label: '🙌 Dead hang (sec)' },
+  { key: 'mile_time_sec',  label: '🏃 1-mile time (sec)' },
+  { key: 'resting_hr',     label: '❤️ Resting HR (bpm)' },
+  { key: 'sit_reach_in',   label: '🙆 Sit-and-reach (in)', step: '0.5' },
+  { key: 'deep_squat_sec', label: '🪑 Deep squat hold (sec)' },
+];
+const MEASURE_FIELDS = [
+  { key: 'chest', label: '📐 Chest (in)' }, { key: 'waist', label: '📐 Waist (in)' },
+  { key: 'hips',  label: '📐 Hips (in)' },  { key: 'arm_l', label: '📐 Arm L (in)' },
+  { key: 'arm_r', label: '📐 Arm R (in)' }, { key: 'thigh_l', label: '📐 Thigh L (in)' },
+  { key: 'thigh_r', label: '📐 Thigh R (in)' },
+];
+
+function renderBenchGrid() {
+  const row = BENCHMARKS[CURRENT_CP] || {};
+  const meas = row.measurements || {};
+  let html = '';
+  BENCH_FIELDS.forEach(f => {
+    const v = row[f.key] ?? '';
+    html += `<div class="metric-cell">
+      <div class="metric-label">${f.label}</div>
+      <input class="metric-input" type="number" ${f.step ? `step="${f.step}"` : ''} id="b-${f.key}" value="${v}" placeholder="—" inputmode="decimal">
+    </div>`;
+  });
+  MEASURE_FIELDS.forEach(f => {
+    const v = meas[f.key] ?? '';
+    html += `<div class="metric-cell">
+      <div class="metric-label">${f.label}</div>
+      <input class="metric-input" type="number" step="0.25" id="bm-${f.key}" value="${v}" placeholder="—" inputmode="decimal">
+    </div>`;
+  });
+  document.getElementById('bench-grid').innerHTML = html;
+}
+
+function pickCheckpoint(btn) {
+  document.querySelectorAll('.bench-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  CURRENT_CP = parseInt(btn.dataset.cp);
+  renderBenchGrid();
+}
+
+async function loadBenchmarks() {
+  const rows = await sbGet(`glowup_benchmarks?user_id=eq.${USER_ID}`);
+  BENCHMARKS = {};
+  rows.forEach(r => { BENCHMARKS[r.checkpoint_day] = r; });
+  document.querySelectorAll('.bench-chip').forEach(b =>
+    b.classList.toggle('saved', !!BENCHMARKS[parseInt(b.dataset.cp)]));
+  renderBenchGrid();
+  renderBenchCompare();
+}
+
+async function saveBenchmark() {
+  const num = id => { const v = document.getElementById(id).value; return v === '' ? null : parseFloat(v); };
+  const measurements = {};
+  MEASURE_FIELDS.forEach(f => { const v = num(`bm-${f.key}`); if (v !== null) measurements[f.key] = v; });
+  const payload = {
+    user_id: USER_ID,
+    checkpoint_day: CURRENT_CP,
+    test_date: todayStr(),
+    updated_at: new Date().toISOString(),
+    measurements: Object.keys(measurements).length ? measurements : null,
+  };
+  BENCH_FIELDS.forEach(f => { payload[f.key] = num(`b-${f.key}`); });
+  const ok = await sbUpsert('glowup_benchmarks', payload, 'user_id,checkpoint_day');
+  if (ok) { showToast(`Day ${CURRENT_CP} checkpoint saved 📏`); loadBenchmarks(); }
+  else showToast('Failed to save. Check your connection.');
+}
+
+function fmtMile(sec) {
+  if (sec == null) return '—';
+  const m = Math.floor(sec / 60), s = Math.round(sec % 60);
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function renderBenchCompare() {
+  const cps = [0, 30, 60, 90, 120].filter(c => BENCHMARKS[c]);
+  const el = document.getElementById('bench-compare');
+  if (cps.length < 2) { el.innerHTML = ''; return; }
+
+  let html = '<table class="bench-table"><tr><th>Metric</th>';
+  cps.forEach(c => { html += `<th>Day ${c}</th>`; });
+  html += '<th>Δ</th></tr>';
+
+  BENCH_FIELDS.forEach(f => {
+    const vals = cps.map(c => BENCHMARKS[c][f.key]);
+    if (vals.every(v => v == null)) return;
+    html += `<tr><td>${f.label.replace(/^[^\s]+\s/, '')}</td>`;
+    vals.forEach(v => {
+      html += `<td>${v == null ? '—' : (f.key === 'mile_time_sec' ? fmtMile(v) : v)}</td>`;
+    });
+    const first = vals.find(v => v != null);
+    const last  = [...vals].reverse().find(v => v != null);
+    let delta = '—';
+    if (first != null && last != null && first !== last) {
+      const d = Math.round((last - first) * 10) / 10;
+      delta = (d > 0 ? '+' : '') + (f.key === 'mile_time_sec' ? fmtMile(Math.abs(d)) + (d < 0 ? ' faster' : ' slower') : d);
+    }
+    html += `<td class="bench-delta">${delta}</td></tr>`;
+  });
+  html += '</table>';
+  el.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HISTORY
+   ═══════════════════════════════════════════════════════════════════ */
+async function loadHistory() {
+  const data = await sbGet(`glowup_workouts?user_id=eq.${USER_ID}&order=session_date.desc,created_at.desc&limit=60`);
+  const el = document.getElementById('history-list');
+  if (!data.length) {
+    el.innerHTML = '<div class="history-empty">No sessions logged yet. Day 1 starts when you say it starts 🐺</div>';
+    return;
+  }
+  el.innerHTML = data.map(s => {
+    const d = new Date(s.session_date + 'T00:00:00');
+    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const note = s.notes ? `<span class="hist-note">${s.notes}</span>` : '';
+    const dayTag = s.program_day ? `Day ${s.program_day}` : `P${s.phase}`;
+    return `<div class="history-row">
+      <span class="hist-date">${dateStr}</span>
+      <span class="hist-phase">${dayTag}</span>
+      <span class="hist-day">${s.session_label || s.session_type}</span>
+      ${note}
+      <button class="hist-exercises-btn" onclick='showDetail(${JSON.stringify(s).replace(/'/g, "&#39;")})'>Details</button>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DETAIL MODAL
+   ═══════════════════════════════════════════════════════════════════ */
+function showDetail(session) {
+  const s = typeof session === 'string' ? JSON.parse(session) : session;
+  document.getElementById('modal-title').textContent =
+    `${s.session_label || s.session_type} — ${s.program_day ? 'Day ' + s.program_day : 'Phase ' + s.phase}`;
+
+  let body = '';
+  if (Array.isArray(s.exercises)) {
+    s.exercises.forEach(ex => {
+      body += `<div class="modal-exercise"><div class="modal-ex-name">${ex.name}${ex.variant ? ` <span style="font-weight:400;color:var(--sub)">· ${ex.variant}</span>` : ''}</div>`;
+      (ex.sets || []).forEach((set, i) => {
+        const cls = set.completed ? 'modal-set completed' : 'modal-set';
+        const desc = set.duration_sec != null
+          ? `${set.duration_sec}s hold`
+          : `${set.weight || 0} lbs x ${set.reps || 0} reps`;
+        body += `<div class="${cls}">Set ${i + 1}: ${desc}${set.completed ? ' ✓' : ''}</div>`;
+      });
+      body += '</div>';
+    });
+  }
+  if (s.yoga) {
+    body += `<div class="modal-exercise"><div class="modal-ex-name">🧘 ${s.yoga.flow_name}</div>`;
+    (s.yoga.poses_completed || []).forEach(p => { body += `<div class="modal-set completed">${p} ✓</div>`; });
+    if (s.yoga.forward_fold_reach_in != null)
+      body += `<div class="modal-set">🙆 forward-fold reach: ${s.yoga.forward_fold_reach_in}"</div>`;
+    body += '</div>';
+  }
+  if (s.duration_min) body += `<div class="modal-set" style="margin-top:8px">⏱ ${s.duration_min} min</div>`;
+  if (s.notes) {
+    body += `<div style="margin-top:14px;padding:10px 14px;background:rgba(168,85,247,.06);border-radius:10px;font-size:.74rem;color:var(--sub)"><strong>Notes:</strong> ${s.notes}</div>`;
+  }
+  document.getElementById('modal-body').innerHTML = body;
+  document.getElementById('detail-modal').classList.add('open');
+}
+function closeModal() { document.getElementById('detail-modal').classList.remove('open'); }
+document.getElementById('detail-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════════════════════ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════════════ */
+async function init() {
+  const rows = await sbGet(`glowup_settings?user_id=eq.${USER_ID}`);
+  if (rows.length) {
+    SETTINGS = rows[0];
+    await renderToday();     // sets TODAY_TYPE before highlight
+    renderGlance();
+  } else {
+    document.getElementById('setup-card').style.display = 'block';
+    document.getElementById('setup-date').value = todayStr();
+  }
+  renderAllPhases();
+  loadMetrics();
+  loadBenchmarks();
+  loadHistory();
+}
+init();
+
+// Hide loader
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+    setTimeout(() => document.getElementById('loader').remove(), 400);
+  }, 600);
+});
+</script>
+</body>
+</html>
