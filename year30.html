@@ -101,9 +101,24 @@ body::before {
   overflow: hidden;
   margin-bottom: 18px;
 }
-.hero .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); margin-bottom: 8px; }
-.hero .today   { font-family: 'Space Grotesk'; font-size: 26px; font-weight: 700; line-height: 1.15; }
-.hero .sub     { color: var(--sub); font-size: 14px; margin-top: 6px; }
+.hero .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); margin-bottom: 2px; }
+.hero .daynum {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700; line-height: .92;
+  font-size: clamp(66px, 22vw, 92px);
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  letter-spacing: -2px;
+}
+.hero .daylabel { font-family: 'Space Grotesk'; font-size: 17px; font-weight: 600; margin-top: 2px; }
+.hero .daylabel .of { color: var(--sub); font-weight: 500; }
+.hero .hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--sub); font-size: 13.5px; margin-top: 12px; }
+.hero .hero-meta .sep { color: var(--faint); }
+.hero .hero-meta .note { color: var(--pink); font-weight: 600; }
+/* thin year-progress bar (live mode only) */
+.yearbar { margin-top: 16px; height: 7px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
+.yearbar-fill { height: 100%; width: 0%; border-radius: 999px; background: var(--grad); transition: width .8s cubic-bezier(.4,0,.2,1); }
 
 /* generic card */
 .card {
@@ -153,9 +168,15 @@ body::before {
   </div>
 
   <div class="hero">
-    <div class="eyebrow">The Command Center</div>
-    <div class="today" id="heroToday">—</div>
-    <div class="sub" id="heroSub">Every day of your 30th year, counted.</div>
+    <div class="eyebrow" id="heroEyebrow">Year 30</div>
+    <div class="daynum" id="heroDayNum">—</div>
+    <div class="daylabel" id="heroDayLabel">&nbsp;</div>
+    <div class="hero-meta">
+      <span id="heroDate">—</span>
+      <span class="sep">·</span>
+      <span class="note" id="heroNote">Day 1 = July 20 🎂</span>
+    </div>
+    <div class="yearbar" id="yearBar" hidden><div class="yearbar-fill" id="yearBarFill"></div></div>
   </div>
 
   <div class="card">
@@ -166,9 +187,9 @@ body::before {
 
   <div class="card">
     <h2>Coming next</h2>
-    <div class="soon"><span class="tag">Slice 2</span> Day N of Year 30 counter</div>
     <div class="soon"><span class="tag">Slice 3</span> Today's habit checklist</div>
     <div class="soon"><span class="tag">Slice 4</span> One-tap daily score</div>
+    <div class="soon"><span class="tag">Slice 5</span> Streaks + grace days</div>
   </div>
 
   <div class="footnote">Year 30 begins July 20, 2026 🎂</div>
@@ -217,12 +238,65 @@ function prettyDate(d = new Date()) {
   return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 }
 
+/* ── Day N of Year 30 ──────────────────────────────────────────────
+   Day 1 = July 20, 2026 (Simon's 30th birthday). Year 30 = 365 days.
+   Date-only math at local midnight so timezones can't off-by-one us.  */
+const YEAR30_START = new Date(2026, 6, 20);   // month is 0-indexed → 6 = July
+const YEAR30_DAYS  = 365;
+function computeDay() {
+  const now = new Date();
+  const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diff = Math.round((todayMid - YEAR30_START) / 86400000);
+  if (diff < 0) {
+    return { mode: 'countdown', daysUntil: -diff };
+  }
+  const dayN = diff + 1;                       // the 20th itself is Day 1
+  return {
+    mode: dayN > YEAR30_DAYS ? 'after' : 'live',
+    dayN,
+    pct: Math.min(100, (dayN / YEAR30_DAYS) * 100),
+  };
+}
+
+function renderCounter() {
+  const c = computeDay();
+  const eyebrow = document.getElementById('heroEyebrow');
+  const num     = document.getElementById('heroDayNum');
+  const label   = document.getElementById('heroDayLabel');
+  const note    = document.getElementById('heroNote');
+  const bar      = document.getElementById('yearBar');
+  const barFill = document.getElementById('yearBarFill');
+  document.getElementById('heroDate').textContent = prettyDate();
+
+  if (c.mode === 'countdown') {
+    eyebrow.textContent = 'Countdown';
+    num.textContent = c.daysUntil;
+    label.innerHTML = `day${c.daysUntil === 1 ? '' : 's'} <span class="of">until Year 30 begins</span>`;
+    note.textContent = c.daysUntil === 1 ? 'Tomorrow. 🎂' : 'Day 1 = July 20 🎂';
+    bar.hidden = true;
+  } else if (c.mode === 'live') {
+    eyebrow.textContent = 'Year 30';
+    num.textContent = c.dayN;
+    label.innerHTML = `Day ${c.dayN} <span class="of">of ${YEAR30_DAYS}</span>`;
+    note.textContent = `${YEAR30_DAYS - c.dayN} days left to make it count`;
+    bar.hidden = false;
+    requestAnimationFrame(() => { barFill.style.width = c.pct + '%'; });
+  } else { // after — the full year is done
+    eyebrow.textContent = 'Year 30 · complete';
+    num.textContent = YEAR30_DAYS;
+    label.innerHTML = `Day ${YEAR30_DAYS} <span class="of">— you made it 👑</span>`;
+    note.textContent = 'A full year, counted.';
+    bar.hidden = false;
+    requestAnimationFrame(() => { barFill.style.width = '100%'; });
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    Boot
    ═══════════════════════════════════════════════════════════════════ */
 async function boot() {
-  // fill the hero date immediately (Day N counter arrives in slice 2)
-  document.getElementById('heroToday').textContent = prettyDate();
+  // the emotional anchor: Day N of Year 30 (countdown until July 20)
+  renderCounter();
 
   // reveal the app, drop the loader
   document.getElementById('app').hidden = false;
