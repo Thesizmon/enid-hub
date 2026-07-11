@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F0A1E">
+<title>Year 30 🐺 · Command Center</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   YEAR 30 — Design tokens (dark base + pink/purple/blue accents)
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  --bg:        #0F0A1E;
+  --bg-2:      #150E2B;
+  --card:      rgba(255,255,255,0.045);
+  --card-brd:  rgba(255,255,255,0.09);
+  --pink:      #E84EA0;
+  --purple:    #A855F7;
+  --blue:      #4F8DF9;
+  --cyan:      #38BDF8;
+  --mint:      #6EE7B7;
+  --amber:     #F59E0B;
+  --text:      #F3EEFF;
+  --sub:       #A79CC4;
+  --faint:     #6F6690;
+  --grad:      linear-gradient(135deg, #E84EA0 0%, #A855F7 50%, #4F8DF9 100%);
+  --grad-soft: linear-gradient(135deg, rgba(232,78,160,.16), rgba(79,141,249,.14));
+  --radius:    20px;
+  --tap:       48px;   /* minimum tap target */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           calc(env(safe-area-inset-bottom) + 24px) env(safe-area-inset-left);
+}
+/* ambient gradient glow */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 45% at 12% 4%,  rgba(232,78,160,.20) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 92% 8%,  rgba(79,141,249,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 75% 55% at 50% 102%, rgba(168,85,247,.20) 0%, transparent 60%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Loader
+   ═══════════════════════════════════════════════════════════════════ */
+#enidLoader {
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 18px;
+  transition: opacity .4s ease;
+}
+#enidLoader.hidden { opacity: 0; pointer-events: none; }
+.loader-orb {
+  width: 74px; height: 74px; border-radius: 50%;
+  background: var(--grad);
+  display: grid; place-items: center;
+  font-size: 34px;
+  box-shadow: 0 0 44px rgba(168,85,247,.55);
+  animation: orbPulse 1.5s ease-in-out infinite;
+}
+@keyframes orbPulse {
+  0%,100% { transform: scale(1);    box-shadow: 0 0 34px rgba(168,85,247,.45); }
+  50%     { transform: scale(1.08); box-shadow: 0 0 58px rgba(232,78,160,.65); }
+}
+#enidLoaderText { color: var(--sub); font-size: 14px; letter-spacing: .3px; font-weight: 500; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Layout
+   ═══════════════════════════════════════════════════════════════════ */
+#app { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; padding: 22px 18px 0; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.brand { display: flex; align-items: center; gap: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: .2px; }
+.brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 12px var(--pink); }
+.brand a { color: var(--sub); text-decoration: none; font-family: 'DM Sans'; font-weight: 600; font-size: 13px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--card-brd); background: var(--card); }
+
+/* hero — the emotional anchor (Day N lands here in slice 2) */
+.hero {
+  position: relative;
+  border-radius: var(--radius);
+  padding: 26px 22px;
+  background: var(--grad-soft);
+  border: 1px solid var(--card-brd);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.hero .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); margin-bottom: 8px; }
+.hero .today   { font-family: 'Space Grotesk'; font-size: 26px; font-weight: 700; line-height: 1.15; }
+.hero .sub     { color: var(--sub); font-size: 14px; margin-top: 6px; }
+
+/* generic card */
+.card {
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--card-brd);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.card h2 { font-family: 'Space Grotesk'; font-size: 15px; font-weight: 600; letter-spacing: .3px; margin-bottom: 4px; }
+.muted { color: var(--sub); font-size: 13.5px; line-height: 1.5; }
+
+/* connection status pill */
+.status {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 14px; border-radius: 999px;
+  font-size: 13px; font-weight: 600;
+  border: 1px solid var(--card-brd); background: var(--card);
+}
+.status .led { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 9px var(--amber); animation: blink 1s ease-in-out infinite; }
+.status.ok  .led { background: var(--mint); box-shadow: 0 0 10px var(--mint); animation: none; }
+.status.err .led { background: #FB7185; box-shadow: 0 0 10px #FB7185; animation: none; }
+.status.ok  { color: var(--mint); }
+.status.err { color: #FB7185; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* placeholder shimmer for upcoming slices */
+.soon { display: flex; align-items: center; gap: 10px; color: var(--faint); font-size: 13px; padding: 14px 0; }
+.soon .tag { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--purple); border: 1px solid rgba(168,85,247,.3); padding: 3px 8px; border-radius: 8px; }
+
+.footnote { text-align: center; color: var(--faint); font-size: 12px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="enidLoader">
+  <div class="loader-orb">🐺</div>
+  <div id="enidLoaderText">Waking up Year 30…</div>
+</div>
+
+<!-- App -->
+<div id="app" hidden>
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Year 30</div>
+    <a href="index.html">🐺 Hub</a>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow">The Command Center</div>
+    <div class="today" id="heroToday">—</div>
+    <div class="sub" id="heroSub">Every day of your 30th year, counted.</div>
+  </div>
+
+  <div class="card">
+    <h2>Connection</h2>
+    <p class="muted" style="margin-bottom:12px">Live check against Supabase — this is what every screen uses to save your data.</p>
+    <span class="status" id="connStatus"><span class="led"></span><span id="connText">Connecting…</span></span>
+  </div>
+
+  <div class="card">
+    <h2>Coming next</h2>
+    <div class="soon"><span class="tag">Slice 2</span> Day N of Year 30 counter</div>
+    <div class="soon"><span class="tag">Slice 3</span> Today's habit checklist</div>
+    <div class="soon"><span class="tag">Slice 4</span> One-tap daily score</div>
+  </div>
+
+  <div class="footnote">Year 30 begins July 20, 2026 🎂</div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   SUPABASE  (verbatim from glowup.html — same project)
+   ═══════════════════════════════════════════════════════════════════ */
+const SUPA_URL = 'https://oebxxurgxvzjnunjaujh.supabase.co';
+const SUPA_KEY = 'sb_publishable_x0QWqeNaNAFf7vN7Ky0Mzw_c_FMBAAP';
+const USER_ID  = 'ENID';
+const SB_HEADS = {
+  'apikey':        SUPA_KEY,
+  'Authorization': `Bearer ${SUPA_KEY}`,
+  'Content-Type':  'application/json',
+};
+
+async function sbGet(path) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, { headers: SB_HEADS });
+  return r.ok ? r.json() : [];
+}
+async function sbPost(table, body) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}`, {
+    method: 'POST', headers: SB_HEADS, body: JSON.stringify(body),
+  });
+  return r.ok;
+}
+async function sbUpsert(table, body, conflict) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${table}?on_conflict=${conflict}`, {
+    method: 'POST',
+    headers: { ...SB_HEADS, 'Prefer': 'resolution=merge-duplicates' },
+    body: JSON.stringify(body),
+  });
+  return r.ok;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Helpers
+   ═══════════════════════════════════════════════════════════════════ */
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function prettyDate(d = new Date()) {
+  return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Boot
+   ═══════════════════════════════════════════════════════════════════ */
+async function boot() {
+  // fill the hero date immediately (Day N counter arrives in slice 2)
+  document.getElementById('heroToday').textContent = prettyDate();
+
+  // reveal the app, drop the loader
+  document.getElementById('app').hidden = false;
+  const loader = document.getElementById('enidLoader');
+  loader.classList.add('hidden');
+  setTimeout(() => loader.remove(), 450);
+
+  // live connectivity check against a real table
+  const statusEl = document.getElementById('connStatus');
+  const textEl   = document.getElementById('connText');
+  try {
+    const habits = await sbGet(`y30_habits?user_id=eq.${USER_ID}&active=eq.true&select=id`);
+    statusEl.classList.add('ok');
+    textEl.textContent = `Connected · ${habits.length} habit${habits.length === 1 ? '' : 's'} ready`;
+  } catch (err) {
+    statusEl.classList.add('err');
+    textEl.textContent = 'Connection failed — check console';
+    console.error('[Year30] Supabase connectivity check failed:', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', boot);
+</script>
+</body>
+</html>
