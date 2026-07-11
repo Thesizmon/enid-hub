@@ -131,19 +131,58 @@ body::before {
 .card h2 { font-family: 'Space Grotesk'; font-size: 15px; font-weight: 600; letter-spacing: .3px; margin-bottom: 4px; }
 .muted { color: var(--sub); font-size: 13.5px; line-height: 1.5; }
 
-/* connection status pill */
-.status {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 14px; border-radius: 999px;
-  font-size: 13px; font-weight: 600;
-  border: 1px solid var(--card-brd); background: var(--card);
+/* card header row */
+.card-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+.done-count { font-family: 'Space Grotesk'; font-size: 14px; font-weight: 600; color: var(--sub); }
+.done-count.all { color: var(--mint); }
+
+/* habit checklist */
+#habitList { display: flex; flex-direction: column; gap: 8px; }
+.habit {
+  display: flex; align-items: center; gap: 13px;
+  width: 100%; min-height: var(--tap);
+  padding: 11px 13px; border-radius: 15px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--card-brd);
+  color: var(--text); font: inherit; text-align: left;
+  cursor: pointer; user-select: none;
+  transition: background .15s ease, border-color .15s ease, transform .08s ease;
 }
-.status .led { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 9px var(--amber); animation: blink 1s ease-in-out infinite; }
-.status.ok  .led { background: var(--mint); box-shadow: 0 0 10px var(--mint); animation: none; }
-.status.err .led { background: #FB7185; box-shadow: 0 0 10px #FB7185; animation: none; }
-.status.ok  { color: var(--mint); }
-.status.err { color: #FB7185; }
-@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+.habit:active { transform: scale(.985); }
+.habit .check {
+  flex: none; width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--faint);
+  display: grid; place-items: center;
+  transition: all .18s cubic-bezier(.4,0,.2,1);
+}
+.habit .check svg { width: 15px; height: 15px; opacity: 0; transform: scale(.4); transition: all .18s cubic-bezier(.34,1.56,.64,1); }
+.habit .emoji { font-size: 20px; flex: none; }
+.habit .name  { flex: 1; font-size: 15px; font-weight: 500; }
+.habit .cat   { font-size: 10.5px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 3px 8px; border-radius: 7px; flex: none; }
+.cat.health { color: #6EE7B7; background: rgba(110,231,183,.12); }
+.cat.wealth { color: #FBBF24; background: rgba(251,191,36,.12); }
+.cat.growth { color: #93C5FD; background: rgba(147,197,253,.12); }
+.cat.social { color: #F9A8D4; background: rgba(249,168,212,.12); }
+/* done state */
+.habit.done { background: var(--grad-soft); border-color: rgba(232,78,160,.28); }
+.habit.done .check { background: var(--grad); border-color: transparent; box-shadow: 0 0 14px rgba(232,78,160,.5); }
+.habit.done .check svg { opacity: 1; transform: scale(1); }
+.habit.done .name { color: var(--text); }
+.habit.pending { opacity: .55; }
+.habit-empty { color: var(--sub); font-size: 14px; padding: 8px 2px; }
+
+/* toast */
+#toast {
+  position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 20px);
+  transform: translate(-50%, 20px);
+  background: #241938; border: 1px solid var(--card-brd);
+  color: var(--text); font-size: 13.5px; font-weight: 500;
+  padding: 11px 17px; border-radius: 13px; z-index: 500;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  opacity: 0; pointer-events: none; transition: all .28s ease; max-width: 88vw;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+#toast.err { border-color: rgba(251,113,133,.5); }
 
 /* placeholder shimmer for upcoming slices */
 .soon { display: flex; align-items: center; gap: 10px; color: var(--faint); font-size: 13px; padding: 14px 0; }
@@ -179,21 +218,25 @@ body::before {
     <div class="yearbar" id="yearBar" hidden><div class="yearbar-fill" id="yearBarFill"></div></div>
   </div>
 
-  <div class="card">
-    <h2>Connection</h2>
-    <p class="muted" style="margin-bottom:12px">Live check against Supabase — this is what every screen uses to save your data.</p>
-    <span class="status" id="connStatus"><span class="led"></span><span id="connText">Connecting…</span></span>
+  <div class="card" id="habitsCard">
+    <div class="card-head">
+      <h2>Today</h2>
+      <span class="done-count" id="doneCount">—</span>
+    </div>
+    <div id="habitList"><div class="habit-empty">Loading your habits…</div></div>
   </div>
 
   <div class="card">
     <h2>Coming next</h2>
-    <div class="soon"><span class="tag">Slice 3</span> Today's habit checklist</div>
     <div class="soon"><span class="tag">Slice 4</span> One-tap daily score</div>
     <div class="soon"><span class="tag">Slice 5</span> Streaks + grace days</div>
+    <div class="soon"><span class="tag">Slice 6</span> Quick journal + mood</div>
   </div>
 
   <div class="footnote">Year 30 begins July 20, 2026 🎂</div>
 </div>
+
+<div id="toast"></div>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════
@@ -292,6 +335,104 @@ function renderCounter() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   Toast
+   ═══════════════════════════════════════════════════════════════════ */
+let toastTimer;
+function toast(msg, isErr = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = isErr ? 'show err' : 'show';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 2600);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Habit checklist  (writes to y30_habit_logs, keyed habit_id+date)
+   ═══════════════════════════════════════════════════════════════════ */
+const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+let HABITS = [];              // active habit definitions
+let DONE   = new Set();       // habit_ids completed today
+let busy   = new Set();       // habit_ids mid-save (guards double-taps)
+
+async function loadHabits() {
+  const list = document.getElementById('habitList');
+  try {
+    const [habits, logs] = await Promise.all([
+      sbGet(`y30_habits?user_id=eq.${USER_ID}&active=eq.true&select=id,name,icon,category,sort_order&order=sort_order`),
+      sbGet(`y30_habit_logs?user_id=eq.${USER_ID}&date=eq.${todayStr()}&completed=eq.true&select=habit_id`),
+    ]);
+    HABITS = habits;
+    DONE = new Set(logs.map(l => l.habit_id));
+    renderHabits();
+  } catch (err) {
+    console.error('[Year30] loadHabits failed:', err);
+    list.innerHTML = '<div class="habit-empty">Couldn\'t reach Supabase — pull to refresh.</div>';
+  }
+}
+
+function renderHabits() {
+  const list = document.getElementById('habitList');
+  if (!HABITS.length) {
+    list.innerHTML = '<div class="habit-empty">No active habits yet.</div>';
+  } else {
+    list.innerHTML = HABITS.map(h => {
+      const done = DONE.has(h.id);
+      return `<button class="habit ${done ? 'done' : ''}" data-id="${h.id}" aria-pressed="${done}">
+        <span class="check">${CHECK_SVG}</span>
+        <span class="emoji">${h.icon}</span>
+        <span class="name">${h.name}</span>
+        <span class="cat ${h.category}">${h.category}</span>
+      </button>`;
+    }).join('');
+    list.querySelectorAll('.habit').forEach(btn =>
+      btn.addEventListener('click', () => toggleHabit(btn.dataset.id)));
+  }
+  updateDoneCount();
+}
+
+function updateDoneCount() {
+  const el = document.getElementById('doneCount');
+  const n = DONE.size, total = HABITS.length;
+  el.textContent = `${n} / ${total}`;
+  el.classList.toggle('all', total > 0 && n === total);
+}
+
+async function toggleHabit(id) {
+  if (busy.has(id)) return;                       // ignore taps mid-save
+  busy.add(id);
+  const wasDone = DONE.has(id);
+  const nowDone = !wasDone;
+
+  // optimistic UI
+  if (nowDone) DONE.add(id); else DONE.delete(id);
+  paintHabit(id, nowDone, true);
+  updateDoneCount();
+
+  const ok = await sbUpsert('y30_habit_logs', {
+    user_id: USER_ID, habit_id: id, date: todayStr(), completed: nowDone,
+  }, 'habit_id,date');
+
+  busy.delete(id);
+  if (ok) {
+    paintHabit(id, nowDone, false);               // clear pending state
+  } else {
+    // revert on failure
+    if (wasDone) DONE.add(id); else DONE.delete(id);
+    paintHabit(id, wasDone, false);
+    updateDoneCount();
+    toast('Save failed — tap again', true);
+  }
+}
+
+function paintHabit(id, done, pending) {
+  const btn = document.querySelector(`.habit[data-id="${id}"]`);
+  if (!btn) return;
+  btn.classList.toggle('done', done);
+  btn.classList.toggle('pending', pending);
+  btn.setAttribute('aria-pressed', String(done));
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    Boot
    ═══════════════════════════════════════════════════════════════════ */
 async function boot() {
@@ -304,18 +445,8 @@ async function boot() {
   loader.classList.add('hidden');
   setTimeout(() => loader.remove(), 450);
 
-  // live connectivity check against a real table
-  const statusEl = document.getElementById('connStatus');
-  const textEl   = document.getElementById('connText');
-  try {
-    const habits = await sbGet(`y30_habits?user_id=eq.${USER_ID}&active=eq.true&select=id`);
-    statusEl.classList.add('ok');
-    textEl.textContent = `Connected · ${habits.length} habit${habits.length === 1 ? '' : 's'} ready`;
-  } catch (err) {
-    statusEl.classList.add('err');
-    textEl.textContent = 'Connection failed — check console';
-    console.error('[Year30] Supabase connectivity check failed:', err);
-  }
+  // today's habit checklist
+  await loadHabits();
 }
 
 document.addEventListener('DOMContentLoaded', boot);
