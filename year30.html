@@ -171,6 +171,39 @@ body::before {
 .habit.pending { opacity: .55; }
 .habit-empty { color: var(--sub); font-size: 14px; padding: 8px 2px; }
 
+/* daily score */
+.score-main { display: flex; align-items: center; gap: 18px; }
+.ring-wrap { position: relative; width: 96px; height: 96px; flex: none; }
+.ring { width: 96px; height: 96px; transform: rotate(-90deg); }
+.ring-bg   { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 9; }
+.ring-fill { fill: none; stroke: url(#scoreGrad); stroke-width: 9; stroke-linecap: round;
+             stroke-dasharray: 326.73; stroke-dashoffset: 326.73;
+             transition: stroke-dashoffset .7s cubic-bezier(.4,0,.2,1); }
+.ring-num  { position: absolute; inset: 0; display: grid; place-items: center;
+             font-family: 'Space Grotesk'; font-weight: 700; font-size: 29px; }
+.score-info { flex: 1; }
+.score-info h2 { margin-bottom: 3px; }
+.score-sub { color: var(--sub); font-size: 13px; margin-bottom: 11px; }
+.score-sub.manual { color: var(--amber); }
+.adjust-btn { font: inherit; font-size: 13px; font-weight: 600; color: var(--text);
+              background: var(--card); border: 1px solid var(--card-brd);
+              padding: 9px 16px; border-radius: 12px; cursor: pointer; min-height: 40px; }
+.adjust-btn:active { transform: scale(.97); }
+.score-editor { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--card-brd); }
+.editor-row { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+.editor-val { font-family: 'Space Grotesk'; font-weight: 700; font-size: 20px; }
+.reset-btn { font: inherit; font-size: 12.5px; font-weight: 600; color: var(--sub);
+             background: none; border: 1px solid var(--card-brd);
+             padding: 8px 13px; border-radius: 10px; cursor: pointer; min-height: 38px; }
+/* range slider */
+#scoreSlider { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; margin: 6px 0; }
+#scoreSlider::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: rgba(255,255,255,.1); }
+#scoreSlider::-moz-range-track { height: 8px; border-radius: 999px; background: rgba(255,255,255,.1); }
+#scoreSlider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; margin-top: -8px;
+             border-radius: 50%; background: var(--grad); box-shadow: 0 0 12px rgba(232,78,160,.55); cursor: pointer; }
+#scoreSlider::-moz-range-thumb { width: 24px; height: 24px; border: none; border-radius: 50%;
+             background: var(--pink); box-shadow: 0 0 12px rgba(232,78,160,.55); cursor: pointer; }
+
 /* toast */
 #toast {
   position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 20px);
@@ -218,6 +251,37 @@ body::before {
     <div class="yearbar" id="yearBar" hidden><div class="yearbar-fill" id="yearBarFill"></div></div>
   </div>
 
+  <div class="card" id="scoreCard">
+    <div class="score-main">
+      <div class="ring-wrap">
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0"   stop-color="#E84EA0"/>
+              <stop offset="0.5" stop-color="#A855F7"/>
+              <stop offset="1"   stop-color="#4F8DF9"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-bg"   cx="60" cy="60" r="52"/>
+          <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52"/>
+        </svg>
+        <div class="ring-num" id="scoreNum">0</div>
+      </div>
+      <div class="score-info">
+        <h2>Day score</h2>
+        <div class="score-sub" id="scoreSub">Auto · from your habits</div>
+        <button class="adjust-btn" id="adjustBtn">Adjust</button>
+      </div>
+    </div>
+    <div class="score-editor" id="scoreEditor" hidden>
+      <input type="range" id="scoreSlider" min="0" max="100" step="5" value="0" aria-label="Set day score">
+      <div class="editor-row">
+        <span class="editor-val"><span id="editorVal">0</span> / 100</span>
+        <button class="reset-btn" id="resetBtn">↺ Reset to auto</button>
+      </div>
+    </div>
+  </div>
+
   <div class="card" id="habitsCard">
     <div class="card-head">
       <h2>Today</h2>
@@ -228,9 +292,9 @@ body::before {
 
   <div class="card">
     <h2>Coming next</h2>
-    <div class="soon"><span class="tag">Slice 4</span> One-tap daily score</div>
     <div class="soon"><span class="tag">Slice 5</span> Streaks + grace days</div>
     <div class="soon"><span class="tag">Slice 6</span> Quick journal + mood</div>
+    <div class="soon"><span class="tag">Slice 7</span> Add / edit / archive habits</div>
   </div>
 
   <div class="footnote">Year 30 begins July 20, 2026 🎂</div>
@@ -357,13 +421,15 @@ let busy   = new Set();       // habit_ids mid-save (guards double-taps)
 async function loadHabits() {
   const list = document.getElementById('habitList');
   try {
-    const [habits, logs] = await Promise.all([
+    const [habits, logs, days] = await Promise.all([
       sbGet(`y30_habits?user_id=eq.${USER_ID}&active=eq.true&select=id,name,icon,category,sort_order&order=sort_order`),
       sbGet(`y30_habit_logs?user_id=eq.${USER_ID}&date=eq.${todayStr()}&completed=eq.true&select=habit_id`),
+      sbGet(`y30_days?user_id=eq.${USER_ID}&date=eq.${todayStr()}&select=day_score`),
     ]);
     HABITS = habits;
     DONE = new Set(logs.map(l => l.habit_id));
     renderHabits();
+    initScore(days[0]);
   } catch (err) {
     console.error('[Year30] loadHabits failed:', err);
     list.innerHTML = '<div class="habit-empty">Couldn\'t reach Supabase — pull to refresh.</div>';
@@ -422,6 +488,7 @@ async function toggleHabit(id) {
     updateDoneCount();
     toast('Save failed — tap again', true);
   }
+  syncScoreFromHabits();                           // auto score follows habits
 }
 
 function paintHabit(id, done, pending) {
@@ -430,6 +497,79 @@ function paintHabit(id, done, pending) {
   btn.classList.toggle('done', done);
   btn.classList.toggle('pending', pending);
   btn.setAttribute('aria-pressed', String(done));
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Daily score  (writes day_score to y30_days, keyed user_id+date)
+   Auto = % of habits done. Override pins a value until a habit is
+   toggled again. Manual-vs-auto is inferred on load (saved ≠ auto).
+   ═══════════════════════════════════════════════════════════════════ */
+const CIRC = 2 * Math.PI * 52;   // ring circumference (r=52)
+let DAY_SCORE   = 0;
+let scoreManual = false;
+let scoreSaveTimer;
+
+function autoScore() {
+  return HABITS.length ? Math.round((DONE.size / HABITS.length) * 100) : 0;
+}
+
+function initScore(dayRow) {
+  const auto = autoScore();
+  if (dayRow && dayRow.day_score != null) {
+    DAY_SCORE = dayRow.day_score;
+    scoreManual = DAY_SCORE !== auto;   // heuristic: differs from auto ⇒ overridden
+  } else {
+    DAY_SCORE = auto;
+    scoreManual = false;
+  }
+  renderScore();
+}
+
+function renderScore() {
+  document.getElementById('ringFill').style.strokeDashoffset = CIRC * (1 - DAY_SCORE / 100);
+  document.getElementById('scoreNum').textContent = DAY_SCORE;
+  const sub = document.getElementById('scoreSub');
+  sub.textContent = scoreManual ? 'Manual · you set this' : 'Auto · from your habits';
+  sub.classList.toggle('manual', scoreManual);
+  document.getElementById('scoreSlider').value = DAY_SCORE;
+  document.getElementById('editorVal').textContent = DAY_SCORE;
+  document.getElementById('resetBtn').style.visibility = scoreManual ? 'visible' : 'hidden';
+}
+
+async function saveScore() {
+  const ok = await sbUpsert('y30_days',
+    { user_id: USER_ID, date: todayStr(), day_score: DAY_SCORE }, 'user_id,date');
+  if (!ok) toast('Score didn\'t save', true);
+}
+function saveScoreDebounced() {
+  clearTimeout(scoreSaveTimer);
+  scoreSaveTimer = setTimeout(saveScore, 400);
+}
+
+function syncScoreFromHabits() {
+  if (scoreManual) return;            // override stays put until reset
+  DAY_SCORE = autoScore();
+  renderScore();
+  saveScore();
+}
+
+function setupScoreControls() {
+  const editor = document.getElementById('scoreEditor');
+  document.getElementById('adjustBtn').addEventListener('click', () => {
+    editor.hidden = !editor.hidden;
+  });
+  document.getElementById('scoreSlider').addEventListener('input', (e) => {
+    DAY_SCORE = +e.target.value;
+    scoreManual = true;
+    renderScore();
+    saveScoreDebounced();
+  });
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    scoreManual = false;
+    DAY_SCORE = autoScore();
+    renderScore();
+    saveScore();
+  });
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -445,7 +585,8 @@ async function boot() {
   loader.classList.add('hidden');
   setTimeout(() => loader.remove(), 450);
 
-  // today's habit checklist
+  // wire up the score controls, then load today's habits + score
+  setupScoreControls();
   await loadHabits();
 }
 
